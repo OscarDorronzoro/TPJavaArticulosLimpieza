@@ -13,7 +13,7 @@ public class ABMCCliente {
 		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
 
 		
-		clientes=cd.getAll();//fhgdf
+		clientes=cd.getAll();
 		
 		for(Cliente c : clientes) {
 			System.out.println(c.toString());
