@@ -1,7 +1,7 @@
 package servlet;
 
 import entities.Cliente;
-import Logic.ABMCCliente;
+import logic.ABMCCliente;
 
 import java.io.IOException;
 import java.io.PrintWriter;
