@@ -9,6 +9,7 @@ public class Venta {
 	private Date fPago;
 	private Date fRetiro;
 	private Date fCancelacion;
+	private Cliente cliente;
 	
 	public int getNroVenta() {
 		return nroVenta;
@@ -39,5 +40,11 @@ public class Venta {
 	}
 	public void setfCancelacion(Date fCancelacion) {
 		this.fCancelacion = fCancelacion;
+	}
+	public Cliente getCliente() {
+		return cliente;
+	}
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 }
