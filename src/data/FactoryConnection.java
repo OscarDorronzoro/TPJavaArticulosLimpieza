@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class FactoryConnection {
 
-private static FactoryConnection instancia;
+	private static FactoryConnection instancia;
 	
 	private String driver="com.mysql.cj.jdbc.Driver";
 	private String host="localhost";
