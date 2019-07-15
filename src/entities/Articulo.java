@@ -7,6 +7,7 @@ public class Articulo {
 	private int cantAPedir;
 	private int puntoPedido;
 	private int stock;
+	private String urlImagen;
 	
 	public String getCodArticulo() {
 		return codArticulo;
@@ -37,5 +38,11 @@ public class Articulo {
 	}
 	public void setStock(int stock) {
 		this.stock = stock;
+	}
+	public String getUrlImagen() {
+		return urlImagen;
+	}
+	public void setUrlImagen(String urlImagen) {
+		this.urlImagen = urlImagen;
 	}
 }
