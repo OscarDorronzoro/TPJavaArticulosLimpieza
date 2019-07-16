@@ -1387,11 +1387,11 @@ a.bg-success:focus {
   background-color: #c1e2b3;
 }
 .bg-info {
-  background-color: #d9edf7;
+  background-color: #a4ffff;
 }
 a.bg-info:hover,
 a.bg-info:focus {
-  background-color: #afd9ee;
+  background-color: #a4ffff;
 }
 .bg-warning {
   background-color: #fcf8e3;
