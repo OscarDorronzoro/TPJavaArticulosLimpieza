@@ -15,13 +15,14 @@ public class ArticuloData {
 		try {
 			stmt= FactoryConnection.getInstancia().getConn().prepareStatement(
 					"insert into articulo(cod_articulo,descripcion,cant_a_pedir,punto_pedido,"
-					+ "stock,url_imagen) values(?,?,?,?,?,?)");
+					+ "stock,url_imagen,precio) values(?,?,?,?,?,?)");
 			stmt.setString(1, art.getCodArticulo());
 			stmt.setString(2, art.getDescripcion());
 			stmt.setInt(3, art.getCantAPedir());
 			stmt.setInt(4, art.getPuntoPedido());
 			stmt.setInt(5, art.getStock());
 			stmt.setString(6, art.getUrlImagen());
+			stmt.setDouble(7, art.getPrecio());
 			stmt.executeUpdate();
 		}
 		catch (SQLException e) {
@@ -48,7 +49,8 @@ public class ArticuloData {
 		
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().createStatement();
-			rs=stmt.executeQuery("select * from articulo");
+			rs=stmt.executeQuery("select * from articulo inner join precio on articulo.cod_articulo="
+					+ "precio.cod_articulo");
 			if(rs!=null) {
 				while(rs.next()) {
 					Articulo art=new Articulo();
@@ -59,6 +61,91 @@ public class ArticuloData {
 					art.setPuntoPedido(rs.getInt("punto_pedido"));
 					art.setStock(rs.getInt("stock"));
 					art.setUrlImagen(rs.getString("url_imagen"));
+					art.setPrecio(rs.getDouble("precio"));
+					
+					articulos.add(art);					
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+				try {
+					if(rs!=null) {rs.close();}
+					if(stmt!=null) {stmt.close();}
+					FactoryConnection.getInstancia().releaseConn();
+				} 
+				catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
+		
+		return articulos;
+	}
+	
+	public Articulo getOne(String codArticulo) {
+		
+		Articulo art=null;
+		ResultSet rs=null;
+		PreparedStatement stmt=null;
+		
+		try {
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
+					"select * from articulo art inner join precio p on art.cod_articulo=p.cod_articulo"
+					+ " where cod_articulo=?");
+			stmt.setString(1, codArticulo);
+			rs=stmt.executeQuery();
+			if(rs!=null&&rs.next()) {
+					art=new Articulo();
+					
+					art.setCodArticulo(rs.getString("cod_articulo"));
+					art.setDescripcion(rs.getString("descripcion"));
+					art.setCantAPedir(rs.getInt("cant_a_pedir"));
+					art.setPuntoPedido(rs.getInt("punto_pedido"));
+					art.setStock(rs.getInt("stock"));
+					art.setUrlImagen(rs.getString("url_imagen"));
+					art.setPrecio(rs.getDouble("precio"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+				try {
+					if(rs!=null) {rs.close();}
+					if(stmt!=null) {stmt.close();}
+					FactoryConnection.getInstancia().releaseConn();
+				} 
+				catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
+		
+		return art;
+	}
+	
+	public ArrayList<Articulo> getAllByDescripcion(String descripcion){
+		ArrayList<Articulo> articulos = new ArrayList<Articulo>();
+		ResultSet rs=null;
+		Statement stmt=null;
+		
+		try {
+			stmt = FactoryConnection.getInstancia().getConn().createStatement();
+			rs=stmt.executeQuery("select * from articulo"
+					+ " inner join precio on articulo.cod_articulo=precio.cod_articulo where"
+					+ " descripcion like '%"+descripcion+"%' ");
+			if(rs!=null) {
+				while(rs.next()) {
+					Articulo art=new Articulo();
+					
+					art.setCodArticulo(rs.getString("cod_articulo"));
+					art.setDescripcion(rs.getString("descripcion"));
+					art.setCantAPedir(rs.getInt("cant_a_pedir"));
+					art.setPuntoPedido(rs.getInt("punto_pedido"));
+					art.setStock(rs.getInt("stock"));
+					art.setUrlImagen(rs.getString("url_imagen"));
+					art.setPrecio(rs.getDouble("precio"));
 					
 					articulos.add(art);					
 				}

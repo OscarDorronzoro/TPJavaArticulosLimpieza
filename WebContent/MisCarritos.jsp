@@ -44,8 +44,9 @@
 							</ul>
 						</li> -->
 						<li><a href="listadoArticulos.jsp">Articulos</a></li>
-						<li><a href="formCliente.jsp">Registrarse</a></li>
-						<li><a href="MisCarritos.jsp">Mi Carrito</a></li>
+						<li class="active"><a href="MisCarritos.jsp">Mi Carrito</a></li>
+						<li><a href="formCliente.jsp">Registrarse</a></li>						
+						<li><a href="iniciarSesion.jsp">Iniciar Sesion</a></li>
 					</ul>
 				</div>
 			</div>

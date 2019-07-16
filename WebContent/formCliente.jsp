@@ -10,7 +10,7 @@
 	</head>
 	<body class="bg-primary">
 
-		<nav role="navigation" class="navbar navbar-default navbar-inverse">
+		<nav role="navigation" class="navbar navbar-default navbar-fixed-top navbar-inverse">
 			<div class="container">
 				<div class="navbar-header">
 					<button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
@@ -33,7 +33,7 @@
 				
 				<div id="navbarCollapse" class="navbar-collapse navbar-right">
 					<ul class="nav navbar-nav">
-						<li class=""><a href="main.jsp">Inicio</a></li>
+						<li><a href="main.jsp">Inicio</a></li>
 						<!-- <li class="dropdown">
 							<a data-toggle="dropdown" class="dropdown-toggle" href="listadoArticulos.jsp">Categorias Articulos
 								<b class="caret"></b> 
@@ -44,13 +44,15 @@
 							</ul>
 						</li> -->
 						<li><a href="listadoArticulos.jsp">Articulos</a></li>
-						<li><a href="formCliente.jsp">Registrarse</a></li>
 						<li><a href="MisCarritos.jsp">Mi Carrito</a></li>
+						<li class="active"><a href="formCliente.jsp">Registrarse</a></li>
+						<li><a href="iniciarSesion.jsp">Iniciar Sesion</a></li>
 					</ul>
 				</div>
 			</div>
 		</nav>
 		
+		<br><br><br><br>
 		<div class="container">
 			<div class="row">
 				<div class="col-md-6">

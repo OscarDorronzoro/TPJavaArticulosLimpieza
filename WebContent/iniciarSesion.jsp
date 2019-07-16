@@ -3,10 +3,10 @@
 <!DOCTYPE html>
 <html>
 	<head>
-	<meta charset="ISO-8859-1">
-	<title>Articulos de Limpieza</title>
-	<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
-	<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css">
+		<meta charset="ISO-8859-1">
+		<title>Insert title here</title>
+		<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+		<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css">
 	</head>
 	<body class="bg-primary">
 		<nav role="navigation" class="navbar navbar-default navbar-fixed-top navbar-inverse">
@@ -20,10 +20,10 @@
 					</button>
 					<ul class="nav navbar-nav">
 						<li><a href="main.jsp" class="navbar-brand m-5"><img src="png/home-4x.png"></a></li>
-						<li><a href="main.jsp" class="navbar-brand">Doña Mary Limpieza</a></li> <!--class="navbar-text" agranda barra-->
+						<li><a href="main.jsp" class="navbar-brand">Doña Mary Limpieza</a></li>
 						 <li>
-							<form class="form-inline navbar-brand" action="BusquedaServlet" method="get">      
-								<input class="form-control mr-sm-2" type="search" name="desc" placeholder="Search" aria-label="Search">
+							<form class="form-inline navbar-brand">      
+								<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
 								<button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
 							</form>
 						</li> 
@@ -32,7 +32,7 @@
 				
 				<div id="navbarCollapse" class="navbar-collapse navbar-right">
 					<ul class="nav navbar-nav">
-						<li class="active"><a href="main.jsp">Inicio</a></li>
+						<li><a href="main.jsp">Inicio</a></li>
 						<!-- <li class="dropdown">
 							<a data-toggle="dropdown" class="dropdown-toggle" href="listadoArticulos.jsp">Categorias Articulos
 								<b class="caret"></b> 
@@ -45,23 +45,35 @@
 						<li><a href="listadoArticulos.jsp">Articulos</a></li>
 						<li><a href="MisCarritos.jsp">Mi Carrito</a></li>
 						<li><a href="formCliente.jsp">Registrarse</a></li>
-						<li><a href="iniciarSesion.jsp">Iniciar Sesion</a></li>
+						<li class="active"><a href="iniciarSesion.jsp">Iniciar Sesion</a></li>
 					</ul>
 				</div>
 			</div>
 		</nav>
 		
-		
-		<nav role="navigation" class="navbar navbar-default navbar-fixed-bottom navbar-inverse">
-			<div class="container">
-				<div class="navbar-header">
-					<ul class="nav navbar-nav">
-						<li>contactenos</li>
-					</ul>
+		<br><br><br><br>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6">
+					<section>
+						<h1>Iniciar Sesion</h1>
+						<form action="LogInServlet" method="get">		
+							<div class="form-group">
+								<label>Usuario</label>
+								<input class="form-control" name="username"/>
+							</div>
+							<div class="form-group">
+								<label>Contraseña</label>
+								<input class="form-control" name="password" type="password"/>
+							</div>		
+							<input class="btn btn-success btn-block"  title="Presione para iniciar sesion" value="OK" type="submit"/>
+						</form>
+					</section>
 				</div>
 			</div>
-		</nav>
-		<script src="bootstrap/js/jquery-3.4.1.js"></script>
-		<script src="bootstrap/js/bootstrap.js"></script>
-	</body>
+		</div>
+		
+<body>
+
+</body>
 </html>

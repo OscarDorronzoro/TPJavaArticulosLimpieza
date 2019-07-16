@@ -6,13 +6,30 @@ import entities.Articulo;
 
 public class ABMCArticulo {
 
+	private ArticuloData articuloData;
+	
+	public ArticuloData getArticuloData() {
+		return articuloData;
+	}
+	public void setArticuloData(ArticuloData articuloData) {
+		this.articuloData = articuloData;
+	}
+	
+	public ABMCArticulo(){
+		this.setArticuloData(new ArticuloData());
+	}
+	
 	public void add(Articulo art) {
-		ArticuloData ad = new ArticuloData();
-		ad.add(art);
+		this.getArticuloData().add(art);
 	}
 	
 	public ArrayList<Articulo> getAll(){
-		ArticuloData ad = new ArticuloData();
-		return ad.getAll();
+		return this.getArticuloData().getAll();
 	}
+	public  Articulo getOne(String codArticulo) {		
+		return this.getArticuloData().getOne(codArticulo);
+	}
+	public ArrayList<Articulo> getAllByDescripcion(String descripcion){
+		return this.getArticuloData().getAllByDescripcion(descripcion);
+	} 
 }

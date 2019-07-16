@@ -38,6 +38,7 @@ public class ClienteData {
 	}
 	
 	public ArrayList<Cliente> getAll(){
+		
 		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
 		ResultSet rs=null;
 		Statement stmt=null;
@@ -74,5 +75,42 @@ public class ClienteData {
 		}
 		
 		return clientes;
+	}
+	public Cliente getOne(String username) {
+		
+		Cliente c=null;
+		ResultSet rs=null;
+		PreparedStatement stmt=null;
+		
+		try {
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
+					"select * from cliente where username=?");
+			stmt.setString(1, username);
+			rs=stmt.executeQuery();
+			if(rs!=null&&rs.next()) {
+					c=new Cliente();
+					
+					c.setNombre(rs.getString("nombre"));
+					c.setApellido(rs.getString("apellido"));
+					c.setDNI(rs.getString("dni"));
+					c.setPassword(rs.getString("password"));
+					c.setUsername(rs.getString("username"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+				try {
+					if(rs!=null) {rs.close();}
+					if(stmt!=null) {stmt.close();}
+					FactoryConnection.getInstancia().releaseConn();
+				} 
+				catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
+		
+		return c;
 	}
 }

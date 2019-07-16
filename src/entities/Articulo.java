@@ -8,6 +8,7 @@ public class Articulo {
 	private int puntoPedido;
 	private int stock;
 	private String urlImagen;
+	private double precio;
 	
 	public String getCodArticulo() {
 		return codArticulo;
@@ -44,5 +45,11 @@ public class Articulo {
 	}
 	public void setUrlImagen(String urlImagen) {
 		this.urlImagen = urlImagen;
+	}
+	public double getPrecio() {
+		return precio;
+	}
+	public void setPrecio(double precio) {
+		this.precio = precio;
 	}
 }

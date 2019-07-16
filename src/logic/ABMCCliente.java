@@ -6,13 +6,41 @@ import data.ClienteData;
 
 public class ABMCCliente {
 
-	public void add(Cliente c) {
-		ClienteData cd = new ClienteData();
-		cd.add(c);
+	private ClienteData clienteData;
+	
+	public ClienteData getClienteData() {
+		return clienteData;
+	}
+	public void setClienteData(ClienteData clienteData) {
+		this.clienteData = clienteData;
 	}
 	
-	public ArrayList<Cliente> getAll(){
-		ClienteData cd = new ClienteData();
-		return cd.getAll();
+	public ABMCCliente(){
+		this.setClienteData(new ClienteData());
+	}
+	public void add(Cliente c) {
+		this.getClienteData().add(c);
+	}
+	
+	public ArrayList<Cliente> getAll(){		
+		return this.getClienteData().getAll();
+	}
+	public  Cliente getOne(String username) {		
+		return this.getClienteData().getOne(username);
+	}
+	public void completarCliente(Cliente c) throws ClientNotFoundException,PasswordNotMatchException {
+		Cliente cli = this.getOne(c.getUsername());
+		
+		if(cli==null) {
+			throw new ClientNotFoundException("Cliente inexistente");
+		}
+		else{
+			if(cli.getPassword().equals(c.getPassword())) {
+				c=cli;
+			}
+			else {
+				throw new PasswordNotMatchException("Contraseña incorrecta");
+			}
+		}
 	}
 }
