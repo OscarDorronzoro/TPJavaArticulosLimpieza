@@ -45,7 +45,8 @@ public class BusquedaServlet extends HttpServlet {
 		out.println("<head><link rel=\"stylesheet\" href=\"bootstrap/css/bootstrap.css\">"+ 
 						  "<link rel=\"stylesheet\" href=\"bootstrap/css/bootstrap-theme.css\">"+
 				    "</head>");
-		out.println("<body class=\"bg-primary\"><br><br>");
+		out.println("<body class=\"bg-primary\">");
+		out.println("<%@include file=\"header.jsp\"%>");
 		for(Articulo art : articulos) {
 			out.println(
 			" <div class=\"row\"> "+
@@ -76,7 +77,7 @@ public class BusquedaServlet extends HttpServlet {
 			);
 		}	
 		
-		out.println("<br><button class=\"btn btn-success\"><a href=\"main.jsp\">Volver a inicio</a></button>");
+		out.println("<%@include file=\"header.jsp\"%>");
 		out.println("<script src=\"bootstrap/js/jquery-3.4.1.js\"></script>" + 
 					"<script src=\"bootstrap/js/bootstrap.js\"></script>");
 		out.println("</body>");

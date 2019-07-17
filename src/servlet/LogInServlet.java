@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import entities.Cliente;
 import logic.ABMCCliente;
@@ -40,8 +41,10 @@ public class LogInServlet extends HttpServlet {
 		cliente.setPassword(request.getParameter("password"));
 		
 		ABMCCliente abmcc=new ABMCCliente();
+		HttpSession session=request.getSession(true);
 		try {
-			abmcc.completarCliente(cliente);
+			abmcc.completarCliente(cliente);		
+			session.setAttribute("cliente", cliente);
 			response(response,"Cliente logeado exitosamente");
 		} catch (ClientNotFoundException e) {
 			// TODO Auto-generated catch block
