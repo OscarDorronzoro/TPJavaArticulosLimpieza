@@ -5,6 +5,7 @@
 	<head>
 		<meta charset="ISO-8859-1">
 		<title>Iniciar Sesion</title>
+		<link rel="shortcut icon" href="png/favicon.ico">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css">
 	</head>
@@ -16,7 +17,7 @@
 				<div class="col-md-6">
 					<section>
 						<h1>Iniciar Sesion</h1>
-						<form action="LogInServlet" method="get">		
+						<form action="LogInServlet" method="post">		
 							<div class="form-group">
 								<label>Usuario</label>
 								<input class="form-control" name="username"/>
