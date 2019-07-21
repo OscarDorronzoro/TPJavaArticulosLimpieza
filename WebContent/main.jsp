@@ -8,8 +8,17 @@
 	<link rel="shortcut icon" href="png/favicon.ico">
 	<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
 	<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css">
+	<style> 
+ 		.bg-dark{ 
+ 			background: #2E2E2E; 
+ 			color: #ffffff; 
+ 		} 
+		.bg-light{ 
+			background: #ECECEC; 
+		}
+	</style>
 	</head>
-	<body class="bg-primary">		
+	<body class="bg-light">		
 		<%@include file="header.jsp" %>
 		
 		<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>

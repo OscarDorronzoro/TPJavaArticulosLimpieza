@@ -9,7 +9,7 @@
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css">	
 	</head>
-	<body class="bg-primary">
+	<body>
 		<%@include file="header.jsp" %>
 		
 		<div>
@@ -32,11 +32,15 @@
 							</div>
 							<div class="col-md-3">
 								<div class="row">
-									<button class="btn btn-success">Comprar</button>
-								</div>
-								<br>
-								<div class="row">
-									<button class="btn btn-success">Añadir al carrito</button>
+									<form action="comprarServlet" method="get">
+										<label>Cantidad:</label>
+										<input name="cantidad" size=2px> <br><br>
+										<input type="submit" value="Comprar" class="btn btn-success"><br>
+									</form>
+									<br>
+									<form action="aniadirCarritoServlet" method="get">
+										<input type="submit" value="Añadir al carrito" class="btn btn-success">
+									</form>
 								</div>
 							</div>
 						</div>
