@@ -1,4 +1,4 @@
-<nav role="navigation" class="navbar navbar-default navbar-fixed-top">
+<nav role="navigation" class="navbar navbar-default navbar-fixed-top bg-blue">
 			<div class="container">
 				<div class="navbar-header">
 					<button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
@@ -21,7 +21,7 @@
 				
 				<div id="navbarCollapse" class="navbar-collapse navbar-right">
 					<ul class="nav navbar-nav">
-						<li class="active"><a href="main.jsp">Inicio</a></li>
+						<li class=""><a href="main.jsp">Inicio</a></li>
 						<!-- <li class="dropdown">
 							<a data-toggle="dropdown" class="dropdown-toggle" href="listadoArticulos.jsp">Categorias Articulos
 								<b class="caret"></b> 
@@ -55,7 +55,7 @@
 		<br><br><br><br>
 		<script>
 		function logout(){
-		<%//request.getSession().invalidate();
+		<%//equest.getSession().invalidate();
 		  //response.sendRedirect("main.jsp");
 		%>	
 		}

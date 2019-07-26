@@ -16,6 +16,9 @@
 		.bg-light{ 
 			background: #ECECEC; 
 		}
+		.bg-blue{
+			background: #5E9AFA;
+		}
 	</style>
 	</head>
 	<body class="bg-light">		
