@@ -4,7 +4,7 @@
     <div class="row">
       <div class="col-md-6 mt-md-0 mt-3">
         <h5 class="text-uppercase">Acerca de nosotros</h5>
-        <p>Somos una PyME dedicada a la venta de articulos de limpieza. chamuyo chamuyo chamuyo chamuyo 
+        <p class="text-light">Somos una PyME dedicada a la venta de articulos de limpieza. chamuyo chamuyo chamuyo chamuyo 
         chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo 
         chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo 
         chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo 
@@ -50,7 +50,7 @@
       </div>
     </div>
   </div>
-  <div class="footer-copyright text-center py-3"> © 2018 Copyright:
+  <div class="footer-copyright text-center py-3 text-light"> © 2018 Copyright:
     <a href="https://mdbootstrap.com/education/bootstrap/"> MDBootstrap.com</a>
   </div>
 </footer>

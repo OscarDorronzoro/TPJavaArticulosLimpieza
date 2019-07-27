@@ -44,7 +44,7 @@
 						<li class="dropdown">
 							<a data-toggle="dropdown" class="dropdown-toggle" href="#"><img src="png/cog-2x.png"></a>
 							<ul role="menu" class="dropdown-menu">
-								<li><a href="#" onclick='logout()'>Cerrar Sesion</a></li>
+								<li><a href="LogOutServlet">Cerrar Sesion</a></li>
 							</ul>
 						</li>
 						<%} %>						
@@ -53,10 +53,3 @@
 			</div>
 		</nav>
 		<br><br><br><br>
-		<script>
-		function logout(){
-		<%//equest.getSession().invalidate();
-		  //response.sendRedirect("main.jsp");
-		%>	
-		}
-		</script>

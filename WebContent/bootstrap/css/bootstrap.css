@@ -6846,3 +6846,9 @@ button.close {
 .bg-light{
 	background: #ECECEC;
 }
+.bg-blue{
+	background: #5E9AFA;
+}
+.text-light{
+	color:#F5F5F5;
+}

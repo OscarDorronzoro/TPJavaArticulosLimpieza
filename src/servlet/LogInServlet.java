@@ -57,19 +57,7 @@ public class LogInServlet extends HttpServlet {
 
 	private void response(HttpServletResponse response, String mensaje)
 			throws IOException {
-//		response.sendRedirect("main.jsp");
-//		PrintWriter out = response.getWriter();
-//		out.println("<html>");
-//		out.println("<head><link rel=\"stylesheet\" href=\"bootstrap/css/bootstrap.css\">"+ 
-//						  "<link rel=\"stylesheet\" href=\"bootstrap/css/bootstrap-theme.css\">"+
-//				    "</head>");
-//		out.println("<body class=\"bg-primary\">");
-//		out.println("<t1 class=\"text-center\"><b>"+mensaje+"</b></t1>");
-//		out.println("<button class=\"btn btn-success\"><a href=\"main.jsp\">Volver a inicio</a></button>");
-//		out.println("<script src=\"bootstrap/js/jquery-3.4.1.js\"></script>" + 
-//					"<script src=\"bootstrap/js/bootstrap.js\"></script>");
-//		out.println("</body>");
-//		out.println("</html>");
+		response.sendRedirect("main.jsp");
 	}
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
