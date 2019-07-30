@@ -12,8 +12,8 @@
 						<li><a href="main.jsp" class="navbar-brand">Doña Mary Limpieza</a></li> <!--class="navbar-text" agranda barra-->
 						 <li>
 							<form class="form-inline navbar-brand" action="BusquedaServlet" method="get">      
-								<input class="form-control mr-sm-2" type="search" name="desc" placeholder="Search" aria-label="Search">
-								<button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
+								<input class="form-control mr-sm-2" type="search" name="desc" placeholder="Buscar un articulo" aria-label="Search">
+								<button class="btn btn-success my-2 my-sm-0" type="submit">Buscar</button>
 							</form>
 						</li> 
 					</ul>
@@ -33,8 +33,7 @@
 						</li> -->
 						<li><a href="listadoArticulos.jsp">Articulos</a></li>
 						
-						<%@page import="javax.servlet.http.HttpServletRequest"%>
-						<%@page import="javax.servlet.http.HttpSession"%>
+						
 						<%session=request.getSession(true);%>
 						<%if(session.getAttribute("cliente")==null){ %>
 						<li><a href="formCliente.jsp">Registrarse</a></li>
@@ -44,7 +43,7 @@
 						<li class="dropdown">
 							<a data-toggle="dropdown" class="dropdown-toggle" href="#"><img src="png/cog-2x.png"></a>
 							<ul role="menu" class="dropdown-menu">
-								<li><a href="#" onclick='logout()'>Cerrar Sesion</a></li>
+								<li><a href="LogOutServlet">Cerrar Sesion</a></li>
 							</ul>
 						</li>
 						<%} %>						
@@ -53,10 +52,10 @@
 			</div>
 		</nav>
 		<br><br><br><br>
-		<script>
-		function logout(){
-		<%//equest.getSession().invalidate();
-		  //response.sendRedirect("main.jsp");
-		%>	
-		}
-		</script>
+		
+		
+		
+		
+		
+		
+		
