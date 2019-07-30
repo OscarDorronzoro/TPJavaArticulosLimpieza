@@ -19,8 +19,16 @@
 			<%! ArrayList<Articulo> articulos= new ABMCArticulo().getAll();%>
 			<%for( Articulo art : articulos){%>
 				<div class="row">
+				<div class="col-md-3">
+				<ul class="list-unstyled">
+					<li>l</li>
+					<!--https://bootstrapious.com/p/bootstrap-sidebar-->
+					<li>l</li>
+				</ul>
+				</div>
+				</div>
 					<div class="col-md-2"><img height=150 src=<%=art.getUrlImagen()%>></div>
-					<div class="col-md-10">
+					<div class="col-md-7">
 						<div class="row">
 							<div name="codArticulo" class="col-md-1"><%=art.getCodArticulo()%></div>
 							<div class="col-md-8">
