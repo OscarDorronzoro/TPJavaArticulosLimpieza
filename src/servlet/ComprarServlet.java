@@ -32,7 +32,7 @@ public class ComprarServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		
 		ABMCArticulo articuloLogic= new ABMCArticulo();
-		Articulo articulo=articuloLogic.getOne(codArticulo);
+		Articulo articulo=articuloLogic.getOne(request.getParameter("codArticulo"));
 		
 	}
 

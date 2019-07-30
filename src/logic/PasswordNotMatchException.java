@@ -10,4 +10,7 @@ public class PasswordNotMatchException extends Exception {
 	public PasswordNotMatchException(String message) {
 		super(message);
 	}
+	public PasswordNotMatchException(String message,Exception innerException) {
+		super(message,innerException);
+	} 
 }
