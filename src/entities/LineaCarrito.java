@@ -1,6 +1,6 @@
 package entities;
 
-public class Linea {
+public class LineaCarrito {
 
 	private int cantidad;
 	private Articulo articulo;

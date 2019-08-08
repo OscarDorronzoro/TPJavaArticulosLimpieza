@@ -12,20 +12,44 @@
 	</head>
 	<body>
 		<%@include file="header.jsp" %>	
-	
 		
-		
-		<nav role="navigation" class="navbar navbar-default navbar-fixed-bottom navbar-inverse">
-			<div class="container">
-				<div class="navbar-header">
-					<ul class="nav navbar-nav">
-						<li>contactenos</li>
-					</ul>
+		<div>
+		<%@page import="entities.Articulo"%>
+		<%@page import="entities.Cliente"%>
+		<%@page import="entities.LineaCarrito"%>
+		<%@page import="java.util.ArrayList"%>
+		<%@page import="logic.ABMCLineaCarrito"%>
+		<%@page import="javax.servlet.http.HttpServletRequest"%>		
+		<%! ArrayList<LineaCarrito> lineas= ((Cliente) request.getSession().getAttribute("cliente")).getMiCarrito().getLineas();%>
+		<%for( LineaCarrito linea : lineas){%>
+			<div class="row">
+				<div class="col-md-2"><img height=150 src=<%=linea.getArticulo().getUrlImagen()%>></div>
+				<div class="col-md-7">
+					<div class="row">
+						<div class="col-md-8">
+							<ul class="list-unstyled">							
+								<li>Descripción: <%=linea.getArticulo().getDescripcion()%></li>
+								<li>Cantidad: <%=linea.getCantidad()%></li>
+								<li>Precio: <%=linea.getArticulo().getPrecio()%></li>
+							</ul>
+						</div>
+						<div class="col-md-4">
+							<div class="row">
+								<button value="Comprar ahora" name=<%="comprar"+linea.getArticulo().getCodArticulo()%> class="btn btn-success"></button>
+								<br>
+								<button value="Eliminar der carrito" name=<%="carrito"+linea.getArticulo().getCodArticulo()%> class="btn btn-danger"></button>
+								<br>
+							</div>
+					 	</div>
+					</div>
 				</div>
 			</div>
-		</nav>
-	
-	<script src="bootstrap/js/jquery-3.4.1.js"></script>
-	<script src="bootstrap/js/bootstrap.js"></script>	
+			<br><br>				
+		<%} %>
+		</div>
+			
+		<%@include file="footer.jsp" %>
+		<script src="bootstrap/js/jquery-3.4.1.js"></script>
+		<script src="bootstrap/js/bootstrap.js"></script>	
 	</body>
 </html>
