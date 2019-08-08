@@ -7,6 +7,11 @@ public class Cliente {
 	private String nombre;
 	private String apellido;
 	private String DNI;
+	private Carrito miCarrito;
+	
+	public Cliente() {
+		this.setMiCarrito(new Carrito());
+	}
 	
 	public String getUsername() {
 		return username;
@@ -41,5 +46,11 @@ public class Cliente {
 	@Override
 	public String toString() {
 		return "Nombre: "+this.getNombre()+"  Apellido: "+this.getApellido();
+	}
+	public Carrito getMiCarrito() {
+		return miCarrito;
+	}
+	public void setMiCarrito(Carrito miCarrito) {
+		this.miCarrito = miCarrito;
 	}
 }

@@ -26,7 +26,7 @@ public class ABMCArticulo {
 	public ArrayList<Articulo> getAll(){
 		return this.getArticuloData().getAll();
 	}
-	public  Articulo getOne(String codArticulo) {		
+	public  Articulo getOne(int codArticulo) {		
 		return this.getArticuloData().getOne(codArticulo);
 	}
 	public ArrayList<Articulo> getAllByDescripcion(String descripcion){

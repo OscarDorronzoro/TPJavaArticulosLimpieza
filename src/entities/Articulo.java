@@ -2,7 +2,7 @@ package entities;
 
 public class Articulo {
 	
-	private String codArticulo;
+	private int codArticulo;
 	private String descripcion;
 	private int cantAPedir;
 	private int puntoPedido;
@@ -10,10 +10,10 @@ public class Articulo {
 	private String urlImagen;
 	private double precio;
 	
-	public String getCodArticulo() {
+	public int getCodArticulo() {
 		return codArticulo;
 	}
-	public void setCodArticulo(String codArticulo) {
+	public void setCodArticulo(int codArticulo) {
 		this.codArticulo = codArticulo;
 	}
 	public String getDescripcion() {

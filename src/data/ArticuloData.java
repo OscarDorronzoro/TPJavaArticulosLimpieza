@@ -14,16 +14,21 @@ public class ArticuloData {
 		
 		try {
 			stmt= FactoryConnection.getInstancia().getConn().prepareStatement(
-					"insert into articulo(cod_articulo,descripcion,cant_a_pedir,punto_pedido,"
-					+ "stock,url_imagen,precio) values(?,?,?,?,?,?)");
-			stmt.setString(1, art.getCodArticulo());
+					"insert into articulo(precio,descripcion,cant_a_pedir,punto_pedido,"
+					+ "stock,url_imagen) values(?,?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
+			stmt.setDouble(1, art.getPrecio());
 			stmt.setString(2, art.getDescripcion());
 			stmt.setInt(3, art.getCantAPedir());
 			stmt.setInt(4, art.getPuntoPedido());
 			stmt.setInt(5, art.getStock());
 			stmt.setString(6, art.getUrlImagen());
-			stmt.setDouble(7, art.getPrecio());
 			stmt.executeUpdate();
+			
+			ResultSet primaryKey = stmt.getGeneratedKeys();
+			
+			if(primaryKey!=null && primaryKey.next()) {
+				art.setCodArticulo(primaryKey.getInt(1));
+			}
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -55,7 +60,7 @@ public class ArticuloData {
 				while(rs.next()) {
 					Articulo art=new Articulo();
 					
-					art.setCodArticulo(rs.getString("cod_articulo"));
+					art.setCodArticulo(rs.getInt("cod_articulo"));
 					art.setDescripcion(rs.getString("descripcion"));
 					art.setCantAPedir(rs.getInt("cant_a_pedir"));
 					art.setPuntoPedido(rs.getInt("punto_pedido"));
@@ -84,7 +89,7 @@ public class ArticuloData {
 		return articulos;
 	}
 	
-	public Articulo getOne(String codArticulo) {
+	public Articulo getOne(int codArticulo) {
 		
 		Articulo art=null;
 		ResultSet rs=null;
@@ -93,13 +98,13 @@ public class ArticuloData {
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
 					"select * from articulo art inner join precio p on art.cod_articulo=p.cod_articulo"
-					+ " where cod_articulo=?");
-			stmt.setString(1, codArticulo);
+					+ " where art.cod_articulo=?");
+			stmt.setInt(1, codArticulo);
 			rs=stmt.executeQuery();
 			if(rs!=null&&rs.next()) {
 					art=new Articulo();
 					
-					art.setCodArticulo(rs.getString("cod_articulo"));
+					art.setCodArticulo(rs.getInt("cod_articulo"));
 					art.setDescripcion(rs.getString("descripcion"));
 					art.setCantAPedir(rs.getInt("cant_a_pedir"));
 					art.setPuntoPedido(rs.getInt("punto_pedido"));
@@ -139,7 +144,7 @@ public class ArticuloData {
 				while(rs.next()) {
 					Articulo art=new Articulo();
 					
-					art.setCodArticulo(rs.getString("cod_articulo"));
+					art.setCodArticulo(rs.getInt("cod_articulo"));
 					art.setDescripcion(rs.getString("descripcion"));
 					art.setCantAPedir(rs.getInt("cant_a_pedir"));
 					art.setPuntoPedido(rs.getInt("punto_pedido"));

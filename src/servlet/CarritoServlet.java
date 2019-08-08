@@ -6,21 +6,23 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import entities.Cliente;
+import entities.Linea;
 import logic.ABMCArticulo;
-import entities.Articulo;
 
 
 /**
- * Servlet implementation class ComprarServlet
+ * Servlet implementation class CarritoServlet
  */
-@WebServlet("/ComprarServlet")
-public class ComprarServlet extends HttpServlet {
+@WebServlet("/CarritoServlet")
+public class CarritoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ComprarServlet() {
+    public CarritoServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,14 +32,36 @@ public class ComprarServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+					
+		Cliente cliente = (Cliente)request.getSession().getAttribute("cliente");
 		
-
-		
+		if(cliente!=null) {
+			ABMCArticulo articuloLogic= new ABMCArticulo();
+			Linea linea = new Linea();
+			linea.setArticulo(articuloLogic.getOne(Integer.parseInt(request.getParameter("comprar1"))));
+			linea.setCantidad(Integer.parseInt(request.getParameter("cantidad")));
+				
+			cliente.getMiCarrito().getLineas().add(linea); //agregar mas carritos
+			
+			if(request.getParameter("comprar1")!=null) {
+				response(response,"Miscarritos.jsp");
+			}
+		}
+		else {
+			response(response,"iniciarSesion.jsp");
+		}
+	
 	}
 
-	protected void response(HttpServletResponse response, Articulo articulo, int cant) {
-		
+	protected void response(HttpServletResponse response, String pagina) {
+		try {
+			response.sendRedirect(pagina);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
+
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
