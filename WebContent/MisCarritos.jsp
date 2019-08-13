@@ -20,7 +20,8 @@
 		<%@page import="java.util.ArrayList"%>
 		<%@page import="logic.ABMCLineaCarrito"%>
 		<%@page import="javax.servlet.http.HttpServletRequest"%>		
-		<%! ArrayList<LineaCarrito> lineas= ((Cliente) request.getSession().getAttribute("cliente")).getMiCarrito().getLineas();%>
+		<%! ArrayList<LineaCarrito> lineas;%>
+		<% lineas = ((Cliente) request.getSession().getAttribute("cliente")).getMiCarrito().getLineas();%>
 		<%for( LineaCarrito linea : lineas){%>
 			<div class="row">
 				<div class="col-md-2"><img height=150 src=<%=linea.getArticulo().getUrlImagen()%>></div>
