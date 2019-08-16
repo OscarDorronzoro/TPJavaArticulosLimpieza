@@ -24,7 +24,7 @@
 		<% lineas = ((Cliente) request.getSession().getAttribute("cliente")).getMiCarrito().getLineas();%>
 		<%for( LineaCarrito linea : lineas){%>
 			<div class="row">
-				<div class="col-md-2"><img height=150 src=<%=linea.getArticulo().getUrlImagen()%>></div>
+				<div class="col-md-2"><img class="imagen-articulo" src=<%=linea.getArticulo().getUrlImagen()%>></div>
 				<div class="col-md-7">
 					<div class="row">
 						<div class="col-md-8">

@@ -25,54 +25,74 @@
 <!-- 			</div>					 -->
 
 		<div class="row">
-			<div class="col-sm-0 col-md-3 bg-sidebar">
-			    <!-- Sidebar  -->
-			    <nav>
-			        <div class="sidebar-header">
-			            <h3>Categorias de Articulos</h3>
-			        </div>		
-			        <ul class="list-unstyled components">
-			            <li>
-							<a href="#">Todo</a>
-			            </li>
-			            <li>
-							<a href="#">Cocina</a>
-			            </li>
-			            <li>
-							<a href="#">Baño</a>
-			            </li>
-			            <li>
-							<a href="#">Muebles</a>
-			            </li>	            
-			        </ul>
-			        
-			    </nav>
+			<div class="col-sm-3 col-md-3 bg-sidebar">
+			    <div class="row">
+			    	<div class="col-md-12">
+			    		 <div class="sidebar-header">
+					         <h3>Categorias de Articulos</h3>
+					     </div>		
+			    	</div>
+			    	<div class="col-xs-12 col-sm-1 col-md-1">
+			    		<ul class="list-unstyled components menu-icon">
+					            <li>
+									<img src="png/limpieza/todo.png">
+					            </li>
+					            <li>
+									<img src="png/limpieza/cocina.png">
+					            </li>
+					            <li>
+									<img src="png/limpieza/banio.png">
+					            </li>
+					            <li>
+									<img src="png/limpieza/muebles.png">
+					            </li>            
+					        </ul>
+			    	</div>
+			    	<div class="col-xs-0 col-sm-10 col-md-10">
+					    <nav>
+					        <ul class="list-unstyled components menu-text">
+					            <li>
+									<a href="#">Todo</a>
+					            </li>
+					            <li>
+									<a href="#">Cocina</a>
+					            </li>
+					            <li>
+									<a href="#">Baño</a>
+					            </li>
+					            <li>
+									<a href="#">Muebles</a>
+					            </li>	            
+					        </ul>
+					    </nav>
+				    </div>
+			    </div>
 			</div>
 			
-			<div id="contenido" class="col-sm-12 col-md-9">
+			<div id="contenido" class="col-sm-9 col-md-9">
 				<%@page import="entities.Articulo"%>
 				<%@page import="java.util.ArrayList"%>
 				<%@page import="logic.ABMCArticulo"%>		
 				<%! ArrayList<Articulo> articulos= new ABMCArticulo().getAll();%>
 				<%for( Articulo art : articulos){%>
-					<div class="row bg-articulo">
-						<div class="col-md-2"><img height=150 src=<%=art.getUrlImagen()%>></div>
-						<div class="col-md-10">
+					<div class="row bg-articulo" onclick='detalleArticulo()'>
+						<div class="col-md-3"><img class="imagen-articulo" src=<%=art.getUrlImagen()%>></div>
+						<div class="col-md-9">
 							<div class="row">
-								<div class="col-md-8">
+								<div class="col-md-9">
 									<ul class="list-unstyled">							
 										<li>Descripción: <%=art.getDescripcion()%></li>
 										<li>Stock: <%=art.getStock()%></li>
 										<li>Precio: <%=art.getPrecio()%></li>
 									</ul>
 								</div>
-								<div class="col-md-4">
+								<div class="col-md-3">
 									<div class="row">
 										<form action="CarritoServlet" method="get">
 											<label>Cantidad:</label>
 											<input name="cantidad" size=2px> <br><br>
-											<input type="submit" value="Comprar" name=<%="comprar"+art.getCodArticulo()%> class="btn btn-success"><br>
-											<input type="submit" value="Añadir al carrito" name=<%="carrito"+art.getCodArticulo()%> class="btn btn-success">
+											<input type="submit" value="Comprar" name=<%="comprar"+art.getCodArticulo()%> class="btn btn-success btn-block"><br>
+											<input type="submit" value="Añadir al carrito" name=<%="carrito"+art.getCodArticulo()%> class="btn btn-success btn-block">
 										</form>
 										<br>
 									</div>
@@ -88,6 +108,12 @@
 		<script src="bootstrap/js/jquery-3.4.1.js"></script>
 		<script src="bootstrap/js/popper.js"></script>
 		<script src="bootstrap/js/bootstrap.js"></script>
+		
+		<script >
+		fuction detallaArticulo(){
+			window.location="main.jsp";
+		}
+		</script>
 		
 	</body>
 </html>

@@ -1,3 +1,4 @@
+<div>
 <footer class="page-footer font-small bg-dark pt-4">
   <div class="container-fluid text-center text-md-left">
     <div class="row">
@@ -53,3 +54,4 @@
     <a href="https://mdbootstrap.com/education/bootstrap/"> MDBootstrap.com</a>
   </div>
 </footer>
+</div>
