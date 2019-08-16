@@ -9,8 +9,11 @@ html {
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
 }
-body { padding-top: 70;
- margin: 0;
+body { 
+	padding-top: 70px;
+	padding-left:20px;
+ 	margin: 0;
+ 	margin-bottom:opx;
 }
 article,
 aside,
@@ -6844,14 +6847,28 @@ button.close {
 	background: #2E2E2E;
 }
 .bg-light{
-	background: #ECECEC;
+	background: #d8d8d8;
 }
 .bg-blue{
-	background: #5E9AFA;
+	background: #007bdf !important; 
 }
 .bg-sidebar{
-	background: #62c1dd;
+	background: #8d8d8d;
+	
+}
+.bg-articulo{
+	background: #fff;
+	margin-bottom:1px;
+	padding: 5px 0px 5px 0px;
+	border-radius:5px;
 }
 .text-light{
 	color:#F5F5F5;
+}
+.page-footer{
+	position:absolute;
+	margin-top:20px;
+	bottom:;
+	left:;
+	width:100%;
 }

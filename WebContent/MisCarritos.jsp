@@ -36,9 +36,9 @@
 						</div>
 						<div class="col-md-4">
 							<div class="row">
-								<button value="Comprar ahora" name=<%="comprar"+linea.getArticulo().getCodArticulo()%> class="btn btn-success"></button>
+								<a href="ComprarServlet" class="btn btn-success">Comprar ahora</a>
 								<br>
-								<button value="Eliminar der carrito" name=<%="carrito"+linea.getArticulo().getCodArticulo()%> class="btn btn-danger"></button>
+								<a href="EliminarDeCarritoServlet" class="btn btn-danger">Eliminar del carrito</a>
 								<br>
 							</div>
 					 	</div>

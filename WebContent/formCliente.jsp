@@ -19,26 +19,28 @@
 						<h1>Registrarse</h1>
 						<form action="FormularioClienteServlet" method="get">		
 							<div class="form-group">
-								<label for="username">Usuario</label>
+								<label for="username" class="control-label">Usuario</label>
 								<input class="form-control" name="username" id="username"/>
 							</div>
 							<div class="form-group">
-								<label for="password">Contraseña</label>
+								<label for="password" class="control-label">Contraseña</label>
 								<input class="form-control" name="password" id="password" type="password"/>
 							</div>		
 							<div class="form-group">
-								<label for="nombre">Nombre</label>
+								<label for="nombre" class="control-label">Nombre</label>
 								<input class="form-control" name="nombre" id="nombre"/>
 							</div>
 							<div class="form-group">
-								<label for="apellido">Apellido</label>
+								<label for="apellido" class="control-label">Apellido</label>
 								<input class="form-control" name="apellido" id="apellido"/>
 							</div>
 							<div class="form-group">
-								<label for="DNI">DNI</label>
+								<label for="DNI" class="control-label">DNI</label>
 								<input class="form-control" name="DNI" id="DNI"/>
 							</div>	
-							<input type="submit" class="btn btn-success btn-block"  title="Presione para registrarse" value="OK"/>
+							<div class="form-group">
+								<input type="submit" class="btn btn-success btn-block"  title="Presione para registrarse" value="OK"/>
+							</div>
 						</form>
 					</section>
 				</div>
