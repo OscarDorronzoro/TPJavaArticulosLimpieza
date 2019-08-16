@@ -4578,7 +4578,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .navbar-default {
   background-color: #3B87E3;
-  border-color: #e7e7e7;
+  border-color: #001a82;  /*Cambio: Linea de abajo del header (no se ve)*/
 }
 .navbar-default .navbar-brand {
   color: #777;
@@ -4592,12 +4592,12 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   color: #777;
 }
 .navbar-default .navbar-nav > li > a {
-  color: #777;
+  color: #000;
 }
 .navbar-default .navbar-nav > li > a:hover,
 .navbar-default .navbar-nav > li > a:focus {
   color: #333;
-  background-color: transparent;
+   /*Cambio: antes estaba "background-color: transparent;"*/
 }
 .navbar-default .navbar-nav > .active > a,
 .navbar-default .navbar-nav > .active > a:hover,
@@ -6872,3 +6872,17 @@ button.close {
 	left:;
 	width:100%;
 }
+.seccion> li > a:hover,
+.seccion > li > a:focus {
+	background: #40a9ff;	
+}
+
+div .navbar-default{
+	background: #007bdf;
+}
+
+
+
+
+
+
