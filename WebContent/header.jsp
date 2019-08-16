@@ -33,6 +33,7 @@
 							</ul>
 						</li> -->
 						<li><a href="listadoArticulos.jsp">Articulos</a></li>
+						<li><a href="CargaArticuloServlet">Carga Articulos</a> </li>
 						
 						
 						<%session=request.getSession(true);%>
