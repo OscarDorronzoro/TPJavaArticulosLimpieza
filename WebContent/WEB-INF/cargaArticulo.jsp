@@ -37,7 +37,7 @@
 								<label for="imagen">URL Imagen</label>
 								<input class="form-control" name="imagen" id="imagen"/>
 							</div>	
-							<input type="submit" class="btn btn-success btn-block"  title="Presione para registrar articulo" value="Registrar"/>
+							<input type="submit" class="btn btn-success btn-block"  title="Presione para registrar articulo" value="Guardar artículo"/>
 						</form>
 					</section>
 				</div>
