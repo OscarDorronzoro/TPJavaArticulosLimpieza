@@ -75,7 +75,7 @@
 				<%@page import="logic.ABMCArticulo"%>		
 				<%! ArrayList<Articulo> articulos= new ABMCArticulo().getAll();%>
 				<%for( Articulo art : articulos){%>
-					<div class="row bg-articulo" onclick='detalleArticulo()'>
+					<div class="row bg-articulo" onclick='javascript: detalleArticulo()'>
 						<div class="col-md-3"><img class="imagen-articulo" src=<%=art.getUrlImagen()%>></div>
 						<div class="col-md-9">
 							<div class="row">
@@ -83,16 +83,21 @@
 									<ul class="list-unstyled">							
 										<li>Descripción: <%=art.getDescripcion()%></li>
 										<li>Stock: <%=art.getStock()%></li>
-										<li>Precio: <%=art.getPrecio()%></li>
+										<li>Precio: $<%=art.getPrecio()%></li>
 									</ul>
 								</div>
 								<div class="col-md-3">
 									<div class="row">
 										<form action="CarritoServlet" method="get">
-											<label>Cantidad:</label>
-											<input name="cantidad" size=2px> <br><br>
-											<input type="submit" value="Comprar" name=<%="comprar"+art.getCodArticulo()%> class="btn btn-success btn-block"><br>
-											<input type="submit" value="Añadir al carrito" name=<%="carrito"+art.getCodArticulo()%> class="btn btn-success btn-block">
+											<div class="form-group">
+												<input type="hidden" name="id" value=<%=art.getCodArticulo() %>>
+												<label class="label-control">Cantidad:</label>
+												<input name="cantidad" class="form-control" size=2px>
+											</div>
+											<div class="form-group">
+												<input type="submit" value="Comprar" name="comprar" class="btn btn-success btn-block">
+												<input type="submit" value="Añadir al carrito" name="carrito" class="btn btn-success btn-block">
+											</div>
 										</form>
 										<br>
 									</div>
@@ -110,7 +115,7 @@
 		<script src="bootstrap/js/bootstrap.js"></script>
 		
 		<script >
-		fuction detallaArticulo(){
+		function detallaArticulo(){
 			window.location="main.jsp";
 		}
 		</script>

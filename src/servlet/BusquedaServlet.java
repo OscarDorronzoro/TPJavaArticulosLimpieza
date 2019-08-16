@@ -45,7 +45,7 @@ public class BusquedaServlet extends HttpServlet {
 		out.println("<head><link rel=\"stylesheet\" href=\"bootstrap/css/bootstrap.css\">"+ 
 						  "<link rel=\"stylesheet\" href=\"bootstrap/css/bootstrap-theme.css\">"+
 				    "</head>");
-		out.println("<body class=\"bg-primary\">");
+		out.println("<body class=\"bg-light\">");
 		out.println("<%@include file=\"header.jsp\"%>");
 		for(Articulo art : articulos) {
 			out.println(

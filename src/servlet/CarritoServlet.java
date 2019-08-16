@@ -38,14 +38,22 @@ public class CarritoServlet extends HttpServlet {
 		if(cliente!=null) {
 			ABMCArticulo articuloLogic= new ABMCArticulo();
 			LineaCarrito linea = new LineaCarrito();
-			linea.setArticulo(articuloLogic.getOne(Integer.parseInt(request.getParameter("comprar1"))));
-			linea.setCantidad(Integer.parseInt(request.getParameter("cantidad")));
-				
+			
+			Integer cant=Integer.parseInt(request.getParameter("cantidad"));
+			if(cant==null || cant<=0 ) {
+				throw new ServletException("error en la cantidad de articulos");
+			}	
+			linea.setCantidad(cant);
+			linea.setArticulo(articuloLogic.getOne(Integer.parseInt(request.getParameter("id"))));
 			cliente.getMiCarrito().getLineas().add(linea); //agregar mas carritos
 			
-			if(request.getParameter("comprar1")!=null) {
+			if(request.getParameter("comprar")!=null) {
 				response(response,"MisCarritos.jsp");
 			}
+			else {
+				//actualizar contador de articulos en carrito
+			}
+			
 		}
 		else {
 			response(response,"iniciarSesion.jsp");
