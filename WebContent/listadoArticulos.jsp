@@ -75,7 +75,7 @@
 				<%@page import="logic.ABMCArticulo"%>		
 				<%! ArrayList<Articulo> articulos= new ABMCArticulo().getAll();%>
 				<%for( Articulo art : articulos){%>
-					<div class="row bg-articulo" onclick='javascript: detalleArticulo()'>
+					<div class="row bg-articulo" id=<%="articulo"+art.getCodArticulo() %> onclick='javascript: detalleArticulo()' onmouseover='javascript: ponerMano("articulo1")' onmouseout='javascript: ponerFlechita("articulo1")'> 
 						<div class="col-md-3"><img class="imagen-articulo" src=<%=art.getUrlImagen()%>></div>
 						<div class="col-md-9">
 							<div class="row">
@@ -109,14 +109,26 @@
 				<%} %>
 			</div>
 		</div>
-		<%@include file="footer.jsp" %>
+		<%@include file="footer.jsp"%>
 		<script src="bootstrap/js/jquery-3.4.1.js"></script>
 		<script src="bootstrap/js/popper.js"></script>
 		<script src="bootstrap/js/bootstrap.js"></script>
 		
 		<script >
-		function detallaArticulo(){
-			window.location="main.jsp";
+		function detalleArticulo(){
+			window.location="DetalleArticuloServlet";
+		}
+		</script>
+				
+		<script>
+		function ponerMano(id){
+			document.getElementById(id).style.cursor='hand';
+		}
+		</script>
+		
+		<script>
+		function ponerFlechita(id){
+			document.getElementById(id.style.cursor='auto';
 		}
 		</script>
 		
