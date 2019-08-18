@@ -1,10 +1,10 @@
-<div>
+<div class="row">
 <footer class="page-footer font-small bg-dark pt-4">
   <div class="container-fluid text-center text-md-left">
     <div class="row">
-      <div class="col-md-6 mt-md-0 mt-3">
+      <div class="col-md-6 mt-md-0 mt-3 text-light">
         <h5 class="text-uppercase">Acerca de nosotros</h5>
-        <p class="text-light">Somos una PyME dedicada a la venta de articulos de limpieza. chamuyo chamuyo chamuyo chamuyo 
+        <p>Somos una PyME dedicada a la venta de articulos de limpieza. chamuyo chamuyo chamuyo chamuyo 
         chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo 
         chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo 
         chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo 
@@ -55,3 +55,22 @@
   </div>
 </footer>
 </div>
+
+<script>
+$(document).ready( function(){
+
+	var posicionActual, posicionNueva = 0;
+
+	$(window).scroll(function(){
+	posicionNueva = $(this).scrollTop();
+
+	if(posicionNueva>posicionActual){
+	$('#header').hide('slow');
+	} else if(posicionNueva<posicionActual){
+	$('#header').show('slow');
+	}
+	posicionActual=posicionNueva;
+	});
+
+	})
+</script>

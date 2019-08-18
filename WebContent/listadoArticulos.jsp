@@ -25,14 +25,14 @@
 <!-- 			</div>					 -->
 
 		<div class="row">
-			<div class="col-sm-3 col-md-3 bg-sidebar">
+			<div class="col-xs-12 col-sm-12 col-md-3 bg-sidebar">
 			    <div class="row">
-			    	<div class="col-md-12">
+			    	<div class="col-xs-12 col-sm-12 col-md-12">
 			    		 <div class="sidebar-header">
 					         <h3>Categorias de Articulos</h3>
 					     </div>		
 			    	</div>
-			    	<div class="col-xs-12 col-sm-1 col-md-1">
+			    	<div class="col-xs-1 col-sm-1 col-md-1">
 			    		<ul class="list-unstyled components menu-icon">
 					            <li>
 									<img src="png/limpieza/todo.png">
@@ -48,7 +48,7 @@
 					            </li>            
 					        </ul>
 			    	</div>
-			    	<div class="col-xs-0 col-sm-10 col-md-10">
+			    	<div class="col-xs-10 col-sm-10 col-md-10">
 					    <nav>
 					        <ul class="list-unstyled components menu-text">
 					            <li>
@@ -69,24 +69,24 @@
 			    </div>
 			</div>
 			
-			<div id="contenido" class="col-sm-9 col-md-9">
+			<div class="col-xs-12 col-sm-12 col-md-8 bg-articulos">
 				<%@page import="entities.Articulo"%>
 				<%@page import="java.util.ArrayList"%>
 				<%@page import="logic.ABMCArticulo"%>		
 				<%! ArrayList<Articulo> articulos= new ABMCArticulo().getAll();%>
 				<%for( Articulo art : articulos){%>
 					<div class="row bg-articulo" id=<%="articulo"+art.getCodArticulo() %> onclick='javascript: detalleArticulo()' onmouseover='javascript: ponerMano("articulo1")' onmouseout='javascript: ponerFlechita("articulo1")'> 
-						<div class="col-md-3"><img class="imagen-articulo" src=<%=art.getUrlImagen()%>></div>
-						<div class="col-md-9">
+						<div class="col-xs-3 col-md-3"><img class="imagen-articulo" src=<%=art.getUrlImagen()%>></div>
+						<div class="col-xs-9 col-md-9">
 							<div class="row">
-								<div class="col-md-9">
+								<div class="cos-xs-6 col-md-8">
 									<ul class="list-unstyled">							
-										<li>Descripción: <%=art.getDescripcion()%></li>
+										<li class="atributo-link">Descripción: <%=art.getDescripcion()%></li>
 										<li>Stock: <%=art.getStock()%></li>
 										<li>Precio: $<%=art.getPrecio()%></li>
 									</ul>
 								</div>
-								<div class="col-md-3">
+								<div class="col-xs-6 col-md-4">
 									<div class="row">
 										<form action="CarritoServlet" method="get">
 											<div class="form-group">
@@ -128,7 +128,7 @@
 		
 		<script>
 		function ponerFlechita(id){
-			document.getElementById(id.style.cursor='auto';
+			document.getElementById(id).style.cursor='auto';
 		}
 		</script>
 		
