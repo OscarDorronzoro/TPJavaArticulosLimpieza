@@ -1,15 +1,16 @@
 <div id="header" class="bg-blue">
 <nav role="navigation" class="navbar navbar-default navbar-fixed-top">
 	<div class="row">
-		<div class="col-sm-12 col-md-5 logo-busqueda">		
+		<div class="col-xm-12 col-md-5">		
 <!-- 			<div class="container"> -->
 				<div class="navbar-header">
-					<button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
-						<span class="sr-only">menu hamburguesa</span>
-						<span class="icon-bar"></span> <!-- cada una de estas lineas hacen una linea del menu de hamburguesa -->
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
+					<div class="row">
+<!-- 					<button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle"> -->
+<!-- 						<span class="sr-only">menu hamburguesa</span> -->
+<!-- 						<span class="icon-bar"></span> cada una de estas lineas hacen una linea del menu de hamburguesa -->
+<!-- 						<span class="icon-bar"></span> -->
+<!-- 						<span class="icon-bar"></span> -->
+<!-- 					</button> -->
 					<ul class="nav navbar-nav">
 						<li><a href="main.jsp" class="navbar-brand m-5"><img src="png/home-4x.png"></a></li>
 						<li><a href="main.jsp" class="navbar-brand">Doña Mary Limpieza</a></li> <!-- class="navbar-text" agranda barra -->
@@ -20,11 +21,12 @@
 							</form>
 						</li> 
 					</ul>
+					</div>
 				</div>
 <!-- 			</div> -->
 		</div>	
 			
-		<div class="col-sm-12 col-md-7">
+		<div class="col-xs-12 col-md-6">
 					<div id="navbarCollapse" class="navbar-collapse navbar-right">
 						<ul class="nav navbar-nav seccion">
 							<li ><a href="main.jsp">Inicio</a></li>
