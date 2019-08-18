@@ -6881,12 +6881,12 @@ button.close {
 	left:;
 }
 .seccion> li > a:hover,
-.seccion > li > a:focus {
-	background: #40a9ff;	
+.seccion > li > a:active {
+	background: #0000ff;	
 }
 
 div .navbar-default{
-	background: #a6d7ff;
+	background: #51b0ff;
 	padding-right:20px;
 	padding-left:20px;
 }
