@@ -36,9 +36,7 @@
 						</div>
 						<div class="col-md-4">
 							<div class="row">
-								<a href="ComprarServlet" class="btn btn-success">Comprar ahora</a>
-								<br>
-								<a href="EliminarDeCarritoServlet" class="btn btn-danger">Eliminar del carrito</a>
+								<a href=<%="EliminarDeCarritoServlet/?id="+linea.getArticulo().getCodArticulo()%> class="btn btn-danger">Eliminar del carrito</a>
 								<br>
 							</div>
 					 	</div>
@@ -47,6 +45,8 @@
 			</div>
 			<br><br>				
 		<%} %>
+		<a href="ComprarServlet" class="btn btn-success">Comprar ahora</a>
+
 		</div>
 			
 		<%@include file="footer.jsp" %>
