@@ -41,6 +41,9 @@ public class BusquedaServlet extends HttpServlet {
 	private void response(HttpServletResponse response, ArrayList<Articulo> articulos)
 			throws IOException {
 		PrintWriter out = response.getWriter();
+		out.println("<%@ page language=\"java\" contentType=\"text/html; charset=ISO-8859-1\"\r\n" + 
+				"    pageEncoding=\"ISO-8859-1\"%>\r\n" + 
+				"<!DOCTYPE html>");
 		out.println("<html>");
 		out.println("<head><link rel=\"stylesheet\" href=\"bootstrap/css/bootstrap.css\">"+ 
 						  "<link rel=\"stylesheet\" href=\"bootstrap/css/bootstrap-theme.css\">"+
