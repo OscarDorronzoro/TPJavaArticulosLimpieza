@@ -114,23 +114,19 @@
 		<script src="bootstrap/js/popper.js"></script>
 		<script src="bootstrap/js/bootstrap.js"></script>
 		
-		<script >
-		function detalleArticulo(){
-			window.location="DetalleArticuloServlet";
-		}
-		</script>
-				
-		<script>
-		function ponerMano(id){
-			document.getElementById(id).style.cursor='hand';
-		}
-		</script>
+<!-- 		<script > -->
+// 		function detalleArticulo(){
+// 			window.location="DetalleArticuloServlet";
+// 		}
 		
-		<script>
-		function ponerFlechita(id){
-			document.getElementById(id.style.cursor='auto';
-		}
-		</script>
+// 		function ponerMano(id){
+// 			document.getElementById(id).style.cursor='hand';
+// 		}
+
+// 		function ponerFlechita(id){
+// 			document.getElementById(id.style.cursor='auto';
+// 		}
+<!-- 		</script> -->
 		
 	</body>
 </html>

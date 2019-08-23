@@ -50,5 +50,6 @@
 		<%@include file="footer.jsp" %>	
 		<script src="bootstrap/js/jquery-3.4.1.js"></script>
 		<script src="bootstrap/js/bootstrap.js"></script>
+		<script type="text/javascript" src="bootstrap/js/miJavaSript.js"></script>
 	</body>
 </html>
