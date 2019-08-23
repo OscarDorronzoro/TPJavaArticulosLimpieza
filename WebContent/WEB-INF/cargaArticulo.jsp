@@ -22,7 +22,7 @@
 								<input class="form-control" name="descripcion" id="desc"/>
 							</div>
 							<div class="form-group">
-								<label for="cant_a_pedir" title="cuando se alcance el stock minimo">Cantidar a pedir</label>
+								<label for="cant_a_pedir" title="cuando se alcance el stock minimo">Cantidad a pedir</label>
 								<input class="form-control" name="cantAPedir" id="cant_a_pedir" type="password"/>
 							</div>		
 							<div class="form-group">
