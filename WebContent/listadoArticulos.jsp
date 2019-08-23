@@ -72,10 +72,8 @@
 			<div class="col-xs-12 col-sm-12 col-md-8 bg-articulos">
 				<%@page import="entities.Articulo"%>
 				<%@page import="java.util.ArrayList"%>
-				<%@page import="logic.ABMCArticulo"%>		
-				<%! ArrayList<Articulo> articulos= new ABMCArticulo().getAll();%>
-				<%for( Articulo art : articulos){%>
-					<div class="row bg-articulo" id=<%="articulo"+art.getCodArticulo() %> onclick='javascript: detalleArticulo()' onmouseover='javascript: ponerMano("articulo1")' onmouseout='javascript: ponerFlechita("articulo1")'> 
+				<%for( Articulo art : (ArrayList<Articulo>)request.getAttribute("articulos")){%>
+					<div class="row bg-articulo" id=<%="articulo"+art.getCodArticulo() %> onclick='javascript: detalleArticulo()' onmouseover='javascript: ponerMano("<%=art.getCodArticulo() %>")' onmouseout='javascript: ponerFlechita("<%=art.getCodArticulo() %>")'> 
 						<div class="col-xs-3 col-md-3"><img class="imagen-articulo" src=<%=art.getUrlImagen()%>></div>
 						<div class="col-xs-9 col-md-9">
 							<div class="row">
@@ -113,21 +111,6 @@
 		<script src="bootstrap/js/jquery-3.4.1.js"></script>
 		<script src="bootstrap/js/popper.js"></script>
 		<script src="bootstrap/js/bootstrap.js"></script>
-		
-<!-- 		<script > -->
-// 		function detalleArticulo(){
-// 			window.location="DetalleArticuloServlet";
-// 		}
-		
-// 		function ponerMano(id){
-// 			document.getElementById(id).style.cursor='hand';
-// 		}
-
-// 		function ponerFlechita(id){
-// 			document.getElementById(id.style.cursor='auto';
-// 		}
-<!-- 		</script> -->
-
-		
+		<script src="bootstrap/js/miJavaScript.js"></script>	
 	</body>
 </html>

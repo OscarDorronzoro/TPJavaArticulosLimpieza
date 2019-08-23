@@ -45,7 +45,7 @@ public class LogInServlet extends HttpServlet {
 		try {
 			abmcc.completarCliente(cliente);		
 			session.setAttribute("cliente", cliente);
-			response(response,"Cliente logeado exitosamente");
+			response(response,"Cliente logueado exitosamente");
 		} catch (ClientNotFoundException e) {
 			// TODO Auto-generated catch block
 			response(response,e.getMessage());

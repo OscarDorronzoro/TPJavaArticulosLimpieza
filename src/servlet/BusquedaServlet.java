@@ -1,8 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import entities.Articulo;
+
 import logic.ABMCArticulo;
 
 /**
@@ -35,57 +33,63 @@ public class BusquedaServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		ABMCArticulo abmca = new ABMCArticulo();
 		
-		response(response,abmca.getAllByDescripcion(request.getParameter("desc")));
+		if(request.getParameter("descBusqueda")!=null){
+			request.setAttribute("articulos",abmca.getAllByDescripcion(request.getParameter("descBusqueda")));
+		}
+		else {
+			request.setAttribute("articulos",abmca.getAll());
+		}
+		request.getRequestDispatcher("listadoArticulos.jsp").forward(request, response);
 	}
 
-	private void response(HttpServletResponse response, ArrayList<Articulo> articulos)
-			throws IOException {
-		PrintWriter out = response.getWriter();
-		out.println("<%@ page language=\"java\" contentType=\"text/html; charset=ISO-8859-1\"\r\n" + 
-				"    pageEncoding=\"ISO-8859-1\"%>\r\n" + 
-				"<!DOCTYPE html>");
-		out.println("<html>");
-		out.println("<head><link rel=\"stylesheet\" href=\"bootstrap/css/bootstrap.css\">"+ 
-						  "<link rel=\"stylesheet\" href=\"bootstrap/css/bootstrap-theme.css\">"+
-				    "</head>");
-		out.println("<body class=\"bg-light\">");
-		out.println("<%@include file=\"header.jsp\"%>");
-		for(Articulo art : articulos) {
-			out.println(
-			" <div class=\"row\"> "+
-			" <div class=\"col-md-2\"><img height=150 src="+art.getUrlImagen()+"></div> "+
-			" <div class=\"col-md-10\"> "+
-			"	<div class=\"row\"> "+
-			"		<div class=\"col-md-1\">"+art.getCodArticulo()+"</div> "+
-			"		<div class=\"col-md-8\"> "+
-			"			<ul class=\"list-unstyled\"> "+							
-			"				<li>Descripción: "+art.getDescripcion()+"</li>"+
-			"				<li>Stock: "+art.getStock()+"</li> "+
-			"				<li>Precio: "+art.getPrecio()+"</li> "+
-			"			</ul> "+
-			"		</div> "+
-			"		<div class=\"col-md-3\"> "+
-			"			<div class=\"row\"> "+
-			"				<button class=\"btn btn-success\">Comprar</button> "+
-			"			</div> "+
-			"			<br> "+
-			"			<div class=\"row\"> "+
-			"				<button class=\"btn btn-success\">Añadir al carrito</button> "+
-			"			</div> "+
-			"		</div> "+
-			"	</div> "+
-			"	</div> "+
-			"	</div> "+
-			"	<br><br>"
-			);
-		}	
-		
-		out.println("<%@include file=\"header.jsp\"%>");
-		out.println("<script src=\"bootstrap/js/jquery-3.4.1.js\"></script>" + 
-					"<script src=\"bootstrap/js/bootstrap.js\"></script>");
-		out.println("</body>");
-		out.println("</html>");
-	}
+//	private void response(HttpServletResponse response, ArrayList<Articulo> articulos)
+//			throws IOException {
+//		PrintWriter out = response.getWriter();
+//		out.println("<%@ page language=\"java\" contentType=\"text/html; charset=ISO-8859-1\"\r\n" + 
+//				"    pageEncoding=\"ISO-8859-1\"%>\r\n" + 
+//				"<!DOCTYPE html>");
+//		out.println("<html>");
+//		out.println("<head><link rel=\"stylesheet\" href=\"bootstrap/css/bootstrap.css\">"+ 
+//						  "<link rel=\"stylesheet\" href=\"bootstrap/css/bootstrap-theme.css\">"+
+//				    "</head>");
+//		out.println("<body class=\"bg-light\">");
+//		out.println("<%@include file=\"header.jsp\"%>");
+//		for(Articulo art : articulos) {
+//			out.println(
+//			" <div class=\"row\"> "+
+//			" <div class=\"col-md-2\"><img height=150 src="+art.getUrlImagen()+"></div> "+
+//			" <div class=\"col-md-10\"> "+
+//			"	<div class=\"row\"> "+
+//			"		<div class=\"col-md-1\">"+art.getCodArticulo()+"</div> "+
+//			"		<div class=\"col-md-8\"> "+
+//			"			<ul class=\"list-unstyled\"> "+							
+//			"				<li>Descripción: "+art.getDescripcion()+"</li>"+
+//			"				<li>Stock: "+art.getStock()+"</li> "+
+//			"				<li>Precio: "+art.getPrecio()+"</li> "+
+//			"			</ul> "+
+//			"		</div> "+
+//			"		<div class=\"col-md-3\"> "+
+//			"			<div class=\"row\"> "+
+//			"				<button class=\"btn btn-success\">Comprar</button> "+
+//			"			</div> "+
+//			"			<br> "+
+//			"			<div class=\"row\"> "+
+//			"				<button class=\"btn btn-success\">Añadir al carrito</button> "+
+//			"			</div> "+
+//			"		</div> "+
+//			"	</div> "+
+//			"	</div> "+
+//			"	</div> "+
+//			"	<br><br>"
+//			);
+//		}	
+//		
+//		out.println("<%@include file=\"header.jsp\"%>");
+//		out.println("<script src=\"bootstrap/js/jquery-3.4.1.js\"></script>" + 
+//					"<script src=\"bootstrap/js/bootstrap.js\"></script>");
+//		out.println("</body>");
+//		out.println("</html>");
+//	}
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
