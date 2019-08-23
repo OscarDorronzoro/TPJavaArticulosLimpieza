@@ -12,8 +12,8 @@ import javax.servlet.http.HttpSession;
 
 import entities.Cliente;
 import logic.ABMCCliente;
-import logic.ClientNotFoundException;
-import logic.PasswordNotMatchException;
+import util.ClientNotFoundException;
+import util.PasswordNotMatchException;
 
 /**
  * Servlet implementation class LogInServlet
