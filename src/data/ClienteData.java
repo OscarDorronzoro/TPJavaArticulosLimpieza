@@ -113,4 +113,43 @@ public class ClienteData {
 		
 		return c;
 	}
+public Cliente getOneByUserYPassword(String username,String passEncrip ) {
+		
+		Cliente c=null;
+		ResultSet rs=null;
+		PreparedStatement stmt=null;
+		
+		try {
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
+					"select * from cliente where username=? and password=?");
+			
+			stmt.setString(1, username);
+			stmt.setString(2, passEncrip);
+			rs=stmt.executeQuery();
+			
+			if(rs!=null&&rs.next()) {
+					c=new Cliente();
+					
+					c.setNombre(rs.getString("nombre"));
+					c.setApellido(rs.getString("apellido"));
+					c.setDNI(rs.getString("dni"));
+					c.setUsername(rs.getString("username"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+				try {
+					if(rs!=null) {rs.close();}
+					if(stmt!=null) {stmt.close();}
+					FactoryConnection.getInstancia().releaseConn();
+				} 
+				catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
+		
+		return c;
+	}
 }
