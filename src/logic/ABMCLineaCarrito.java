@@ -20,8 +20,16 @@ public class ABMCLineaCarrito {
 		this.getLineaCarritoData().add(linea,miCarrito.getNombre());
 	}
 	
+	public Linea getOne(int codArticulo) {
+		return this.getLineaCarritoData().getOne(miCarrito.getNombre(), codArticulo);
+	}
+	
 	public ArrayList<Linea> getAllByCarrito(){
 		return this.getLineaCarritoData().getAllByCarrito(miCarrito.getNombre());
+	}
+	
+	public void delete(int codArticulo) {
+		this.lineaCarritoData.delete(miCarrito.getNombre(), codArticulo);
 	}
 
 	public LineaCarritoData getLineaCarritoData() {

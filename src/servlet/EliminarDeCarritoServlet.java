@@ -7,7 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import logic.ABMCArticulo;
+import logic.ABMCLineaCarrito;
+import entities.Carrito;
 import entities.Cliente;
 
 /**
@@ -30,8 +31,11 @@ public class EliminarDeCarritoServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		ABMCArticulo abmcArticulo= new ABMCArticulo();
-		((Cliente)request.getSession().getAttribute("cliente")).getMiCarrito().getLineas().get(Integer.parseInt(request.getParameter("id")));          
+		Carrito carrito = ( (Cliente)request.getSession().getAttribute("cliente") ).getMiCarrito();
+		ABMCLineaCarrito abmcLinea= new ABMCLineaCarrito(carrito);
+		
+		carrito.getLineas().remove(abmcLinea.getOne(Integer.parseInt(request.getParameter("idArticulo"))));
+		abmcLinea.delete(Integer.parseInt(request.getParameter("idArticulo")));
 	}
 
 	/**
