@@ -2,6 +2,7 @@ package servlet;
 
 import entities.Cliente;
 import logic.ABMCCliente;
+import util.ClientAlreadyExistException;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -38,31 +39,17 @@ public class FormularioClienteServlet extends HttpServlet {
 		cliente.setDNI(request.getParameter("DNI"));
 		cliente.setUsername(request.getParameter("username"));
 		cliente.setPassword(request.getParameter("password"));
+		//enviar mail de confirmacion
 		
 		ABMCCliente abmcc=new ABMCCliente();
-		abmcc.add(cliente);
-		response(response);
-	}
-	
-	private void response(HttpServletResponse response)
-			throws IOException {
-		PrintWriter out = response.getWriter();
-		out.println("<html>");
-		out.println("<link rel=\"stylesheet\" href=\"bootstrap/css/bootstrap.css\">");
-		out.println("<link rel=\"stylesheet\" href=\"bootstrap/css/bootstrap-theme.css\">");
-		out.println("<body class=\"bg-info\">");
-		out.println("<t1>Hola lindo</t1>");
-		out.println("<h2>Te amo mucho</h2>");
-		out.println("<h1 align=\"CENTER\"class=\"bg-danger\"><i>Cliente registrado exitosamente</i><br/> </h1>");
-		out.println("<ul>");
-		out.println("<li>hermoso</li>");
-		out.println("<li>precio</li>");
-		out.println("<li>mío</li>");
-		out.println("</ul>");
-		out.println("<script src=\"bootstrap/js/jquery-3.4.1.js\"></script>");
-		out.println("<script src=\"bootstrap/js/bootstrap.js\"></script>");
-		out.println("</body>");
-		out.println("</html>");
+		try{
+			abmcc.add(cliente);
+			response.sendRedirect("main.jsp");
+		}
+		catch(ClientAlreadyExistException e) {
+			response.sendRedirect("errorRegitro.jsp");
+		}
+		
 	}
 
 	/**
