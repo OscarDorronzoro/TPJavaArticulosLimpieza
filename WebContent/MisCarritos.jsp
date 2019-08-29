@@ -40,7 +40,7 @@
 						</div>
 						<div class="col-md-4">
 							<div class="row">
-								<a href=<%="EliminarDeCarritoServlet/?id="+linea.getArticulo().getCodArticulo()%> class="btn btn-danger">Eliminar del carrito</a>
+								<a href=<%="EliminarDeCarritoServlet/?idArticulo="+linea.getArticulo().getCodArticulo()%> class="btn btn-danger">Eliminar del carrito</a>
 								<br>
 							</div>
 					 	</div>

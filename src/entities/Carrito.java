@@ -7,10 +7,10 @@ public class Carrito {
 	private String nombre;
 	private String descripcion;
 	private Cliente cliente;
-	private ArrayList<LineaCarrito> lineas;
+	private ArrayList<Linea> lineas;
 	
 	public Carrito() {
-		this.setLineas(new ArrayList<LineaCarrito>());
+		this.setLineas(new ArrayList<Linea>());
 	}
 	
 	public String getNombre() {
@@ -31,10 +31,10 @@ public class Carrito {
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
-	public ArrayList<LineaCarrito> getLineas() {
+	public ArrayList<Linea> getLineas() {
 		return lineas;
 	}
-	public void setLineas(ArrayList<LineaCarrito> lineas) {
+	public void setLineas(ArrayList<Linea> lineas) {
 		this.lineas = lineas;
 	}
 
