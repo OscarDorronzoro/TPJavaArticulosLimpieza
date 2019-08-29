@@ -1,10 +1,12 @@
 package logic;
 
 import entities.Cliente;
+import util.ClientAlreadyExistException;
 import util.ClientNotFoundException;
 import util.PasswordNotMatchException;
 import java.util.ArrayList;
 import data.ClienteData;
+import util.PasswordManager;
 
 public class ABMCCliente {
 
@@ -20,8 +22,15 @@ public class ABMCCliente {
 	public ABMCCliente(){
 		this.setClienteData(new ClienteData());
 	}
-	public void add(Cliente c) {
-		this.getClienteData().add(c);
+	public void add(Cliente c) throws ClientAlreadyExistException {
+		try {
+			c.setPassword(PasswordManager.encriptar(c.getPassword()));
+			this.getClienteData().add(c);
+		}
+		catch(Exception e) {
+			throw new ClientAlreadyExistException("Ese usuario ya existe, elija otro",e);
+		}
+		
 	}
 	
 	public ArrayList<Cliente> getAll(){		
