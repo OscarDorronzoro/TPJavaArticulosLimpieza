@@ -18,14 +18,6 @@
 	
 		<%@include file="header.jsp" %>
 		
-<!-- 		<div class="row bg-sidebar"> -->
-<!-- 			<div class="col-md-3"> -->
-<!-- 				<ul class="list-unstyled"> -->
-<!-- 					<li>opcion 1</li> -->
-<!-- 					https://bootstrapious.com/p/bootstrap-sidebar -->
-<!-- 					<li>opcion 2</li> -->
-<!-- 				</ul> -->
-<!-- 			</div>					 -->
 
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-3 bg-sidebar">

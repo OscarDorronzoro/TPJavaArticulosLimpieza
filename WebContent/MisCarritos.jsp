@@ -1,4 +1,4 @@
-<%if(request.getSession().getAttribute("cliente")==null){response.sendRedirect("iniciarSesion.jsp");} %>
+<%if(request.getSession().getAttribute("cliente")==null){response.sendRedirect("iniciarSesion.jsp");}%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -16,13 +16,17 @@
 		<div>
 		<%@page import="entities.Articulo"%>
 		<%@page import="entities.Cliente"%>
-		<%@page import="entities.LineaCarrito"%>
+		<%@page import="entities.Linea"%>
 		<%@page import="java.util.ArrayList"%>
 		<%@page import="logic.ABMCLineaCarrito"%>
 		<%@page import="javax.servlet.http.HttpServletRequest"%>		
-		<%! ArrayList<LineaCarrito> lineas;%>
-		<% lineas = ((Cliente) request.getSession().getAttribute("cliente")).getMiCarrito().getLineas();%>
-		<%for( LineaCarrito linea : lineas){%>
+		<%!ArrayList<Linea> lineas;%>
+		<%
+			lineas = ((Cliente) request.getSession().getAttribute("cliente")).getMiCarrito().getLineas();
+		%>
+		<%
+			for( Linea linea : lineas){
+		%>
 			<div class="row">
 				<div class="col-md-2"><img class="imagen-articulo" src=<%=linea.getArticulo().getUrlImagen()%>></div>
 				<div class="col-md-7">

@@ -11,8 +11,7 @@ import javax.mail.internet.MimeMessage;
 public class EnviarMail {
 	private final Properties properties = new Properties();
 	
-	private String password;
- 
+	//private String password;
 	private Session session;
  
 	private void init() {
