@@ -3,7 +3,6 @@ package logic;
 import entities.Cliente;
 import util.ClientAlreadyExistException;
 import util.ClientNotFoundException;
-import util.PasswordNotMatchException;
 
 import java.util.ArrayList;
 import data.ClienteData;
