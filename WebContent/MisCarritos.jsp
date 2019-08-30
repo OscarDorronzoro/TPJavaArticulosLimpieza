@@ -1,10 +1,12 @@
-<%if(request.getSession().getAttribute("cliente")==null){response.sendRedirect("iniciarSesion.jsp");}%>
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 	<head>
 	<meta charset="ISO-8859-1">
+	<%if(request.getSession().getAttribute("cliente")==null){response.sendRedirect("iniciarSesion.jsp");}%>
+	
 	<title>Mi Carrito</title>
 	<link rel="shortcut icon" href="png/favicon.ico">
 	<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
