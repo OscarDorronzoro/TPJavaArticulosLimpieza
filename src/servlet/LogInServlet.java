@@ -13,7 +13,6 @@ import javax.servlet.http.HttpSession;
 import entities.Cliente;
 import logic.ABMCCliente;
 import util.ClientNotFoundException;
-import util.PasswordNotMatchException;
 
 /**
  * Servlet implementation class LogInServlet
@@ -45,20 +44,15 @@ public class LogInServlet extends HttpServlet {
 		try {
 			abmcc.completarCliente(cliente);		
 			session.setAttribute("cliente", cliente);
-			response(response,"Cliente logueado exitosamente");
+			//request.setAttribute("mensaje", "Cliente logueado exitosamente");
+			response.sendRedirect("main.jsp");
 		} catch (ClientNotFoundException e) {
 			// TODO Auto-generated catch block
-			response(response,e.getMessage());
-		} catch (PasswordNotMatchException e) {
-			// TODO Auto-generated catch block
-			response(response,e.getMessage());
-		}
+			request.setAttribute("mensaje", "Cliente no encontrado");
+			response.sendRedirect("errorPage.jsp");
+		} 
 	}
 
-	private void response(HttpServletResponse response, String mensaje)
-			throws IOException {
-		response.sendRedirect("main.jsp");
-	}
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */

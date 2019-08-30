@@ -12,13 +12,15 @@ public class ClienteData {
 		
 		try {
 			stmt= FactoryConnection.getInstancia().getConn().prepareStatement(
-					"insert into cliente(nombre,apellido,dni,username,password) values(?,?,?,?,?)"
+					"insert into cliente(nombre,apellido,dni,username,password,admin) values(?,?,?,?,?,?)"
 					);
 			stmt.setString(1, c.getNombre());
 			stmt.setString(2, c.getApellido());
 			stmt.setString(3, c.getDNI());
 			stmt.setString(4, c.getUsername());
 			stmt.setString(5, c.getPassword());
+			stmt.setBoolean(6, c.isAdmin());
+			
 			stmt.executeUpdate();
 		}
 		catch (SQLException e) {
@@ -55,6 +57,7 @@ public class ClienteData {
 					c.setDNI(rs.getString("dni"));
 					c.setPassword(rs.getString("password"));
 					c.setUsername(rs.getString("username"));
+					c.setAdmin(rs.getBoolean("admin"));
 					
 					clientes.add(c);					
 				}
@@ -95,6 +98,7 @@ public class ClienteData {
 					c.setDNI(rs.getString("dni"));
 					c.setPassword(rs.getString("password"));
 					c.setUsername(rs.getString("username"));
+					c.setAdmin(rs.getBoolean("admin"));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -134,6 +138,7 @@ public Cliente getOneByUserYPassword(String username,String passEncrip ) {
 					c.setApellido(rs.getString("apellido"));
 					c.setDNI(rs.getString("dni"));
 					c.setUsername(rs.getString("username"));
+					c.setAdmin(rs.getBoolean("admin"));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

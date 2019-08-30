@@ -4,6 +4,7 @@ import entities.Cliente;
 import util.ClientAlreadyExistException;
 import util.ClientNotFoundException;
 import util.PasswordNotMatchException;
+
 import java.util.ArrayList;
 import data.ClienteData;
 import util.PasswordManager;
@@ -39,7 +40,7 @@ public class ABMCCliente {
 	public  Cliente getOne(String username) {		
 		return this.getClienteData().getOne(username);
 	}
-	public void completarCliente(Cliente c) throws ClientNotFoundException,PasswordNotMatchException {
+	public void completarCliente(Cliente c) throws ClientNotFoundException {
 		Cliente cli = this.getClienteData().getOneByUserYPassword(c.getUsername(), c.getPassword());
 		
 		if(cli==null) {

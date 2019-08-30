@@ -46,7 +46,8 @@ public class FormularioClienteServlet extends HttpServlet {
 			response.sendRedirect("main.jsp");
 		}
 		catch(ClientAlreadyExistException e) {
-			response.sendRedirect("errorRegitro.jsp");
+			request.setAttribute("mensaje", "Error en el registro");
+			response.sendRedirect("errorPage.jsp");
 		}
 		
 	}
