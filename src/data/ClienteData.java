@@ -12,13 +12,15 @@ public class ClienteData {
 		
 		try {
 			stmt= FactoryConnection.getInstancia().getConn().prepareStatement(
-					"insert into cliente(nombre,apellido,dni,username,password) values(?,?,?,?,?)"
+					"insert into cliente(nombre,apellido,dni,username,password,admin) values(?,?,?,?,?,?)"
 					);
 			stmt.setString(1, c.getNombre());
 			stmt.setString(2, c.getApellido());
 			stmt.setString(3, c.getDNI());
 			stmt.setString(4, c.getUsername());
 			stmt.setString(5, c.getPassword());
+			stmt.setBoolean(6, c.isAdmin());
+			
 			stmt.executeUpdate();
 		}
 		catch (SQLException e) {
@@ -55,6 +57,7 @@ public class ClienteData {
 					c.setDNI(rs.getString("dni"));
 					c.setPassword(rs.getString("password"));
 					c.setUsername(rs.getString("username"));
+					c.setAdmin(rs.getBoolean("admin"));
 					
 					clientes.add(c);					
 				}
@@ -95,6 +98,47 @@ public class ClienteData {
 					c.setDNI(rs.getString("dni"));
 					c.setPassword(rs.getString("password"));
 					c.setUsername(rs.getString("username"));
+					c.setAdmin(rs.getBoolean("admin"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+				try {
+					if(rs!=null) {rs.close();}
+					if(stmt!=null) {stmt.close();}
+					FactoryConnection.getInstancia().releaseConn();
+				} 
+				catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
+		
+		return c;
+	}
+public Cliente getOneByUserYPassword(String username,String passEncrip ) {
+		
+		Cliente c=null;
+		ResultSet rs=null;
+		PreparedStatement stmt=null;
+		
+		try {
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
+					"select * from cliente where username=? and password=?");
+			
+			stmt.setString(1, username);
+			stmt.setString(2, passEncrip);
+			rs=stmt.executeQuery();
+			
+			if(rs!=null&&rs.next()) {
+					c=new Cliente();
+					
+					c.setNombre(rs.getString("nombre"));
+					c.setApellido(rs.getString("apellido"));
+					c.setDNI(rs.getString("dni"));
+					c.setUsername(rs.getString("username"));
+					c.setAdmin(rs.getBoolean("admin"));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

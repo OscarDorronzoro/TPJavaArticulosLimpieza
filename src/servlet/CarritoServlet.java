@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import entities.Cliente;
-import entities.LineaCarrito;
+import entities.Linea;
 import logic.ABMCArticulo;
 
 
@@ -37,7 +37,7 @@ public class CarritoServlet extends HttpServlet {
 		
 		if(cliente!=null) {
 			ABMCArticulo articuloLogic= new ABMCArticulo();
-			LineaCarrito linea = new LineaCarrito();
+			Linea linea = new Linea();
 			
 			Integer cant=Integer.parseInt(request.getParameter("cantidad"));
 			if(cant==null || cant<=0 ) {

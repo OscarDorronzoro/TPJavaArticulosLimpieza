@@ -10,21 +10,15 @@
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css">	
 		<%
-		ArrayList<Articulo> articulos=(ArrayList<Articulo>) request.getAttribute("articulos"); 
+			@SuppressWarnings("unchecked")	
+			ArrayList<Articulo> articulos=(ArrayList<Articulo>)request.getAttribute("articulos");
+
 		%>
 	</head>
 	<body class="bg-light">
 	
 		<%@include file="header.jsp" %>
 		
-<!-- 		<div class="row bg-sidebar"> -->
-<!-- 			<div class="col-md-3"> -->
-<!-- 				<ul class="list-unstyled"> -->
-<!-- 					<li>opcion 1</li> -->
-<!-- 					https://bootstrapious.com/p/bootstrap-sidebar -->
-<!-- 					<li>opcion 2</li> -->
-<!-- 				</ul> -->
-<!-- 			</div>					 -->
 
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-3 bg-sidebar">
@@ -75,7 +69,8 @@
 				<%@page import="entities.Articulo"%>
 				<%@page import="java.util.ArrayList"%>
 				<%for( Articulo art : articulos){%>
-					<div class="row bg-articulo" id=<%="articulo"+art.getCodArticulo() %> onclick='javascript: detalleArticulo()' onmouseover='javascript: ponerMano("<%=art.getCodArticulo() %>")' onmouseout='javascript: ponerFlechita("<%=art.getCodArticulo() %>")'> 
+
+					<div class="row bg-articulo" id=<%="articulo"+art.getCodArticulo() %> onclick='javascript: detalleArticulo("<%=art.getCodArticulo() %>")' onmouseover='javascript: ponerMano("<%=art.getCodArticulo() %>")' onmouseout='javascript: ponerFlechita("<%=art.getCodArticulo() %>")'> 
 						<div class="col-xs-3 col-md-3"><img class="imagen-articulo" src=<%=art.getUrlImagen()%>></div>
 						<div class="col-xs-9 col-md-9">
 							<div class="row">

@@ -6,8 +6,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import logic.ABMCArticulo;
 import entities.Articulo;
+import entities.Cliente;
+import entities.Venta;
+import logic.ABMCVenta;
 
 
 /**
@@ -30,6 +32,10 @@ public class ComprarServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		ABMCVenta abmcv = new ABMCVenta();
+		Venta venta = new Venta();
+		venta.setCliente(((Cliente)request.getAttribute("cliente")));
+		abmcv.registrarVenta(venta);
 		
 
 		

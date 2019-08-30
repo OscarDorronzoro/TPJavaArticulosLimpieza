@@ -1,5 +1,5 @@
-function detalleArticulo(){
-	window.location="DetalleArticuloServlet";
+function detalleArticulo(id){
+	window.location="DetalleArticuloServlet/?idArticulo="+id;
 }
 		
 function ponerMano(id){

@@ -6,11 +6,13 @@ public class Cliente {
 	private String password;
 	private String nombre;
 	private String apellido;
+	private boolean admin;
 	private String DNI;
 	private Carrito miCarrito;
 	
 	public Cliente() {
 		this.setMiCarrito(new Carrito());
+		this.setAdmin(false);
 	}
 	
 	public String getUsername() {
@@ -52,5 +54,13 @@ public class Cliente {
 	}
 	public void setMiCarrito(Carrito miCarrito) {
 		this.miCarrito = miCarrito;
+	}
+
+	public boolean isAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
 	}
 }

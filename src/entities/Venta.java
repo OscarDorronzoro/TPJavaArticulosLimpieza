@@ -1,6 +1,7 @@
 package entities;
 
-import java.sql.Date;
+import java.util.Date;
+import java.util.ArrayList;
 
 public class Venta {
 
@@ -10,6 +11,7 @@ public class Venta {
 	private Date fRetiro;
 	private Date fCancelacion;
 	private Cliente cliente;
+	private ArrayList<Linea> lineas;
 	
 	public int getNroVenta() {
 		return nroVenta;
@@ -46,5 +48,11 @@ public class Venta {
 	}
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
+	}
+	public ArrayList<Linea> getLineas() {
+		return lineas;
+	}
+	public void setLineas(ArrayList<Linea> lineas) {
+		this.lineas = lineas;
 	}
 }
