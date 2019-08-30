@@ -48,8 +48,9 @@ public class LogInServlet extends HttpServlet {
 			response.sendRedirect("main.jsp");
 		} catch (ClientNotFoundException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
 			request.setAttribute("mensaje", "Cliente no encontrado");
-			response.sendRedirect("errorPage.jsp");
+			request.getRequestDispatcher("errorPage.jsp").forward(request, response);;
 		} 
 	}
 

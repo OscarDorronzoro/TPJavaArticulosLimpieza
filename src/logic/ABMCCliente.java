@@ -41,7 +41,7 @@ public class ABMCCliente {
 		return this.getClienteData().getOne(username);
 	}
 	public void completarCliente(Cliente c) throws ClientNotFoundException {
-		Cliente cli = this.getClienteData().getOneByUserYPassword(c.getUsername(), c.getPassword());
+		Cliente cli = this.getClienteData().getOneByUserYPassword(c.getUsername(), PasswordManager.encriptar(c.getPassword()));
 		
 		if(cli==null) {
 			throw new ClientNotFoundException("Cliente inexistente");
