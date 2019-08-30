@@ -1,51 +1,70 @@
 package util;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+import javax.mail.*;
+import javax.mail.internet.*;
  
 public class EnviarMail {
-	private final Properties properties = new Properties();
+public static EnviarMail instance;
 	
-	//private String password;
-	private Session session;
- 
-	private void init() {
- 
-		properties.put("mail.smtp.host", "mail.gmail.com");
-		properties.put("mail.smtp.starttls.enable", "true");
-		properties.put("mail.smtp.port",25);
-		properties.put("mail.smtp.mail.sender","emisor@gmail.com");
-		properties.put("mail.smtp.user", "usuario");
-		properties.put("mail.smtp.auth", "true");
- 
-		session = Session.getDefaultInstance(properties);
+	private Properties props;
+	
+	public static EnviarMail getInstance(){
+		if (instance==null){
+			instance=new EnviarMail();
+		}
+		return instance;
 	}
- 
-	public void sendEmail(){
- 
-		init();
-		try{
-			MimeMessage message = new MimeMessage(session);
-			message.setFrom(new InternetAddress((String)properties.get("mail.smtp.mail.sender")));
-			message.addRecipient(Message.RecipientType.TO, new InternetAddress("receptor@gmail.com"));
-			message.setSubject("Prueba");
-			message.setText("Texto");
-			Transport t = session.getTransport("smtp");
-			t.connect((String)properties.get("mail.smtp.user"), "password");
-			t.sendMessage(message, message.getAllRecipients());
-			t.close();
-		}catch (MessagingException me){
-                        //Aqui se deberia o mostrar un mensaje de error o en lugar
-                        //de no hacer nada con la excepcion, lanzarla para que el modulo
-                        //superior la capture y avise al usuario con un popup, por ejemplo.
-			return;
+	
+	private EnviarMail() {
+		
+		InputStream inputStream=getClass().getClassLoader().getResourceAsStream("app.properties");
+		try {
+			props = new Properties();
+			props.load(inputStream);
+			
+			/*
+			 * props.put("mail.smtp.auth", "true");
+			 * props.put("mail.smtp.starttls.enable", "true");
+			 * props.put("mail.smtp.host", "smtp.gmail.com");
+			 * props.put("mail.smtp.port", "587");
+			 * props.put("mail.username", "somemail@gmail.com");
+			 * props.put("mail.password","someRandomwPassword");
+			 */
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 	}
+	
+	public void send(String to, String subject, String body){
+
+		Session session = Session.getInstance(props,
+		  new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				//return new PasswordAuthentication(username, password);
+				return new PasswordAuthentication(props.getProperty("mail.username"), props.getProperty("mail.password"));
+			}
+		  });
+
+		try {
+
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(props.getProperty("mail.username")));
+			message.setRecipients(Message.RecipientType.TO,
+				InternetAddress.parse(to)); //"adrianmeca@gmail.com"
+			message.setSubject(subject); //"Testing Subject"
+			message.setText(body); //"Dear Mail Crawler,\n\n No spam to my email, please!"
+
+			Transport.send(message);
+
+		} catch (MessagingException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
  
 }
