@@ -9,7 +9,9 @@
 		<link rel="shortcut icon" href="png/favicon.ico">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css">	
-		
+		<%
+		ArrayList<Articulo> articulos=(ArrayList<Articulo>) request.getAttribute("articulos"); 
+		%>
 	</head>
 	<body class="bg-light">
 	
@@ -72,7 +74,7 @@
 			<div class="col-xs-12 col-sm-12 col-md-8 bg-articulos">
 				<%@page import="entities.Articulo"%>
 				<%@page import="java.util.ArrayList"%>
-				<%for( Articulo art : (ArrayList<Articulo>)request.getAttribute("articulos")){%>
+				<%for( Articulo art : articulos){%>
 					<div class="row bg-articulo" id=<%="articulo"+art.getCodArticulo() %> onclick='javascript: detalleArticulo()' onmouseover='javascript: ponerMano("<%=art.getCodArticulo() %>")' onmouseout='javascript: ponerFlechita("<%=art.getCodArticulo() %>")'> 
 						<div class="col-xs-3 col-md-3"><img class="imagen-articulo" src=<%=art.getUrlImagen()%>></div>
 						<div class="col-xs-9 col-md-9">
