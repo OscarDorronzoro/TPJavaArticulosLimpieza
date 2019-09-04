@@ -5,7 +5,9 @@
 <html>
 	<head>
 	<meta charset="ISO-8859-1">
-	<%if(request.getSession().getAttribute("cliente")==null){response.sendRedirect("iniciarSesion.jsp");}%>
+	<%if(request.getSession().getAttribute("cliente")==null){
+		response.sendRedirect("iniciarSesion.jsp");
+	}%>
 	
 	<title>Mi Carrito</title>
 	<link rel="shortcut icon" href="png/favicon.ico">
@@ -14,7 +16,6 @@
 	</head>
 	<body>
 		<%@include file="header.jsp" %>	
-		
 		<div>
 		<%@page import="entities.Articulo"%>
 		<%@page import="entities.Cliente"%>
@@ -24,7 +25,9 @@
 		<%@page import="javax.servlet.http.HttpServletRequest"%>		
 		<%!ArrayList<Linea> lineas;%>
 		<%
-			lineas = ((Cliente) request.getSession().getAttribute("cliente")).getMiCarrito().getLineas();
+		
+			Cliente cli=(Cliente)request.getSession().getAttribute("cliente");
+			lineas = cli.getMiCarrito().getLineas();
 		%>
 		<%
 			for( Linea linea : lineas){
