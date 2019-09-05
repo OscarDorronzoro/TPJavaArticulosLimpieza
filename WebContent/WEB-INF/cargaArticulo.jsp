@@ -4,6 +4,18 @@
 <html>
 	<head>
 		<meta charset="ISO-8859-1">
+		<%@page import="entities.Cliente"%>
+		<%
+		Cliente cliente = (Cliente)request.getSession().getAttribute("cliente");
+		if(cliente==null){
+			response.sendRedirect("iniciarSesion.jsp");
+			return;	
+		}
+		else if(!cliente.isAdmin()){
+			response.sendRedirect("iniciarSesion.jsp");
+			return;
+		}
+		%>
 		<title>Carga Articulo</title>
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css">
