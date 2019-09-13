@@ -40,7 +40,7 @@
 								</ul>
 							</li> -->
 							<li><a href="BusquedaServlet">Articulos</a></li>
-							<li><a href="CargaArticuloServlet">Carga Articulos</a> </li>
+							<li><a href="SeccionAdminServlet">Gestion del Sitio</a> </li>
 							
 							
 							<%session=request.getSession(true);%>

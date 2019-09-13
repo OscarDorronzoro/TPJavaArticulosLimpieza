@@ -74,7 +74,7 @@
 						<div class="col-xs-3 col-md-3"><img class="imagen-articulo" src=<%=art.getUrlImagen()%>></div>
 						<div class="col-xs-9 col-md-9">
 							<div class="row">
-								<div class="cos-xs-6 col-md-8">
+								<div class="col-xs-6 col-md-8">
 									<ul class="list-unstyled">							
 										<li class="atributo-link">Descripción: <%=art.getDescripcion()%></li>
 										<li>Stock: <%=art.getStock()%></li>
