@@ -48,7 +48,7 @@
 									<a href="ListadoClientesServlet">Listado de Clientes</a>
 					            </li>
 					            <li>
-									<a href="#">asdasd</a>
+									<a href="#">Carga de Proveedores</a>
 					            </li>
 					            <li>
 									<a href="#">asdasd</a>

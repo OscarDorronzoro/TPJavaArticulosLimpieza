@@ -6918,3 +6918,30 @@ div .navbar-default{
 #header{
 	margin-bottom:70px;
 }
+.contenedor-centrado{
+	aling-items: center;
+	justify-content: center;
+}
+.error-box{
+	background: #c0c0c0;
+	padding: 10px 10px 10px 10px;
+	border-radius:20px;
+	border-color: #000;
+}
+.error-title{
+	color:#0086c6;
+	font-weight: bold;
+	font-size:30px;
+	text-align: center;
+}
+.error-message{
+	color: #000;
+	font-size:20px;
+	text-align: center;
+}
+
+
+
+
+
+
