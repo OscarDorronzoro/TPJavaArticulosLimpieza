@@ -10,7 +10,10 @@
 		<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css">
 	</head>
 	
-	<body class="bg-light contenedor centrado">
+	<body class="bg-light contenedor-centrado">
+		
+		<%@include file="header.jsp" %>
+		
 		<div class="error-box">
 			<div class="error-title">
 				Lo sentimos, ha ocurrido un problema

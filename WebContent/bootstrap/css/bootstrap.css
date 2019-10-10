@@ -6919,24 +6919,32 @@ div .navbar-default{
 	margin-bottom:70px;
 }
 .contenedor-centrado{
-	aling-items: center;
-	justify-content: center;
+	display: flex;
+  	justify-content: center;
+  	align-items: center;
+	
 }
 .error-box{
+	width: 45%;
+	height: 40%;
 	background: #c0c0c0;
-	padding: 10px 10px 10px 10px;
+	padding: 20px 10px 10px 10px;
 	border-radius:20px;
 	border-color: #000;
+	position: absolute;
+	top: 50%;
+  	transform: translateY(-50%);
 }
 .error-title{
 	color:#0086c6;
 	font-weight: bold;
-	font-size:30px;
+	font-size:25px;
 	text-align: center;
+	margin-bottom: 20px;
 }
 .error-message{
 	color: #000;
-	font-size:20px;
+	font-size:18px;
 	text-align: center;
 }
 
