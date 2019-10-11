@@ -10,7 +10,7 @@ public class Articulo {
 	private int puntoPedido;
 	private int stock;
 	private String urlImagen;
-	private double precio;
+	private ArrayList<Precio> precios;
 	private ArrayList<Proveedor> proveedores;
 	
 	public Articulo() {
@@ -53,11 +53,8 @@ public class Articulo {
 	public void setUrlImagen(String urlImagen) {
 		this.urlImagen = urlImagen;
 	}
-	public double getPrecio() {
-		return precio;
-	}
-	public void setPrecio(double precio) {
-		this.precio = precio;
+	public ArrayList<Precio> getPrecios() {
+		return precios;
 	}
 
 	public ArrayList<Proveedor> getProveedores() {

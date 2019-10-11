@@ -6,25 +6,31 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import entities.Articulo;
+import entities.Precio;
 
 public class ArticuloData {
 
+	PrecioData precioData = new PrecioData();
+	
 	public void add(Articulo art) {
 		PreparedStatement stmt=null;
 		
 		try {
 			stmt= FactoryConnection.getInstancia().getConn().prepareStatement(
-					"insert into articulo(precio,descripcion,cant_a_pedir,punto_pedido,"
-					+ "stock,url_imagen) values(?,?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
-			stmt.setDouble(1, art.getPrecio());
-			stmt.setString(2, art.getDescripcion());
-			stmt.setInt(3, art.getCantAPedir());
-			stmt.setInt(4, art.getPuntoPedido());
-			stmt.setInt(5, art.getStock());
-			stmt.setString(6, art.getUrlImagen());
+					"insert into articulo(descripcion,cant_a_pedir,punto_pedido,"
+					+ "stock,url_imagen) values(?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
+			
+			stmt.setString(1, art.getDescripcion());
+			stmt.setInt(2, art.getCantAPedir());
+			stmt.setInt(3, art.getPuntoPedido());
+			stmt.setInt(4, art.getStock());
+			stmt.setString(5, art.getUrlImagen());
 			stmt.executeUpdate();
 			
 			ResultSet primaryKey = stmt.getGeneratedKeys();
+		
+			precioData.add(art.getPrecios().get(art.getPrecios().size()-1),art.getCodArticulo());
+
 			
 			if(primaryKey!=null && primaryKey.next()) {
 				art.setCodArticulo(primaryKey.getInt(1));
