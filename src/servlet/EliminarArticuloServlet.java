@@ -7,20 +7,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import entities.Articulo;
 import logic.ABMCArticulo;
 
 /**
- * Servlet implementation class CargaArticuloServlet
+ * Servlet implementation class EliminarArticuloServlet
  */
-@WebServlet("/CargaArticuloServlet/*")
-public class CargaArticuloServlet extends HttpServlet {
+@WebServlet("/EliminarArticuloServlet/*")
+public class EliminarArticuloServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CargaArticuloServlet() {
+    public EliminarArticuloServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,20 +29,9 @@ public class CargaArticuloServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		if(request.getPathInfo()==null) {
-			request.getRequestDispatcher("WEB-INF/cargaArticulo.jsp").forward(request, response);
-		}else {
-			ABMCArticulo abmcA = new ABMCArticulo();
-			Articulo articulo = new Articulo();
-			
-			articulo.setDescripcion(request.getParameter("descripcion"));
-			articulo.setCantAPedir(Integer.parseInt(request.getParameter("cantAPedir")));
-			articulo.setPuntoPedido(Integer.parseInt(request.getParameter("ptoPedido")));
-			articulo.setStock(Integer.parseInt(request.getParameter("stock")));
-			articulo.setPrecio(Double.parseDouble(request.getParameter("precio")));
-
-		}
+		ABMCArticulo abmcA = new ABMCArticulo();
 		
+		abmcA.delete(Integer.parseInt(request.getPathInfo()));
 	}
 
 	/**

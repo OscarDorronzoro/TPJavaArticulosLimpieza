@@ -6861,7 +6861,7 @@ button.close {
 	
 	
 }
-.bg-articulo{
+.bg-articulo,.bg-cliente{
 	background: #fff;
 	margin-bottom:1px;
 	padding: 5px 30px 5px 5px;
@@ -6876,13 +6876,14 @@ button.close {
 	
 	margin-left:-5px;
 	margin-rigth:0px;
-	margin-top:20px;
+	margin-top:200px;
 	bottom:0px;
 	left:;
 }
 .seccion> li > a:hover,
 .seccion > li > a:active {
-	background: #0000ff;	
+	background: #66baff;
+	border-radius: 5px;	
 }
 
 div .navbar-default{
@@ -6908,11 +6909,11 @@ div .navbar-default{
 	display:inline-block;
 	margin-bottom:10px;
 }
-.artibuto-link :hover{
+.artibuto-link:hover{
 	text-decoration:underline black;
 	color:#141414;
 }
-.bg-articulos :hover{
+.bg-articulos:hover,.bg-clientes:hover{
 	background:#e8e8e8;
 }
 #header{

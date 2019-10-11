@@ -12,7 +12,7 @@ import logic.ABMCCliente;
 /**
  * Servlet implementation class ListadoClientesServlet
  */
-@WebServlet("/ListadoClientesServlet")
+@WebServlet("/ListadoClientesServlet/*")
 public class ListadoClientesServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -31,7 +31,16 @@ public class ListadoClientesServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		ABMCCliente abmcC = new ABMCCliente();
 		
-		request.setAttribute("clientes", abmcC.getAll());
+		switch (request.getPathInfo()) {
+			case "admin": request.setAttribute("clientes", abmcC.getAllByAdmin(true));
+				break;
+			case "noadmin": request.setAttribute("clientes", abmcC.getAllByAdmin(false));
+				break;
+			case "todo": request.setAttribute("clientes", abmcC.getAll());
+				break;
+			default: throw new ServletException("Path incorrecto (admin/no admin)");
+		}
+		
 		request.getRequestDispatcher("WEB-INF/listadoClientes.jsp").forward(request, response);
 	}
 

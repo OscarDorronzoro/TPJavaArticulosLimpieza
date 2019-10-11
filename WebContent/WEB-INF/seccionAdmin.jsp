@@ -45,7 +45,7 @@
 									<a href="CargaArticuloServlet">Carga de Articulos</a>
 					            </li>
 					            <li>
-									<a href="ListadoClientesServlet">Listado de Clientes</a>
+									<a href="ListadoClientesServlet/todo">Listado de Clientes</a>
 					            </li>
 					            <li>
 									<a href="#">Carga de Proveedores</a>

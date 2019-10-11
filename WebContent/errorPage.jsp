@@ -19,7 +19,7 @@
 				Lo sentimos, ha ocurrido un problema
 			</div>
 			<div class="error-message">	
-				<%=session.getAttribute("mensaje") %>
+				<%=request.getAttribute("mensaje") %>
 			</div>
 		</div>
 		

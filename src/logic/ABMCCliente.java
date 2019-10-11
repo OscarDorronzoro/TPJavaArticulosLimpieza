@@ -36,17 +36,28 @@ public class ABMCCliente {
 	public ArrayList<Cliente> getAll(){		
 		return this.getClienteData().getAll();
 	}
+	
+	public ArrayList<Cliente> getAllByAdmin(boolean isAdmin){		
+		return this.getClienteData().getAllByAdmin(isAdmin);
+	}
+	
 	public  Cliente getOne(String username) {		
 		return this.getClienteData().getOne(username);
 	}
+	
 	public void completarCliente(Cliente c) throws ClientNotFoundException {
 		Cliente cli = this.getClienteData().getOneByUserYPassword(c.getUsername(), PasswordManager.encriptar(c.getPassword()));
 		
 		if(cli==null) {
 			throw new ClientNotFoundException("Cliente inexistente");
 		}
-		else{
-			c=cli;
+		else {
+			c.setAdmin(cli.isAdmin());
+			c.setApellido(cli.getApellido());
+			c.setDNI(cli.getDNI());
+			c.setMiCarrito(cli.getMiCarrito());
+			c.setNombre(cli.getNombre());
+			c.setPassword(null);
 		}
 	}
 }

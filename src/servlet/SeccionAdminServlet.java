@@ -27,7 +27,7 @@ public class SeccionAdminServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.getRequestDispatcher("WEB-INF/seccionAdmin.jsp");
+		request.getRequestDispatcher("WEB-INF/seccionAdmin.jsp").forward(request, response);
 	}
 
 	/**

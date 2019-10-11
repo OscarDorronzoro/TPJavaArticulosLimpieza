@@ -6,12 +6,12 @@
 		<meta charset="ISO-8859-1">
 		<%@page import="entities.Cliente"%>
 		<%
-		Cliente cliente = (Cliente)request.getSession().getAttribute("cliente");
-		if(cliente==null){
+		Cliente clienteAdmin = (Cliente)request.getSession().getAttribute("cliente");
+		if(clienteAdmin==null){
 			response.sendRedirect("iniciarSesion.jsp");
 			return;	
 		}
-		else if(!cliente.isAdmin()){
+		else if(!clienteAdmin.isAdmin()){
 			response.sendRedirect("iniciarSesion.jsp");
 			return;
 		}
@@ -28,7 +28,7 @@
 				<div class="col-md-6">
 					<section>
 						<h1>Ingrese un articulo</h1>
-						<form action="CargaArticuloServlet" method="get">		
+						<form action="CargaArticuloServlet/cargado" method="get">		
 							<div class="form-group">
 								<label for="desc">Descripción</label>
 								<input class="form-control" name="descripcion" id="desc"/>
