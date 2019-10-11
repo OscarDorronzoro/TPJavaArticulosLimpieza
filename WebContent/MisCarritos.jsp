@@ -7,6 +7,7 @@
 	<meta charset="ISO-8859-1">
 	<%if(request.getSession().getAttribute("cliente")==null){
 		response.sendRedirect("iniciarSesion.jsp");
+		return;
 	}%>
 	
 	<title>Mi Carrito</title>
@@ -14,15 +15,14 @@
 	<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
 	<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css">
 	</head>
-	<body>
+	<body class="bg-light">
 		<%@include file="header.jsp" %>	
 		<div>
 		<%@page import="entities.Articulo"%>
 		<%@page import="entities.Cliente"%>
 		<%@page import="entities.Linea"%>
 		<%@page import="java.util.ArrayList"%>
-		<%@page import="logic.ABMCLineaCarrito"%>
-		<%@page import="javax.servlet.http.HttpServletRequest"%>		
+		<%@page import="logic.ABMCLineaCarrito"%>	
 		<%!ArrayList<Linea> lineas;%>
 		<%
 		

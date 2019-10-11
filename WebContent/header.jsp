@@ -39,15 +39,18 @@
 									<li><a href="#">Cocina</a></li>
 								</ul>
 							</li> -->
-							<li><a href="BusquedaServlet">Articulos</a></li>
-							<li><a href="CargaArticuloServlet">Carga Articulos</a> </li>
+							<li><a href="BusquedaServlet">Articulos</a></li>														
 							
 							
-							<%session=request.getSession(true);%>
-							<%if(session.getAttribute("cliente")==null){ %>
+							<%@page import="entities.Cliente" %>
+							<%Cliente cliente = (Cliente)request.getSession().getAttribute("cliente"); %>
+							<%if(cliente==null){ %>
 							<li><a href="formCliente.jsp">Registrarse</a></li>
 							<li><a href="iniciarSesion.jsp">Iniciar Sesion</a></li>
-							<%}else{ %>
+							<%}else{
+							if(cliente.isAdmin()){%>
+								<li><a href="SeccionAdminServlet">Gestion del Sitio</a> </li>
+							<%}%>		
 							<li><a href="MisCarritos.jsp">Mi Carrito</a></li>
 							<li class="dropdown">
 								<a data-toggle="dropdown" class="dropdown-toggle" href="#"><img src="png/cog-2x.png"></a>
@@ -62,12 +65,3 @@
 			</div>
 	</nav>
 </div>
-
-		
-		
-		
-		
-		
-		
-		
-

@@ -83,17 +83,9 @@
 								</div>
 								<div class="col-xs-6 col-md-4">
 									<div class="row">
-										<form action="CarritoServlet" method="get">
-											<div class="form-group">
-												<input type="hidden" name="id" value=<%=art.getCodArticulo() %>>
-												<label class="label-control">Cantidad:</label>
-												<input name="cantidad" class="form-control" size=2px>
-											</div>
-											<div class="form-group">
-												<input type="submit" value="Comprar" name="comprar" class="btn btn-success btn-block">
-												<input type="submit" value="Añadir al carrito" name="carrito" class="btn btn-success btn-block">
-											</div>
-										</form>
+										<a href="ModificarArticuloServlet/<%=art.getCodArticulo() %>" class="btn-success">Modificar</a>
+										<br><br>
+										<a href="EliminarArticuloServlet/<%=art.getCodArticulo() %>" class="btn-danger">Eliminar</a>
 										<br>
 									</div>
 								</div>

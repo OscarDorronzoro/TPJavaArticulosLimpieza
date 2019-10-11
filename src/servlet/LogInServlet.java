@@ -45,12 +45,12 @@ public class LogInServlet extends HttpServlet {
 			abmcc.completarCliente(cliente);		
 			session.setAttribute("cliente", cliente);
 			//request.setAttribute("mensaje", "Cliente logueado exitosamente");
-			response.sendRedirect("main.jsp");
+			request.getRequestDispatcher("main.jsp").forward(request, response);
 		} catch (ClientNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			request.setAttribute("mensaje", "Cliente no encontrado");
-			request.getRequestDispatcher("errorPage.jsp").forward(request, response);;
+			request.getRequestDispatcher("errorPage.jsp").forward(request, response);
 		} 
 	}
 

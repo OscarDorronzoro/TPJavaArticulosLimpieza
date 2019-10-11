@@ -172,4 +172,57 @@ public class ArticuloData {
 		
 		return articulos;
 	}
+	
+	public void delete(int codArticulo) {
+		
+		PreparedStatement stmt=null;
+		
+		try {
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("delete from articulo where art.cod_articulo=?");
+			stmt.setInt(1, codArticulo);
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+				try {
+					if(stmt!=null) {stmt.close();}
+					FactoryConnection.getInstancia().releaseConn();
+				} 
+				catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
+	}
+	
+	public void update(Articulo articulo) {
+		
+		PreparedStatement stmt=null;
+		
+		try {
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update from articulo set descripcion=?,cant_a_pedir=?,punto_pedido=?,"
+					+ "stock=?,url_imagen=? where art.cod_articulo=?");
+			stmt.setString(1, articulo.getDescripcion());
+			stmt.setInt(2, articulo.getCantAPedir());
+			stmt.setInt(3, articulo.getPuntoPedido());
+			stmt.setInt(4, articulo.getStock());
+			stmt.setString(5, articulo.getUrlImagen());
+			stmt.setInt(6, articulo.getCodArticulo());
+			
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+				try {
+					if(stmt!=null) {stmt.close();}
+					FactoryConnection.getInstancia().releaseConn();
+				} 
+				catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
+	}
 }
