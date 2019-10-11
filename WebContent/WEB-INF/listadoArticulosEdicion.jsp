@@ -17,7 +17,7 @@
 	</head>
 	<body class="bg-light">
 	
-		<%@include file="header.jsp" %>
+		<%@include file="../header.jsp" %>
 		
 
 		<div class="row">
@@ -96,7 +96,7 @@
 				<%} %>
 			</div>
 		</div>
-		<%@include file="footer.jsp"%>
+		<%@include file="../footer.jsp"%>
 		<script src="bootstrap/js/jquery-3.4.1.js"></script>
 		<script src="bootstrap/js/popper.js"></script>
 		<script src="bootstrap/js/bootstrap.js"></script>
