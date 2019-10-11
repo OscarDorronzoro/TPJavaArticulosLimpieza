@@ -2,6 +2,7 @@ package servlet;
 
 import java.io.IOException;
 //import java.io.PrintWriter;
+import java.util.logging.LogManager;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.sun.istack.internal.logging.Logger;
 
 import entities.Cliente;
 import logic.ABMCCliente;
@@ -49,6 +52,7 @@ public class LogInServlet extends HttpServlet {
 		} catch (ClientNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			//Logger logger = LogManager.getLogger(getClass());  //log de errores, ver
 			request.setAttribute("mensaje", "Cliente no encontrado");
 			request.getRequestDispatcher("errorPage.jsp").forward(request, response);
 		} 
