@@ -10,7 +10,7 @@ public class ClientAlreadyExistException extends Exception{
 	public ClientAlreadyExistException(String message) {
 		super(message);
 	}
-	public ClientAlreadyExistException(String message, Exception innerException) {
+	public ClientAlreadyExistException(String message, Throwable innerException) {
 		super(message,innerException);
 	}
 }
