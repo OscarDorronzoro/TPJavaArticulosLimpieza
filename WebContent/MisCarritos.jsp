@@ -40,7 +40,7 @@
 							<ul class="list-unstyled">							
 								<li>Descripción: <%=linea.getArticulo().getDescripcion()%></li>
 								<li>Cantidad: <%=linea.getCantidad()%></li>
-								<li>Precio: <%=linea.getArticulo().getPrecio()%></li>
+								<li>Precio: <%=linea.getArticulo().getPrecio().getValor()%></li>
 							</ul>
 						</div>
 						<div class="col-md-4">

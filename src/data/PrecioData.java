@@ -37,6 +37,45 @@ public class PrecioData {
 		
 	}
 	
+	public Precio getPrecioActual(int codArticulo){
+		
+		ResultSet rs=null;
+		PreparedStatement stmt=null;
+		Precio precio=null;
+		
+		try {
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
+					"select * from precio where precio.cod_articulo=? and fecha_desde=("
+					+ "select max(fecha_desde) from precio where precio.cod_articulo=?)");
+			stmt.setInt(1, codArticulo);
+			stmt.setInt(2, codArticulo);
+			rs=stmt.executeQuery();
+			
+			if(rs!=null && rs.next()) {
+					precio=new Precio();
+					
+					precio.setFechaDesde(rs.getDate("fecha_desde"));
+					precio.setValor(rs.getDouble("precio"));					
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+				try {
+					if(rs!=null) {rs.close();}
+					if(stmt!=null) {stmt.close();}
+					FactoryConnection.getInstancia().releaseConn();
+				} 
+				catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
+		
+		return precio;
+	}
+	
 	public ArrayList<Precio> getAll(int codArticulo){
 		
 		ArrayList<Precio> precios = new ArrayList<Precio>();

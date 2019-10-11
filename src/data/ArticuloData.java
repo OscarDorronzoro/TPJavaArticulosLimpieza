@@ -29,7 +29,7 @@ public class ArticuloData {
 			
 			ResultSet primaryKey = stmt.getGeneratedKeys();
 		
-			precioData.add(art.getPrecios().get(art.getPrecios().size()-1),art.getCodArticulo());
+			precioData.add(art.getPrecio(),art.getCodArticulo());
 
 			
 			if(primaryKey!=null && primaryKey.next()) {
@@ -60,8 +60,7 @@ public class ArticuloData {
 		
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().createStatement();
-			rs=stmt.executeQuery("select * from articulo inner join precio on articulo.cod_articulo="
-					+ "precio.cod_articulo");
+			rs=stmt.executeQuery("select * from articulo");
 			if(rs!=null) {
 				while(rs.next()) {
 					Articulo art=new Articulo();
@@ -72,7 +71,8 @@ public class ArticuloData {
 					art.setPuntoPedido(rs.getInt("punto_pedido"));
 					art.setStock(rs.getInt("stock"));
 					art.setUrlImagen(rs.getString("url_imagen"));
-					art.setPrecio(rs.getDouble("precio"));
+					
+					art.setPrecio(precioData.getPrecioActual(art.getCodArticulo()));
 					
 					articulos.add(art);					
 				}
@@ -116,7 +116,7 @@ public class ArticuloData {
 					art.setPuntoPedido(rs.getInt("punto_pedido"));
 					art.setStock(rs.getInt("stock"));
 					art.setUrlImagen(rs.getString("url_imagen"));
-					art.setPrecio(rs.getDouble("precio"));
+					art.setPrecio(precioData.getPrecioActual(art.getCodArticulo()));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -139,13 +139,17 @@ public class ArticuloData {
 	public ArrayList<Articulo> getAllByDescripcion(String descripcion){
 		ArrayList<Articulo> articulos = new ArrayList<Articulo>();
 		ResultSet rs=null;
-		Statement stmt=null;
+		//Statement stmt=null;
+		PreparedStatement stmt=null;
 		
 		try {
-			stmt = FactoryConnection.getInstancia().getConn().createStatement();
-			rs=stmt.executeQuery("select * from articulo"
-					+ " inner join precio on articulo.cod_articulo=precio.cod_articulo where"
-					+ " descripcion like '%"+descripcion+"%' ");
+			//stmt = FactoryConnection.getInstancia().getConn().createStatement();
+			//rs=stmt.executeQuery("select * from articulo where"
+			//		+ " descripcion like '%"+descripcion+"%' ");
+			
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from articulo where descripcion like '%?%'");
+			rs=stmt.executeQuery();
+			
 			if(rs!=null) {
 				while(rs.next()) {
 					Articulo art=new Articulo();
@@ -156,7 +160,7 @@ public class ArticuloData {
 					art.setPuntoPedido(rs.getInt("punto_pedido"));
 					art.setStock(rs.getInt("stock"));
 					art.setUrlImagen(rs.getString("url_imagen"));
-					art.setPrecio(rs.getDouble("precio"));
+					art.setPrecio(precioData.getPrecioActual(art.getCodArticulo()));
 					
 					articulos.add(art);					
 				}
@@ -217,6 +221,8 @@ public class ArticuloData {
 			stmt.setInt(6, articulo.getCodArticulo());
 			
 			stmt.executeUpdate();
+			
+			precioData.add(articulo.getPrecio(), articulo.getCodArticulo());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

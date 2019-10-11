@@ -78,7 +78,7 @@
 									<ul class="list-unstyled">							
 										<li class="atributo-link">Descripción: <%=art.getDescripcion()%></li>
 										<li>Stock: <%=art.getStock()%></li>
-										<li>Precio: $<%=art.getPrecio()%></li>
+										<li>Precio: $<%=art.getPrecio().getValor()%></li>
 									</ul>
 								</div>
 								<div class="col-xs-6 col-md-4">

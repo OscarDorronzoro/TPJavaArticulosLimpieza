@@ -1,6 +1,8 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.Date;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import entities.Articulo;
+import entities.Precio;
 import logic.ABMCArticulo;
 
 /**
@@ -34,14 +37,19 @@ public class CargaArticuloServlet extends HttpServlet {
 			request.getRequestDispatcher("WEB-INF/cargaArticulo.jsp").forward(request, response);
 		}else {
 			ABMCArticulo abmcA = new ABMCArticulo();
-			Articulo articulo = new Articulo();
 			
+			Articulo articulo = new Articulo();
 			articulo.setDescripcion(request.getParameter("descripcion"));
 			articulo.setCantAPedir(Integer.parseInt(request.getParameter("cantAPedir")));
 			articulo.setPuntoPedido(Integer.parseInt(request.getParameter("ptoPedido")));
 			articulo.setStock(Integer.parseInt(request.getParameter("stock")));
-			articulo.setPrecio(Double.parseDouble(request.getParameter("precio")));
-
+			
+			Precio precio = new Precio();
+			precio.setValor(Double.parseDouble(request.getParameter("precio")));
+			precio.setFechaDesde(new Date());
+			articulo.setPrecio(precio);
+			
+			abmcA.add(articulo);
 		}
 		
 	}

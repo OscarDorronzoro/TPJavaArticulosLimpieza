@@ -10,7 +10,7 @@
 	<%@page import="entities.Articulo" %>
 	<% Articulo articulo= (Articulo)request.getAttribute("articulo"); %>
 	<%=articulo.getDescripcion() %>
-	<%=articulo.getPrecio() %>
+	<%=articulo.getPrecio().getValor() %>
 	implementado en breve
 </body>
 </html>
