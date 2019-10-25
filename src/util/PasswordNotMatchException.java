@@ -1,6 +1,6 @@
 package util;
 
-public class PasswordNotMatchException extends Exception {
+public class PasswordNotMatchException extends DoniaMaryException {
 
 	/**
 	 * 

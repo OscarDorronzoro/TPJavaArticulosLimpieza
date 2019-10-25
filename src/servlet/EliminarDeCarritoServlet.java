@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import logic.ABMCLineaCarrito;
+import util.ProviderException;
 import entities.Carrito;
 import entities.Cliente;
 
@@ -31,11 +32,18 @@ public class EliminarDeCarritoServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		Carrito carrito = ( (Cliente)request.getSession().getAttribute("cliente") ).getMiCarrito();
-		ABMCLineaCarrito abmcLinea= new ABMCLineaCarrito(carrito);
+		Cliente cliente = (Cliente)request.getSession().getAttribute("cliente");
+		ABMCLineaCarrito abmcLinea= new ABMCLineaCarrito(cliente);
 		
-		carrito.getLineas().remove(abmcLinea.getOne(Integer.parseInt(request.getParameter("idArticulo"))));
-		abmcLinea.delete(Integer.parseInt(request.getParameter("idArticulo")));
+		try {
+			int codArt=Integer.parseInt(request.getParameter("idArticulo"));
+			cliente.getMiCarrito().getLineas().remove(abmcLinea.getOne(codArt));
+			abmcLinea.delete(codArt);
+		} catch (ProviderException e) {
+			// TODO Auto-generated catch block
+			request.setAttribute("mensaje",e.getMessage());
+			request.getRequestDispatcher("errorPage.jsp").forward(request, response);
+		}
 	}
 
 	/**

@@ -3,6 +3,7 @@ package logic;
 import entities.Cliente;
 import util.ClientAlreadyExistException;
 import util.ClientNotFoundException;
+import util.DoniaMaryException;
 
 import java.util.ArrayList;
 import data.ClienteData;
@@ -33,19 +34,19 @@ public class ABMCCliente {
 		
 	}
 	
-	public ArrayList<Cliente> getAll(){		
+	public ArrayList<Cliente> getAll() throws DoniaMaryException{		
 		return this.getClienteData().getAll();
 	}
 	
-	public ArrayList<Cliente> getAllByAdmin(boolean isAdmin){		
+	public ArrayList<Cliente> getAllByAdmin(boolean isAdmin) throws DoniaMaryException{		
 		return this.getClienteData().getAllByAdmin(isAdmin);
 	}
 	
-	public  Cliente getOne(String username) {		
+	public  Cliente getOne(String username) throws DoniaMaryException {		
 		return this.getClienteData().getOne(username);
 	}
 	
-	public void completarCliente(Cliente c) throws ClientNotFoundException {
+	public void completarCliente(Cliente c) throws DoniaMaryException {
 		Cliente cli = this.getClienteData().getOneByUserYPassword(c.getUsername(), PasswordManager.encriptar(c.getPassword()));
 		
 		if(cli==null) {

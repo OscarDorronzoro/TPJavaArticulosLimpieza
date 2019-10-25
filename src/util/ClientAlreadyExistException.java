@@ -1,6 +1,6 @@
 package util;
 
-public class ClientAlreadyExistException extends Exception{
+public class ClientAlreadyExistException extends DoniaMaryException{
 
 	/**
 	 * 

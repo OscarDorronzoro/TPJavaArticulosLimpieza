@@ -45,7 +45,19 @@
 						</div>
 						<div class="col-md-4">
 							<div class="row">
-								<a href=<%="EliminarDeCarritoServlet/?idArticulo="+linea.getArticulo().getCodArticulo()%> class="btn btn-danger">Eliminar del carrito</a>
+								<a href=<%="EliminarDeCarritoServlet/?idArticulo="+linea.getArticulo().getCodArticulo()%> class="btn btn-danger">Eliminar del carrito</a><br/>
+								<form action="ModificarCarritoServlet/?idArticulo="<%=linea.getArticulo().getCodArticulo()%> method="get">
+									
+									<div class="form-group">
+										<label class="label-control">Cantidad:</label>
+										<input name="cantidad" class="form-control" size=2px>
+									</div>
+									<div class="form-group">
+										<input type="submit" value="Modificar" name="btnmodificar" class="btn btn-success btn-block">
+									</div>
+									
+								</form>
+								
 								<br>
 							</div>
 					 	</div>
@@ -53,9 +65,12 @@
 				</div>
 			</div>
 			<br><br>				
-		<%} %>
+		<%} 
+		if(!lineas.isEmpty()){
+		%>
 		<a href="ComprarServlet" class="btn btn-success">Comprar ahora</a>
-
+		<%} %>
+		
 		</div>
 			
 		<%@include file="footer.jsp" %>

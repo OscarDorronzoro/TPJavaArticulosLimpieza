@@ -7,20 +7,24 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import logic.ABMCCliente;
+import entities.Carrito;
+import entities.Cliente;
+import entities.Linea;
+import logic.ABMCLineaCarrito;
 import util.DoniaMaryException;
+import util.ProviderException;
 
 /**
- * Servlet implementation class ListadoClientesServlet
+ * Servlet implementation class ModificarCarritoServlet
  */
-@WebServlet("/ListadoClientesServlet/*")
-public class ListadoClientesServlet extends HttpServlet {
+@WebServlet("/ModificarCarritoServlet/*")
+public class ModificarCarritoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ListadoClientesServlet() {
+    public ModificarCarritoServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,23 +34,22 @@ public class ListadoClientesServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		ABMCCliente abmcC = new ABMCCliente();
+		Cliente cliente = (Cliente)request.getSession().getAttribute("cliente");
+		ABMCLineaCarrito abmcLinea= new ABMCLineaCarrito(cliente);
 		
 		try {
-			switch (request.getPathInfo()) {
-				case "admin": request.setAttribute("clientes", abmcC.getAllByAdmin(true));
-					break;
-				case "noadmin": request.setAttribute("clientes", abmcC.getAllByAdmin(false));
-					break;
-				case "todo": request.setAttribute("clientes", abmcC.getAll());
-					break;
-				default: throw new ServletException("Path incorrecto (admin/no admin)");
-			}
+			int indexlinea = cliente.getMiCarrito().getLineas().indexOf(abmcLinea.getOne(Integer.parseInt(request.getPathInfo())));
+			Linea linea = cliente.getMiCarrito().getLineas().get(indexlinea);
+			linea.setCantidad(Integer.parseInt(request.getParameter("cantidad")));
 			
-			request.getRequestDispatcher("WEB-INF/listadoClientes.jsp").forward(request, response);
+			abmcLinea.update(linea);
 		} catch (DoniaMaryException e) {
 			// TODO Auto-generated catch block
-			request.setAttribute("mensaje", e.getMessage());
+			request.setAttribute("mensaje",e.getMessage());
+			request.getRequestDispatcher("errorPage.jsp").forward(request, response);
+		}
+		catch(Exception e) {
+			request.setAttribute("mensaje","Oops ha ocurrido un error");
 			request.getRequestDispatcher("errorPage.jsp").forward(request, response);
 		}
 	}

@@ -4,8 +4,12 @@ import java.sql.*;
 import java.util.ArrayList;
 
 import entities.Cliente;
+import util.CartException;
+import util.DoniaMaryException;
 
 public class ClienteData {
+	
+	CarritoData carritoData  = new CarritoData();
 	
 	public void add(Cliente c) {
 		PreparedStatement stmt=null;
@@ -22,8 +26,13 @@ public class ClienteData {
 			stmt.setBoolean(6, c.isAdmin());
 			
 			stmt.executeUpdate();
+			
+			carritoData.add(c.getMiCarrito(), c.getUsername());
 		}
 		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (CartException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -39,7 +48,7 @@ public class ClienteData {
 		
 	}
 	
-	public ArrayList<Cliente> getAll(){
+	public ArrayList<Cliente> getAll() throws DoniaMaryException{
 		
 		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
 		ResultSet rs=null;
@@ -58,6 +67,8 @@ public class ClienteData {
 					c.setPassword(rs.getString("password"));
 					c.setUsername(rs.getString("username"));
 					c.setAdmin(rs.getBoolean("admin"));
+					
+					c.setMiCarrito(carritoData.getOne("compraActual", c.getUsername()));
 					
 					clientes.add(c);					
 				}
@@ -80,7 +91,7 @@ public class ClienteData {
 		return clientes;
 	}
 	
-	public ArrayList<Cliente> getAllByAdmin(boolean isAdmin){
+	public ArrayList<Cliente> getAllByAdmin(boolean isAdmin) throws DoniaMaryException{
 		
 		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
 		ResultSet rs=null;
@@ -103,6 +114,8 @@ public class ClienteData {
 					c.setUsername(rs.getString("username"));
 					c.setAdmin(rs.getBoolean("admin"));
 					
+					c.setMiCarrito(carritoData.getOne("compraActual", c.getUsername()));
+					
 					clientes.add(c);					
 				}
 			}
@@ -124,7 +137,7 @@ public class ClienteData {
 		return clientes;
 	}
 	
-	public Cliente getOne(String username) {
+	public Cliente getOne(String username) throws DoniaMaryException {
 		
 		Cliente c=null;
 		ResultSet rs=null;
@@ -144,6 +157,8 @@ public class ClienteData {
 					c.setPassword(rs.getString("password"));
 					c.setUsername(rs.getString("username"));
 					c.setAdmin(rs.getBoolean("admin"));
+					
+					c.setMiCarrito(carritoData.getOne("compraActual", c.getUsername()));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -162,7 +177,7 @@ public class ClienteData {
 		
 		return c;
 	}
-public Cliente getOneByUserYPassword(String username,String passEncrip ) {
+public Cliente getOneByUserYPassword(String username,String passEncrip ) throws DoniaMaryException {
 		
 		Cliente c=null;
 		ResultSet rs=null;
@@ -184,6 +199,8 @@ public Cliente getOneByUserYPassword(String username,String passEncrip ) {
 					c.setDNI(rs.getString("dni"));
 					c.setUsername(rs.getString("username"));
 					c.setAdmin(rs.getBoolean("admin"));
+					
+					c.setMiCarrito(carritoData.getOne("compraActual", c.getUsername()));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

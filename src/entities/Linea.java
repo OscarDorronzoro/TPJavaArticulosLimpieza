@@ -5,6 +5,11 @@ public class Linea{
 	private int cantidad;
 	private Articulo articulo;
 	
+	@Override
+	public boolean equals(Object o) {
+		return this.getArticulo().getCodArticulo()==((Linea)o).getArticulo().getCodArticulo();
+	}
+	
 	public int getCantidad() {
 		return cantidad;
 	}

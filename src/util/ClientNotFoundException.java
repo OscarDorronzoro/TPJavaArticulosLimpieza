@@ -1,6 +1,6 @@
 package util;
 
-public class ClientNotFoundException extends Exception {
+public class ClientNotFoundException extends DoniaMaryException {
 
 	/**
 	 * 

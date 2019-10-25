@@ -12,6 +12,8 @@ public class Cliente {
 	
 	public Cliente() {
 		this.setMiCarrito(new Carrito());
+		this.miCarrito.setNombre("CompraActual");
+		this.miCarrito.setDescripcion("Aqui se encuentran los articulos que ha añadido en su ultima sesion");
 		this.setAdmin(false);
 	}
 	

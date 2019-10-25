@@ -1,7 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-//import java.io.PrintWriter;
 import java.util.logging.LogManager;
 
 import javax.servlet.ServletException;
@@ -16,6 +15,7 @@ import com.sun.istack.internal.logging.Logger;
 import entities.Cliente;
 import logic.ABMCCliente;
 import util.ClientNotFoundException;
+import util.DoniaMaryException;
 
 /**
  * Servlet implementation class LogInServlet
@@ -49,11 +49,10 @@ public class LogInServlet extends HttpServlet {
 			session.setAttribute("cliente", cliente);
 			//request.setAttribute("mensaje", "Cliente logueado exitosamente");
 			request.getRequestDispatcher("main.jsp").forward(request, response);
-		} catch (ClientNotFoundException e) {
+		} catch (DoniaMaryException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-			//Logger logger = LogManager.getLogger(getClass());  //log de errores, ver
-			request.setAttribute("mensaje", "Cliente no encontrado");
+			//Logger logger = Logger.getLogger(getClass());  //log de errores, ver
+			request.setAttribute("mensaje", e.getMessage());
 			request.getRequestDispatcher("errorPage.jsp").forward(request, response);
 		} 
 	}

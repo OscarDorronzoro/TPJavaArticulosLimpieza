@@ -3,6 +3,7 @@ package logic;
 import java.util.ArrayList;
 import data.ArticuloData;
 import entities.Articulo;
+import util.ProviderException;
 
 public class ABMCArticulo {
 
@@ -23,15 +24,15 @@ public class ABMCArticulo {
 		this.getArticuloData().add(art);
 	}
 	
-	public ArrayList<Articulo> getAll(){
+	public ArrayList<Articulo> getAll() throws ProviderException{
 		return this.getArticuloData().getAll();
 	}
 	
-	public  Articulo getOne(int codArticulo) {		
+	public  Articulo getOne(int codArticulo) throws ProviderException {		
 		return this.getArticuloData().getOne(codArticulo);
 	}
 
-	public ArrayList<Articulo> getAllByDescripcion(String descripcion){
+	public ArrayList<Articulo> getAllByDescripcion(String descripcion) throws ProviderException{
 		return this.getArticuloData().getAllByDescripcion(descripcion);
 	} 
 	

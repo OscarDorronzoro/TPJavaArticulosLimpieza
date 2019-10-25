@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 
 import logic.ABMCArticulo;
+import util.ProviderException;
 
 /**
  * Servlet implementation class BusquedaServlet
@@ -33,11 +34,17 @@ public class BusquedaServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		ABMCArticulo abmca = new ABMCArticulo();
 		
-		if(request.getParameter("descBusqueda")!=null){
-			request.setAttribute("articulos",abmca.getAllByDescripcion(request.getParameter("descBusqueda")));
-		}
-		else {
-			request.setAttribute("articulos",abmca.getAll());
+		try {
+			if(request.getParameter("descBusqueda")!=null){
+				request.setAttribute("articulos",abmca.getAllByDescripcion(request.getParameter("descBusqueda")));
+			}
+			else {
+				request.setAttribute("articulos",abmca.getAll());
+			}
+		} catch (ProviderException e) {
+			// TODO Auto-generated catch block
+			request.setAttribute("mensaje", e.getMessage());
+			request.getRequestDispatcher("errorPage.jsp").forward(request, response);
 		}
 		request.getRequestDispatcher("listadoArticulos.jsp").forward(request, response);
 	}

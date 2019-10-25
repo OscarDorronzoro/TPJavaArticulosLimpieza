@@ -1,6 +1,8 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,6 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import entities.Cliente;
 import entities.Linea;
 import logic.ABMCArticulo;
+import logic.ABMCLineaCarrito;
+import util.LogErrores;
+import util.ProviderException;
 
 
 /**
@@ -36,38 +41,62 @@ public class CarritoServlet extends HttpServlet {
 		Cliente cliente = (Cliente)request.getSession().getAttribute("cliente");
 		
 		if(cliente!=null) {
+			ABMCLineaCarrito abmcLinea=new ABMCLineaCarrito(cliente);
 			ABMCArticulo articuloLogic= new ABMCArticulo();
 			Linea linea = new Linea();
 			
 			Integer cant=Integer.parseInt(request.getParameter("cantidad"));
 			if(cant==null || cant<=0 ) {
-				throw new ServletException("error en la cantidad de articulos");
+				request.setAttribute("mensaje","error en la cantidad de articulos");
+				request.getRequestDispatcher("errorPage.jsp").forward(request,response);
 			}	
-			linea.setCantidad(cant);
-			linea.setArticulo(articuloLogic.getOne(Integer.parseInt(request.getParameter("id"))));
-			cliente.getMiCarrito().getLineas().add(linea); //agregar mas carritos
+			
+			try {
+				
+				linea.setCantidad(cant);
+				linea.setArticulo(articuloLogic.getOne(Integer.parseInt(request.getParameter("id"))));
+				ArrayList<Linea> lineas = cliente.getMiCarrito().getLineas();
+				if(lineas.contains(linea)) {    //equals sobreescrito
+					
+					int index = lineas.indexOf(linea);
+					lineas.get(index).setCantidad(lineas.get(index).getCantidad()+cant);
+					abmcLinea.update(lineas.get(index));
+					
+				} else {
+					
+					lineas.add(linea);    //agregar mas carritos					
+					abmcLinea.add(linea);
+				}
+				
+			} catch (ProviderException e) {
+				// TODO Auto-generated catch block
+				//LogErrores log = new LogErrores();				
+				//log.registrarError(e);
+				
+				request.setAttribute("mensaje", e.getMessage());
+				request.getRequestDispatcher("errorPage.jsp").forward(request, response);
+			}
 			
 			if(request.getParameter("comprar")!=null) {
-				response(response,"MisCarritos.jsp");
+				response.sendRedirect("MisCarritos.jsp");
 			}
 			else {
+				try {
+					request.setAttribute("articulos", new ABMCArticulo().getAll());  //si no lo vuelvo a setear esta en null, como mantener?
+				} catch (ProviderException e) {
+					// TODO Auto-generated catch block
+					request.setAttribute("mensaje", e.getMessage());
+					request.getRequestDispatcher("errorPage.jsp").forward(request, response);
+				}
+				request.getRequestDispatcher("listadoArticulos.jsp").forward(request, response);
 				//actualizar contador de articulos en carrito
 			}
 			
 		}
 		else {
-			response(response,"iniciarSesion.jsp");
+			response.sendRedirect("iniciarSesion.jsp");
 		}
 	
-	}
-
-	protected void response(HttpServletResponse response, String pagina) {
-		try {
-			response.sendRedirect(pagina);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	/**

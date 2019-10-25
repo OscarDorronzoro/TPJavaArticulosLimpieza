@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import logic.ABMCArticulo;
+import util.ProviderException;
 
 /**
  * Servlet implementation class DetalleArticuloServlet
@@ -30,7 +31,12 @@ public class DetalleArticuloServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		ABMCArticulo abmcArticulo = new ABMCArticulo();
-		request.setAttribute("articulo", abmcArticulo.getOne(Integer.parseInt(request.getParameter("idArticulo"))));
+		try {
+			request.setAttribute("articulo", abmcArticulo.getOne(Integer.parseInt(request.getParameter("idArticulo"))));
+		} catch (ProviderException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		response.sendRedirect("detalleArticulo.jsp");
 	}
 

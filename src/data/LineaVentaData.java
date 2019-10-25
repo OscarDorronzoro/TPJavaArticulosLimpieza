@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import entities.Linea;
+import util.ProviderException;
 
 public class LineaVentaData extends LineaData {
 
@@ -39,7 +40,7 @@ public class LineaVentaData extends LineaData {
 		
 	}
 	
-	public ArrayList<Linea> getAllByVenta(int nroVenta){
+	public ArrayList<Linea> getAllByVenta(int nroVenta) throws ProviderException{
 		
 		ArrayList<Linea> lineas = new ArrayList<Linea>();
 		ResultSet rs=null;

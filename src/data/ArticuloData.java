@@ -7,10 +7,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import entities.Articulo;
 import entities.Precio;
+import util.ProviderException;
 
 public class ArticuloData {
 
 	PrecioData precioData = new PrecioData();
+	ProveedorData proveedorData=new ProveedorData();
 	
 	public void add(Articulo art) {
 		PreparedStatement stmt=null;
@@ -52,7 +54,7 @@ public class ArticuloData {
 		
 	}
 	
-	public ArrayList<Articulo> getAll(){
+	public ArrayList<Articulo> getAll() throws ProviderException{
 		
 		ArrayList<Articulo> articulos = new ArrayList<Articulo>();
 		ResultSet rs=null;
@@ -73,6 +75,8 @@ public class ArticuloData {
 					art.setUrlImagen(rs.getString("url_imagen"));
 					
 					art.setPrecio(precioData.getPrecioActual(art.getCodArticulo()));
+					
+					art.setProveedores(proveedorData.getAllByArticulo(art.getCodArticulo()));
 					
 					articulos.add(art);					
 				}
@@ -95,7 +99,7 @@ public class ArticuloData {
 		return articulos;
 	}
 	
-	public Articulo getOne(int codArticulo) {
+	public Articulo getOne(int codArticulo) throws ProviderException {
 		
 		Articulo art=null;
 		ResultSet rs=null;
@@ -116,7 +120,10 @@ public class ArticuloData {
 					art.setPuntoPedido(rs.getInt("punto_pedido"));
 					art.setStock(rs.getInt("stock"));
 					art.setUrlImagen(rs.getString("url_imagen"));
+					
 					art.setPrecio(precioData.getPrecioActual(art.getCodArticulo()));
+					
+					art.setProveedores(proveedorData.getAllByArticulo(art.getCodArticulo()));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -136,7 +143,7 @@ public class ArticuloData {
 		return art;
 	}
 	
-	public ArrayList<Articulo> getAllByDescripcion(String descripcion){
+	public ArrayList<Articulo> getAllByDescripcion(String descripcion) throws ProviderException{
 		ArrayList<Articulo> articulos = new ArrayList<Articulo>();
 		ResultSet rs=null;
 		//Statement stmt=null;
@@ -160,7 +167,10 @@ public class ArticuloData {
 					art.setPuntoPedido(rs.getInt("punto_pedido"));
 					art.setStock(rs.getInt("stock"));
 					art.setUrlImagen(rs.getString("url_imagen"));
+					
 					art.setPrecio(precioData.getPrecioActual(art.getCodArticulo()));
+					
+					art.setProveedores(proveedorData.getAllByArticulo(art.getCodArticulo()));
 					
 					articulos.add(art);					
 				}
@@ -211,7 +221,7 @@ public class ArticuloData {
 		PreparedStatement stmt=null;
 		
 		try {
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update from articulo set descripcion=?,cant_a_pedir=?,punto_pedido=?,"
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update articulo set descripcion=?,cant_a_pedir=?,punto_pedido=?,"
 					+ "stock=?,url_imagen=? where art.cod_articulo=?");
 			stmt.setString(1, articulo.getDescripcion());
 			stmt.setInt(2, articulo.getCantAPedir());

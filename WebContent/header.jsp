@@ -51,7 +51,8 @@
 							if(cliente.isAdmin()){%>
 								<li><a href="SeccionAdminServlet">Gestion del Sitio</a> </li>
 							<%}%>		
-							<li><a href="MisCarritos.jsp">Mi Carrito</a></li>
+							<li>
+								<a href="MisCarritos.jsp">Mi Carrito <% if(cliente.getMiCarrito().getLineas()!=null) { cliente.getMiCarrito().getLineas().size(); }%></a>  
 							<li class="dropdown">
 								<a data-toggle="dropdown" class="dropdown-toggle" href="#"><img src="png/cog-2x.png"></a>
 								<ul role="menu" class="dropdown-menu">

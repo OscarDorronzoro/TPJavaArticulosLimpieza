@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import data.LineaVentaData;
 import entities.Linea;
 import entities.Venta;
+import util.ProviderException;
 
 public class ABMCLineaVenta {
 	
@@ -20,7 +21,7 @@ public class ABMCLineaVenta {
 		this.getLineaVentaData().add(linea,miVenta.getNroVenta());
 	}
 	
-	public ArrayList<Linea> getAllByVenta(){
+	public ArrayList<Linea> getAllByVenta() throws ProviderException{
 		return this.getLineaVentaData().getAllByVenta(miVenta.getNroVenta());
 	}
 
