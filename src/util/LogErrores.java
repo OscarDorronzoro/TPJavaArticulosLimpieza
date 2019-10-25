@@ -19,7 +19,7 @@ public class LogErrores {
         e.printStackTrace(pWriter);
         return sWriter.toString();
     }
-	
+	//https://logging.apache.org/log4j/2.0/download.html
 	public void registrarError(Exception exception) {
 		String stackTrace=this.getStackTrace(exception);
 		this.logger.log(Level.SEVERE, stackTrace);
