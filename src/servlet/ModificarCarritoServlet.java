@@ -54,12 +54,12 @@ public class ModificarCarritoServlet extends HttpServlet {
 			request.getRequestDispatcher("errorPage.jsp").forward(request, response);
 		}
 		catch(Exception e) {
-			request.setAttribute("mensaje","Oops ha ocurrido un error");
-			//request.getServletPath().
-			response.sendRedirect(request.getContextPath()+"/errorPage.jsp?mensaje="
-		            + URLEncoder.encode( e.getMessage(), "UTF8"));
 			
-			//request.getRequestDispatcher("errorPage.jsp").forward(request, response);
+			
+			response.sendRedirect(request.getContextPath()+"/errorPage.jsp?mensaje=Oops ha ocurrido un error");
+		         //   + URLEncoder.encode( e.getMessage(), "UTF8"));
+			
+			//request.getRequestDispatcher("/errorPage.jsp").forward(request, response);
 		}
 	}
 
