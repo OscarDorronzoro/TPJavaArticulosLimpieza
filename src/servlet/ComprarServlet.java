@@ -34,7 +34,7 @@ public class ComprarServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		ABMCVenta abmcv = new ABMCVenta();
 		Venta venta = new Venta();
-		venta.setCliente(((Cliente)request.getAttribute("cliente")));
+		venta.setCliente(((Cliente)request.getSession().getAttribute("cliente")));
 		abmcv.registrarVenta(venta);
 		
 

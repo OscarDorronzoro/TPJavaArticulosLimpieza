@@ -1,11 +1,16 @@
 package servlet;
 
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+
 
 import entities.Carrito;
 import entities.Cliente;
@@ -49,8 +54,12 @@ public class ModificarCarritoServlet extends HttpServlet {
 			request.getRequestDispatcher("errorPage.jsp").forward(request, response);
 		}
 		catch(Exception e) {
-			request.setAttribute("mensaje","Oops ha ocurrido un error");
-			request.getRequestDispatcher("errorPage.jsp").forward(request, response);
+			
+			
+			response.sendRedirect(request.getContextPath()+"/errorPage.jsp?mensaje=Oops ha ocurrido un error");
+		         //   + URLEncoder.encode( e.getMessage(), "UTF8"));
+			
+			//request.getRequestDispatcher("/errorPage.jsp").forward(request, response);
 		}
 	}
 

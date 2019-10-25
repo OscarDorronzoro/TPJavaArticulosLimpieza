@@ -19,7 +19,7 @@
 				Lo sentimos, ha ocurrido un problema
 			</div>
 			<div class="error-message">	
-				<%=request.getAttribute("mensaje") %>
+				<%=request.getParameter("mensaje") %>
 			</div>
 		</div>
 		
