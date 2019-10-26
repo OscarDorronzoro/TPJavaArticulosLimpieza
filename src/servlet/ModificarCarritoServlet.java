@@ -2,7 +2,6 @@ package servlet;
 
 import java.io.IOException;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,12 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 
 
 
-import entities.Carrito;
+
 import entities.Cliente;
 import entities.Linea;
 import logic.ABMCLineaCarrito;
 import util.DoniaMaryException;
-import util.ProviderException;
 
 /**
  * Servlet implementation class ModificarCarritoServlet
@@ -43,15 +41,17 @@ public class ModificarCarritoServlet extends HttpServlet {
 		ABMCLineaCarrito abmcLinea= new ABMCLineaCarrito(cliente);
 		
 		try {
-			int indexlinea = cliente.getMiCarrito().getLineas().indexOf(abmcLinea.getOne(Integer.parseInt(request.getPathInfo())));
+			int indexlinea = cliente.getMiCarrito().getLineas().indexOf(abmcLinea.getOne(Integer.parseInt(request.getParameter("codArticulo"))));
 			Linea linea = cliente.getMiCarrito().getLineas().get(indexlinea);
 			linea.setCantidad(Integer.parseInt(request.getParameter("cantidad")));
 			
 			abmcLinea.update(linea);
+			request.getRequestDispatcher("/MisCarritos.jsp").forward(request, response);;
 		} catch (DoniaMaryException e) {
 			// TODO Auto-generated catch block
 			request.setAttribute("mensaje",e.getMessage());
-			request.getRequestDispatcher("errorPage.jsp").forward(request, response);
+			response.sendRedirect(request.getContextPath()+"/errorPage.jsp?mensaje="+URLEncoder.encode( e.getMessage(), "UTF8"));
+			//request.getRequestDispatcher("errorPage.jsp").forward(request, response);
 		}
 		catch(Exception e) {
 			
