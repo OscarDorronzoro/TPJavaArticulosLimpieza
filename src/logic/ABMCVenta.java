@@ -10,5 +10,6 @@ public class ABMCVenta {
 	public void registrarVenta(Venta venta) {
 		venta.setLineas(venta.getCliente().getMiCarrito().getLineas());
 		venta.setfEmision(new Date());
+		
 	}
 }
