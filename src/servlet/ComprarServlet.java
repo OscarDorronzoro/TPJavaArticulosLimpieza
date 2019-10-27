@@ -6,10 +6,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.logging.log4j.Level;
+
 import entities.Articulo;
 import entities.Cliente;
 import entities.Venta;
 import logic.ABMCVenta;
+import util.DoniaMaryException;
+import util.LogErrores;
 
 
 /**
@@ -36,7 +41,12 @@ public class ComprarServlet extends HttpServlet {
 		Venta venta = new Venta();
 		venta.setCliente(((Cliente)request.getSession().getAttribute("cliente")));
 		abmcv.registrarVenta(venta);
-		
+		try {
+			throw new DoniaMaryException("prueba",new Exception("nada"),Level.DEBUG);
+		}
+		catch(DoniaMaryException e){
+			
+		}
 
 		
 	}

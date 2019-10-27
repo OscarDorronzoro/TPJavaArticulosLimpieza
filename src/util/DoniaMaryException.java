@@ -1,5 +1,9 @@
 package util;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class DoniaMaryException extends Exception {
 
 	/**
@@ -12,6 +16,12 @@ public class DoniaMaryException extends Exception {
 	}
 	public DoniaMaryException(String message, Throwable innerException) {
 		super(message,innerException);
+	}
+	
+	public DoniaMaryException(String message, Throwable innerException, Level errorLevel){
+		super(message,innerException);
+		Logger logger = LogManager.getLogger(getClass());
+		logger.log(errorLevel,message);
 	}
 
 }
