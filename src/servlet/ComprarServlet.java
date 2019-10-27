@@ -42,7 +42,7 @@ public class ComprarServlet extends HttpServlet {
 		venta.setCliente(((Cliente)request.getSession().getAttribute("cliente")));
 		abmcv.registrarVenta(venta);
 		try {
-			throw new DoniaMaryException("prueba",new Exception("nada"),Level.DEBUG);
+			throw new DoniaMaryException("prueba",new Exception("nada"),Level.FATAL);
 		}
 		catch(DoniaMaryException e){
 			
