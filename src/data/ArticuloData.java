@@ -154,7 +154,8 @@ public class ArticuloData {
 			//rs=stmt.executeQuery("select * from articulo where"
 			//		+ " descripcion like '%"+descripcion+"%' ");
 			
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from articulo where descripcion like '%?%'");
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from articulo where descripcion like ?");
+			stmt.setString(1,"%"+descripcion+"%");
 			rs=stmt.executeQuery();
 			
 			if(rs!=null) {

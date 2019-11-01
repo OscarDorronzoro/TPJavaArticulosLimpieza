@@ -1,6 +1,8 @@
 package servlet;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,16 +36,17 @@ public class ListadoClientesServlet extends HttpServlet {
 		
 		try {
 			switch (request.getPathInfo()) {
-				case "admin": request.setAttribute("clientes", abmcC.getAllByAdmin(true));
+				case "/admin": request.setAttribute("clientes", abmcC.getAllByAdmin(true));
 					break;
-				case "noadmin": request.setAttribute("clientes", abmcC.getAllByAdmin(false));
+				case "/noadmin": request.setAttribute("clientes", abmcC.getAllByAdmin(false));
 					break;
-				case "todo": request.setAttribute("clientes", abmcC.getAll());
+				case "/todo": request.setAttribute("clientes", abmcC.getAll());
 					break;
-				default: throw new ServletException("Path incorrecto (admin/no admin)");
+					
+				default: System.out.println(request.getPathInfo());throw new ServletException("Path incorrecto (admin/no admin)");
 			}
 			
-			request.getRequestDispatcher("WEB-INF/listadoClientes.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/listadoClientes.jsp").forward(request,response);
 		} catch (DoniaMaryException e) {
 			// TODO Auto-generated catch block
 			request.setAttribute("mensaje", e.getMessage());

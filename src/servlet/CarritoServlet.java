@@ -45,13 +45,15 @@ public class CarritoServlet extends HttpServlet {
 			ABMCArticulo articuloLogic= new ABMCArticulo();
 			Linea linea = new Linea();
 			
-			Integer cant=Integer.parseInt(request.getParameter("cantidad"));
-			if(cant==null || cant<=0 ) {
-				request.setAttribute("mensaje","error en la cantidad de articulos");
-				request.getRequestDispatcher("errorPage.jsp").forward(request,response);
-			}	
+				
 			
 			try {
+				
+				Integer cant=Integer.parseInt(request.getParameter("cantidad"));
+				if(cant==null || cant<=0) {
+					response.sendRedirect("/errorPage.jsp?mensaje=error en la cantidad de articulos");
+				}
+				
 				
 				linea.setCantidad(cant);
 				linea.setArticulo(articuloLogic.getOne(Integer.parseInt(request.getParameter("id"))));
@@ -69,12 +71,11 @@ public class CarritoServlet extends HttpServlet {
 				}
 				
 			} catch (ProviderException e) {
-				// TODO Auto-generated catch block
-				//LogErrores log = new LogErrores();				
-				//log.registrarError(e);
-				
-				request.setAttribute("mensaje", e.getMessage());
-				request.getRequestDispatcher("errorPage.jsp").forward(request, response);
+				// TODO Auto-generated catch block				
+				response.sendRedirect("/errorPage.jsp?mensaje="+e.getMessage());
+			}
+			catch(NumberFormatException e) {
+				response.sendRedirect("/errorPage.jsp?mensaje=No ingreso un numero valido");
 			}
 			
 			if(request.getParameter("comprar")!=null) {
@@ -83,13 +84,13 @@ public class CarritoServlet extends HttpServlet {
 			else {
 				try {
 					request.setAttribute("articulos", new ABMCArticulo().getAll());  //si no lo vuelvo a setear esta en null, como mantener?
+					request.getRequestDispatcher("listadoArticulos.jsp").forward(request, response);
 				} catch (ProviderException e) {
 					// TODO Auto-generated catch block
-					request.setAttribute("mensaje", e.getMessage());
-					request.getRequestDispatcher("errorPage.jsp").forward(request, response);
+					response.sendRedirect("/errorPage.jsp?mensaje="+e.getMessage());
 				}
-				request.getRequestDispatcher("listadoArticulos.jsp").forward(request, response);
-				//actualizar contador de articulos en carrito
+				
+				
 			}
 			
 		}
