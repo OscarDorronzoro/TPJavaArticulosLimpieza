@@ -29,7 +29,7 @@
 		<div class="col-xs-12 col-md-6">
 					<div id="navbarCollapse" class="navbar-collapse navbar-right">
 						<ul class="nav navbar-nav seccion">
-							<li ><a href="main.jsp">Inicio</a></li>
+							<li ><a href="../main.jsp">Inicio</a></li>
 							<!-- <li class="dropdown">
 								<a data-toggle="dropdown" class="dropdown-toggle" href="listadoArticulos.jsp">Categorias Articulos
 									<b class="caret"></b> 
