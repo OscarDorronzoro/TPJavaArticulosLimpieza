@@ -36,13 +36,17 @@ public class EliminarDeCarritoServlet extends HttpServlet {
 		ABMCLineaCarrito abmcLinea= new ABMCLineaCarrito(cliente);
 		
 		try {
-			int codArt=Integer.parseInt(request.getParameter("idArticulo"));
+			int codArt=Integer.parseInt(request.getParameter("codArticulo"));
 			cliente.getMiCarrito().getLineas().remove(abmcLinea.getOne(codArt));
 			abmcLinea.delete(codArt);
-		} catch (ProviderException e) {
+			response.sendRedirect("MisCarritos.jsp");
+		}
+		catch(NumberFormatException e) {
+			response.sendRedirect("errorPage.jsp?mensaje=Oops ha ocurrido un error");
+		}
+		catch (ProviderException e) {
 			// TODO Auto-generated catch block
-			request.setAttribute("mensaje",e.getMessage());
-			request.getRequestDispatcher("errorPage.jsp").forward(request, response);
+			response.sendRedirect("errorPage.jsp?mensaje="+e.getMessage());
 		}
 	}
 

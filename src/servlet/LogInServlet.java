@@ -43,17 +43,13 @@ public class LogInServlet extends HttpServlet {
 		cliente.setPassword(request.getParameter("password"));
 		
 		ABMCCliente abmcc=new ABMCCliente();
-		HttpSession session=request.getSession(true);
 		try {
 			abmcc.completarCliente(cliente);		
-			session.setAttribute("cliente", cliente);
-			//request.setAttribute("mensaje", "Cliente logueado exitosamente");
-			request.getRequestDispatcher("main.jsp").forward(request, response);
+			request.getSession().setAttribute("cliente", cliente);
+			response.sendRedirect("main.jsp");
 		} catch (DoniaMaryException e) {
-			// TODO Auto-generated catch block
-			//Logger logger = Logger.getLogger(getClass());  //log de errores, ver
-			request.setAttribute("mensaje", e.getMessage());
-			request.getRequestDispatcher("errorPage.jsp").forward(request, response);
+			// TODO Auto-generated catch block			
+			response.sendRedirect("errorPage.jsp?mensaje="+e.getMessage());
 		} 
 	}
 

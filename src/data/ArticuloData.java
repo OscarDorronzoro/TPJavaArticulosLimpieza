@@ -44,8 +44,8 @@ public class ArticuloData {
 		}
 		finally {
 			try {
-			if(stmt!=null)stmt.close();
-            FactoryConnection.getInstancia().releaseConn();
+				if(stmt!=null) stmt.close();
+	            FactoryConnection.getInstancia().releaseConn();
 			} 
 			catch (SQLException e) {
         	e.printStackTrace();
