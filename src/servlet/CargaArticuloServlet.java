@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import entities.Articulo;
 import entities.Precio;
 import logic.ABMCArticulo;
+import util.ArticleException;
 
 /**
  * Servlet implementation class CargaArticuloServlet
@@ -40,8 +41,8 @@ public class CargaArticuloServlet extends HttpServlet {
 			
 			Articulo articulo = new Articulo();
 			articulo.setDescripcion(request.getParameter("descripcion"));
+			articulo.setPuntoPedido(Integer.parseInt(request.getParameter("puntoPedido")));
 			articulo.setCantAPedir(Integer.parseInt(request.getParameter("cantAPedir")));
-			articulo.setPuntoPedido(Integer.parseInt(request.getParameter("ptoPedido")));
 			articulo.setStock(Integer.parseInt(request.getParameter("stock")));
 			
 			Precio precio = new Precio();
@@ -49,7 +50,13 @@ public class CargaArticuloServlet extends HttpServlet {
 			precio.setFechaDesde(new Date());
 			articulo.setPrecio(precio);
 			
-			abmcA.add(articulo);
+			try {
+				abmcA.add(articulo);
+			} catch (ArticleException e) {
+				// TODO Auto-generated catch block
+				response.sendRedirect("errorPage.jsp?mensaje="+e.getMessage());
+			}
+			response.sendRedirect("SeccionAdminServlet");
 		}
 		
 	}

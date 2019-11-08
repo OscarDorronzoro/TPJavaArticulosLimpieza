@@ -3,6 +3,7 @@ package logic;
 import java.util.ArrayList;
 import data.ArticuloData;
 import entities.Articulo;
+import util.ArticleException;
 import util.ProviderException;
 
 public class ABMCArticulo {
@@ -20,7 +21,7 @@ public class ABMCArticulo {
 		this.setArticuloData(new ArticuloData());
 	}
 	
-	public void add(Articulo art) {
+	public void add(Articulo art) throws ArticleException {
 		this.getArticuloData().add(art);
 	}
 	

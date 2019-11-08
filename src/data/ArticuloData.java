@@ -5,8 +5,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+
+import org.apache.logging.log4j.Level;
+
 import entities.Articulo;
 import entities.Precio;
+import util.ArticleException;
 import util.ProviderException;
 
 public class ArticuloData {
@@ -14,10 +18,14 @@ public class ArticuloData {
 	PrecioData precioData = new PrecioData();
 	ProveedorData proveedorData=new ProveedorData();
 	
-	public void add(Articulo art) {
+	public void add(Articulo art) throws ArticleException {
 		PreparedStatement stmt=null;
+		Statement transaccion = null;
 		
 		try {
+			transaccion = FactoryConnection.getInstancia().getConn().createStatement();
+			transaccion.execute("start transaction;");
+			
 			stmt= FactoryConnection.getInstancia().getConn().prepareStatement(
 					"insert into articulo(descripcion,cant_a_pedir,punto_pedido,"
 					+ "stock,url_imagen) values(?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
@@ -30,17 +38,22 @@ public class ArticuloData {
 			stmt.executeUpdate();
 			
 			ResultSet primaryKey = stmt.getGeneratedKeys();
-		
-			precioData.add(art.getPrecio(),art.getCodArticulo());
 
-			
 			if(primaryKey!=null && primaryKey.next()) {
 				art.setCodArticulo(primaryKey.getInt(1));
-			}
+				precioData.add(art.getPrecio(),art.getCodArticulo());
+			}	
+			
+			transaccion.execute("commit;");
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			try {
+				transaccion.execute("rollback;");
+			} catch (SQLException e1) {
+				
+			}
+			throw new ArticleException("Error al agregar artículo", e, Level.ERROR) ;
 		}
 		finally {
 			try {

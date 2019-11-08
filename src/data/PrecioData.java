@@ -1,11 +1,15 @@
 package data;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.apache.logging.log4j.Level;
+
 import entities.Precio;
+import util.PriceException;
 
 public class PrecioData {
 
@@ -16,14 +20,14 @@ public class PrecioData {
 			stmt= FactoryConnection.getInstancia().getConn().prepareStatement(
 					"insert into precio(cod_articulo,fecha_desde,precio) values(?,?,?)");
 			stmt.setInt(1, codArticulo);
-			stmt.setDate(2, (java.sql.Date)precio.getFechaDesde());
+			stmt.setDate(2, new java.sql.Date( precio.getFechaDesde().getTime()));
 			stmt.setDouble(3, precio.getValor());
 			
 			stmt.executeUpdate();
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			new PriceException("Error al cargar el precio", e, Level.ERROR);
 		}
 		finally {
 			try {

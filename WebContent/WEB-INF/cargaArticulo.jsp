@@ -31,24 +31,28 @@
 						<form action="CargaArticuloServlet/cargado" method="get">		
 							<div class="form-group">
 								<label for="desc">Descripción</label>
-								<input class="form-control" name="descripcion" id="desc"/>
+								<input class="form-control" name="descripcion" required id="desc"/>
+							</div>	
+							<div class="form-group">
+								<label for="pto_ped" title="indica el stock minimo">Punto de pedido</label>
+								<input class="form-control" name="puntoPedido" required id="pto_ped"/>
 							</div>
 							<div class="form-group">
 								<label for="cant_a_pedir" title="cuando se alcance el stock minimo">Cantidad a pedir</label>
-								<input class="form-control" name="cantAPedir" id="cant_a_pedir" type="password"/>
-							</div>		
-							<div class="form-group">
-								<label for="pto_ped" title="indica el stock minimo">Punto de pedido</label>
-								<input class="form-control" name="puntoPedido" id="pto_ped"/>
-							</div>
+								<input class="form-control" name="cantAPedir" required id="cant_a_pedir"/>
+							</div>	
 							<div class="form-group">
 								<label for="stock">Stock</label>
-								<input class="form-control" name="stock" id="stock"/>
+								<input class="form-control" name="stock" required id="stock"/>
 							</div>
 							<div class="form-group">
 								<label for="imagen">URL Imagen</label>
 								<input class="form-control" name="imagen" id="imagen"/>
 							</div>	
+							<div class="form-group">
+								<label for="precio">Precio</label>
+								<input class="form-control" name="precio" required id="precio"/>
+							</div>
 							<input type="submit" class="btn btn-success btn-block"  title="Presione para registrar articulo" value="Guardar artículo"/>
 						</form>
 					</section>
