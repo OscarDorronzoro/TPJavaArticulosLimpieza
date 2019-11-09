@@ -1,5 +1,7 @@
 package util;
 
+import org.apache.logging.log4j.Level;
+
 public class CartException extends DoniaMaryException {
 
 	/**
@@ -12,5 +14,8 @@ public class CartException extends DoniaMaryException {
 	}
 	public CartException(String message, Throwable innerException) {
 		super(message,innerException);
+	}
+	public CartException(String message, Throwable innerException,Level level) {
+		super(message,innerException,level);
 	}
 }

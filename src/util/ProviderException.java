@@ -1,5 +1,7 @@
 package util;
 
+import org.apache.logging.log4j.Level;
+
 public class ProviderException extends DoniaMaryException {
 
 	/**
@@ -13,6 +15,9 @@ public class ProviderException extends DoniaMaryException {
 	
 	public ProviderException(String mensaje,Throwable innerException) {
 		super(mensaje,innerException);
+	}
+	public ProviderException(String message, Throwable innerException,Level level) {
+		super(message,innerException,level);
 	}
 	
 }

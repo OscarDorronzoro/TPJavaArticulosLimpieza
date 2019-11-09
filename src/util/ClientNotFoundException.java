@@ -1,5 +1,7 @@
 package util;
 
+import org.apache.logging.log4j.Level;
+
 public class ClientNotFoundException extends DoniaMaryException {
 
 	/**
@@ -12,6 +14,9 @@ public class ClientNotFoundException extends DoniaMaryException {
 	}
 	public ClientNotFoundException(String message, Throwable innerException) {
 		super(message,innerException);
+	}
+	public ClientNotFoundException(String message, Throwable innerException,Level level) {
+		super(message,innerException,level);
 	}
 
 }
