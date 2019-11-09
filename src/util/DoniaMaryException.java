@@ -21,7 +21,17 @@ public class DoniaMaryException extends Exception {
 	public DoniaMaryException(String message, Throwable innerException, Level errorLevel){
 		super(message,innerException);
 		Logger logger = LogManager.getLogger(getClass());
-		logger.log(errorLevel,message);
+		
+		String mensaje=message;
+		Throwable causa = innerException;
+		
+		logger.log(errorLevel,message +"\n-----------------------------\n"+this.getStackTrace().toString());
+		while(causa.getCause()!=null) {
+			causa=causa.getCause();
+			mensaje=causa.getMessage();
+			logger.log(errorLevel,mensaje);			
+		}
+		
 	}
 
 }

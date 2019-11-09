@@ -4,11 +4,10 @@
 <html>
 <head>
 		<meta charset="ISO-8859-1">
-		<meta name="viewport" content="width=device-width, user-scalable=no">
 		<title>Clientes</title>
-		<link rel="shortcut icon" href="png/favicon.ico">
-		<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
-		<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css">	
+		<link rel="icon" href="../png/favicon.ico">
+		<link rel="stylesheet" href="../bootstrap/css/bootstrap.css">
+		<link rel="stylesheet" href="../bootstrap/css/bootstrap-theme.css">	
 		<%
 			@SuppressWarnings("unchecked")	
 			ArrayList<Cliente> clientes=(ArrayList<Cliente>)request.getAttribute("clientes");
@@ -59,26 +58,37 @@
 			    </div>
 			</div>
 			
-			<div class="col-xs-12 col-sm-12 col-md-8 bg-articulos">
-				<%@page import="entities.Cliente"%>
-				<%@page import="java.util.ArrayList"%>
-				<%for( Cliente cli : clientes){%>
-
-					<div class="row bg-articulo" id=<%="cliente"+cli.getUsername()%>>														
-						<div class="col-xs-6 col-md-3">
-							<span>Nombre de Usuario: <%=cli.getUsername()%></span>
-						</div>	
-						<div class="col-xs-6 col-md-3">
-							<span>Nombre: <%=cli.getNombre()%></span>
-						</div>
-						<div class="col-xs-6 col-md-3">
-							<span>Apellido: $<%=cli.getApellido()%></span>
-						</div>
-						<div class="col-xs-6 col-md-3">
-							<input type="checkbox" name="isAdmin" value="Check Value" readonly="readonly" checked onclick="javascript: return false;"/>
-						</div>								
-					</div>			
-				<%} %>
+			<div class="col-xs-12 col-sm-12 col-md-8">
+				<table class="table table-striped table-hover">
+					<%@page import="entities.Cliente"%>
+					<%@page import="java.util.ArrayList"%>
+					
+					<thead>
+						<tr>
+							<td>Nombre de Usuario</td>
+							<td>Nombre</td>
+							<td>Apellido</td>
+							<td>DNI</td>
+							<td>Es Administrador</td>
+						</tr>
+					</thead>
+					
+					<tbody>
+					<%for( Cliente cli : clientes){%>
+												
+						<tr <%if(cli.isAdmin()){%>class="warning"<%} %>>	
+							<td><%=cli.getUsername()%></td>
+							<td><%=cli.getNombre()%></td>
+							<td><%=cli.getApellido()%></td>
+							<td><%=cli.getDNI()%></td>
+							<td><input type="checkbox" name="isAdmin" value="Check Value" readonly="readonly" 
+								<%if(cli.isAdmin()){%>checked<%} %> onclick="javascript: return false;"/>
+							</td>
+						</tr>							
+								
+					<%} %>
+					</tbody>
+				</table>
 			</div>
 		</div>
 		

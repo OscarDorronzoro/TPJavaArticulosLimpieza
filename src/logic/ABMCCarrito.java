@@ -3,6 +3,7 @@ package logic;
 import data.CarritoData;
 import entities.Carrito;
 import util.CartException;
+import util.CartLineException;
 import util.DoniaMaryException;
 
 public class ABMCCarrito {
@@ -13,7 +14,7 @@ public class ABMCCarrito {
 		this.carritoData=new CarritoData();
 	}
 	
-	public void add(Carrito carrito,String username) throws CartException {
+	public void add(Carrito carrito,String username) throws CartException, CartLineException {
 		this.carritoData.add(carrito,username);
 	}
 	
@@ -21,7 +22,7 @@ public class ABMCCarrito {
 		return this.carritoData.getOne(nombre,username);
 	}
 	
-	public void delete(Carrito carrito,String username) throws CartException {
+	public void delete(Carrito carrito,String username) throws CartException, CartLineException {
 		this.carritoData.delete(carrito, username);
 	}
 

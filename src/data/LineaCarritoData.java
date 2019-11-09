@@ -166,7 +166,8 @@ public class LineaCarritoData extends LineaData {
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("delete from linea_carrito where nombre_carrito=? and username=? and cod_articulo=?");
 			stmt.setString(1,nombreCarrito);
-			stmt.setInt(2,codArticulo);
+			stmt.setString(2,username);
+			stmt.setInt(3,codArticulo);
 			stmt.execute();
 			
 		} catch (SQLException e) {

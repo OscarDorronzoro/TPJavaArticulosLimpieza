@@ -40,10 +40,10 @@ public class ListadoClientesServlet extends HttpServlet {
 					break;
 				case "/noadmin": request.setAttribute("clientes", abmcC.getAllByAdmin(false));
 					break;
-				case "/todo": request.setAttribute("clientes", abmcC.getAll());
+				default: request.setAttribute("clientes", abmcC.getAll());
 					break;
 					
-				default: System.out.println(request.getPathInfo());throw new ServletException("Path incorrecto (admin/no admin)");
+				//default: System.out.println(request.getPathInfo());throw new ServletException("Path incorrecto (admin/no admin)");
 			}
 			
 			request.getRequestDispatcher("/WEB-INF/listadoClientes.jsp").forward(request,response);

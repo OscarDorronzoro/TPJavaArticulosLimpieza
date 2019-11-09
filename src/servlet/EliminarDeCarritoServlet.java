@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import logic.ABMCLineaCarrito;
+import util.DoniaMaryException;
 import util.ProviderException;
 import entities.Carrito;
 import entities.Cliente;
@@ -33,18 +34,18 @@ public class EliminarDeCarritoServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		Cliente cliente = (Cliente)request.getSession().getAttribute("cliente");
-		ABMCLineaCarrito abmcLinea= new ABMCLineaCarrito(cliente);
+		ABMCLineaCarrito abmcLineaCarrito= new ABMCLineaCarrito(cliente);
 		
 		try {
 			int codArt=Integer.parseInt(request.getParameter("codArticulo"));
-			cliente.getMiCarrito().getLineas().remove(abmcLinea.getOne(codArt));
-			abmcLinea.delete(codArt);
+			cliente.getMiCarrito().getLineas().remove(abmcLineaCarrito.getOne(codArt));
+			abmcLineaCarrito.delete(codArt);
 			response.sendRedirect("MisCarritos.jsp");
 		}
 		catch(NumberFormatException e) {
 			response.sendRedirect("errorPage.jsp?mensaje=Oops ha ocurrido un error");
 		}
-		catch (ProviderException e) {
+		catch (DoniaMaryException e) {
 			// TODO Auto-generated catch block
 			response.sendRedirect("errorPage.jsp?mensaje="+e.getMessage());
 		}

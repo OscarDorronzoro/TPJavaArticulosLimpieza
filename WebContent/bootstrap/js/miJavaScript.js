@@ -9,3 +9,20 @@ function ponerMano(id){
 function ponerFlechita(id){
 	document.getElementById(id.style.cursor='auto');
 }
+
+$(document).ready( function(){
+
+	var posicionActual, posicionNueva = 0;
+
+	$(window).scroll(function(){
+	posicionNueva = $(this).scrollTop();
+
+	if(posicionNueva>posicionActual){
+	$('#header').hide('slow');
+	} else if(posicionNueva<posicionActual){
+	$('#header').show('slow');
+	}
+	posicionActual=posicionNueva;
+	});
+
+	})

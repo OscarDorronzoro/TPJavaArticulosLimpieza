@@ -17,6 +17,7 @@
 		}
 		%>
 		<title>Carga Articulo</title>
+		<link rel="icon" href="png/favicon.ico">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css">
 	</head>

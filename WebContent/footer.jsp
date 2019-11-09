@@ -55,22 +55,3 @@
   </div>
 </footer>
 </div>
-
-<script>
-$(document).ready( function(){
-
-	var posicionActual, posicionNueva = 0;
-
-	$(window).scroll(function(){
-	posicionNueva = $(this).scrollTop();
-
-	if(posicionNueva>posicionActual){
-	$('#header').hide('slow');
-	} else if(posicionNueva<posicionActual){
-	$('#header').show('slow');
-	}
-	posicionActual=posicionNueva;
-	});
-
-	})
-</script>

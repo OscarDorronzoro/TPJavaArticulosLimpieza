@@ -120,10 +120,12 @@
 		<div class="row">
 			<div class="col-xs-10"></div>
 			<div class="col-xs-2">
-				<spam>Total: <%=total %></spam>
+				<span>Total: <%=total %></span>
 				<a href="ComprarServlet" class="btn btn-success">Comprar ahora</a>
 			</div>	
 		</div>
+		<%} else{ %>
+			<span>Vaya, esto esta vacio, ve a comprar articulos</span>
 		<%} %>
 		
 		</div>

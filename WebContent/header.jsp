@@ -1,35 +1,41 @@
-<div id="header" class="bg-blue">
+<div id="header" class="bg-blue container-fluid">
 <nav role="navigation" class="navbar navbar-default navbar-fixed-top">
 	<div class="row">
-		<div class="col-xm-12 col-md-5">		
+		<div class="col-xs-12 col-sm-8 col-md-7">		
 <!-- 			<div class="container"> -->
 				<div class="navbar-header">
-					<div class="row">
+					<div class="row nav navbar-nav">
 <!-- 					<button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle"> -->
 <!-- 						<span class="sr-only">menu hamburguesa</span> -->
 <!-- 						<span class="icon-bar"></span> cada una de estas lineas hacen una linea del menu de hamburguesa -->
 <!-- 						<span class="icon-bar"></span> -->
 <!-- 						<span class="icon-bar"></span> -->
 <!-- 					</button> -->
-					<ul class="nav navbar-nav">
-						<li><a href="main.jsp" class="navbar-brand m-5"><img src="png/home-4x.png"></a></li>
-						<li><a href="main.jsp" class="navbar-brand">Doña Mary Limpieza</a></li> <!-- class="navbar-text" agranda barra -->
-						 <li>
+<!-- 					<div class="nav navbar-nav"> -->
+						<div class="col-xs-2 col-sm-1"><a href="main.jsp" class="navbar-brand m-5"><img height="50px" src="png/favicon.ico"></a></div>
+						<div class="col-xs-10 col-sm-5"><a href="main.jsp" class="navbar-brand">Doña Mary Limpieza</a></div> <!-- class="navbar-text" agranda barra -->
+						 <div class="col-xs-12 col-sm-6">
 							<form class="form-inline navbar-brand" action="BusquedaServlet" method="get">      
-								<input class="form-control mr-sm-2" type="search" name="descBusqueda" placeholder="Buscar un articulo" aria-label="Search">
-								<button class="btn btn-success my-2 my-sm-0" type="submit">Buscar</button>
+								<div class="row">
+									<div class="col-xs-8">
+										<input class="form-control " type="search" name="descBusqueda" placeholder="Buscar un articulo" aria-label="Search">
+									</div>
+									<div class="col-xs-4">
+										<button class="btn btn-success " type="submit">Buscar</button>
+									</div>
+								</div>						
 							</form>
-						</li> 
-					</ul>
+						</div> 
+<!-- 					</div> -->
 					</div>
 				</div>
 <!-- 			</div> -->
 		</div>	
 			
-		<div class="col-xs-12 col-md-6">
+		<div class="col-xs-12 col-sm-4 col-md-5">
 					<div id="navbarCollapse" class="navbar-collapse navbar-right">
 						<ul class="nav navbar-nav seccion">
-							<li ><a href="../main.jsp">Inicio</a></li>
+							<li ><a href="main.jsp">Inicio</a></li>
 							<!-- <li class="dropdown">
 								<a data-toggle="dropdown" class="dropdown-toggle" href="listadoArticulos.jsp">Categorias Articulos
 									<b class="caret"></b> 
