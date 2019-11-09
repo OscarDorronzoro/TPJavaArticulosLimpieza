@@ -28,7 +28,7 @@
 				<div class="col-md-6">
 					<section>
 						<h1>Ingrese un articulo</h1>
-						<form action="CargaArticuloServlet/cargado" method="get">		
+						<form action="CargaArticuloServlet/cargado" method="post" enctype="multipart/form-data">		
 							<div class="form-group">
 								<label for="desc">Descripción</label>
 								<input class="form-control" name="descripcion" required id="desc"/>
@@ -46,8 +46,8 @@
 								<input class="form-control" name="stock" required id="stock"/>
 							</div>
 							<div class="form-group">
-								<label for="imagen">URL Imagen</label>
-								<input class="form-control" name="imagen" id="imagen"/>
+								<label for="imagen">Imagen</label>
+								<input class="form-control" type="file" name="imagen" id="imagen"/>
 							</div>	
 							<div class="form-group">
 								<label for="precio">Precio</label>

@@ -1,13 +1,20 @@
 package servlet;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Paths;
 import java.util.Date;
 
+import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 import entities.Articulo;
 import entities.Precio;
@@ -18,6 +25,7 @@ import util.ArticleException;
  * Servlet implementation class CargaArticuloServlet
  */
 @WebServlet("/CargaArticuloServlet/*")
+@MultipartConfig
 public class CargaArticuloServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -44,6 +52,25 @@ public class CargaArticuloServlet extends HttpServlet {
 			articulo.setPuntoPedido(Integer.parseInt(request.getParameter("puntoPedido")));
 			articulo.setCantAPedir(Integer.parseInt(request.getParameter("cantAPedir")));
 			articulo.setStock(Integer.parseInt(request.getParameter("stock")));
+			
+			Part imagen = request.getPart("imagen");
+			String nombreImagen = Paths.get(imagen.getSubmittedFileName()).getFileName().toString();
+			InputStream input = imagen.getInputStream();
+			//File file =new File(nombreImagen);
+			
+			String url = "img-articulos\\"+nombreImagen;			
+			articulo.setUrlImagen(url);
+			url="C:\\Java\\TP Articulos Limpieza\\TPJavaArticulosLimpieza\\WebContent\\"+url;
+			
+			FileOutputStream output = null;
+		    output = new FileOutputStream(url);
+		    int leido = 0;
+		    leido = input.read();
+		    while (leido != -1) {
+		    	output.write(leido);
+		        leido = input.read();
+		    }
+		    output.close();
 			
 			Precio precio = new Precio();
 			precio.setValor(Double.parseDouble(request.getParameter("precio")));
