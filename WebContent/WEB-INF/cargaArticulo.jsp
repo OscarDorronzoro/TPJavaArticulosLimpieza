@@ -20,7 +20,7 @@
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css">
 	</head>
-	<body>
+	<body class=bg-light>
 		<%@include file="../header.jsp"%>
 		
 		<div class="container">

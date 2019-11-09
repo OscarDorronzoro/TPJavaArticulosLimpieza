@@ -58,9 +58,9 @@ public class CargaArticuloServlet extends HttpServlet {
 			InputStream input = imagen.getInputStream();
 			//File file =new File(nombreImagen);
 			
-			String url = "img-articulos\\"+nombreImagen;			
+			String url = "img-articulos/"+nombreImagen;			
 			articulo.setUrlImagen(url);
-			url="C:\\Java\\TP Articulos Limpieza\\TPJavaArticulosLimpieza\\WebContent\\"+url;
+			url="C:/Java/TP Articulos Limpieza/TPJavaArticulosLimpieza/WebContent/"+url;
 			
 			FileOutputStream output = null;
 		    output = new FileOutputStream(url);
@@ -83,7 +83,9 @@ public class CargaArticuloServlet extends HttpServlet {
 				// TODO Auto-generated catch block
 				response.sendRedirect("errorPage.jsp?mensaje="+e.getMessage());
 			}
-			response.sendRedirect("SeccionAdminServlet");
+			response.sendRedirect("main.jsp");
+			//request.getRequestDispatcher("WEB-INF/seccionAdmin.jps").forward(request, response);
+			
 		}
 		
 	}
