@@ -5,13 +5,14 @@ import java.util.ArrayList;
 
 import entities.Cliente;
 import util.CartException;
+import util.CartLineException;
 import util.DoniaMaryException;
 
 public class ClienteData {
 	
 	CarritoData carritoData  = new CarritoData();
 	
-	public void add(Cliente c) {
+	public void add(Cliente c) throws CartLineException {
 		PreparedStatement stmt=null;
 		
 		try {

@@ -14,7 +14,6 @@ import entities.Cliente;
 import entities.Venta;
 import logic.ABMCVenta;
 import util.DoniaMaryException;
-import util.LogErrores;
 
 
 /**
@@ -40,13 +39,13 @@ public class ComprarServlet extends HttpServlet {
 		ABMCVenta abmcv = new ABMCVenta();
 		Venta venta = new Venta();
 		venta.setCliente(((Cliente)request.getSession().getAttribute("cliente")));
-		abmcv.registrarVenta(venta);
 		try {
-			throw new DoniaMaryException("prueba",new Exception("nada"),Level.FATAL);
+			abmcv.registrarVenta(venta);
+		} catch (DoniaMaryException e) {
+			// TODO Auto-generated catch block
+			response.sendRedirect("errorPage.jsp/mensaje="+e.getMessage());
 		}
-		catch(DoniaMaryException e){
-			
-		}
+
 
 		
 	}

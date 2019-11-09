@@ -8,13 +8,15 @@ import java.util.ArrayList;
 import entities.Linea;
 import entities.Carrito;
 import util.CartException;
+import util.CartLineException;
 import util.DoniaMaryException;
+import util.ProviderException;
 
 public class CarritoData {
 	
 	private LineaCarritoData lineaData=new LineaCarritoData();
 	
-	public void add(Carrito carrito, String username) throws CartException {
+	public void add(Carrito carrito, String username) throws CartException, CartLineException {
 		
 		PreparedStatement stmt=null;
 			
@@ -49,7 +51,7 @@ public class CarritoData {
 		
 	}
 	
-	public Carrito getOne(String nombre, String username) throws DoniaMaryException {
+	public Carrito getOne(String nombre, String username) throws ProviderException, CartLineException, CartException {
 		
 		Carrito carrito=null;
 		ResultSet rs=null;
@@ -90,7 +92,7 @@ public class CarritoData {
 		return carrito;
 	}
 	
-	public void delete(Carrito carrito, String username) throws CartException {
+	public void delete(Carrito carrito, String username) throws CartException, CartLineException {
 		
 		PreparedStatement stmt=null;
 		

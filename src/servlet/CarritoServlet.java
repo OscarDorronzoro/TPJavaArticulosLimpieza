@@ -13,7 +13,7 @@ import entities.Cliente;
 import entities.Linea;
 import logic.ABMCArticulo;
 import logic.ABMCLineaCarrito;
-import util.LogErrores;
+import util.DoniaMaryException;
 import util.ProviderException;
 
 
@@ -70,7 +70,7 @@ public class CarritoServlet extends HttpServlet {
 					abmcLinea.add(linea);
 				}
 				
-			} catch (ProviderException e) {
+			} catch (DoniaMaryException e) {
 				// TODO Auto-generated catch block				
 				response.sendRedirect("/errorPage.jsp?mensaje="+e.getMessage());
 			}
