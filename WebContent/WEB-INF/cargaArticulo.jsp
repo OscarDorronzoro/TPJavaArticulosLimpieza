@@ -4,7 +4,6 @@
 <html>
 	<head>
 		<meta charset="ISO-8859-1">
-		<%@page import="entities.Cliente"%>
 		<%Cliente c = (Cliente)request.getSession().getAttribute("cliente"); %>
 		<%if(!(c!=null && c.isAdmin())){
 		response.sendRedirect("iniciarSesion.jsp");
