@@ -37,5 +37,10 @@ $(document).on("scroll",function(){
 	
 $(document).ready(animacionScroll());
 
-
+	
+function confirmarEIrA(servlet){
+	if(confirm('¿Esta seguro?')){
+		location.href=servlet;
+	}
+}	
 

@@ -4,6 +4,11 @@
 <html>
 <head>
 		<meta charset="ISO-8859-1">
+		<%Cliente c = (Cliente)request.getSession().getAttribute("cliente"); %>
+		<%if(!(c!=null && c.isAdmin())){
+		response.sendRedirect("../iniciarSesion.jsp");
+		return;
+		}%>
 		<title>Clientes</title>
 		<link rel="icon" href="../png/favicon.ico">
 		<link rel="stylesheet" href="../bootstrap/css/bootstrap.css">
@@ -30,13 +35,13 @@
 			    	<div class="col-xs-1 col-sm-1 col-md-1">
 			    		<ul class="list-unstyled components menu-icon">
 					            <li>
-									<img src="png/limpieza/todo.png">
+									<img src="../png/limpieza/todo.png">
 					            </li>
 					            <li>
-									<img src="png/limpieza/cocina.png">
+									<img src="../png/limpieza/cocina.png">
 					            </li>
 					            <li>
-									<img src="png/limpieza/banio.png">
+									<img src="../png/limpieza/banio.png">
 					            </li>         
 					        </ul>
 			    	</div>
@@ -84,6 +89,8 @@
 							<td><input type="checkbox" name="isAdmin" value="Check Value" readonly="readonly" 
 								<%if(cli.isAdmin()){%>checked<%} %> onclick="javascript: return false;"/>
 							</td>
+							<td><a class="btn btn-primary">Modificar</a></td>
+							<td><a class="btn btn-danger" onclick="confirmarEIrA('EliminarClienteServlet')">Eliminar</a></td>
 						</tr>							
 								
 					<%} %>
