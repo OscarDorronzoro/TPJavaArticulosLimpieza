@@ -26,3 +26,10 @@ $(document).ready( function(){
 	});
 
 	})
+	
+function confirmarEIrA(servlet){
+	if(confirm('¿Esta seguro?')){
+		location.href=servlet;
+	}
+}	
+	

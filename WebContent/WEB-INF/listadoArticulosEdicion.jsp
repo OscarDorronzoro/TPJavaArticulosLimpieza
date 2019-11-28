@@ -4,6 +4,11 @@
 <html>
 	<head>
 		<meta charset="ISO-8859-1">
+		<%Cliente c = (Cliente)request.getSession().getAttribute("cliente"); %>
+		<%if(!(c!=null && c.isAdmin())){
+		response.sendRedirect("iniciarSesion.jsp");
+		return;
+		}%>
 		<meta name="viewport" content="width=device-width, user-scalable=no">
 		<title>Articulos</title>
 		<link rel="shortcut icon" href="png/favicon.ico">

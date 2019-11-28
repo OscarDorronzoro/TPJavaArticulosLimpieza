@@ -5,17 +5,11 @@
 	<head>
 		<meta charset="ISO-8859-1">
 		<%@page import="entities.Cliente"%>
-		<%
-		Cliente clienteAdmin = (Cliente)request.getSession().getAttribute("cliente");
-		if(clienteAdmin==null){
-			response.sendRedirect("iniciarSesion.jsp");
-			return;	
-		}
-		else if(!clienteAdmin.isAdmin()){
-			response.sendRedirect("iniciarSesion.jsp");
-			return;
-		}
-		%>
+		<%Cliente c = (Cliente)request.getSession().getAttribute("cliente"); %>
+		<%if(!(c!=null && c.isAdmin())){
+		response.sendRedirect("iniciarSesion.jsp");
+		return;
+		}%>
 		<title>Carga Articulo</title>
 		<link rel="icon" href="png/favicon.ico">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
