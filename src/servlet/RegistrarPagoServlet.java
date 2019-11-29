@@ -30,8 +30,10 @@ public class RegistrarPagoServlet extends HttpServlet {
 		switch(request.getPathInfo()) {
 		
 		case "/buscar":
+			request.getRequestDispatcher("/WEB-INF/registrarPago.jsp").forward(request, response);
 			break;
-		case "/ver_ventas":
+		case "/registrar":
+			//buscar venta, asignarle fecha de pago, guardarla
 			break;
 		default: throw new ServletException("error en switch");
 				

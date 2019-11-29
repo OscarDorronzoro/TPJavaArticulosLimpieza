@@ -5,6 +5,10 @@ public class Linea{
 	private int cantidad;
 	private Articulo articulo;
 	
+	public double getSubTotal() {
+		return articulo.getPrecio().getValor()*cantidad;
+	}
+	
 	@Override
 	public boolean equals(Object o) {
 		return this.getArticulo().getCodArticulo()==((Linea)o).getArticulo().getCodArticulo();

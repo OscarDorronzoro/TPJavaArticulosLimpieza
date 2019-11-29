@@ -13,6 +13,15 @@ public class Venta {
 	private Cliente cliente;
 	private ArrayList<Linea> lineas;
 	
+	public double getTotal() {
+		
+		double total=0;
+		for(Linea l : lineas) {
+			total+=l.getSubTotal();
+		}
+		return total;
+	}
+	
 	public int getNroVenta() {
 		return nroVenta;
 	}
