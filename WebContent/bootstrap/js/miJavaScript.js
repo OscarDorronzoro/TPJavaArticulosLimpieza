@@ -16,22 +16,30 @@ function ponerFlechita(id){
 	document.getElementById(id.style.cursor='auto');
 }
 
-$(document).ready( function(){
-
-	var posicionActual, posicionNueva = 0;
-
-	$(window).scroll(function(){
-	posicionNueva = $(this).scrollTop();
-
-	if(posicionNueva>posicionActual){
-	$('#header').hide('slow');
-	} else if(posicionNueva<posicionActual){
-	$('#header').show('slow');
-	}
-	posicionActual=posicionNueva;
-	});
-
-	})
-	
 
 	
+function animacionScroll(){	
+$(document).on("scroll",function(){
+    //detectar scroll hacia abajo
+    var obj = $(window);          //objeto sobre el que quiero detectar scroll
+    var obj_top = obj.scrollTop();   //scroll vertical inicial del objeto
+    obj.scroll(function(){
+        var obj_act_top = $(this).scrollTop();  //obtener scroll top instantaneo
+        if(obj_act_top > obj_top){
+            //scroll hacia abajo
+            
+            $('#header').fadeOut('slow');
+            
+        }else{
+            //scroll hacia arriba
+            
+        	$('#header').fadeIn('slow');
+            
+        }
+        obj_top = obj_act_top;                  //almacenar scroll top anterior
+    });
+});
+}
+	
+$(document).ready(animacionScroll());
+

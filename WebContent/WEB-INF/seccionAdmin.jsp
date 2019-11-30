@@ -56,7 +56,7 @@
 									<a href="#">Carga de Proveedores</a>
 					            </li>
 					            <li>
-									<a href="#">asdasd</a>
+									<a href="RegistrarPagoServlet/buscar">Registrar pago</a>
 					            </li>	            
 					        </ul>
 					    </nav>

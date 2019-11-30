@@ -43,6 +43,7 @@ public class ListadoClientesServlet extends HttpServlet {
 				default: request.setAttribute("clientes", abmcC.getAll());
 					break;
 					
+				//el problema esta en los servlet que escuchan en Servlet/*	
 				//default: System.out.println(request.getPathInfo());throw new ServletException("Path incorrecto (admin/no admin)");
 			}
 			

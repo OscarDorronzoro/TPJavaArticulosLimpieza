@@ -70,8 +70,50 @@
 			    </div>
 			</div>
 			
+			
+			
+			<div class="col-xs-12 col-sm-12 col-md-8">
+				<table class="table table-striped table-hover">
+					<%@page import="entities.Articulo"%>
+					<%@page import="java.util.ArrayList"%>
+					
+					<thead>
+						<tr>
+							<td>Codigo</td>
+							<td>Descripcion</td>
+							<td>Stock</td>
+							<td>Precio</td>
+							<td>Cant. a Pedir</td>
+							<td>Punto de Pedido</td>
+							<td>URL Imagen</td>
+						</tr>
+					</thead>
+					
+					<tbody>
+					<%for( Articulo art : articulos){%>
+												
+						<tr>	
+							<td><%=art.getCodArticulo()%></td>
+							<td><%=art.getDescripcion()%></td>
+							<td><%=art.getStock()%></td>
+							<td><%=art.getPrecio()%></td>
+							<td><%=art.getCantAPedir()%></td>
+							<td><%=art.getPuntoPedido()%></td>
+							<td><%=art.getUrlImagen()%></td>
+							
+							<td><a class="btn btn-primary" href="ModificarArticuloServlet/<%=art.getCodArticulo()%>">Modificar</a></td>
+							<td><a class="btn btn-danger" onclick="confirmarEIrA('EliminarArticuloServlet/'+'<%=art.getCodArticulo()%>')">Eliminar</a></td>
+						</tr>							
+								
+					<%} %>
+					</tbody>
+				</table>
+			</div>
+			
+			
+			
 			<div class="col-xs-12 col-sm-12 col-md-8 bg-articulos">
-				<%@page import="entities.Articulo"%>
+				
 				<%@page import="java.util.ArrayList"%>
 				<%for( Articulo art : articulos){%>
 
