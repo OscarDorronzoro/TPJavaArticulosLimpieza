@@ -1,3 +1,9 @@
+function confirmarEIrA(servlet){
+	if(confirm('¿Esta seguro?')){
+		location.href=servlet;
+	}
+}	
+
 function detalleArticulo(id){
 	window.location="DetalleArticuloServlet/?idArticulo="+id;
 }
@@ -27,9 +33,5 @@ $(document).ready( function(){
 
 	})
 	
-function confirmarEIrA(servlet){
-	if(confirm('¿Esta seguro?')){
-		location.href=servlet;
-	}
-}	
+
 	
