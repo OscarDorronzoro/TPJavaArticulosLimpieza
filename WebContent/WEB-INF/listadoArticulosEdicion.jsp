@@ -96,7 +96,7 @@
 							<td><%=art.getCodArticulo()%></td>
 							<td><%=art.getDescripcion()%></td>
 							<td><%=art.getStock()%></td>
-							<td><%=art.getPrecio()%></td>
+							<td><%=art.getPrecio().getValor()%></td>
 							<td><%=art.getCantAPedir()%></td>
 							<td><%=art.getPuntoPedido()%></td>
 							<td><%=art.getUrlImagen()%></td>
@@ -111,38 +111,6 @@
 			</div>
 			
 			
-			
-			<div class="col-xs-12 col-sm-12 col-md-8 bg-articulos">
-				
-				<%@page import="java.util.ArrayList"%>
-				<%for( Articulo art : articulos){%>
-
-					<div class="row bg-articulo" id=<%="articulo"+art.getCodArticulo() %> onclick='javascript: detalleArticulo("<%=art.getCodArticulo() %>")' onmouseover='javascript: ponerMano("<%=art.getCodArticulo() %>")' onmouseout='javascript: ponerFlechita("<%=art.getCodArticulo() %>")'> 
-						<div class="col-xs-3 col-md-3"><img class="imagen-articulo" src=<%=art.getUrlImagen()%>></div>
-						<div class="col-xs-9 col-md-9">
-							<div class="row">
-								<div class="col-xs-6 col-md-8">
-									<ul class="list-unstyled">							
-										<li class="atributo-link">Descripción: <%=art.getDescripcion()%></li>
-										<li>Stock: <%=art.getStock()%></li>
-										<li>Precio: $<%=art.getPrecio().getValor()%></li>
-									</ul>
-								</div>
-								<div class="col-xs-6 col-md-4">
-									<div class="row">
-										<a href="ModificarArticuloServlet/<%=art.getCodArticulo() %>" class="btn-success">Modificar</a>
-										<br><br>
-										<a href="EliminarArticuloServlet/<%=art.getCodArticulo() %>" class="btn-danger">Eliminar</a>
-										<br>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-									
-				<%} %>
-			</div>
-		</div>
 		<%@include file="../footer.jsp"%>
 		<script src="../bootstrap/js/jquery-3.4.1.js"></script>
 		<script src="../bootstrap/js/popper.js"></script>

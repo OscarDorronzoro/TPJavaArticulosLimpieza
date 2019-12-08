@@ -7,6 +7,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import logic.ABMCArticulo;
+import util.ArticleException;
+import util.DoniaMaryException;
+import util.ProviderException;
+
 /**
  * Servlet implementation class ListadoArticulosEdicionServlet
  */
@@ -27,7 +32,14 @@ public class ListadoArticulosEdicionServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.getRequestDispatcher("WEB-INF/listadoArticulosEdicion.jsp").forward(request, response);;
+		ABMCArticulo ABMCarticulo = new ABMCArticulo(); 
+		try {
+			request.setAttribute("articulos", ABMCarticulo.getAll() );
+			request.getRequestDispatcher("WEB-INF/listadoArticulosEdicion.jsp").forward(request, response);
+		} catch (DoniaMaryException e) {
+			// TODO Auto-generated catch block
+			response.sendRedirect("../errorPage.jsp?mensaje="+e.getMessage());
+		}
 	}
 
 	/**
