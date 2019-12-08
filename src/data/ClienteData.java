@@ -3,16 +3,21 @@ package data;
 import java.sql.*;
 import java.util.ArrayList;
 
+import org.apache.logging.log4j.Level;
+
 import entities.Cliente;
+import util.ArticleException;
 import util.CartException;
 import util.CartLineException;
+import util.ClientException;
 import util.DoniaMaryException;
+import util.ProviderException;
 
 public class ClienteData {
 	
 	CarritoData carritoData  = new CarritoData();
 	
-	public void add(Cliente c) throws CartLineException {
+	public void add(Cliente c) throws CartLineException, ClientException {
 		PreparedStatement stmt=null;
 		
 		try {
@@ -30,26 +35,23 @@ public class ClienteData {
 			
 			carritoData.add(c.getMiCarrito(), c.getUsername());
 		}
-		catch (SQLException e) {
+		catch (SQLException | CartException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (CartException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			throw new ClientException("Error al agregar cliente",e,Level.ERROR);
+		} 
 		finally {
 			try {
 			if(stmt!=null)stmt.close();
             FactoryConnection.getInstancia().releaseConn();
 			} 
 			catch (SQLException e) {
-        	e.printStackTrace();
+				throw new ClientException("Oops! Ha ocurrido un error",e,Level.ERROR);
 			}
 		}
 		
 	}
 	
-	public ArrayList<Cliente> getAll() throws DoniaMaryException{
+	public ArrayList<Cliente> getAll() throws ProviderException, CartLineException, CartException, ArticleException, ClientException{
 		
 		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
 		ResultSet rs=null;
@@ -76,7 +78,7 @@ public class ClienteData {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new ClientException("Error al recuperar clientes",e,Level.ERROR);
 		}
 		finally {
 				try {
@@ -85,14 +87,14 @@ public class ClienteData {
 					FactoryConnection.getInstancia().releaseConn();
 				} 
 				catch (SQLException e) {
-					e.printStackTrace();
+					throw new ClientException("Oops! Ha ocurrido un error",e,Level.ERROR);
 				}
 		}
 		
 		return clientes;
 	}
 	
-	public ArrayList<Cliente> getAllByAdmin(boolean isAdmin) throws DoniaMaryException{
+	public ArrayList<Cliente> getAllByAdmin(boolean isAdmin) throws ProviderException, CartLineException, CartException, ArticleException, ClientException{
 		
 		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
 		ResultSet rs=null;
@@ -122,7 +124,7 @@ public class ClienteData {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new ClientException("Error al recuperar clientes",e,Level.ERROR);
 		}
 		finally {
 				try {
@@ -131,14 +133,14 @@ public class ClienteData {
 					FactoryConnection.getInstancia().releaseConn();
 				} 
 				catch (SQLException e) {
-					e.printStackTrace();
+					throw new ClientException("Oops! Ha ocurrido un error",e,Level.ERROR);
 				}
 		}
 		
 		return clientes;
 	}
 	
-	public Cliente getOne(String username) throws DoniaMaryException {
+	public Cliente getOne(String username) throws ProviderException, CartLineException, CartException, ArticleException, ClientException {
 		
 		Cliente c=null;
 		ResultSet rs=null;
@@ -163,7 +165,7 @@ public class ClienteData {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new ClientException("Error al recuperar cliente",e,Level.ERROR);
 		}
 		finally {
 				try {
@@ -172,13 +174,13 @@ public class ClienteData {
 					FactoryConnection.getInstancia().releaseConn();
 				} 
 				catch (SQLException e) {
-					e.printStackTrace();
+					throw new ClientException("Oops! Ha ocurrido un error",e,Level.ERROR);
 				}
 		}
 		
 		return c;
 	}
-public Cliente getOneByUserYPassword(String username,String passEncrip ) throws DoniaMaryException {
+public Cliente getOneByUserYPassword(String username,String passEncrip ) throws ProviderException, CartLineException, CartException, ArticleException, ClientException {
 		
 		Cliente c=null;
 		ResultSet rs=null;
@@ -205,7 +207,7 @@ public Cliente getOneByUserYPassword(String username,String passEncrip ) throws 
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new ClientException("Error al recuperar cliente",e,Level.ERROR);
 		}
 		finally {
 				try {
@@ -214,7 +216,7 @@ public Cliente getOneByUserYPassword(String username,String passEncrip ) throws 
 					FactoryConnection.getInstancia().releaseConn();
 				} 
 				catch (SQLException e) {
-					e.printStackTrace();
+					throw new ClientException("Oops! Ha ocurrido un error",e,Level.ERROR);
 				}
 		}
 		

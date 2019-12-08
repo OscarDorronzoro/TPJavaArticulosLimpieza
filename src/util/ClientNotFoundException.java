@@ -2,7 +2,7 @@ package util;
 
 import org.apache.logging.log4j.Level;
 
-public class ClientNotFoundException extends DoniaMaryException {
+public class ClientNotFoundException extends ClientException {
 
 	/**
 	 * 

@@ -7,21 +7,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import logic.ABMCArticulo;
-import util.ArticleException;
-import util.DoniaMaryException;
-
 /**
- * Servlet implementation class EliminarArticuloServlet
+ * Servlet implementation class ListadoArticulosEdicionServlet
  */
-@WebServlet("/EliminarArticuloServlet/*")
-public class EliminarArticuloServlet extends HttpServlet {
+@WebServlet("/ListadoArticulosEdicionServlet")
+public class ListadoArticulosEdicionServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public EliminarArticuloServlet() {
+    public ListadoArticulosEdicionServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,17 +27,7 @@ public class EliminarArticuloServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		ABMCArticulo abmcA = new ABMCArticulo();
-		
-		try {
-			abmcA.delete(Integer.parseInt(request.getPathInfo()));
-		} catch (DoniaMaryException e) {
-			// TODO Auto-generated catch block
-			response.sendRedirect("/errorPage.jsp?mensaje="+e.getMessage());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			response.sendRedirect("/errorPage.jsp?mensaje=Oops, ha ocurrido un error");
-		}
+		request.getRequestDispatcher("WEB-INF/listadoArticulosEdicion.jsp").forward(request, response);;
 	}
 
 	/**

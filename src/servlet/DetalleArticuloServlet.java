@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import logic.ABMCArticulo;
+import util.DoniaMaryException;
 import util.ProviderException;
 
 /**
@@ -33,9 +34,9 @@ public class DetalleArticuloServlet extends HttpServlet {
 		ABMCArticulo abmcArticulo = new ABMCArticulo();
 		try {
 			request.setAttribute("articulo", abmcArticulo.getOne(Integer.parseInt(request.getParameter("idArticulo"))));
-		} catch (ProviderException e) {
+		} catch (DoniaMaryException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			response.sendRedirect("/errorPage.jsp?mensaje="+e.getMessage());
 		}
 		response.sendRedirect("detalleArticulo.jsp");
 	}

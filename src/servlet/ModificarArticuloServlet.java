@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import entities.Articulo;
 import logic.ABMCArticulo;
+import util.ArticleException;
+import util.DoniaMaryException;
 
 /**
  * Servlet implementation class ModificarArticuloServlet
@@ -29,18 +31,23 @@ public class ModificarArticuloServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		ABMCArticulo abmcA = new ABMCArticulo();
-		Articulo articulo = new Articulo();
-		
-		//terminar
-		articulo.setDescripcion(request.getParameter("descripcion"));
-		articulo.setCantAPedir(Integer.parseInt(request.getParameter("cantAPedir")));
-		articulo.setPuntoPedido(Integer.parseInt(request.getParameter("puntoPedido")));
-		articulo.setStock(Integer.parseInt(request.getParameter("stock")));
-		articulo.setUrlImagen(request.getParameter("urlImagen"));
-		
-		abmcA.update(articulo);
+		if (request.getPathInfo().equals("/cargado")) {
+			// TODO Auto-generated method stub
+			ABMCArticulo abmcA = new ABMCArticulo();
+			Articulo articulo = new Articulo();
+			//terminar
+			articulo.setDescripcion(request.getParameter("descripcion"));
+			articulo.setCantAPedir(Integer.parseInt(request.getParameter("cantAPedir")));
+			articulo.setPuntoPedido(Integer.parseInt(request.getParameter("puntoPedido")));
+			articulo.setStock(Integer.parseInt(request.getParameter("stock")));
+			articulo.setUrlImagen(request.getParameter("urlImagen"));
+			try {
+				abmcA.update(articulo);
+			} catch (DoniaMaryException e) {
+				// TODO Auto-generated catch block
+				response.sendRedirect("errorPage.jsp?mensaje=" + e.getMessage());
+			} 
+		}
 	}
 
 	/**

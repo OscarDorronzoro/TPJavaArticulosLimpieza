@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import entities.Linea;
 import entities.Carrito;
+import util.ArticleException;
 import util.CartException;
 import util.CartLineException;
 import util.DoniaMaryException;
@@ -51,7 +52,7 @@ public class CarritoData {
 		
 	}
 	
-	public Carrito getOne(String nombre, String username) throws ProviderException, CartLineException, CartException {
+	public Carrito getOne(String nombre, String username) throws ProviderException, CartLineException, CartException, ArticleException {
 		
 		Carrito carrito=null;
 		ResultSet rs=null;

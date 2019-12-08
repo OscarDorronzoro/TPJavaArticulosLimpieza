@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 
 import logic.ABMCArticulo;
+import util.DoniaMaryException;
 import util.ProviderException;
 
 /**
@@ -41,7 +42,7 @@ public class BusquedaServlet extends HttpServlet {
 			else {
 				request.setAttribute("articulos",abmca.getAll());
 			}
-		} catch (ProviderException e) {
+		} catch (DoniaMaryException e) {
 			// TODO Auto-generated catch block
 			request.setAttribute("mensaje", e.getMessage());
 			request.getRequestDispatcher("errorPage.jsp").forward(request, response);

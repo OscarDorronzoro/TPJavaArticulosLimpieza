@@ -85,7 +85,7 @@ public class CarritoServlet extends HttpServlet {
 				try {
 					request.setAttribute("articulos", new ABMCArticulo().getAll());  //si no lo vuelvo a setear esta en null, como mantener?
 					request.getRequestDispatcher("listadoArticulos.jsp").forward(request, response);
-				} catch (ProviderException e) {
+				} catch (DoniaMaryException e) {
 					// TODO Auto-generated catch block
 					response.sendRedirect("/errorPage.jsp?mensaje="+e.getMessage());
 				}

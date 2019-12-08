@@ -25,23 +25,23 @@ public class ABMCArticulo {
 		this.getArticuloData().add(art);
 	}
 	
-	public ArrayList<Articulo> getAll() throws ProviderException{
+	public ArrayList<Articulo> getAll() throws ProviderException, ArticleException{
 		return this.getArticuloData().getAll();
 	}
 	
-	public  Articulo getOne(int codArticulo) throws ProviderException {		
+	public  Articulo getOne(int codArticulo) throws ProviderException, ArticleException {		
 		return this.getArticuloData().getOne(codArticulo);
 	}
 
-	public ArrayList<Articulo> getAllByDescripcion(String descripcion) throws ProviderException{
+	public ArrayList<Articulo> getAllByDescripcion(String descripcion) throws ProviderException, ArticleException{
 		return this.getArticuloData().getAllByDescripcion(descripcion);
 	} 
 	
-	public void delete(int codArticulo) {
+	public void delete(int codArticulo) throws ArticleException {
 		this.getArticuloData().delete(codArticulo);
 	}
 	
-	public void update(Articulo articulo) {
+	public void update(Articulo articulo) throws ArticleException {
 		this.getArticuloData().update(articulo);
 	}
 }

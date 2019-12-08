@@ -61,13 +61,13 @@ public class ArticuloData {
 	            FactoryConnection.getInstancia().releaseConn();
 			} 
 			catch (SQLException e) {
-        	e.printStackTrace();
+        	throw new ArticleException("Oops, ha ocurrido un error", e, Level.ERROR);
 			}
 		}
 		
 	}
 	
-	public ArrayList<Articulo> getAll() throws ProviderException{
+	public ArrayList<Articulo> getAll() throws ProviderException, ArticleException{
 		
 		ArrayList<Articulo> articulos = new ArrayList<Articulo>();
 		ResultSet rs=null;
@@ -96,7 +96,7 @@ public class ArticuloData {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new ArticleException("Error al recuperar articulos", e, Level.ERROR);
 		}
 		finally {
 				try {
@@ -105,14 +105,14 @@ public class ArticuloData {
 					FactoryConnection.getInstancia().releaseConn();
 				} 
 				catch (SQLException e) {
-					e.printStackTrace();
+					throw new ArticleException("Oops, ha ocurrido un error", e, Level.ERROR);
 				}
 		}
 		
 		return articulos;
 	}
 	
-	public Articulo getOne(int codArticulo) throws ProviderException {
+	public Articulo getOne(int codArticulo) throws ProviderException, ArticleException {
 		
 		Articulo art=null;
 		ResultSet rs=null;
@@ -140,7 +140,7 @@ public class ArticuloData {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new ArticleException("Error al recuperar artículo", e, Level.ERROR);
 		}
 		finally {
 				try {
@@ -149,24 +149,19 @@ public class ArticuloData {
 					FactoryConnection.getInstancia().releaseConn();
 				} 
 				catch (SQLException e) {
-					e.printStackTrace();
+					throw new ArticleException("Oops, ha ocurrido un error", e, Level.ERROR);
 				}
 		}
 		
 		return art;
 	}
 	
-	public ArrayList<Articulo> getAllByDescripcion(String descripcion) throws ProviderException{
+	public ArrayList<Articulo> getAllByDescripcion(String descripcion) throws ProviderException, ArticleException{
 		ArrayList<Articulo> articulos = new ArrayList<Articulo>();
 		ResultSet rs=null;
-		//Statement stmt=null;
 		PreparedStatement stmt=null;
 		
 		try {
-			//stmt = FactoryConnection.getInstancia().getConn().createStatement();
-			//rs=stmt.executeQuery("select * from articulo where"
-			//		+ " descripcion like '%"+descripcion+"%' ");
-			
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from articulo where descripcion like ?");
 			stmt.setString(1,"%"+descripcion+"%");
 			rs=stmt.executeQuery();
@@ -191,7 +186,7 @@ public class ArticuloData {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new ArticleException("Error al recuperar articulos", e, Level.ERROR);
 		}
 		finally {
 				try {
@@ -200,14 +195,14 @@ public class ArticuloData {
 					FactoryConnection.getInstancia().releaseConn();
 				} 
 				catch (SQLException e) {
-					e.printStackTrace();
+					throw new ArticleException("Oops, ha ocurrido un error", e, Level.ERROR);
 				}
 		}
 		
 		return articulos;
 	}
 	
-	public void delete(int codArticulo) {
+	public void delete(int codArticulo) throws ArticleException {
 		
 		PreparedStatement stmt=null;
 		
@@ -217,7 +212,7 @@ public class ArticuloData {
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new ArticleException("Error al eliminar artículo", e, Level.ERROR);
 		}
 		finally {
 				try {
@@ -225,12 +220,12 @@ public class ArticuloData {
 					FactoryConnection.getInstancia().releaseConn();
 				} 
 				catch (SQLException e) {
-					e.printStackTrace();
+					throw new ArticleException("Oops, ha ocurrido un error", e, Level.ERROR);
 				}
 		}
 	}
 	
-	public void update(Articulo articulo) {
+	public void update(Articulo articulo) throws ArticleException {
 		
 		PreparedStatement stmt=null;
 		
@@ -249,7 +244,7 @@ public class ArticuloData {
 			precioData.add(articulo.getPrecio(), articulo.getCodArticulo());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new ArticleException("Error al actualizar artículo", e, Level.ERROR);
 		}
 		finally {
 				try {
@@ -257,7 +252,7 @@ public class ArticuloData {
 					FactoryConnection.getInstancia().releaseConn();
 				} 
 				catch (SQLException e) {
-					e.printStackTrace();
+					throw new ArticleException("Oops, ha ocurrido un error", e, Level.ERROR);
 				}
 		}
 	}

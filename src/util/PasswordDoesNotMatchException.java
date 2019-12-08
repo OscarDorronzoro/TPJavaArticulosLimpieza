@@ -2,7 +2,7 @@ package util;
 
 import org.apache.logging.log4j.Level;
 
-public class PasswordDoesNotMatchException extends DoniaMaryException {
+public class PasswordDoesNotMatchException extends ClientException {
 
 	/**
 	 * 
