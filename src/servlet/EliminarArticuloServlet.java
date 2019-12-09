@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import logic.ABMCArticulo;
-import util.ArticleException;
 import util.DoniaMaryException;
 
 /**

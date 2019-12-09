@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import logic.ABMCArticulo;
 import util.DoniaMaryException;
-import util.ProviderException;
 
 /**
  * Servlet implementation class BusquedaServlet

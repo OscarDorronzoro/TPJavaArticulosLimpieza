@@ -9,8 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import logic.ABMCLineaCarrito;
 import util.DoniaMaryException;
-import util.ProviderException;
-import entities.Carrito;
 import entities.Cliente;
 
 /**

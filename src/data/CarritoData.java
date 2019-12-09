@@ -3,14 +3,12 @@ package data;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import entities.Linea;
 import entities.Carrito;
 import util.ArticleException;
 import util.CartException;
 import util.CartLineException;
-import util.DoniaMaryException;
 import util.ProviderException;
 
 public class CarritoData {

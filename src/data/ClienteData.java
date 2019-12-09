@@ -10,7 +10,6 @@ import util.ArticleException;
 import util.CartException;
 import util.CartLineException;
 import util.ClientException;
-import util.DoniaMaryException;
 import util.ProviderException;
 
 public class ClienteData {
