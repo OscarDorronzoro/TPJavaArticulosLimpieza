@@ -33,7 +33,7 @@ public class LineaCarritoData extends LineaData {
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new  CartLineException("Error al agregar linea de carrito",e,Level.ERROR);
 		}
 		finally {
 			try {
@@ -65,7 +65,7 @@ public class LineaCarritoData extends LineaData {
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new  CartLineException("Error al actualizar linea de carrito",e,Level.ERROR);
 		}
 		finally {
 			try {
@@ -98,13 +98,14 @@ public class LineaCarritoData extends LineaData {
 					
 					linea.setArticulo(this.getArticuloData().getOne(rs.getInt("cod_articulo")));
 					linea.setCantidad(rs.getInt("cantidad"));
+					linea.setProveedor(this.getProveedorData().getOne(rs.getString("cuit_proveedor")));
 					
 					lineas.add(linea);					
 				}
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new  CartLineException("Error al recuperar lineas de carrito",e,Level.ERROR);
 		}
 		finally {
 				try {
@@ -140,6 +141,7 @@ public class LineaCarritoData extends LineaData {
 					
 					linea.setArticulo(this.getArticuloData().getOne(rs.getInt("cod_articulo")));
 					linea.setCantidad(rs.getInt("cantidad"));
+					linea.setProveedor(this.getProveedorData().getOne(rs.getString("cuit_proveedor")));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

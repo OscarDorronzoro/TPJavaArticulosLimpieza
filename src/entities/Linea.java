@@ -4,6 +4,7 @@ public class Linea{
 
 	private int cantidad;
 	private Articulo articulo;
+	private Proveedor proveedor;
 	
 	public double getSubTotal() {
 		return articulo.getPrecio().getValor()*cantidad;
@@ -25,5 +26,11 @@ public class Linea{
 	}
 	public void setArticulo(Articulo articulo) {
 		this.articulo = articulo;
+	}
+	public Proveedor getProveedor() {
+		return proveedor;
+	}
+	public void setProveedor(Proveedor proveedor) {
+		this.proveedor = proveedor;
 	}
 }
