@@ -7,6 +7,7 @@ import entities.Linea;
 import entities.Venta;
 import util.ArticleException;
 import util.ProviderException;
+import util.SaleLineException;
 
 public class ABMCLineaVenta {
 	
@@ -18,11 +19,11 @@ public class ABMCLineaVenta {
 		miVenta=venta;
 	}
 	
-	public void add(Linea linea) {
+	public void add(Linea linea) throws SaleLineException {
 		this.getLineaVentaData().add(linea,miVenta.getNroVenta());
 	}
 	
-	public ArrayList<Linea> getAllByVenta() throws ProviderException, ArticleException{
+	public ArrayList<Linea> getAllByVenta() throws ProviderException, ArticleException, SaleLineException{
 		return this.getLineaVentaData().getAllByVenta(miVenta.getNroVenta());
 	}
 
