@@ -10,6 +10,7 @@ public class Venta {
 	private Date fPago;
 	private Date fRetiro;
 	private Date fCancelacion;
+	private double importe;
 	private Cliente cliente;
 	private ArrayList<Linea> lineas;
 	
@@ -20,6 +21,13 @@ public class Venta {
 			total+=l.getSubTotal();
 		}
 		return total;
+	}
+	
+	public double getImporte() {
+		return importe;
+	}
+	public void setImporte(double importe) {
+		this.importe = importe;
 	}
 	
 	public int getNroVenta() {
