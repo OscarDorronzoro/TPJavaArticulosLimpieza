@@ -109,7 +109,7 @@
 					</tbody>
 				</table>
 			</div>
-			
+		</div>	
 			
 		<%@include file="../footer.jsp"%>
 		<script src="../bootstrap/js/jquery-3.4.1.js"></script>
