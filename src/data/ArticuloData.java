@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import org.apache.logging.log4j.Level;
 
 import entities.Articulo;
-import entities.Precio;
 import util.ArticleException;
 import util.ProviderException;
 
