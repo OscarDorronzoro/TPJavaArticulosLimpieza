@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
+
 import org.apache.logging.log4j.Level;
 
 import entities.Linea;
@@ -68,6 +70,7 @@ public class VentaData {
 		
 		return ventas;
 	}
+	
 
 	public Venta getOne(int nroVenta) throws ProviderException, CartLineException, CartException, ArticleException, ClientException, SaleException, SaleLineException
 	{
@@ -178,25 +181,41 @@ public class VentaData {
 	public void add(Venta venta) throws SaleException, SaleLineException
 	{
 		PreparedStatement stmt=null;
+		Statement transaccion=null;
 		
 		try {
+			transaccion=FactoryConnection.getInstancia().getConn().createStatement();
+			transaccion.execute("start transaction");
+			
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("insert into venta "
-					+ "(f_emision,f_cancelacion,f_pago,importe,f_retiro,username) values(?,?,?,?,?,?)");
-			stmt.setTimestamp(1, (Timestamp)venta.getfEmision());
-			stmt.setTimestamp(2, (Timestamp)venta.getfCancelacion());
-			stmt.setTimestamp(3, (Timestamp)venta.getfPago());
-			stmt.setDouble(4, venta.getTotal());
-			stmt.setTimestamp(5, (Timestamp)venta.getfRetiro());
-			stmt.setString(6, venta.getCliente().getUsername());
-
-			for (Linea linea : venta.getLineas()) {
-				lineaVentaData.add(linea, venta.getNroVenta());
-			}		
+					+ "(f_emision,importe,username) values(?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
+			stmt.setDate(1, new java.sql.Date(venta.getfEmision().getTime()));
+			//stmt.setDate(2, new java.sql.Date(venta.getfCancelacion().getTime()));
+			//stmt.setDate(3, new java.sql.Date(venta.getfPago().getTime()));
+			stmt.setDouble(2, venta.getTotal());
+			//stmt.setDate(5,new java.sql.Date(venta.getfRetiro().getTime()));
+			stmt.setString(3, venta.getCliente().getUsername());	
 			
 			stmt.executeUpdate();
+			ResultSet primaryKey = stmt.getGeneratedKeys();
+			
+			if(primaryKey!=null && primaryKey.next()) {
+				venta.setNroVenta(primaryKey.getInt(1));
+			}
+			for (Linea linea : venta.getLineas()) {
+				lineaVentaData.add(linea, venta.getNroVenta());
+			}	
+			
+			transaccion.execute("commit");
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			try {
+				transaccion.execute("rollback");
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				
+			}
 			throw new SaleException("Error al agregar venta", e, Level.ERROR);
 		}
 		finally {
@@ -212,15 +231,39 @@ public class VentaData {
 		 }		
 	}
 		
-	public void update(Venta venta) {
+	public void update(Venta venta) throws SaleException {
 		
-		throw new NotImplementedException();
+		PreparedStatement stmt = null;
+		
+		try {
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update venta set f_retiro=?, f_pago=?, f_cancelacion=? where nro_venta=?");
+			stmt.setDate(1, (java.sql.Date) venta.getfRetiro());
+			stmt.setDate(2, (java.sql.Date) venta.getfPago());
+			stmt.setDate(3, (java.sql.Date) venta.getfCancelacion());
+			stmt.setInt(4, venta.getNroVenta());
+			
+			stmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			throw new SaleException("Error al actualizar la venta",e);
+		}
+		finally{
+			try {
+				if(stmt!=null) {stmt.close();}
+				FactoryConnection.getInstancia().releaseConn();
+			} 
+			catch (SQLException e) {
+				throw new SaleException("Oops, ha ocurrido un error",e);
+			}
+			
+		}
 	}
 	
 	
 	public void delete(Venta venta) throws SaleException, SaleLineException {
 		
-		PreparedStatement stmt=null;
+		PreparedStatement stmt = null;
 		
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("delete from venta where nroVenta=?");
@@ -242,7 +285,7 @@ public class VentaData {
 					FactoryConnection.getInstancia().releaseConn();
 				} 
 				catch (SQLException e) {
-					throw new SaleException("Oops ha ocurrido un error",e);
+					throw new SaleException("Oops, ha ocurrido un error",e);
 				}	
 		}
 		

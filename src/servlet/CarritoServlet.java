@@ -43,9 +43,7 @@ public class CarritoServlet extends HttpServlet {
 			ABMCLineaCarrito abmcLinea=new ABMCLineaCarrito(cliente);
 			ABMCArticulo articuloLogic= new ABMCArticulo();
 			Linea linea = new Linea();
-			
-				
-			
+						
 			try {
 				
 				Integer cant=Integer.parseInt(request.getParameter("cantidad"));

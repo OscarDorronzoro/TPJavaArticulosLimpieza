@@ -21,13 +21,14 @@ public class LineaVentaData extends LineaData {
 		
 		try {
 			stmt= FactoryConnection.getInstancia().getConn().prepareStatement("insert into linea_venta "
-					+ "(nro_venta,cod_articulo,cuit_proveedor) values(?,?,?)");
+					+ "(nro_venta,cantidad,cod_articulo,cuit_proveedor) values(?,?,?,?)");
 			
 			stmt.setInt(1, nroVenta);
-			stmt.setInt(2, linea.getArticulo().getCodArticulo());
+			stmt.setInt(2,linea.getCantidad());
+			stmt.setInt(3, linea.getArticulo().getCodArticulo());
 			
 			ArrayList<Proveedor> proveedores = linea.getArticulo().getProveedores();
-			stmt.setString(3, proveedores.get((int)(Math.random()*proveedores.size())).getCuit()); //proveedor elejido aleatoriamente
+			stmt.setString(4, proveedores.get((int)(Math.random()*proveedores.size())).getCuit()); //proveedor elejido aleatoriamente
 			stmt.executeUpdate();
 			
 		}
@@ -62,7 +63,7 @@ public class LineaVentaData extends LineaData {
 					Linea linea=new Linea();
 					
 					linea.setArticulo(this.getArticuloData().getOne(rs.getInt("cod_articulo")));
-					linea.setCantidad(rs.getInt("cant_a_pedir"));
+					linea.setCantidad(rs.getInt("cantidad"));
 					linea.setProveedor(this.getProveedorData().getOne(rs.getString("cuit_proveedor")));
 					
 					lineas.add(linea);					

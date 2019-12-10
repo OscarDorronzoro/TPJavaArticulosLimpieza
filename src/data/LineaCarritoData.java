@@ -189,4 +189,34 @@ public class LineaCarritoData extends LineaData {
 		
 		
 	}
+	
+	public void deleteAllByCarrito(String nombreCarrito, String username) throws CartLineException
+	{
+		PreparedStatement stmt=null;
+		
+		try {
+			stmt= FactoryConnection.getInstancia().getConn().prepareStatement("delete from linea_carrito where nombre_carrito=? and username=?");
+			stmt.setString(1, nombreCarrito);
+			stmt.setString(2, username);
+			
+			stmt.execute();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			throw new CartLineException("Error al eliminar líneas", e, Level.ERROR);
+		}
+		finally
+		{
+			try {
+				if(stmt!=null) {stmt.close();}
+				FactoryConnection.getInstancia().releaseConn();
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				throw new CartLineException("Oops, ha ocurrido un error", e, Level.ERROR);
+			}
+			
+		}
+		
+	}
 }

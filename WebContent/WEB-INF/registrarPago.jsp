@@ -6,7 +6,7 @@
 		<meta charset="UTF-8">
 		<%Cliente c = (Cliente)session.getAttribute("cliente"); %>
 		<%if(!(c!=null && c.isAdmin())){
-		response.sendRedirect("iniciarSesion.jsp");
+		response.sendRedirect("../iniciarSesion.jsp");
 		return;
 		}%>
 		<title>Registrar pago</title>
@@ -21,11 +21,11 @@
 	<body>
 		<%@include file="../header.jsp" %>
 		
-		<form class="form-inline" method="get" action="../RegistrarPagoServlet/registrar"> <!-- crear servlet -->
+		<form class="form-inline" method="get" action="../RegistrarPagoServlet/buscar"> <!-- crear servlet -->
 		
 			<div class="form-group">
 				<label class="control-label" for="username">Ingrese username del cliente:</label>
-				<input class="form-control" type="text" id="username" name="username">
+				<input class="form-control" type="text" id="username" name="username" <%if(ventas!=null){ %><%="value=\""+ventas.get(0).getCliente().getUsername()+"\""%><%} %>>
 			</div>
 			<div class="form-group">
 				<input type="submit" class="btn btn-success" value="Buscar pagos pendientes" title="Click para ver pagos pendientes">
@@ -58,10 +58,10 @@
 						<td><%=vta.getfPago()%></td>
 						<td><%=vta.getfRetiro()%></td>
 						<td><%=vta.getfCancelacion()%></td>
-						<td><%=vta.getTotal()%></td>
+						<td><%=vta.getImporte()%></td>
 						
-						<td><a class="btn btn-primary" onclick="confirmarEIrA('EliminarClienteServlet')">Pagado</a></td>
-						<td><a class="btn btn-danger" onclick="confirmarEIrA('EliminarClienteServlet')">No pagado</a></td>
+						<td><a class="btn btn-primary" onclick="confirmarEIrA('../RegistrarPagoServlet/RegistrarPagado?nroVenta=<%= vta.getNroVenta()%>')">Pagado</a></td>
+						<td><a class="btn btn-danger" onclick="confirmarEIrA('../RegistrarPagoServlet/RegistrarNoPagado?nroVenta=<%= vta.getNroVenta()%>')">No pagado</a></td>
 					</tr>							
 							
 				<%} %>
@@ -70,9 +70,9 @@
 		<%} %>
 		
 		<%@include file="../footer.jsp"%>
-		<script src="bootstrap/js/jquery-3.4.1.js"></script>
-		<script src="bootstrap/js/popper.js"></script>
-		<script src="bootstrap/js/bootstrap.js"></script>
-		<script src="bootstrap/js/miJavaScript.js"></script>	
+		<script src="../bootstrap/js/jquery-3.4.1.js"></script>
+		<script src="../bootstrap/js/popper.js"></script>
+		<script src="../bootstrap/js/bootstrap.js"></script>
+		<script src="../bootstrap/js/miJavaScript.js"></script>	
 	</body>
 </html>

@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import data.VentaData;
+import entities.Linea;
 import entities.Venta;
 import util.ArticleException;
 import util.CartException;
 import util.CartLineException;
 import util.ClientException;
+import util.DoniaMaryException;
 import util.ProviderException;
 import util.SaleException;
 import util.SaleLineException;
@@ -18,9 +20,16 @@ public class ABMCVenta {
 	
 	private VentaData ventaData = new VentaData();
 
-	public void registrarVenta(Venta venta) throws SaleException{
-		venta.setLineas(venta.getCliente().getMiCarrito().getLineas());
+	@SuppressWarnings("unchecked")
+	public void registrarVenta(Venta venta) throws SaleException, SaleLineException, CartLineException{
+	
+		ABMCLineaCarrito abmcLineaCarrito = new ABMCLineaCarrito(venta.getCliente());
+		
+		venta.setLineas((ArrayList<Linea>)(venta.getCliente().getMiCarrito().getLineas().clone()));
+		venta.getCliente().getMiCarrito().setLineas(new ArrayList<Linea>());
+		abmcLineaCarrito.deleteAllByCarrito();
 		venta.setfEmision(new Date());
+		ventaData.add(venta);
 		
 	}
 	

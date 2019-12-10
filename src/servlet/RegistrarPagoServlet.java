@@ -1,6 +1,8 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.Date;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,20 +38,39 @@ public class RegistrarPagoServlet extends HttpServlet {
 		ABMCVenta abmcVenta = new ABMCVenta();		
 		
 		switch(request.getPathInfo()) {
+		case "/iniciarRegistro": 
+			request.getRequestDispatcher("../WEB-INF/registrarPago.jsp").forward(request, response);
+			break;
 		case "/buscar":
 			try {
 				request.setAttribute("ventas", abmcVenta.getAllPendientesByCliente(request.getParameter("username")));
-				request.getRequestDispatcher("/WEB-INF/registrarPago.jsp").forward(request, response);
+				request.getRequestDispatcher("../WEB-INF/registrarPago.jsp").forward(request, response);
 			} catch (DoniaMaryException e) {
 				// TODO Auto-generated catch block
-				response.sendRedirect("errorPage.jsp?mensaje="+e.getMessage());
+				response.sendRedirect("../errorPage.jsp?mensaje="+e.getMessage());
 			}
 			break;
-		case "/registrar":
+		case "/RegistrarPagado":
 			//buscar venta, asignarle fecha de pago, guardarla
 			try {
 				Venta venta = abmcVenta.getOne(Integer.parseInt(request.getParameter("nroVenta")));
-				request.getRequestDispatcher("WEB-INF/registrarPago.jsp");
+				venta.setfPago(new Date());
+				venta.setfRetiro(new Date());
+				//abmcVenta.update(venta);
+				
+				request.getRequestDispatcher("../WEB-INF/registrarPago.jsp").forward(request, response);;
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				response.sendRedirect("../errorPage.jsp?mensaje=Numero de venta incorrecto");
+			} catch (DoniaMaryException e) {
+				// TODO Auto-generated catch block
+				response.sendRedirect("../errorPage.jsp?mensaje="+e.getMessage());
+			}
+			break;
+		case "/RegistrarNoPagado": 
+			try {
+				Venta venta = abmcVenta.getOne(Integer.parseInt(request.getParameter("nroVenta")));
+				request.getRequestDispatcher("../WEB-INF/registrarPago.jsp").forward(request, response);;
 			} catch (NumberFormatException e) {
 				// TODO Auto-generated catch block
 				response.sendRedirect("../errorPage.jsp?mensaje=Numero de venta incorrecto");

@@ -59,7 +59,7 @@
 									<a href="#">Carga de Proveedores</a>
 					            </li>
 					            <li>
-									<a href="RegistrarPagoServlet/buscar">Registrar pago</a>
+									<a href="RegistrarPagoServlet/iniciarRegistro">Registrar pago</a>
 					            </li>	            
 					        </ul>
 					    </nav>

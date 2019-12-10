@@ -38,12 +38,16 @@ public class ComprarServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		ABMCVenta abmcv = new ABMCVenta();
 		Venta venta = new Venta();
-		venta.setCliente(((Cliente)request.getSession().getAttribute("cliente")));
+		
+		Cliente cliente = (Cliente)request.getSession().getAttribute("cliente");
+		venta.setCliente(cliente);
+		//linea seteada en registrarVenta
 		try {
 			abmcv.registrarVenta(venta);
+			response.sendRedirect("main.jsp");
 		} catch (DoniaMaryException e) {
 			// TODO Auto-generated catch block
-			response.sendRedirect("errorPage.jsp/mensaje="+e.getMessage());
+			response.sendRedirect("errorPage.jsp?mensaje="+e.getMessage());
 		}
 
 

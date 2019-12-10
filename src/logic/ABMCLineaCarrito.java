@@ -50,4 +50,9 @@ public class ABMCLineaCarrito {
 	public void setLineaCarritoData(LineaCarritoData lineaCarritoData) {
 		this.lineaCarritoData = lineaCarritoData;
 	}
+	
+	public void deleteAllByCarrito() throws CartLineException
+	{
+		this.lineaCarritoData.deleteAllByCarrito(miCarrito.getNombre(), cliente.getUsername());
+	}
 }

@@ -7,6 +7,7 @@ public abstract class LineaData {
 	
 	public LineaData() {
 		articuloData = new ArticuloData();
+		proveedorData = new ProveedorData();
 	}
 
 	protected ArticuloData getArticuloData() {
