@@ -20,7 +20,7 @@ import util.DoniaMaryException;
 /**
  * Servlet implementation class ModificarCarritoServlet
  */
-@WebServlet("/ModificarCarritoServlet")
+@WebServlet("/ModificarCarritoServlet/*")
 public class ModificarCarritoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -46,11 +46,10 @@ public class ModificarCarritoServlet extends HttpServlet {
 			linea.setCantidad(Integer.parseInt(request.getParameter("cantidad")));
 			
 			abmcLinea.update(linea);
-			request.getRequestDispatcher("/MisCarritos.jsp").forward(request, response);;
+			request.getRequestDispatcher("/MisCarritos.jsp").forward(request, response);
 		} catch (DoniaMaryException e) {
 			// TODO Auto-generated catch block
-			request.setAttribute("mensaje",e.getMessage());
-			response.sendRedirect(request.getContextPath()+"/errorPage.jsp?mensaje="+URLEncoder.encode( e.getMessage(), "UTF8"));
+			response.sendRedirect(request.getContextPath()+"../errorPage.jsp?mensaje="+URLEncoder.encode( e.getMessage(), "UTF8"));
 			//request.getRequestDispatcher("errorPage.jsp").forward(request, response);
 		}
 		catch(Exception e) {

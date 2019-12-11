@@ -94,9 +94,10 @@
 						<div class="col-md-4">
 							<div class="row">
 								<a href=<%="EliminarDeCarritoServlet?codArticulo="+linea.getArticulo().getCodArticulo()%> class="btn btn-danger">Eliminar del carrito</a><br/>
-								<form action="ModificarCarritoServlet?codArticulo="<%=linea.getArticulo().getCodArticulo()%> method="get">
+								<form action="ModificarCarritoServlet/"<%=linea.getArticulo().getCodArticulo()%> method="get">
 									
 									<div class="form-group">
+										<input name="codArticulo" type="hidden" value="<%=linea.getArticulo().getCodArticulo()%>">
 										<label class="label-control">Cantidad:</label>
 										<input name="cantidad" value="<%=linea.getCantidad() %>"  class="form-control" maxlength="3" pattern="[1-9][0-9]*" size=2px>
 									</div>
