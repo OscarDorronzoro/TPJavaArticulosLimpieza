@@ -13,7 +13,7 @@
 <!-- 					</button> -->
 <!-- 					<div class="nav navbar-nav"> -->
 						<div class="col-xs-2 col-sm-1"><a href="main.jsp" class="navbar-brand m-5"><img height="50px" src="png/favicon.ico"></a></div>
-						<div class="col-xs-10 col-sm-5"><a href="main.jsp" class="navbar-brand">Doña Mary Limpieza</a></div> <!-- class="navbar-text" agranda barra -->
+						<div class="col-xs-10 col-sm-5"><a href="../main.jsp" class="navbar-brand">Doña Mary Limpieza</a></div> <!-- class="navbar-text" agranda barra -->
 						 <div class="col-xs-12 col-sm-6">
 							<form class="form-inline navbar-brand" action="BusquedaServlet" method="get">      
 								<div class="row">

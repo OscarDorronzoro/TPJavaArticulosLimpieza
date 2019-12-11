@@ -236,9 +236,9 @@ public class VentaData {
 		
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update venta set f_retiro=?, f_pago=?, f_cancelacion=? where nro_venta=?");
-			stmt.setTimestamp(1, new Timestamp(venta.getfRetiro()==null?null:venta.getfRetiro().getTime()));
-			stmt.setTimestamp(2, new Timestamp(venta.getfPago()==null?null:venta.getfPago().getTime()));
-			stmt.setTimestamp(3, new Timestamp(venta.getfCancelacion()==null?null:venta.getfCancelacion().getTime()));
+			stmt.setTimestamp(1, venta.getfRetiro()==null?null:new Timestamp(venta.getfRetiro().getTime()));
+			stmt.setTimestamp(2, venta.getfPago()==null?null:new Timestamp(venta.getfPago().getTime()));
+			stmt.setTimestamp(3, venta.getfCancelacion()==null?null:new Timestamp(venta.getfCancelacion().getTime()));
 			stmt.setInt(4, venta.getNroVenta());
 			
 			stmt.executeUpdate();

@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.Level;
+
 import entities.Venta;
 import logic.ABMCVenta;
 import util.DoniaMaryException;
@@ -71,8 +73,8 @@ public class RegistrarPagoServlet extends HttpServlet {
 		
 		try {
 			Venta venta = abmcVenta.getOne(Integer.parseInt(request.getParameter("nroVenta")));
-			venta.setfPago(null);
-			venta.setfRetiro(null);
+			venta.setfPago(fechaPago);
+			venta.setfRetiro(fechaPago);
 			abmcVenta.update(venta);
 			request.setAttribute("venta", venta);
 			request.getRequestDispatcher("../WEB-INF/registrarPago.jsp").forward(request, response);
@@ -83,6 +85,7 @@ public class RegistrarPagoServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			response.sendRedirect("../errorPage.jsp?mensaje="+e.getMessage());
 		}catch(Exception e) {
+			new DoniaMaryException("Exception catched",e,Level.ERROR);
 			response.sendRedirect("../errorPage.jsp?mensaje=Oops ha ocurrido un error");
 		}
 	}

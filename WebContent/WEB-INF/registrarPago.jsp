@@ -28,7 +28,7 @@
 				<label class="control-label" for="username">Ingrese username del cliente:</label>
 				<input class="form-control" type="text" id="username" name="username" 
 					value="
-						<%if(ventas!=null){ %>
+						<%if(ventas!=null && !ventas.isEmpty()){ %>
 							<%=ventas.get(0).getCliente().getUsername()%>
 							<%}else{
 								if(venta!=null){%>
@@ -40,10 +40,11 @@
 			<div class="form-group">
 				<input type="submit" class="btn btn-success" value="Buscar pagos pendientes" title="Click para ver pagos pendientes">
 			</div>
+		<br><br>
 		
 		</form>
 		
-		<%if(ventas!=null){ %>
+		<%if(ventas!=null && !ventas.isEmpty()){ %>
 			<table class="table table-striped table-hover">
 				<%@page import="java.util.ArrayList"%>
 				<%@page import="entities.Venta"%>
@@ -77,7 +78,11 @@
 				<%} %>
 				</tbody>
 			</table>
-		<%} %>
+		<%}else{ 
+			if(ventas!=null && ventas.isEmpty()){%>
+				<span>No tiene pagos pendientes</span>
+			<%}
+		   }%>
 		
 		<%if(venta!=null){ %>
 			<span>Se ha <%= venta.getfPago()==null?"cancelado":"registrado" %> el pago de la venta <%=venta.getNroVenta() %></span>
