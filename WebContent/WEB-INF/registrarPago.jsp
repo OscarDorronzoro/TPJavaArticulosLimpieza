@@ -15,7 +15,8 @@
 		<link rel="stylesheet" href="../bootstrap/css/bootstrap-theme.css">
 		<%
 			@SuppressWarnings("unchecked")	
-			ArrayList<Venta> ventas=(ArrayList<Venta>)request.getAttribute("ventas");
+			ArrayList<Venta> ventas = (ArrayList<Venta>)request.getAttribute("ventas");
+			Venta venta = (Venta)request.getAttribute("venta");
 		%>	
 	</head>
 	<body>
@@ -25,7 +26,16 @@
 		
 			<div class="form-group">
 				<label class="control-label" for="username">Ingrese username del cliente:</label>
-				<input class="form-control" type="text" id="username" name="username" <%if(ventas!=null){ %><%="value=\""+ventas.get(0).getCliente().getUsername()+"\""%><%} %>>
+				<input class="form-control" type="text" id="username" name="username" 
+					value="
+						<%if(ventas!=null){ %>
+							<%=ventas.get(0).getCliente().getUsername()%>
+							<%}else{
+								if(venta!=null){%>
+									<%=venta.getCliente().getUsername()%>
+								<%}
+							}%>
+					">
 			</div>
 			<div class="form-group">
 				<input type="submit" class="btn btn-success" value="Buscar pagos pendientes" title="Click para ver pagos pendientes">
@@ -67,6 +77,11 @@
 				<%} %>
 				</tbody>
 			</table>
+		<%} %>
+		
+		<%if(venta!=null){ %>
+			<span>Se ha <%= venta.getfPago()==null?"cancelado":"registrado" %> el pago de la venta <%=venta.getNroVenta() %></span>
+		
 		<%} %>
 		
 		<%@include file="../footer.jsp"%>

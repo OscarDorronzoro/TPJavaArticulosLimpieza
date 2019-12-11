@@ -9,9 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import entities.Cliente;
 import entities.Venta;
-import logic.ABMCCliente;
 import logic.ABMCVenta;
 import util.DoniaMaryException;
 
@@ -51,33 +49,10 @@ public class RegistrarPagoServlet extends HttpServlet {
 			}
 			break;
 		case "/RegistrarPagado":
-			//buscar venta, asignarle fecha de pago, guardarla
-			try {
-				Venta venta = abmcVenta.getOne(Integer.parseInt(request.getParameter("nroVenta")));
-				venta.setfPago(new Date());
-				venta.setfRetiro(new Date());
-				//abmcVenta.update(venta);
-				
-				request.getRequestDispatcher("../WEB-INF/registrarPago.jsp").forward(request, response);;
-			} catch (NumberFormatException e) {
-				// TODO Auto-generated catch block
-				response.sendRedirect("../errorPage.jsp?mensaje=Numero de venta incorrecto");
-			} catch (DoniaMaryException e) {
-				// TODO Auto-generated catch block
-				response.sendRedirect("../errorPage.jsp?mensaje="+e.getMessage());
-			}
+			registrarPago(new Date(),abmcVenta,request,response);
 			break;
 		case "/RegistrarNoPagado": 
-			try {
-				Venta venta = abmcVenta.getOne(Integer.parseInt(request.getParameter("nroVenta")));
-				request.getRequestDispatcher("../WEB-INF/registrarPago.jsp").forward(request, response);;
-			} catch (NumberFormatException e) {
-				// TODO Auto-generated catch block
-				response.sendRedirect("../errorPage.jsp?mensaje=Numero de venta incorrecto");
-			} catch (DoniaMaryException e) {
-				// TODO Auto-generated catch block
-				response.sendRedirect("../errorPage.jsp?mensaje="+e.getMessage());
-			}
+			registrarPago(null,abmcVenta,request,response);
 			break;
 		default: throw new ServletException("error en switch");
 				
@@ -92,4 +67,23 @@ public class RegistrarPagoServlet extends HttpServlet {
 		doGet(request, response);
 	}
 
+	private void registrarPago(Date fechaPago,ABMCVenta abmcVenta,HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
+		
+		try {
+			Venta venta = abmcVenta.getOne(Integer.parseInt(request.getParameter("nroVenta")));
+			venta.setfPago(null);
+			venta.setfRetiro(null);
+			abmcVenta.update(venta);
+			request.setAttribute("venta", venta);
+			request.getRequestDispatcher("../WEB-INF/registrarPago.jsp").forward(request, response);
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			response.sendRedirect("../errorPage.jsp?mensaje=Numero de venta incorrecto");
+		} catch (DoniaMaryException e) {
+			// TODO Auto-generated catch block
+			response.sendRedirect("../errorPage.jsp?mensaje="+e.getMessage());
+		}catch(Exception e) {
+			response.sendRedirect("../errorPage.jsp?mensaje=Oops ha ocurrido un error");
+		}
+	}
 }
