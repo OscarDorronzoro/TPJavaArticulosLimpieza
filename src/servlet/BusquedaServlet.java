@@ -41,12 +41,12 @@ public class BusquedaServlet extends HttpServlet {
 			else {
 				request.setAttribute("articulos",abmca.getAll());
 			}
+			request.getRequestDispatcher("listadoArticulos.jsp").forward(request, response);
 		} catch (DoniaMaryException e) {
 			// TODO Auto-generated catch block
-			request.setAttribute("mensaje", e.getMessage());
-			request.getRequestDispatcher("errorPage.jsp").forward(request, response);
+			response.sendRedirect("errorPage.jsp?mensaje="+e.getMessage());
 		}
-		request.getRequestDispatcher("listadoArticulos.jsp").forward(request, response);
+		
 	}
 
 

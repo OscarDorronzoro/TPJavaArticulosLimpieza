@@ -1,13 +1,18 @@
 package logic;
 
 import entities.Cliente;
+import util.CartException;
+import util.CartLineException;
 import util.ClientAlreadyExistException;
+import util.ClientException;
 import util.ClientNotFoundException;
 import util.DoniaMaryException;
 
 import java.util.ArrayList;
 import data.ClienteData;
 import util.PasswordManager;
+import util.SaleException;
+import util.SaleLineException;
 
 public class ABMCCliente {
 
@@ -61,4 +66,18 @@ public class ABMCCliente {
 			c.setPassword(null);
 		}
 	}
+	
+	public void update(Cliente cliente) throws ClientException {
+		clienteData.update(cliente);
+	}
+	
+	public void delete(Cliente cliente) throws ClientException, CartException, CartLineException, SaleException, SaleLineException {
+		clienteData.delete(cliente);
+	}
+	
+	
+	
 }
+
+
+

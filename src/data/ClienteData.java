@@ -12,10 +12,13 @@ import util.CartLineException;
 import util.ClientException;
 import util.PriceException;
 import util.ProviderException;
+import util.SaleException;
+import util.SaleLineException;
 
 public class ClienteData {
 	
-	CarritoData carritoData  = new CarritoData();
+	static CarritoData carritoData  = new CarritoData();
+	static VentaData ventaData = new VentaData();
 	
 	public void add(Cliente c) throws CartLineException, ClientException {
 		PreparedStatement stmt=null;
@@ -222,4 +225,61 @@ public Cliente getOneByUserYPassword(String username,String passEncrip ) throws 
 		
 		return c;
 	}
+
+	public void update(Cliente cliente) throws ClientException
+	{
+		PreparedStatement stmt = null;
+		
+		try {
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update cliente set nombre=?, "
+					+ "apellido=?, dni=?, admin=? where username=?");
+			stmt.setString(1, cliente.getNombre());
+			stmt.setString(2, cliente.getApellido());
+			stmt.setString(3, cliente.getDNI());
+			stmt.setBoolean(4, cliente.isAdmin());
+			stmt.setString(5, cliente.getUsername());
+			
+			stmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			throw new ClientException("Error al actualizar artículo", e, Level.ERROR);
+		}
+		finally {
+			try {
+				if(stmt!=null) {stmt.close();}
+				FactoryConnection.getInstancia().releaseConn();
+			} 
+			catch (SQLException e) {
+				throw new ClientException("Oops, ha ocurrido un error", e, Level.ERROR);
+			}	
+		}	
+	}
+	
+	public void delete(Cliente cliente) throws ClientException, CartException, CartLineException, SaleException, SaleLineException {
+		
+		PreparedStatement stmt=null;
+		
+		try {
+			stmt=FactoryConnection.getInstancia().getConn().prepareStatement("delete from cliente where username=?");
+			stmt.setString(1, cliente.getUsername());
+			
+			carritoData.deleteAllByCliente(cliente.getMiCarrito(), cliente.getUsername());
+			ventaData.deleteAllByCliente(cliente.getUsername());
+			
+			stmt.execute();
+		}catch(SQLException e) {
+			throw new ClientException("Error al eliminar cliente",e,Level.ERROR);
+		}
+		finally {
+			try {
+				if(stmt!=null) {stmt.close();}
+				FactoryConnection.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				throw new ClientException("Oops, ha ocurrido un error",e,Level.ERROR);
+			}
+		}
+	}
+	
 }

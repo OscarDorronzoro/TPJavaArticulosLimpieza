@@ -63,6 +63,7 @@
 								<a data-toggle="dropdown" class="dropdown-toggle" href="#"><img src="png/cog-2x.png"></a>
 								<ul role="menu" class="dropdown-menu">
 									<li><a href="LogOutServlet">Cerrar Sesion</a></li>
+									<li><a href="EditarPerfilServlet/iniciarModificacion">Editar mi perfil</a></li>
 								</ul>
 							</li>
 							<%} %>						

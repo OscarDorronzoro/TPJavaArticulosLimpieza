@@ -20,7 +20,7 @@ import util.DoniaMaryException;
 /**
  * Servlet implementation class ModificarCarritoServlet
  */
-@WebServlet("/ModificarCarritoServlet/*")
+@WebServlet("/ModificarCarritoServlet")
 public class ModificarCarritoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

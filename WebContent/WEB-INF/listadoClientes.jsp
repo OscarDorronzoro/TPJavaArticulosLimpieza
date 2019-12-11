@@ -88,8 +88,8 @@
 							<td><input type="checkbox" name="isAdmin" value="Check Value" readonly="readonly" 
 								<%if(cli.isAdmin()){%>checked<%} %> onclick="javascript: return false;"/>
 							</td>
-							<td><a class="btn btn-primary" href="ModificarClienteServlet">Modificar</a></td>
-							<td><a class="btn btn-danger" onclick="confirmarEIrA('EliminarClienteServlet')">Eliminar</a></td>
+							<td><a class="btn btn-primary" href="ModificarClienteServlet/IniciarModificacion?username=<%=cli.getUsername()%>">Modificar</a></td>
+							<td><a class="btn btn-danger" onclick="confirmarEIrA('EliminarClienteServlet?username=<%=cli.getUsername()%>')">Eliminar</a></td>
 						</tr>							
 								
 					<%} %>

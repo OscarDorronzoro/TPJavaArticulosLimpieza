@@ -3,11 +3,11 @@
 <!DOCTYPE html>
 <html>
 	<head>
-	<meta charset="ISO-8859-1">
-	<title>Articulos de Limpieza</title>
-	<link rel="shortcut icon" href="png/favicon.ico">
-	<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
-	<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css">
+		<meta charset="ISO-8859-1">
+		<title>Articulos de Limpieza</title>
+		<link rel="shortcut icon" href="png/favicon.ico">
+		<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+		<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css">
 	</head>
 	<body class="bg-light">		
 		<%@include file="header.jsp" %>

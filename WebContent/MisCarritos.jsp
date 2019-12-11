@@ -66,7 +66,6 @@
 		
 		<div class="col-xs-12 col-md-8">
 		<%@page import="entities.Articulo"%>
-		<%@page import="entities.Cliente"%>
 		<%@page import="entities.Linea"%>
 		<%@page import="java.util.ArrayList"%>
 		<%@page import="logic.ABMCLineaCarrito"%>	
@@ -95,10 +94,9 @@
 						<div class="col-md-4">
 							<div class="row">
 								<a href=<%="EliminarDeCarritoServlet?codArticulo="+linea.getArticulo().getCodArticulo()%> class="btn btn-danger">Eliminar del carrito</a><br/>
-								<form action="ModificarCarritoServlet"<%=linea.getArticulo().getCodArticulo()%> method="get">
+								<form action="ModificarCarritoServlet?codArticulo="<%=linea.getArticulo().getCodArticulo()%> method="get">
 									
 									<div class="form-group">
-										<input type="hidden" name="codArticulo" value=<%=linea.getArticulo().getCodArticulo() %>>
 										<label class="label-control">Cantidad:</label>
 										<input name="cantidad" value="<%=linea.getCantidad() %>"  class="form-control" maxlength="3" pattern="[1-9][0-9]*" size=2px>
 									</div>

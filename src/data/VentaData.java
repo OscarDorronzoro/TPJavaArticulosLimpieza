@@ -22,8 +22,8 @@ import util.SaleLineException;
 
 public class VentaData {
 	
-	ClienteData clienteData = new ClienteData();
-	LineaVentaData lineaVentaData = new LineaVentaData();
+	static ClienteData clienteData = new ClienteData();
+	static LineaVentaData lineaVentaData = new LineaVentaData();
 	
 	public ArrayList<Venta> getAll() throws SaleException, ProviderException, CartLineException, CartException, ArticleException, ClientException, SaleLineException, PriceException
 	{
@@ -289,7 +289,35 @@ public class VentaData {
 		}		
 	}
 	
-	
+	public void deleteAllByCliente(String username) throws SaleException, SaleLineException {
+		
+		PreparedStatement stmt = null;
+		
+		try {
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("delete venta,linea_venta from venta v "
+					+ "inner join linea_venta lv on v.nro_venta=lv.nro_venta where v.username=?");
+			stmt.setString(1, username);
+			
+			//for (Linea linea : venta.getLineas()) {
+			//	lineaVentaData.delete(venta.getNroVenta(), linea);
+			//}
+			
+			stmt.execute();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			throw new SaleException("Error al eliminar las ventas",e);
+		}
+		finally {
+			try {
+				if(stmt!=null) {stmt.close();}
+				FactoryConnection.getInstancia().releaseConn();
+			} 
+			catch (SQLException e) {
+				throw new SaleException("Oops, ha ocurrido un error",e);
+			}	
+		}		
+	}
 	
 }
 
