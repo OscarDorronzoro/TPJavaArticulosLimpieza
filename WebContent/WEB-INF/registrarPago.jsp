@@ -66,9 +66,9 @@
 					<tr>
 						<td><%=vta.getNroVenta()%></td>	
 						<td><%=vta.getfEmision()%></td>
-						<td><%=vta.getfPago()%></td>
-						<td><%=vta.getfRetiro()%></td>
-						<td><%=vta.getfCancelacion()%></td>
+						<td><%=vta.getfPago()==null?"-":vta.getfPago()%></td>
+						<td><%=vta.getfRetiro()==null?"-":vta.getfRetiro()%></td>
+						<td><%=vta.getfCancelacion()==null?"-":vta.getfCancelacion()%></td>
 						<td><%=vta.getImporte()%></td>
 						
 						<td><a class="btn btn-primary" onclick="confirmarEIrA('../RegistrarPagoServlet/RegistrarPagado?nroVenta=<%= vta.getNroVenta()%>')">Pagado</a></td>
