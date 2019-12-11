@@ -3,6 +3,7 @@ package data;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import org.apache.logging.log4j.Level;
@@ -12,21 +13,21 @@ import util.PriceException;
 
 public class PrecioData {
 
-	public void add(Precio precio,int codArticulo) {
+	public void add(Precio precio,int codArticulo) throws PriceException {
 		PreparedStatement stmt=null;
 		
 		try {
 			stmt= FactoryConnection.getInstancia().getConn().prepareStatement(
 					"insert into precio(cod_articulo,fecha_desde,precio) values(?,?,?)");
 			stmt.setInt(1, codArticulo);
-			stmt.setDate(2, new java.sql.Date( precio.getFechaDesde().getTime()));
+			stmt.setTimestamp(2, new java.sql.Timestamp( precio.getFechaDesde().getTime()));
 			stmt.setDouble(3, precio.getValor());
 			
 			stmt.executeUpdate();
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
-			new PriceException("Error al cargar el precio", e, Level.ERROR);
+			throw new PriceException("Error al cargar el precio", e, Level.ERROR);
 		}
 		finally {
 			try {
@@ -34,13 +35,13 @@ public class PrecioData {
             FactoryConnection.getInstancia().releaseConn();
 			} 
 			catch (SQLException e) {
-        	e.printStackTrace();
+				throw new PriceException("Oops, ha ocurrido un error", e, Level.ERROR);
 			}
 		}
 		
 	}
 	
-	public Precio getPrecioActual(int codArticulo){
+	public Precio getPrecioActual(int codArticulo) throws PriceException{
 		
 		ResultSet rs=null;
 		PreparedStatement stmt=null;
@@ -57,13 +58,13 @@ public class PrecioData {
 			if(rs!=null && rs.next()) {
 					precio=new Precio();
 					
-					precio.setFechaDesde(rs.getDate("fecha_desde"));
+					precio.setFechaDesde(rs.getTimestamp("fecha_desde"));
 					precio.setValor(rs.getDouble("precio"));					
 			}
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new PriceException("Error al obtener precio actual", e, Level.ERROR);
 		}
 		finally {
 				try {
@@ -72,14 +73,14 @@ public class PrecioData {
 					FactoryConnection.getInstancia().releaseConn();
 				} 
 				catch (SQLException e) {
-					e.printStackTrace();
+					throw new PriceException("Oops, ha ocurrido un error", e, Level.ERROR);
 				}
 		}
 		
 		return precio;
 	}
 	
-	public ArrayList<Precio> getAll(int codArticulo){
+	public ArrayList<Precio> getAll(int codArticulo) throws PriceException{
 		
 		ArrayList<Precio> precios = new ArrayList<Precio>();
 		ResultSet rs=null;
@@ -95,7 +96,7 @@ public class PrecioData {
 				while(rs.next()) {
 					Precio precio=new Precio();
 					
-					precio.setFechaDesde(rs.getDate("fecha_desde"));
+					precio.setFechaDesde(rs.getTimestamp("fecha_desde"));
 					precio.setValor(rs.getDouble("precio"));
 					
 					precios.add(precio);					
@@ -103,7 +104,7 @@ public class PrecioData {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new PriceException("Error al obtener precios", e, Level.ERROR);
 		}
 		finally {
 				try {
@@ -112,28 +113,28 @@ public class PrecioData {
 					FactoryConnection.getInstancia().releaseConn();
 				} 
 				catch (SQLException e) {
-					e.printStackTrace();
+					throw new PriceException("Oops, ha ocurrido un error", e, Level.ERROR);
 				}
 		}
 		
 		return precios;
 	}
 	
-	public void update(Precio precio, int codArticulo) {
+	public void update(Precio precio, int codArticulo) throws PriceException {
 		
 		PreparedStatement stmt=null;
 		
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update from precio set fecha_desde=?,precio=?"
 					+ " where precio.cod_articulo=?");
-			stmt.setDate(1, (java.sql.Date)precio.getFechaDesde());
+			stmt.setTimestamp(1, new Timestamp(precio.getFechaDesde().getTime()));
 			stmt.setDouble(2, precio.getValor());
 			stmt.setInt(6, codArticulo);
 			
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new PriceException("Error al actualizar precio", e, Level.ERROR);
 		}
 		finally {
 				try {
@@ -141,7 +142,7 @@ public class PrecioData {
 					FactoryConnection.getInstancia().releaseConn();
 				} 
 				catch (SQLException e) {
-					e.printStackTrace();
+					throw new PriceException("Oops, ha ocurrido un error", e, Level.ERROR);
 				}
 		}
 	}

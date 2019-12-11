@@ -6,6 +6,7 @@ import data.LineaVentaData;
 import entities.Linea;
 import entities.Venta;
 import util.ArticleException;
+import util.PriceException;
 import util.ProviderException;
 import util.SaleLineException;
 
@@ -23,7 +24,7 @@ public class ABMCLineaVenta {
 		this.getLineaVentaData().add(linea,miVenta.getNroVenta());
 	}
 	
-	public ArrayList<Linea> getAllByVenta() throws ProviderException, ArticleException, SaleLineException{
+	public ArrayList<Linea> getAllByVenta() throws ProviderException, ArticleException, SaleLineException, PriceException{
 		return this.getLineaVentaData().getAllByVenta(miVenta.getNroVenta());
 	}
 

@@ -17,7 +17,7 @@ import javax.servlet.http.Part;
 import entities.Articulo;
 import entities.Precio;
 import logic.ABMCArticulo;
-import util.ArticleException;
+import util.DoniaMaryException;
 
 /**
  * Servlet implementation class CargaArticuloServlet
@@ -77,7 +77,7 @@ public class CargaArticuloServlet extends HttpServlet {
 			
 			try {
 				abmcA.add(articulo);
-			} catch (ArticleException e) {
+			} catch (DoniaMaryException e) {
 				// TODO Auto-generated catch block
 				response.sendRedirect("errorPage.jsp?mensaje="+e.getMessage());
 			}

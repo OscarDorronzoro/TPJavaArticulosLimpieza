@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Level;
 
 import entities.Articulo;
 import util.ArticleException;
+import util.PriceException;
 import util.ProviderException;
 
 public class ArticuloData {
@@ -17,7 +18,7 @@ public class ArticuloData {
 	PrecioData precioData = new PrecioData();
 	ProveedorData proveedorData=new ProveedorData();
 	
-	public void add(Articulo art) throws ArticleException {
+	public void add(Articulo art) throws ArticleException, PriceException {
 		PreparedStatement stmt=null;
 		Statement transaccion = null;
 		
@@ -66,7 +67,7 @@ public class ArticuloData {
 		
 	}
 	
-	public ArrayList<Articulo> getAll() throws ProviderException, ArticleException{
+	public ArrayList<Articulo> getAll() throws ProviderException, ArticleException, PriceException{
 		
 		ArrayList<Articulo> articulos = new ArrayList<Articulo>();
 		ResultSet rs=null;
@@ -111,7 +112,7 @@ public class ArticuloData {
 		return articulos;
 	}
 	
-	public Articulo getOne(int codArticulo) throws ProviderException, ArticleException {
+	public Articulo getOne(int codArticulo) throws ProviderException, ArticleException, PriceException {
 		
 		Articulo art=null;
 		ResultSet rs=null;
@@ -155,7 +156,7 @@ public class ArticuloData {
 		return art;
 	}
 	
-	public ArrayList<Articulo> getAllByDescripcion(String descripcion) throws ProviderException, ArticleException{
+	public ArrayList<Articulo> getAllByDescripcion(String descripcion) throws ProviderException, ArticleException, PriceException{
 		ArrayList<Articulo> articulos = new ArrayList<Articulo>();
 		ResultSet rs=null;
 		PreparedStatement stmt=null;
@@ -224,7 +225,7 @@ public class ArticuloData {
 		}
 	}
 	
-	public void update(Articulo articulo) throws ArticleException {
+	public void update(Articulo articulo) throws ArticleException, PriceException {
 		
 		PreparedStatement stmt=null;
 		

@@ -9,6 +9,7 @@ import entities.Carrito;
 import util.ArticleException;
 import util.CartException;
 import util.CartLineException;
+import util.PriceException;
 import util.ProviderException;
 
 public class CarritoData {
@@ -50,7 +51,7 @@ public class CarritoData {
 		
 	}
 	
-	public Carrito getOne(String nombre, String username) throws ProviderException, CartLineException, CartException, ArticleException {
+	public Carrito getOne(String nombre, String username) throws ProviderException, CartLineException, CartException, ArticleException, PriceException {
 		
 		Carrito carrito=null;
 		ResultSet rs=null;

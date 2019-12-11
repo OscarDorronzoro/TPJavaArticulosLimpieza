@@ -6,17 +6,16 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 
 import org.apache.logging.log4j.Level;
 
 import entities.Linea;
 import entities.Venta;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import util.ArticleException;
 import util.CartException;
 import util.CartLineException;
 import util.ClientException;
+import util.PriceException;
 import util.ProviderException;
 import util.SaleException;
 import util.SaleLineException;
@@ -26,7 +25,7 @@ public class VentaData {
 	ClienteData clienteData = new ClienteData();
 	LineaVentaData lineaVentaData = new LineaVentaData();
 	
-	public ArrayList<Venta> getAll() throws SaleException, ProviderException, CartLineException, CartException, ArticleException, ClientException, SaleLineException
+	public ArrayList<Venta> getAll() throws SaleException, ProviderException, CartLineException, CartException, ArticleException, ClientException, SaleLineException, PriceException
 	{
 		ArrayList<Venta> ventas = new ArrayList<Venta>();
 		ResultSet rs=null;
@@ -40,10 +39,10 @@ public class VentaData {
 					Venta venta=new Venta();
 					
 					venta.setNroVenta(rs.getInt("nro_venta"));
-					venta.setfEmision(rs.getDate("f_emision"));
-					venta.setfPago(rs.getDate("f_pago"));
-					venta.setfCancelacion(rs.getDate("f_cancelacion"));
-					venta.setfRetiro(rs.getDate("f_retiro"));
+					venta.setfEmision(rs.getTimestamp("f_emision"));
+					venta.setfPago(rs.getTimestamp("f_pago"));
+					venta.setfCancelacion(rs.getTimestamp("f_cancelacion"));
+					venta.setfRetiro(rs.getTimestamp("f_retiro"));
 					venta.setImporte(rs.getDouble("importe"));
 					
 					venta.setCliente(clienteData.getOne(rs.getString("username")));
@@ -72,7 +71,7 @@ public class VentaData {
 	}
 	
 
-	public Venta getOne(int nroVenta) throws ProviderException, CartLineException, CartException, ArticleException, ClientException, SaleException, SaleLineException
+	public Venta getOne(int nroVenta) throws ProviderException, CartLineException, CartException, ArticleException, ClientException, SaleException, SaleLineException, PriceException
 	{
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -86,10 +85,10 @@ public class VentaData {
 			if(rs!=null && rs.next())
 			{
 				venta = new Venta();
-				venta.setfCancelacion(rs.getDate("f_cancelacion"));
-				venta.setfEmision(rs.getDate("f_emision"));
-				venta.setfPago(rs.getDate("f_pago"));
-				venta.setfRetiro(rs.getDate("f_retiro"));
+				venta.setfCancelacion(rs.getTimestamp("f_cancelacion"));
+				venta.setfEmision(rs.getTimestamp("f_emision"));
+				venta.setfPago(rs.getTimestamp("f_pago"));
+				venta.setfRetiro(rs.getTimestamp("f_retiro"));
 				venta.setNroVenta(rs.getInt("nro_venta"));
 				venta.setImporte(rs.getDouble("importe"));
 				
@@ -121,7 +120,7 @@ public class VentaData {
 		return venta;
 	}
 	
-	public ArrayList<Venta> getAllPendientesByCliente(String username) throws ProviderException, CartLineException, CartException, ArticleException, ClientException, SaleException, SaleLineException
+	public ArrayList<Venta> getAllPendientesByCliente(String username) throws ProviderException, CartLineException, CartException, ArticleException, ClientException, SaleException, SaleLineException, PriceException
 	{
 		ArrayList<Venta> ventas=null;
 		ResultSet rs=null;
@@ -141,10 +140,10 @@ public class VentaData {
 				{
 					Venta venta= new Venta();
 					
-					venta.setfCancelacion(rs.getDate("f_cancelacion"));
-					venta.setfEmision(rs.getDate("f_emision"));
-					venta.setfPago(rs.getDate("f_pago"));
-					venta.setfRetiro(rs.getDate("f_retiro"));
+					venta.setfCancelacion(rs.getTimestamp("f_cancelacion"));
+					venta.setfEmision(rs.getTimestamp("f_emision"));
+					venta.setfPago(rs.getTimestamp("f_pago"));
+					venta.setfRetiro(rs.getTimestamp("f_retiro"));
 					venta.setNroVenta(rs.getInt("nro_venta"));
 					venta.setImporte(rs.getDouble("importe"));
 					
@@ -189,11 +188,11 @@ public class VentaData {
 			
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("insert into venta "
 					+ "(f_emision,importe,username) values(?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
-			stmt.setDate(1, new java.sql.Date(venta.getfEmision().getTime()));
-			//stmt.setDate(2, new java.sql.Date(venta.getfCancelacion().getTime()));
-			//stmt.setDate(3, new java.sql.Date(venta.getfPago().getTime()));
+			stmt.setTimestamp(1, new java.sql.Timestamp(venta.getfEmision().getTime()));
+			//stmt.setDate(2, new java.sql.Timestamp(venta.getfCancelacion().getTime()));
+			//stmt.setDate(3, new java.sql.Timestamp(venta.getfPago().getTime()));
 			stmt.setDouble(2, venta.getTotal());
-			//stmt.setDate(5,new java.sql.Date(venta.getfRetiro().getTime()));
+			//stmt.setDate(5,new java.sql.Timestamp(venta.getfRetiro().getTime()));
 			stmt.setString(3, venta.getCliente().getUsername());	
 			
 			stmt.executeUpdate();
@@ -237,9 +236,9 @@ public class VentaData {
 		
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update venta set f_retiro=?, f_pago=?, f_cancelacion=? where nro_venta=?");
-			stmt.setDate(1, (java.sql.Date) venta.getfRetiro());
-			stmt.setDate(2, (java.sql.Date) venta.getfPago());
-			stmt.setDate(3, (java.sql.Date) venta.getfCancelacion());
+			stmt.setTimestamp(1, new Timestamp(venta.getfRetiro()==null?null:venta.getfRetiro().getTime()));
+			stmt.setTimestamp(2, new Timestamp(venta.getfPago()==null?null:venta.getfPago().getTime()));
+			stmt.setTimestamp(3, new Timestamp(venta.getfCancelacion()==null?null:venta.getfCancelacion().getTime()));
 			stmt.setInt(4, venta.getNroVenta());
 			
 			stmt.executeUpdate();
@@ -281,17 +280,16 @@ public class VentaData {
 		}
 		finally {
 			try {
-					if(stmt!=null) {stmt.close();}
-					FactoryConnection.getInstancia().releaseConn();
-				} 
-				catch (SQLException e) {
-					throw new SaleException("Oops, ha ocurrido un error",e);
-				}	
-		}
-		
-		
+				if(stmt!=null) {stmt.close();}
+				FactoryConnection.getInstancia().releaseConn();
+			} 
+			catch (SQLException e) {
+				throw new SaleException("Oops, ha ocurrido un error",e);
+			}	
+		}		
 	}
 	
 	
-	}
+	
+}
 

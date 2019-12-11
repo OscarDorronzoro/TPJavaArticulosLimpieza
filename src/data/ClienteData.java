@@ -10,6 +10,7 @@ import util.ArticleException;
 import util.CartException;
 import util.CartLineException;
 import util.ClientException;
+import util.PriceException;
 import util.ProviderException;
 
 public class ClienteData {
@@ -50,7 +51,7 @@ public class ClienteData {
 		
 	}
 	
-	public ArrayList<Cliente> getAll() throws ProviderException, CartLineException, CartException, ArticleException, ClientException{
+	public ArrayList<Cliente> getAll() throws ProviderException, CartLineException, CartException, ArticleException, ClientException, PriceException{
 		
 		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
 		ResultSet rs=null;
@@ -93,7 +94,7 @@ public class ClienteData {
 		return clientes;
 	}
 	
-	public ArrayList<Cliente> getAllByAdmin(boolean isAdmin) throws ProviderException, CartLineException, CartException, ArticleException, ClientException{
+	public ArrayList<Cliente> getAllByAdmin(boolean isAdmin) throws ProviderException, CartLineException, CartException, ArticleException, ClientException, PriceException{
 		
 		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
 		ResultSet rs=null;
@@ -139,7 +140,7 @@ public class ClienteData {
 		return clientes;
 	}
 	
-	public Cliente getOne(String username) throws ProviderException, CartLineException, CartException, ArticleException, ClientException {
+	public Cliente getOne(String username) throws ProviderException, CartLineException, CartException, ArticleException, ClientException, PriceException {
 		
 		Cliente c=null;
 		ResultSet rs=null;
@@ -179,7 +180,7 @@ public class ClienteData {
 		
 		return c;
 	}
-public Cliente getOneByUserYPassword(String username,String passEncrip ) throws ProviderException, CartLineException, CartException, ArticleException, ClientException {
+public Cliente getOneByUserYPassword(String username,String passEncrip ) throws ProviderException, CartLineException, CartException, ArticleException, ClientException, PriceException {
 		
 		Cliente c=null;
 		ResultSet rs=null;
