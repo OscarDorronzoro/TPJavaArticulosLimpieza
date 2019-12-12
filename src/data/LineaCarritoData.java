@@ -130,7 +130,7 @@ public class LineaCarritoData extends LineaData {
 		
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
-					"select * from linea_Carrito where nombre_carrito=? and username=? and cod_articulo=?");
+					"select * from linea_carrito where nombre_carrito=? and username=? and cod_articulo=?");
 			
 			stmt.setString(1, nombreCarrito);
 			stmt.setString(2, username);
@@ -204,7 +204,7 @@ public class LineaCarritoData extends LineaData {
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			throw new CartLineException("Error al eliminar líneas", e, Level.ERROR);
+			throw new CartLineException("Error al eliminar lï¿½neas", e, Level.ERROR);
 		}
 		finally
 		{
