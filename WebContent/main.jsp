@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<meta charset="ISO-8859-1">
-		<title>Articulos de Limpieza</title>
+		<title>Artículos de Limpieza</title>
 		<link rel="shortcut icon" href="png/favicon.ico">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css">

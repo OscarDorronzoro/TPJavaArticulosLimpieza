@@ -52,10 +52,10 @@
 							<%Cliente cliente = (Cliente)request.getSession().getAttribute("cliente"); %>
 							<%if(cliente==null){ %>
 							<li><a href="formCliente.jsp">Registrarse</a></li>
-							<li><a href="iniciarSesion.jsp">Iniciar Sesion</a></li>
+							<li><a href="iniciarSesion.jsp">Iniciar Sesión</a></li>
 							<%}else{
 							if(cliente.isAdmin()){%>
-								<li><a href="SeccionAdminServlet">Gestion del Sitio</a> </li>
+								<li><a href="SeccionAdminServlet">Gestión del Sitio</a> </li>
 							<%}%>		
 							<li>
 								<a href="MisCarritos.jsp">Mi Carrito <% if(cliente.getMiCarrito().getLineas()!=null) { %> <%=cliente.getMiCarrito().getLineas().size()%> <% } %> </a>  
