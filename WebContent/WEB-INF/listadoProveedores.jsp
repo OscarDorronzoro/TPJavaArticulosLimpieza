@@ -68,7 +68,7 @@
 			    </div>
 			</div>
 			
-			<div class="col-xs-12 col-sm-12 col-md-8 bg-articulos">
+			<div class="col-xs-12 col-sm-12 col-md-8">
 				<%@page import="entities.Proveedor"%>
 				<%@page import="java.util.ArrayList"%>
 				
