@@ -33,7 +33,9 @@ public class EliminarArticuloServlet extends HttpServlet {
 		ABMCArticulo abmcA = new ABMCArticulo();
 		
 		try {
-			abmcA.delete(Integer.parseInt(request.getPathInfo()));
+			abmcA.delete(Integer.parseInt(request.getParameter("codArticulo")));
+			request.getRequestDispatcher("WEB-INF/listadoProveedores.jsp").forward(request, response);
+			
 		} catch (DoniaMaryException e) {
 			// TODO Auto-generated catch block
 			response.sendRedirect("/errorPage.jsp?mensaje="+e.getMessage());
