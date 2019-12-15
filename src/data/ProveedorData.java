@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import org.apache.logging.log4j.Level;
+
 import entities.Proveedor;
 import util.ProviderException;
 
@@ -17,17 +19,20 @@ public class ProveedorData {
 		
 		try {
 			stmt= FactoryConnection.getInstancia().getConn().prepareStatement(
-					"insert into proveedor(cuit,direccion) values(?,?)");
+					"insert into proveedor(cuit,direccion,telefono,mail,razon_social) values(?,?,?,?,?)");
 			
 			stmt.setString(1, prov.getCuit());
 			stmt.setString(2, prov.getDireccion());
+			stmt.setString(3, prov.getTelefono());
+			stmt.setString(4, prov.getMail());
+			stmt.setString(5, prov.getRazonSocial());
 			
 			stmt.executeUpdate();
 				
 		}
 		catch (SQLException e)  {
 			// TODO Auto-generated catch block
-			throw new ProviderException("Error al agregar proveedor");
+			throw new ProviderException("Error al agregar proveedor", e, Level.ERROR);
 		}
 		finally {
 			try {
@@ -35,10 +40,9 @@ public class ProveedorData {
             FactoryConnection.getInstancia().releaseConn();
 			} 
 			catch (SQLException e) {
-				throw new ProviderException("Oops ha ocurrido un error");
+				throw new ProviderException("Oops ha ocurrido un error", e, Level.ERROR);
 			}
 		}
-		
 	}
 	
 	public ArrayList<Proveedor> getAll() throws ProviderException{
@@ -56,13 +60,16 @@ public class ProveedorData {
 					
 					prov.setCuit(rs.getString("cuit"));
 					prov.setDireccion(rs.getString("direccion"));
+					prov.setMail(rs.getString("mail"));
+					prov.setRazonSocial(rs.getString("razon_social"));
+					prov.setTelefono(rs.getString("telefono"));
 										
 					proveedores.add(prov);					
 				}
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			throw new ProviderException("Error al buscar proveedores");
+			throw new ProviderException("Error al buscar proveedores", e, Level.ERROR);
 		}
 		finally {
 				try {
@@ -71,7 +78,7 @@ public class ProveedorData {
 					FactoryConnection.getInstancia().releaseConn();
 				} 
 				catch (SQLException e) {
-					throw new ProviderException("Oops ha ocurrido un error");
+					throw new ProviderException("Oops ha ocurrido un error", e, Level.ERROR);
 				}
 		}
 		
@@ -95,13 +102,16 @@ public class ProveedorData {
 					
 					prov.setCuit(rs.getString("cuit"));
 					prov.setDireccion(rs.getString("direccion"));
+					prov.setMail(rs.getString("mail"));
+					prov.setRazonSocial(rs.getString("razon_social"));
+					prov.setTelefono(rs.getString("telefono"));
 										
 					proveedores.add(prov);					
 				}
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			throw new ProviderException("Error al buscar proveedores");
+			throw new ProviderException("Error al buscar proveedores", e, Level.ERROR);
 		}
 		finally {
 				try {
@@ -110,7 +120,7 @@ public class ProveedorData {
 					FactoryConnection.getInstancia().releaseConn();
 				} 
 				catch (SQLException e) {
-					throw new ProviderException("Oops ha ocurrido un error");
+					throw new ProviderException("Oops ha ocurrido un error", e, Level.ERROR);
 				}
 		}
 		
@@ -133,11 +143,13 @@ public class ProveedorData {
 					
 					prov.setCuit(rs.getString("cuit"));
 					prov.setDireccion(rs.getString("direccion"));
-					
+					prov.setMail(rs.getString("mail"));
+					prov.setRazonSocial(rs.getString("razon_social"));
+					prov.setTelefono(rs.getString("telefono"));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			throw new ProviderException("Error al buscar proveedor");
+			throw new ProviderException("Error al buscar proveedor", e, Level.ERROR);
 		}
 		finally {
 				try {
@@ -146,7 +158,7 @@ public class ProveedorData {
 					FactoryConnection.getInstancia().releaseConn();
 				} 
 				catch (SQLException e) {
-					throw new ProviderException("Oops ha ocurrido un error");
+					throw new ProviderException("Oops ha ocurrido un error", e, Level.ERROR);
 				}
 		}
 		
@@ -163,7 +175,7 @@ public class ProveedorData {
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			throw new ProviderException("Error al eliminar proveedor");
+			throw new ProviderException("Error al eliminar proveedor", e, Level.ERROR);
 		}
 		finally {
 				try {
@@ -171,7 +183,7 @@ public class ProveedorData {
 					FactoryConnection.getInstancia().releaseConn();
 				} 
 				catch (SQLException e) {
-					throw new ProviderException("Oops ha ocurrido un error");
+					throw new ProviderException("Oops ha ocurrido un error", e, Level.ERROR);
 				}
 		}
 	}
@@ -181,15 +193,21 @@ public class ProveedorData {
 		PreparedStatement stmt=null;
 		
 		try {
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update proveedor p set direccion=? where p.cuit=?");
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update proveedor p set direccion=?, "
+					+ "telefono=?, mail=?, razon_social=? where p.cuit=?");
 			stmt.setString(1, proveedor.getDireccion());
+			stmt.setString(2, proveedor.getTelefono());
+			stmt.setString(3, proveedor.getMail());
+			stmt.setString(4, proveedor.getRazonSocial());
+			stmt.setString(5, proveedor.getCuit());
+			
 									
 			stmt.executeUpdate();
 			
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			throw new ProviderException("Error al actualizar proveedor");
+			throw new ProviderException("Error al actualizar proveedor", e, Level.ERROR);
 		}
 		finally {
 				try {
@@ -197,7 +215,7 @@ public class ProveedorData {
 					FactoryConnection.getInstancia().releaseConn();
 				} 
 				catch (SQLException e) {
-					throw new ProviderException("Oops ha ocurrido un error");
+					throw new ProviderException("Oops, ha ocurrido un error", e, Level.ERROR);
 				}
 		}
 	}
