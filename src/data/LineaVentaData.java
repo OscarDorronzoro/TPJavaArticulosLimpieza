@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Level;
 import entities.Linea;
 import entities.Proveedor;
 import util.ArticleException;
+import util.CategoryException;
 import util.PriceException;
 import util.ProviderException;
 import util.SaleLineException;
@@ -49,7 +50,7 @@ public class LineaVentaData extends LineaData {
 		
 	}
 	
-	public ArrayList<Linea> getAllByVenta(int nroVenta) throws ProviderException, ArticleException, SaleLineException, PriceException{
+	public ArrayList<Linea> getAllByVenta(int nroVenta) throws ProviderException, ArticleException, SaleLineException, PriceException, CategoryException{
 		
 		ArrayList<Linea> lineas = new ArrayList<Linea>();
 		ResultSet rs=null;

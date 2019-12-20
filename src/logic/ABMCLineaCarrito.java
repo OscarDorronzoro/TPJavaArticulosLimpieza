@@ -6,6 +6,7 @@ import data.LineaCarritoData;
 import entities.Linea;
 import util.ArticleException;
 import util.CartLineException;
+import util.CategoryException;
 import util.PriceException;
 import util.ProviderException;
 import entities.Carrito;
@@ -32,11 +33,11 @@ public class ABMCLineaCarrito {
 		this.getLineaCarritoData().update(linea, miCarrito.getNombre(),cliente.getUsername());
 	}
 	
-	public Linea getOne(int codArticulo) throws ProviderException, CartLineException, ArticleException, PriceException {
+	public Linea getOne(int codArticulo) throws ProviderException, CartLineException, ArticleException, PriceException, CategoryException {
 		return this.getLineaCarritoData().getOne(miCarrito.getNombre(),cliente.getUsername(), codArticulo);
 	}
 	
-	public ArrayList<Linea> getAllByCarrito() throws ProviderException, CartLineException, ArticleException, PriceException{
+	public ArrayList<Linea> getAllByCarrito() throws ProviderException, CartLineException, ArticleException, PriceException, CategoryException{
 		return this.getLineaCarritoData().getAllByCarrito(miCarrito.getNombre(),cliente.getUsername());
 	}
 	

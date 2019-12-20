@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Level;
 import entities.Linea;
 import util.ArticleException;
 import util.CartLineException;
+import util.CategoryException;
 import util.PriceException;
 import util.ProviderException;
 
@@ -80,7 +81,7 @@ public class LineaCarritoData extends LineaData {
 		
 	}
 	
-	public ArrayList<Linea> getAllByCarrito(String nombreCarrito,String username) throws ProviderException, CartLineException, ArticleException, PriceException{
+	public ArrayList<Linea> getAllByCarrito(String nombreCarrito,String username) throws ProviderException, CartLineException, ArticleException, PriceException, CategoryException{
 		
 		ArrayList<Linea> lineas = new ArrayList<Linea>();
 		ResultSet rs=null;
@@ -122,7 +123,7 @@ public class LineaCarritoData extends LineaData {
 		return lineas;
 	}
 	
-	public Linea getOne(String nombreCarrito, String username, int codArticulo) throws ProviderException, CartLineException, ArticleException, PriceException {
+	public Linea getOne(String nombreCarrito, String username, int codArticulo) throws ProviderException, CartLineException, ArticleException, PriceException, CategoryException {
 		
 		Linea linea=null;
 		ResultSet rs=null;

@@ -10,6 +10,7 @@ import entities.Venta;
 import util.ArticleException;
 import util.CartException;
 import util.CartLineException;
+import util.CategoryException;
 import util.ClientException;
 import util.PriceException;
 import util.ProviderException;
@@ -33,17 +34,17 @@ public class ABMCVenta {
 		
 	}
 	
-	public ArrayList<Venta> getAll() throws SaleException, ProviderException, CartLineException, CartException, ArticleException, ClientException, SaleLineException, PriceException
+	public ArrayList<Venta> getAll() throws SaleException, ProviderException, CartLineException, CartException, ArticleException, ClientException, SaleLineException, PriceException, CategoryException
 	{
 		return ventaData.getAll();
 	}
 	
-	public Venta getOne(int nroVenta) throws ProviderException, CartLineException, CartException, ArticleException, ClientException, SaleException, SaleLineException, PriceException
+	public Venta getOne(int nroVenta) throws ProviderException, CartLineException, CartException, ArticleException, ClientException, SaleException, SaleLineException, PriceException, CategoryException
 	{
 		return ventaData.getOne(nroVenta);
 	}
 	
-	public ArrayList<Venta> getAllPendientesByCliente(String username) throws ProviderException, CartLineException, CartException, ArticleException, ClientException, SaleException, SaleLineException, PriceException
+	public ArrayList<Venta> getAllPendientesByCliente(String username) throws ProviderException, CartLineException, CartException, ArticleException, ClientException, SaleException, SaleLineException, PriceException, CategoryException
 	{
 		return ventaData.getAllPendientesByCliente(username);	
 	}

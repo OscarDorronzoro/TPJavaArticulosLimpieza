@@ -14,6 +14,7 @@ import entities.Venta;
 import util.ArticleException;
 import util.CartException;
 import util.CartLineException;
+import util.CategoryException;
 import util.ClientException;
 import util.PriceException;
 import util.ProviderException;
@@ -25,7 +26,7 @@ public class VentaData {
 	static ClienteData clienteData = new ClienteData();
 	static LineaVentaData lineaVentaData = new LineaVentaData();
 	
-	public ArrayList<Venta> getAll() throws SaleException, ProviderException, CartLineException, CartException, ArticleException, ClientException, SaleLineException, PriceException
+	public ArrayList<Venta> getAll() throws SaleException, ProviderException, CartLineException, CartException, ArticleException, ClientException, SaleLineException, PriceException, CategoryException
 	{
 		ArrayList<Venta> ventas = new ArrayList<Venta>();
 		ResultSet rs=null;
@@ -71,7 +72,7 @@ public class VentaData {
 	}
 	
 
-	public Venta getOne(int nroVenta) throws ProviderException, CartLineException, CartException, ArticleException, ClientException, SaleException, SaleLineException, PriceException
+	public Venta getOne(int nroVenta) throws ProviderException, CartLineException, CartException, ArticleException, ClientException, SaleException, SaleLineException, PriceException, CategoryException
 	{
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -120,7 +121,7 @@ public class VentaData {
 		return venta;
 	}
 	
-	public ArrayList<Venta> getAllPendientesByCliente(String username) throws ProviderException, CartLineException, CartException, ArticleException, ClientException, SaleException, SaleLineException, PriceException
+	public ArrayList<Venta> getAllPendientesByCliente(String username) throws ProviderException, CartLineException, CartException, ArticleException, ClientException, SaleException, SaleLineException, PriceException, CategoryException
 	{
 		ArrayList<Venta> ventas=null;
 		ResultSet rs=null;

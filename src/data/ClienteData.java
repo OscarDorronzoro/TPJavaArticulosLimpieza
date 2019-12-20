@@ -9,6 +9,7 @@ import entities.Cliente;
 import util.ArticleException;
 import util.CartException;
 import util.CartLineException;
+import util.CategoryException;
 import util.ClientException;
 import util.PriceException;
 import util.ProviderException;
@@ -20,7 +21,7 @@ public class ClienteData {
 	static CarritoData carritoData  = new CarritoData();
 	static VentaData ventaData = new VentaData();
 	
-	public void add(Cliente c) throws CartLineException, ClientException {
+	public void add(Cliente c) throws ClientException {
 		PreparedStatement stmt=null;
 		
 		try {
@@ -38,7 +39,7 @@ public class ClienteData {
 			
 			carritoData.add(c.getMiCarrito(), c.getUsername());
 		}
-		catch (SQLException | CartException e) {
+		catch (SQLException | CartException | CartLineException e) {
 			// TODO Auto-generated catch block
 			throw new ClientException("Error al agregar cliente",e,Level.ERROR);
 		} 
@@ -79,7 +80,7 @@ public class ClienteData {
 					clientes.add(c);					
 				}
 			}
-		} catch (SQLException e) {
+		} catch (SQLException | CategoryException e) {
 			// TODO Auto-generated catch block
 			throw new ClientException("Error al recuperar clientes",e,Level.ERROR);
 		}
@@ -97,7 +98,7 @@ public class ClienteData {
 		return clientes;
 	}
 	
-	public ArrayList<Cliente> getAllByAdmin(boolean isAdmin) throws ProviderException, CartLineException, CartException, ArticleException, ClientException, PriceException{
+	public ArrayList<Cliente> getAllByAdmin(boolean isAdmin) throws ProviderException, CartLineException, CartException, ArticleException, ClientException, PriceException, CategoryException{
 		
 		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
 		ResultSet rs=null;
@@ -143,7 +144,7 @@ public class ClienteData {
 		return clientes;
 	}
 	
-	public Cliente getOne(String username) throws ProviderException, CartLineException, CartException, ArticleException, ClientException, PriceException {
+	public Cliente getOne(String username) throws ProviderException, CartLineException, CartException, ArticleException, ClientException, PriceException, CategoryException {
 		
 		Cliente c=null;
 		ResultSet rs=null;
@@ -183,7 +184,7 @@ public class ClienteData {
 		
 		return c;
 	}
-public Cliente getOneByUserYPassword(String username,String passEncrip ) throws ProviderException, CartLineException, CartException, ArticleException, ClientException, PriceException {
+public Cliente getOneByUserYPassword(String username,String passEncrip ) throws ProviderException, CartLineException, CartException, ArticleException, ClientException, PriceException, CategoryException {
 		
 		Cliente c=null;
 		ResultSet rs=null;
@@ -243,7 +244,7 @@ public Cliente getOneByUserYPassword(String username,String passEncrip ) throws 
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			throw new ClientException("Error al actualizar artículo", e, Level.ERROR);
+			throw new ClientException("Error al actualizar cliente", e, Level.ERROR);
 		}
 		finally {
 			try {

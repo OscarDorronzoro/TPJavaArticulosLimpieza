@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import data.ArticuloData;
 import entities.Articulo;
 import util.ArticleException;
+import util.CategoryException;
 import util.PriceException;
 import util.ProviderException;
 
@@ -26,15 +27,15 @@ public class ABMCArticulo {
 		this.getArticuloData().add(art);
 	}
 	
-	public ArrayList<Articulo> getAll() throws ProviderException, ArticleException, PriceException{
+	public ArrayList<Articulo> getAll() throws ProviderException, ArticleException, PriceException, CategoryException{
 		return this.getArticuloData().getAll();
 	}
 	
-	public  Articulo getOne(int codArticulo) throws ProviderException, ArticleException, PriceException {		
+	public  Articulo getOne(int codArticulo) throws ProviderException, ArticleException, PriceException, CategoryException {		
 		return this.getArticuloData().getOne(codArticulo);
 	}
 
-	public ArrayList<Articulo> getAllByDescripcion(String descripcion) throws ProviderException, ArticleException, PriceException{
+	public ArrayList<Articulo> getAllByDescripcion(String descripcion) throws ProviderException, ArticleException, PriceException, CategoryException{
 		return this.getArticuloData().getAllByDescripcion(descripcion);
 	} 
 	
