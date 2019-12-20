@@ -10,13 +10,15 @@ import org.apache.logging.log4j.Level;
 
 import entities.Articulo;
 import util.ArticleException;
+import util.CategoryException;
 import util.PriceException;
 import util.ProviderException;
 
 public class ArticuloData {
 
 	PrecioData precioData = new PrecioData();
-	ProveedorData proveedorData=new ProveedorData();
+	ProveedorData proveedorData= new ProveedorData();
+	CategoriaData categoriaData= new CategoriaData();
 	
 	public void add(Articulo art) throws ArticleException, PriceException {
 		PreparedStatement stmt=null;
@@ -28,21 +30,23 @@ public class ArticuloData {
 			
 			stmt= FactoryConnection.getInstancia().getConn().prepareStatement(
 					"insert into articulo(descripcion,cant_a_pedir,punto_pedido,"
-					+ "stock,url_imagen) values(?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
+					+ "stock,url_imagen,nombre_categoria) values(?,?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
 			
 			stmt.setString(1, art.getDescripcion());
 			stmt.setInt(2, art.getCantAPedir());
 			stmt.setInt(3, art.getPuntoPedido());
 			stmt.setInt(4, art.getStock());
 			stmt.setString(5, art.getUrlImagen());
+			stmt.setString(6, art.getCategoria().getNombre());
+			
 			stmt.executeUpdate();
 			
 			ResultSet primaryKey = stmt.getGeneratedKeys();
-
 			if(primaryKey!=null && primaryKey.next()) {
 				art.setCodArticulo(primaryKey.getInt(1));
-				precioData.add(art.getPrecio(),art.getCodArticulo());
 			}	
+			
+			precioData.add(art.getPrecio(),art.getCodArticulo());
 			
 			transaccion.execute("commit;");
 		}
@@ -50,10 +54,10 @@ public class ArticuloData {
 			// TODO Auto-generated catch block
 			try {
 				transaccion.execute("rollback;");
-			} catch (SQLException e1) {
+			} catch (SQLException e2) {
 				
 			}
-			throw new ArticleException("Error al agregar artículo", e, Level.ERROR) ;
+			throw new ArticleException("Error al agregar articulo", e, Level.ERROR) ;
 		}
 		finally {
 			try {
@@ -67,7 +71,7 @@ public class ArticuloData {
 		
 	}
 	
-	public ArrayList<Articulo> getAll() throws ProviderException, ArticleException, PriceException{
+	public ArrayList<Articulo> getAll() throws ProviderException, ArticleException, PriceException, CategoryException{
 		
 		ArrayList<Articulo> articulos = new ArrayList<Articulo>();
 		ResultSet rs=null;
@@ -88,8 +92,8 @@ public class ArticuloData {
 					art.setUrlImagen(rs.getString("url_imagen"));
 					
 					art.setPrecio(precioData.getPrecioActual(art.getCodArticulo()));
-					
 					art.setProveedores(proveedorData.getAllByArticulo(art.getCodArticulo()));
+					art.setCategoria(categoriaData.getOne(rs.getString("nombre_categoria")));
 					
 					articulos.add(art);					
 				}
@@ -112,7 +116,7 @@ public class ArticuloData {
 		return articulos;
 	}
 	
-	public Articulo getOne(int codArticulo) throws ProviderException, ArticleException, PriceException {
+	public Articulo getOne(int codArticulo) throws ProviderException, ArticleException, PriceException, CategoryException {
 		
 		Articulo art=null;
 		ResultSet rs=null;
@@ -135,12 +139,12 @@ public class ArticuloData {
 					art.setUrlImagen(rs.getString("url_imagen"));
 					
 					art.setPrecio(precioData.getPrecioActual(art.getCodArticulo()));
-					
 					art.setProveedores(proveedorData.getAllByArticulo(art.getCodArticulo()));
+					art.setCategoria(categoriaData.getOne(rs.getString("nombre_categoria")));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			throw new ArticleException("Error al recuperar artículo", e, Level.ERROR);
+			throw new ArticleException("Error al recuperar articulo", e, Level.ERROR);
 		}
 		finally {
 				try {
@@ -156,7 +160,7 @@ public class ArticuloData {
 		return art;
 	}
 	
-	public ArrayList<Articulo> getAllByDescripcion(String descripcion) throws ProviderException, ArticleException, PriceException{
+	public ArrayList<Articulo> getAllByDescripcion(String descripcion) throws ProviderException, ArticleException, PriceException, CategoryException{
 		ArrayList<Articulo> articulos = new ArrayList<Articulo>();
 		ResultSet rs=null;
 		PreparedStatement stmt=null;
@@ -178,8 +182,8 @@ public class ArticuloData {
 					art.setUrlImagen(rs.getString("url_imagen"));
 					
 					art.setPrecio(precioData.getPrecioActual(art.getCodArticulo()));
-					
 					art.setProveedores(proveedorData.getAllByArticulo(art.getCodArticulo()));
+					art.setCategoria(categoriaData.getOne(rs.getString("nombre_categoria")));
 					
 					articulos.add(art);					
 				}
@@ -209,10 +213,11 @@ public class ArticuloData {
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("delete from articulo where art.cod_articulo=?");
 			stmt.setInt(1, codArticulo);
+			
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			throw new ArticleException("Error al eliminar artículo", e, Level.ERROR);
+			throw new ArticleException("Error al eliminar articulo", e, Level.ERROR);
 		}
 		finally {
 				try {
@@ -231,20 +236,21 @@ public class ArticuloData {
 		
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update articulo set descripcion=?,cant_a_pedir=?,punto_pedido=?,"
-					+ "stock=?,url_imagen=? where art.cod_articulo=?");
+					+ "stock=?,url_imagen=?, nombre_categoria=? where art.cod_articulo=?");
 			stmt.setString(1, articulo.getDescripcion());
 			stmt.setInt(2, articulo.getCantAPedir());
 			stmt.setInt(3, articulo.getPuntoPedido());
 			stmt.setInt(4, articulo.getStock());
 			stmt.setString(5, articulo.getUrlImagen());
-			stmt.setInt(6, articulo.getCodArticulo());
+			stmt.setString(6, articulo.getCategoria().getNombre());
+			stmt.setInt(7, articulo.getCodArticulo());
 			
 			stmt.executeUpdate();
 			
 			precioData.add(articulo.getPrecio(), articulo.getCodArticulo());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			throw new ArticleException("Error al actualizar artículo", e, Level.ERROR);
+			throw new ArticleException("Error al actualizar articulo", e, Level.ERROR);
 		}
 		finally {
 				try {
@@ -256,4 +262,9 @@ public class ArticuloData {
 				}
 		}
 	}
+	
+	
+	
 }
+
+

@@ -12,6 +12,7 @@ public class Articulo {
 	private String urlImagen;
 	private Precio precio;
 	private ArrayList<Proveedor> proveedores;
+	private Categoria categoria;
 	
 	public Articulo() {
 		this.setProveedores(new ArrayList<Proveedor>());
@@ -65,5 +66,13 @@ public class Articulo {
 
 	public void setProveedores(ArrayList<Proveedor> proveedores) {
 		this.proveedores = proveedores;
+	}
+
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
 	}
 }
