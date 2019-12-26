@@ -6,7 +6,7 @@
 		<meta charset="UTF-8">
 		<%Cliente c = (Cliente)request.getSession().getAttribute("cliente"); %>
 		<%if(!(c!=null && c.isAdmin())){
-		response.sendRedirect("iniciarSesion.jsp");
+		response.sendRedirect("iniciarSesion.jsp?pagina=ListadoCategoriasServlet");
 		return;
 		}%>
 		<title>Listado de Categorias</title>
