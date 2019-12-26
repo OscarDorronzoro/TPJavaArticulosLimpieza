@@ -6,7 +6,7 @@
 	<head>
 	<meta charset="ISO-8859-1">
 	<%if(request.getSession().getAttribute("cliente")==null){
-		response.sendRedirect("iniciarSesion.jsp");
+		response.sendRedirect("iniciarSesion.jsp?pagina=MisCarritos.jsp");
 		return;
 	}%>
 	

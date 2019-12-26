@@ -6,7 +6,7 @@
 		<meta charset="ISO-8859-1">
 		<%Cliente c = (Cliente)request.getSession().getAttribute("cliente"); %>
 		<%if(!(c!=null && c.isAdmin())){
-		response.sendRedirect("../iniciarSesion.jsp");
+		response.sendRedirect("iniciarSesion.jsp?pagina=ListadoClientesServlet/todo");
 		return;
 		}%>
 		<title>Clientes</title>

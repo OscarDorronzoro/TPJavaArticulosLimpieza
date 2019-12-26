@@ -41,7 +41,10 @@ public class LogInServlet extends HttpServlet {
 		try {
 			abmcc.completarCliente(cliente);		
 			request.getSession().setAttribute("cliente", cliente);
-			response.sendRedirect("main.jsp");
+			
+			String paginaARedirigir=request.getParameter("pagina");
+			if(paginaARedirigir==null) { paginaARedirigir="main.jsp"; }
+			response.sendRedirect(paginaARedirigir);
 		} catch (DoniaMaryException e) {
 			// TODO Auto-generated catch block			
 			response.sendRedirect("errorPage.jsp?mensaje="+e.getMessage());
