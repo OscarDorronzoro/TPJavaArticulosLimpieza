@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import logic.ABMCProveedor;
 import util.DoniaMaryException;
-import util.ProviderException;
 
 /**
  * Servlet implementation class ListadoProveedoresServlet
