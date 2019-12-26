@@ -39,8 +39,14 @@
 									<img src="png/limpieza/banio.png">
 					            </li>
 					            <li>
+									<img src="png/proveedores.png">
+					            </li>    
+					            <li>
 									<img src="png/limpieza/muebles.png">
-					            </li>            
+					            </li>
+					            <li>
+									<img src="png/categorias.png">
+					            </li>                
 					        </ul>
 			    	</div>
 			    	<div class="col-xs-10 col-sm-10 col-md-10">
@@ -61,6 +67,9 @@
 					            <li>
 									<a href="RegistrarPagoServlet/iniciarRegistro">Registrar pago</a>
 					            </li>	            
+					            <li>
+									<a href="ListadoCategoriasServlet">Listado de Categorias</a>
+					            </li>	
 					        </ul>
 					    </nav>
 				    </div>
