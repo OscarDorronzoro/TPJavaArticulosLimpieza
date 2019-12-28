@@ -5,42 +5,36 @@ import java.io.InputStream;
 import java.util.Properties;
 import javax.mail.*;
 import javax.mail.internet.*;
+
+import org.apache.logging.log4j.Level;
  
-public class EnviarMail {
-public static EnviarMail instance;
+public class MailSender {
 	
+	public static MailSender instance;
 	private Properties props;
 	
-	public static EnviarMail getInstance(){
+	public static MailSender getInstance() throws MailSendException{
 		if (instance==null){
-			instance=new EnviarMail();
+			instance=new MailSender();
 		}
 		return instance;
 	}
 	
-	private EnviarMail() {
+	private MailSender() throws MailSendException {
 		
 		InputStream inputStream=getClass().getClassLoader().getResourceAsStream("app.properties");
 		try {
 			props = new Properties();
 			props.load(inputStream);
 			
-			/*
-			 * props.put("mail.smtp.auth", "true");
-			 * props.put("mail.smtp.starttls.enable", "true");
-			 * props.put("mail.smtp.host", "smtp.gmail.com");
-			 * props.put("mail.smtp.port", "587");
-			 * props.put("mail.username", "somemail@gmail.com");
-			 * props.put("mail.password","someRandomwPassword");
-			 */
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new MailSendException("Error al cargar propiedades de mail",e,Level.ERROR);
 		}
 		
 	}
 	
-	public void send(String to, String subject, String body){
+	public void send(String to, String subject, String body) throws MailSendException{
 
 		Session session = Session.getInstance(props,
 		  new javax.mail.Authenticator() {
@@ -62,7 +56,8 @@ public static EnviarMail instance;
 			Transport.send(message);
 
 		} catch (MessagingException e) {
-			throw new RuntimeException(e);
+			//throw new RuntimeException(e);
+			throw new MailSendException("Error al enviar mail",e,Level.ERROR);
 		}
 	}
 
