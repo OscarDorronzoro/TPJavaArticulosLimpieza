@@ -7,6 +7,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import entities.Cliente;
+import logic.ABMCCliente;
+import util.DoniaMaryException;
+import util.MailSendException;
+import util.MailSender;
+
 /**
  * Servlet implementation class RecuperarContraseniaServlet
  */
@@ -27,7 +33,27 @@ public class RecuperarContraseniaServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		MailSender mailSender;
+		try {
+			mailSender = MailSender.getInstance();
+			ABMCCliente abmcCliente= new ABMCCliente();
+			Cliente cliente = abmcCliente.getOne(request.getParameter("username"));
+			
+			switch(request.getPathInfo()) {
+			case "iniciarRecuperacion":
+				response.sendRedirect("recuperarContrasenia.jsp");
+				int codigo = (int)(Math.random()*1000000);
+				//ver donde guardar codigo
+				mailSender.send("agregarle email al cliente","Recuperar contraseña de Doña Mary Limpieza",
+						"su codigo es: "+codigo);
+				break;
+			case "verificarCodigo":
+			default:
+			}
+		} catch (DoniaMaryException e) {
+			// TODO Auto-generated catch block
+			response.sendRedirect("errorPage.jsp?mensaje="+e.getMessage());
+		}
 	}
 
 	/**
