@@ -2,7 +2,8 @@ package servlet;
 
 import entities.Cliente;
 import logic.ABMCCliente;
-import util.ClientAlreadyExistException;
+import util.DoniaMaryException;
+import util.MailSender;
 
 import java.io.IOException;
 
@@ -38,16 +39,24 @@ public class FormularioClienteServlet extends HttpServlet {
 		cliente.setDNI(request.getParameter("DNI"));
 		cliente.setUsername(request.getParameter("username"));
 		cliente.setPassword(request.getParameter("password"));
-		//enviar mail de confirmacion
+		cliente.setEmail(request.getParameter("email"));
 		
 		ABMCCliente abmcc=new ABMCCliente();
 		try{
 			abmcc.add(cliente);
+			
+			MailSender ms = MailSender.getInstance();
+			int codigo = (int)Math.random()*1000000;
+			//ver donde guardra codigo
+			ms.send(cliente.getEmail(), "Confirmar E-Mail, Donia Mary Limpieza", 
+					"Si usted se ha registrado en Donia Mary Limpieza, por favor ingrese el siguiente codigo"
+					+ " para terminar su registro:\n"+codigo+"\n\n Si usted no se ha registrado puede ignorar el mensaje");
+			
+			//redirigir a pagina de confirmacion
 			response.sendRedirect("main.jsp");
 		}
-		catch(ClientAlreadyExistException e) {
-			request.setAttribute("mensaje", "Error en el registro");
-			response.sendRedirect("errorPage.jsp");
+		catch(DoniaMaryException e) {
+			response.sendRedirect("errorPage.jsp?mensaje="+e.getMessage());
 		}
 		
 	}

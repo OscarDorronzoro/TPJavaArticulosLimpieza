@@ -39,6 +39,10 @@
 								<input class="form-control" name="DNI" id="DNI"/>
 							</div>	
 							<div class="form-group">
+								<label for="email" class="control-label">E-Mail</label>
+								<input class="form-control" name="email" id="email"/>
+							</div>	
+							<div class="form-group">
 								<input type="submit" class="btn btn-success btn-block"  title="Presione para registrarse" value="OK"/>
 							</div>
 						</form>

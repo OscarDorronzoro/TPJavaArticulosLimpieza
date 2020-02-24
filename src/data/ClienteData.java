@@ -26,7 +26,7 @@ public class ClienteData {
 		
 		try {
 			stmt= FactoryConnection.getInstancia().getConn().prepareStatement(
-					"insert into cliente(nombre,apellido,dni,username,password,admin) values(?,?,?,?,?,?)"
+					"insert into cliente(nombre,apellido,dni,username,password,admin,email) values(?,?,?,?,?,?,?)"
 					);
 			stmt.setString(1, c.getNombre());
 			stmt.setString(2, c.getApellido());
@@ -34,6 +34,7 @@ public class ClienteData {
 			stmt.setString(4, c.getUsername());
 			stmt.setString(5, c.getPassword());
 			stmt.setBoolean(6, c.isAdmin());
+			stmt.setString(7, c.getEmail());
 			
 			stmt.executeUpdate();
 			
@@ -74,6 +75,7 @@ public class ClienteData {
 					c.setPassword(rs.getString("password"));
 					c.setUsername(rs.getString("username"));
 					c.setAdmin(rs.getBoolean("admin"));
+					c.setEmail(rs.getString("email"));
 					
 					c.setMiCarrito(carritoData.getOne("compraActual", c.getUsername()));
 					
@@ -120,6 +122,7 @@ public class ClienteData {
 					c.setPassword(rs.getString("password"));
 					c.setUsername(rs.getString("username"));
 					c.setAdmin(rs.getBoolean("admin"));
+					c.setEmail(rs.getString("email"));
 					
 					c.setMiCarrito(carritoData.getOne("compraActual", c.getUsername()));
 					
@@ -164,6 +167,7 @@ public class ClienteData {
 					c.setPassword(rs.getString("password"));
 					c.setUsername(rs.getString("username"));
 					c.setAdmin(rs.getBoolean("admin"));
+					c.setEmail(rs.getString("email"));
 					
 					c.setMiCarrito(carritoData.getOne("compraActual", c.getUsername()));
 			}
@@ -206,6 +210,7 @@ public Cliente getOneByUserYPassword(String username,String passEncrip ) throws 
 					c.setDNI(rs.getString("dni"));
 					c.setUsername(rs.getString("username"));
 					c.setAdmin(rs.getBoolean("admin"));
+					c.setEmail(rs.getString("email"));
 					
 					c.setMiCarrito(carritoData.getOne("compraActual", c.getUsername()));
 			}
@@ -233,12 +238,13 @@ public Cliente getOneByUserYPassword(String username,String passEncrip ) throws 
 		
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update cliente set nombre=?, "
-					+ "apellido=?, dni=?, admin=? where username=?");
+					+ "apellido=?, dni=?, admin=?, email=? where username=?");
 			stmt.setString(1, cliente.getNombre());
 			stmt.setString(2, cliente.getApellido());
 			stmt.setString(3, cliente.getDNI());
 			stmt.setBoolean(4, cliente.isAdmin());
-			stmt.setString(5, cliente.getUsername());
+			stmt.setString(5, cliente.getEmail());
+			stmt.setString(6, cliente.getUsername());
 			
 			stmt.executeUpdate();
 			

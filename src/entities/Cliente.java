@@ -8,12 +8,13 @@ public class Cliente {
 	private String apellido;
 	private boolean admin;
 	private String DNI;
+	private String email;
 	private Carrito miCarrito;
 	
 	public Cliente() {
 		this.setMiCarrito(new Carrito());
 		this.getMiCarrito().setNombre("CompraActual");
-		this.getMiCarrito().setDescripcion("Aqui se encuentran los articulos que ha añadido en su ultima sesion");
+		this.getMiCarrito().setDescripcion("Aqui se encuentran los articulos que ha aï¿½adido en su ultima sesion");
 		this.setAdmin(false);
 	}
 	
@@ -64,5 +65,13 @@ public class Cliente {
 
 	public void setAdmin(boolean admin) {
 		this.admin = admin;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 }
