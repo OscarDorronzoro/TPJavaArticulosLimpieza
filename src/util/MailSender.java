@@ -40,14 +40,16 @@ public class MailSender {
 		  new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
 				//return new PasswordAuthentication(username, password);
-				return new PasswordAuthentication(props.getProperty("mail.username"), props.getProperty("mail.password"));
+				//return new PasswordAuthentication(props.getProperty("mail.username"), props.getProperty("mail.password"));
+				return new PasswordAuthentication("mimail", "............");
 			}
 		  });
 
 		try {
 
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(props.getProperty("mail.username")));
+			//message.setFrom(new InternetAddress(props.getProperty("mail.username")));
+			message.setFrom(new InternetAddress("mimail"));
 			message.setRecipients(Message.RecipientType.TO,
 				InternetAddress.parse(to)); //"adrianmeca@gmail.com"
 			message.setSubject(subject); //"Testing Subject"
