@@ -39,21 +39,18 @@ public class MailSender {
 		Session session = Session.getInstance(props,
 		  new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
-				//return new PasswordAuthentication(username, password);
-				//return new PasswordAuthentication(props.getProperty("mail.username"), props.getProperty("mail.password"));
-				return new PasswordAuthentication("mimail", "............");
+				return new PasswordAuthentication(props.getProperty("mail.username"), props.getProperty("mail.password"));
 			}
 		  });
 
 		try {
 
 			Message message = new MimeMessage(session);
-			//message.setFrom(new InternetAddress(props.getProperty("mail.username")));
-			message.setFrom(new InternetAddress("mimail"));
+			message.setFrom(new InternetAddress(props.getProperty("mail.username")));
 			message.setRecipients(Message.RecipientType.TO,
-				InternetAddress.parse(to)); //"adrianmeca@gmail.com"
-			message.setSubject(subject); //"Testing Subject"
-			message.setText(body); //"Dear Mail Crawler,\n\n No spam to my email, please!"
+				InternetAddress.parse(to));
+			message.setSubject(subject);
+			message.setText(body);
 
 			Transport.send(message);
 
