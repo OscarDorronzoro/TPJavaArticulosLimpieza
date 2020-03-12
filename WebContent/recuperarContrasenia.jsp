@@ -12,7 +12,7 @@
 	<body class="bg-light">
 		<%@include file="header.jsp" %>
 		
-		<form action="RecuperarContraseniaServlet" method="get">
+		<form action="RecuperarContraseniaServlet/verificarCodigo" method="get">
 			<div class="form-group">
 				<label class="label-control" for="codigo">Ingrese el codigo enviado a su e-mail</label>
 				<input class="form-control" name="codigo" type="password" id="codigo"/>
