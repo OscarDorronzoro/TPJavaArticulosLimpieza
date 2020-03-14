@@ -9,7 +9,7 @@
 		response.sendRedirect("iniciarSesion.jsp?pagina=ListadoProveedoresServlet");
 		return;
 		}%>
-		<title>Listado de proveedores</title>
+		<title>Proveedores</title>
 		<link rel="shortcut icon" href="png/favicon.ico">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css">
@@ -19,7 +19,7 @@
 			ArrayList<Proveedor> proveedores = (ArrayList<Proveedor>) request.getAttribute("proveedores"); 
 		%>
 	</head>
-	<body>
+	<body class="bg-light">
 		<%@include file="../header.jsp" %>
 		
 		
@@ -28,7 +28,7 @@
 			    <div class="row">
 			    	<div class="col-xs-12 col-sm-12 col-md-12">
 			    		 <div class="sidebar-header">
-					         <h3>Categorias de Articulos</h3>
+					         <h3>Categorias de Proveedores</h3>
 					     </div>		
 			    	</div>
 			    	<div class="col-xs-1 col-sm-1 col-md-1">
@@ -54,13 +54,13 @@
 									<a href="#">Todo</a>
 					            </li>
 					            <li>
-									<a href="#">Cocina</a>
+									<a href="#">Rosario</a>
 					            </li>
 					            <li>
-									<a href="#">Baño</a>
+									<a href="#">Fuera de rosario</a>
 					            </li>
 					            <li>
-									<a href="#">Muebles</a>
+									<a href="#">Importado</a>
 					            </li>	            
 					        </ul>
 					    </nav>
@@ -71,6 +71,10 @@
 			<div class="col-xs-12 col-sm-12 col-md-8">
 				<%@page import="entities.Proveedor"%>
 				<%@page import="java.util.ArrayList"%>
+				
+				<div>
+					<a class="btn btn-success" href="CargaArticuloServlet"><img src="png/plus-2x.png"> Nuevo articulo</a>
+				</div>
 				
 				<table class="table table-striped table-hover">					
 					<thead>

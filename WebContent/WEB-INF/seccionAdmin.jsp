@@ -30,9 +30,6 @@
 			    	<div class="col-xs-1 col-sm-1 col-md-1">
 			    		<ul class="list-unstyled components menu-icon">
 					            <li>
-									<img src="png/limpieza/todo.png">
-					            </li>
-					            <li>
 									<img src="png/limpieza/cocina.png">
 					            </li>
 					            <li>
@@ -52,9 +49,6 @@
 			    	<div class="col-xs-10 col-sm-10 col-md-10">
 					    <nav>
 					        <ul class="list-unstyled components menu-text">
-					            <li>
-									<a href="CargaArticuloServlet">Carga de Artículos</a>
-					            </li>
 					            <li>
 									<a href="ListadoArticulosEdicionServlet">Listado de Artículos</a>
 					            </li>
