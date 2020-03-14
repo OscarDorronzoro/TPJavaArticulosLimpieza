@@ -10,13 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 import entities.Cliente;
 import logic.ABMCCliente;
 import util.DoniaMaryException;
-import util.MailSendException;
 import util.MailSender;
 
 /**
  * Servlet implementation class RecuperarContraseniaServlet
  */
-@WebServlet("/RecuperarContraseniaServlet")
+@WebServlet("/RecuperarContraseniaServlet/*")
 public class RecuperarContraseniaServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -40,19 +39,23 @@ public class RecuperarContraseniaServlet extends HttpServlet {
 			Cliente cliente = abmcCliente.getOne(request.getParameter("username"));
 			
 			switch(request.getPathInfo()) {
-			case "iniciarRecuperacion":
-				response.sendRedirect("recuperarContrasenia.jsp");
+			case "/iniciarRecuperacion":
 				int codigo = (int)(Math.random()*1000000);
 				//ver donde guardar codigo
-				mailSender.send("agregarle email al cliente","Recuperar contraseña de Doña Mary Limpieza",
-						"su codigo es: "+codigo);
+				mailSender.send("agustinablanco2524@gmail.com","Recuperar contraseña de Doña Mary Limpieza",
+						"su codigo para recuperar su cuenta es: "+codigo);
+				response.sendRedirect("../recuperarContrasenia.jsp");
 				break;
-			case "verificarCodigo":
+			case "/verificarCodigo":
+				//recuperar codigo
+				int cod =Integer.parseInt(request.getParameter("codigo"));
+				//comparar
+				response.sendRedirect("../iniciarSesion.jsp");
 			default:
 			}
 		} catch (DoniaMaryException e) {
 			// TODO Auto-generated catch block
-			response.sendRedirect("errorPage.jsp?mensaje="+e.getMessage());
+			response.sendRedirect("../errorPage.jsp?mensaje="+e.getMessage());
 		}
 	}
 

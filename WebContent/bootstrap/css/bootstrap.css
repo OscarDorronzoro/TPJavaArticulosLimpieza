@@ -6949,8 +6949,7 @@ div .navbar-default{
 	text-align: center;
 }
 
-
-
-
-
+.btn-file {
+    visibility: hidden;
+}
 

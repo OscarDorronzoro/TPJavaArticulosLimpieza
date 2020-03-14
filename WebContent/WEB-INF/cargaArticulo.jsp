@@ -47,7 +47,9 @@
 							</div>
 							<div class="form-group">
 								<label for="imagen">Imagen</label>
-								<input class="form-control" type="file" name="imagen" id="imagen"/>
+								<br>
+								<label for="imagen" class="btn btn-primary">Seleccionar imagen</label>
+								<input type="file" style="visibility:hidden;height:0;width:0;" name="imagen" id="imagen"/>
 							</div>	
 							<div class="form-group">
 								<label for="precio">Precio</label>
@@ -60,7 +62,7 @@
 										<Option value = <%=cat.getNombre() %> > <%=cat.getNombre() %> </Option>
 									<%} %>
 								</Select>
-							</div>
+							</div>									
 							<input type="submit" class="btn btn-success btn-block"  title="Presione para registrar articulo" value="Guardar artículo"/>
 						</form>
 					</section>

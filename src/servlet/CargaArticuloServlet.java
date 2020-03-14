@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Paths;
 import java.util.Date;
+import java.io.File;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -67,7 +68,16 @@ public class CargaArticuloServlet extends HttpServlet {
 			
 			String url = "img-articulos/"+nombreImagen;			
 			articulo.setUrlImagen(url);
-			url="C:/Java/TP Articulos Limpieza/TPJavaArticulosLimpieza/WebContent/"+url;
+			
+			String raiz;
+			if(System.getProperty("os.name").equalsIgnoreCase("linux")) {
+				raiz="/root/git/";
+			}
+			else {
+				raiz="C:/Java/TP Articulos Limpieza/";
+			}
+			
+			url=raiz+"TPJavaArticulosLimpieza/WebContent/"+url;
 			
 			FileOutputStream output = null;
 		    output = new FileOutputStream(url);

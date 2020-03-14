@@ -72,6 +72,10 @@
 				<%@page import="entities.Categoria"%>
 				<%@page import="java.util.ArrayList"%>
 				
+				<div>
+					<a href="CargaCategoriaServlet/iniciarCarga" class="btn btn-success"><img src="png/plus-2x.png"> Nueva categoria</a>
+				</div>
+				
 				<table class="table table-striped table-hover">					
 					<thead>
 						<tr>
@@ -87,8 +91,8 @@
 							<td><%=cat.getNombre() %></td>
 							<td><%=cat.getDescripcion()%></td>
 							
-							<td><a class="btn btn-primary" href="ModificarProveedorServlet?nombre=<%=cat.getNombre()%>">Modificar</a></td>
-							<td><a class="btn btn-danger" onclick="confirmarEIrA('EliminarProveedorServlet?nombre='+'<%=cat.getNombre()%>')">Eliminar</a></td>
+							<td><a class="btn btn-primary" href="ModificarCategoriaServlet?nombre=<%=cat.getNombre()%>">Modificar</a></td>
+							<td><a class="btn btn-danger" onclick="confirmarEIrA('EliminarCategoriaServlet?nombre='+'<%=cat.getNombre()%>')">Eliminar</a></td>
 						</tr>							
 								
 					<%} %>

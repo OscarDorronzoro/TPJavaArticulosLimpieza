@@ -63,7 +63,7 @@
 					            </li>	            
 					            <li>
 									<a href="ListadoCategoriasServlet">Listado de Categorias</a>
-					            </li>	
+					            </li>
 					        </ul>
 					    </nav>
 				    </div>

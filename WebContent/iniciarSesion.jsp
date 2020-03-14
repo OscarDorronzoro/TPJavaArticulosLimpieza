@@ -26,7 +26,7 @@
 								<label>Contraseña</label>
 								<input class="form-control" name="password" type="password" required/>
 							</div>	
-							<a onclick="location.href='RecuperarContraseniaServlet/iniciarRecuperacion?username='+document.getElementById('username')">Olvide mi contraseña</a>	
+							<a onclick="location.href='RecuperarContraseniaServlet/iniciarRecuperacion?username='+document.getElementById('username').value">Olvide mi contraseña</a>	
 							<input class="btn btn-success btn-block"  title="Presione para iniciar sesion" value="OK" type="submit"/>
 						</form>
 					</section>
