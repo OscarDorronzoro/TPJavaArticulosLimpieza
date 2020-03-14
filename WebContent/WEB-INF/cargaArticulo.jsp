@@ -13,6 +13,12 @@
 		<link rel="icon" href="png/favicon.ico">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css">
+		<%@page import="entities.Categoria" %>
+		<%@page import="java.util.ArrayList"%>
+		<%
+			@SuppressWarnings("unchecked")
+			ArrayList<Categoria> categorias = (ArrayList<Categoria>)request.getAttribute("categorias");  
+		%>
 	</head>
 	<body class=bg-light>
 		<%@include file="../header.jsp"%>
@@ -46,6 +52,14 @@
 							<div class="form-group">
 								<label for="precio">Precio</label>
 								<input class="form-control" name="precio" required id="precio"/>
+							</div>
+							<div class="form-group">
+								<label for="categoria">Categoria</label>
+								<Select name = "categorias">
+									<%for(Categoria cat : categorias){ %>
+										<Option value = <%=cat.getNombre() %> > <%=cat.getNombre() %> </Option>
+									<%} %>
+								</Select>
 							</div>
 							<input type="submit" class="btn btn-success btn-block"  title="Presione para registrar articulo" value="Guardar artículo"/>
 						</form>

@@ -17,6 +17,7 @@ import javax.servlet.http.Part;
 import entities.Articulo;
 import entities.Precio;
 import logic.ABMCArticulo;
+import logic.ABMCCategoria;
 import util.DoniaMaryException;
 
 /**
@@ -40,7 +41,15 @@ public class CargaArticuloServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		ABMCCategoria abmcC = new ABMCCategoria();
+		
 		if(request.getPathInfo()==null) {
+			try {
+				request.setAttribute("categorias", abmcC.getAll());
+			} catch (DoniaMaryException e) {
+				response.setStatus(400);
+				response.sendRedirect("errorPage.jsp?mensaje="+e.getMessage());
+			}
 			request.getRequestDispatcher("WEB-INF/cargaArticulo.jsp").forward(request, response);
 		}else {
 			ABMCArticulo abmcA = new ABMCArticulo();
@@ -76,12 +85,13 @@ public class CargaArticuloServlet extends HttpServlet {
 			articulo.setPrecio(precio);
 			
 			try {
+				articulo.setCategoria(abmcC.getOne(request.getParameter("categorias")));
 				abmcA.add(articulo);
 			} catch (DoniaMaryException e) {
-				// TODO Auto-generated catch block
+				response.setStatus(400);
 				response.sendRedirect("errorPage.jsp?mensaje="+e.getMessage());
 			}
-			response.sendRedirect("main.jsp");
+			response.sendRedirect("../ListadoArticulosEdicionServlet");
 			//request.getRequestDispatcher("WEB-INF/seccionAdmin.jps").forward(request, response);
 			
 		}

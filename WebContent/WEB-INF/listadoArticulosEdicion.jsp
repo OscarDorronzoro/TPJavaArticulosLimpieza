@@ -10,10 +10,12 @@
 		return;
 		}%>
 		<meta name="viewport" content="width=device-width, user-scalable=no">
-		<title>Articulos</title>
+		<title>Edicion de Articulos</title>
 		<link rel="shortcut icon" href="png/favicon.ico">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css">	
+		<%@page import="entities.Articulo"%>
+		<%@page import="java.util.ArrayList"%>
 		<%
 			@SuppressWarnings("unchecked")	
 			ArrayList<Articulo> articulos=(ArrayList<Articulo>)request.getAttribute("articulos");
@@ -73,10 +75,11 @@
 			
 			
 			<div class="col-xs-12 col-sm-12 col-md-8">
-				<table class="table table-striped table-hover">
-					<%@page import="entities.Articulo"%>
-					<%@page import="java.util.ArrayList"%>
-					
+				<div>
+					<a class="btn btn-success" href="CargaArticuloServlet"><img src="png/plus-2x.png"> Nuevo articulo</a>
+				</div>
+				
+				<table class="table table-striped table-hover">		
 					<thead>
 						<tr>
 							<td>Codigo</td>
