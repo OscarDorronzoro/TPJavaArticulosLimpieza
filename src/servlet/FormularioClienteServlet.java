@@ -43,7 +43,7 @@ public class FormularioClienteServlet extends HttpServlet {
 		
 		ABMCCliente abmcc=new ABMCCliente();
 		try{
-			//abmcc.add(cliente);
+			abmcc.add(cliente);
 			
 			MailSender ms = MailSender.getInstance();
 			int codigo = (int)(Math.random()*1000000);

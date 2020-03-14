@@ -18,7 +18,7 @@ function ponerFlechita(id){
 
 
 	
-function animacionScroll(){	
+/*function animacionScroll(){	
 $(document).on("scroll",function(){
     //detectar scroll hacia abajo
     var obj = $(window);          //objeto sobre el que quiero detectar scroll
@@ -42,6 +42,6 @@ $(document).on("scroll",function(){
 }
 	
 $(document).ready(animacionScroll());
-
+*/
 
 
