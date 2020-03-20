@@ -23,8 +23,11 @@ public class ClienteData {
 	
 	public void add(Cliente c) throws ClientException {
 		PreparedStatement stmt=null;
-		
+		Statement transaccion=null;
 		try {
+			transaccion = FactoryConnection.getInstancia().getConn().createStatement();
+			transaccion.execute("begin");
+			
 			stmt= FactoryConnection.getInstancia().getConn().prepareStatement(
 					"insert into cliente(nombre,apellido,dni,username,password,admin,email) values(?,?,?,?,?,?,?)"
 					);
@@ -39,9 +42,15 @@ public class ClienteData {
 			stmt.executeUpdate();
 			
 			carritoData.add(c.getMiCarrito(), c.getUsername());
+			transaccion.execute("commit");
 		}
 		catch (SQLException | CartException | CartLineException e) {
 			// TODO Auto-generated catch block
+			try {
+				transaccion.execute("rollback");
+			} catch (SQLException e1) {
+				
+			}
 			throw new ClientException("Error al agregar cliente",e,Level.ERROR);
 		} 
 		finally {
