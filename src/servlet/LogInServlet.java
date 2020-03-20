@@ -44,8 +44,8 @@ public class LogInServlet extends HttpServlet {
 			
 			String paginaARedirigir=request.getParameter("pagina");
 			if(paginaARedirigir==null) { paginaARedirigir="main.jsp"; }
-			else { response.sendRedirect(paginaARedirigir); }
 			
+			response.sendRedirect(paginaARedirigir);
 		} catch (DoniaMaryException e) {
 			// TODO Auto-generated catch block			
 			response.sendRedirect("errorPage.jsp?mensaje="+e.getMessage());
