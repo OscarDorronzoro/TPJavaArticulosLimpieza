@@ -28,9 +28,10 @@ public class ABMCCliente {
 	public ABMCCliente(){
 		this.setClienteData(new ClienteData());
 	}
+	
 	public void add(Cliente c) throws ClientAlreadyExistException {
 		try {
-			c.setPassword(PasswordManager.encriptar(c.getPassword()));
+			c.setPassword(PasswordManager.encrypt(c.getPassword()));
 			this.getClienteData().add(c);
 		}
 		catch(Exception e) {
@@ -52,7 +53,7 @@ public class ABMCCliente {
 	}
 	
 	public void completarCliente(Cliente c) throws DoniaMaryException {
-		Cliente cli = this.getClienteData().getOneByUserYPassword(c.getUsername(), PasswordManager.encriptar(c.getPassword()));
+		Cliente cli = this.getClienteData().getOneByUserYPassword(c.getUsername(), c.getPassword());
 		
 		if(cli==null) {
 			throw new ClientNotFoundException("Cliente inexistente");

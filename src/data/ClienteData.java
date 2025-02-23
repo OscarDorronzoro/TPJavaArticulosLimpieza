@@ -1,5 +1,7 @@
 package data;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -11,6 +13,8 @@ import util.CartException;
 import util.CartLineException;
 import util.CategoryException;
 import util.ClientException;
+import util.PasswordDoesNotMatchException;
+import util.PasswordManager;
 import util.PriceException;
 import util.ProviderException;
 import util.SaleException;
@@ -197,7 +201,7 @@ public class ClienteData {
 		
 		return c;
 	}
-public Cliente getOneByUserYPassword(String username,String passEncrip ) throws ProviderException, CartLineException, CartException, ArticleException, ClientException, PriceException, CategoryException {
+public Cliente getOneByUserYPassword(String username,String plainTextPassword ) throws ProviderException, CartLineException, CartException, ArticleException, ClientException, PriceException, CategoryException {
 		
 		Cliente c=null;
 		ResultSet rs=null;
@@ -205,27 +209,37 @@ public Cliente getOneByUserYPassword(String username,String passEncrip ) throws 
 		
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
-					"select * from cliente where username=? and password=?");
+					"select * from cliente where username=?");
 			
 			stmt.setString(1, username);
-			stmt.setString(2, passEncrip);
 			rs=stmt.executeQuery();
 			
 			if(rs!=null&&rs.next()) {
-					c=new Cliente();
-					
-					c.setNombre(rs.getString("nombre"));
-					c.setApellido(rs.getString("apellido"));
-					c.setDNI(rs.getString("dni"));
-					c.setUsername(rs.getString("username"));
-					c.setAdmin(rs.getBoolean("admin"));
-					c.setEmail(rs.getString("email"));
-					
-					c.setMiCarrito(carritoData.getOne("compraActual", c.getUsername()));
+				String storedPassword = rs.getString("password");
+				boolean isValidPassword;
+				isValidPassword = PasswordManager.validatePassword(plainTextPassword, storedPassword);
+				
+				if (!isValidPassword) {
+					throw new PasswordDoesNotMatchException("La contraseña no coincide");
+				}
+				
+				c=new Cliente();
+				
+				c.setNombre(rs.getString("nombre"));
+				c.setApellido(rs.getString("apellido"));
+				c.setDNI(rs.getString("dni"));
+				c.setUsername(rs.getString("username"));
+				c.setAdmin(rs.getBoolean("admin"));
+				c.setEmail(rs.getString("email"));
+				
+				c.setMiCarrito(carritoData.getOne("compraActual", c.getUsername()));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			throw new ClientException("Error al recuperar cliente",e,Level.ERROR);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		} catch (InvalidKeySpecException e) {
+			e.printStackTrace();
 		}
 		finally {
 				try {
@@ -285,7 +299,7 @@ public Cliente getOneByUserYPassword(String username,String passEncrip ) throws 
 			
 			stmt.execute();
 		}catch(SQLException e) {
-			throw new ClientException("Error al eliminar cliente",e,Level.ERROR);
+			throw new ClientException("Error al eliminar cliente", e, Level.ERROR);
 		}
 		finally {
 			try {
@@ -293,7 +307,7 @@ public Cliente getOneByUserYPassword(String username,String passEncrip ) throws 
 				FactoryConnection.getInstancia().releaseConn();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				throw new ClientException("Oops, ha ocurrido un error",e,Level.ERROR);
+				throw new ClientException("Oops, ha ocurrido un error", e, Level.ERROR);
 			}
 		}
 	}
