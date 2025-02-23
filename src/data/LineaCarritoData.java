@@ -35,7 +35,7 @@ public class LineaCarritoData extends LineaData {
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
-			throw new  CartLineException("Error al agregar linea de carrito",e,Level.ERROR);
+			throw new  CartLineException("Error al agregar linea de carrito", e, Level.ERROR);
 		}
 		finally {
 			try {
@@ -43,7 +43,7 @@ public class LineaCarritoData extends LineaData {
             FactoryConnection.getInstancia().releaseConn();
 			} 
 			catch (SQLException e) {
-				throw new  CartLineException("Oops, ha ocurrido un error",e,Level.ERROR);
+				throw new  CartLineException("Oops, ha ocurrido un error", e, Level.ERROR);
 			}
 		}
 		
@@ -67,7 +67,7 @@ public class LineaCarritoData extends LineaData {
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
-			throw new  CartLineException("Error al actualizar linea de carrito",e,Level.ERROR);
+			throw new  CartLineException("Error al actualizar linea de carrito", e, Level.ERROR);
 		}
 		finally {
 			try {
@@ -75,7 +75,7 @@ public class LineaCarritoData extends LineaData {
             FactoryConnection.getInstancia().releaseConn();
 			} 
 			catch (SQLException e) {
-				throw new  CartLineException("Oops, ha ocurrido un error",e,Level.ERROR);
+				throw new  CartLineException("Oops, ha ocurrido un error", e, Level.ERROR);
 			}
 		}
 		
@@ -107,7 +107,7 @@ public class LineaCarritoData extends LineaData {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			throw new  CartLineException("Error al recuperar lineas de carrito",e,Level.ERROR);
+			throw new  CartLineException("Error al recuperar lineas de carrito", e, Level.ERROR);
 		}
 		finally {
 				try {
@@ -116,7 +116,7 @@ public class LineaCarritoData extends LineaData {
 					FactoryConnection.getInstancia().releaseConn();
 				} 
 				catch (SQLException e) {
-					throw new  CartLineException("Oops, ha ocurrido un error",e,Level.ERROR);
+					throw new  CartLineException("Oops, ha ocurrido un error", e, Level.ERROR);
 				}
 		}
 		
@@ -147,7 +147,7 @@ public class LineaCarritoData extends LineaData {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			throw new CartLineException("Error al agregar linea al carrito",e,Level.ERROR);
+			throw new CartLineException("Error al recuperar linea de carrito", e, Level.ERROR);
 		}
 		finally {
 				try {
@@ -156,7 +156,7 @@ public class LineaCarritoData extends LineaData {
 					FactoryConnection.getInstancia().releaseConn();
 				} 
 				catch (SQLException e) {
-					throw new  CartLineException("Oops, ha ocurrido un error",e,Level.ERROR);
+					throw new  CartLineException("Oops, ha ocurrido un error", e, Level.ERROR);
 				}
 		}
 		
@@ -177,7 +177,7 @@ public class LineaCarritoData extends LineaData {
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			throw new CartLineException("Error al agregar linea al carrito",e,Level.ERROR);
+			throw new CartLineException("Error al eliminar linea del carrito", e, Level.ERROR);
 		}
 		finally {
 			try {
@@ -185,7 +185,7 @@ public class LineaCarritoData extends LineaData {
 					FactoryConnection.getInstancia().releaseConn();
 				} 
 				catch (SQLException e) {
-					throw new  CartLineException("Oops, ha ocurrido un error",e,Level.ERROR);
+					throw new  CartLineException("Oops, ha ocurrido un error", e, Level.ERROR);
 				}	
 		}
 		
@@ -205,7 +205,7 @@ public class LineaCarritoData extends LineaData {
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			throw new CartLineException("Error al eliminar l�neas", e, Level.ERROR);
+			throw new CartLineException("Error al eliminar líneas", e, Level.ERROR);
 		}
 		finally
 		{

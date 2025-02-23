@@ -36,13 +36,12 @@ public class EliminarClienteServlet extends HttpServlet {
 		
 		try {
 			abmcc.delete(abmcc.getOne(request.getParameter("username")));
-			response.sendRedirect("../ListadoClientesServlet/todo");
+			response.sendRedirect("ListadoClientesServlet/todo");
 		} catch (DoniaMaryException e) {
-			// TODO Auto-generated catch block
-			response.sendRedirect("../erorrPage.jsp?mensaje="+e.getMessage());
+			response.sendRedirect("erorrPage.jsp?mensaje=" + e.getMessage());
 		}catch(Exception e) {
-			new DoniaMaryException("Exception catched",e,Level.ERROR);
-			response.sendRedirect("../erorrPage.jsp?mensaje=Oops ha ocurrido un error");
+			new DoniaMaryException("Exception catched", e, Level.ERROR);
+			response.sendRedirect("erorrPage.jsp?mensaje=Oops ha ocurrido un error");
 		}
 		
 	}

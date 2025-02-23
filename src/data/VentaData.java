@@ -246,7 +246,7 @@ public class VentaData {
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			throw new SaleException("Error al actualizar la venta",e);
+			throw new SaleException("Error al actualizar la venta", e, Level.ERROR);
 		}
 		finally{
 			try {
@@ -254,7 +254,7 @@ public class VentaData {
 				FactoryConnection.getInstancia().releaseConn();
 			} 
 			catch (SQLException e) {
-				throw new SaleException("Oops, ha ocurrido un error",e);
+				throw new SaleException("Oops, ha ocurrido un error", e, Level.ERROR);
 			}
 			
 		}
@@ -277,7 +277,7 @@ public class VentaData {
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			throw new SaleException("Error al eliminar la venta",e);
+			throw new SaleException("Error al eliminar la venta", e, Level.ERROR);
 		}
 		finally {
 			try {
@@ -285,7 +285,7 @@ public class VentaData {
 				FactoryConnection.getInstancia().releaseConn();
 			} 
 			catch (SQLException e) {
-				throw new SaleException("Oops, ha ocurrido un error",e);
+				throw new SaleException("Oops, ha ocurrido un error", e, Level.ERROR);
 			}	
 		}		
 	}
@@ -295,7 +295,7 @@ public class VentaData {
 		PreparedStatement stmt = null;
 		
 		try {
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("delete venta,linea_venta from venta v "
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("delete v, lv from venta v "
 					+ "inner join linea_venta lv on v.nro_venta=lv.nro_venta where v.username=?");
 			stmt.setString(1, username);
 			
@@ -307,7 +307,7 @@ public class VentaData {
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			throw new SaleException("Error al eliminar las ventas",e);
+			throw new SaleException("Error al eliminar las ventas", e, Level.ERROR);
 		}
 		finally {
 			try {
@@ -315,7 +315,7 @@ public class VentaData {
 				FactoryConnection.getInstancia().releaseConn();
 			} 
 			catch (SQLException e) {
-				throw new SaleException("Oops, ha ocurrido un error",e);
+				throw new SaleException("Oops, ha ocurrido un error", e, Level.ERROR);
 			}	
 		}		
 	}

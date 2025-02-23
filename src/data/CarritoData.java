@@ -13,6 +13,8 @@ import util.CategoryException;
 import util.PriceException;
 import util.ProviderException;
 
+import org.apache.logging.log4j.Level;
+
 public class CarritoData {
 	
 	private LineaCarritoData lineaData=new LineaCarritoData();
@@ -133,17 +135,18 @@ public class CarritoData {
 			
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("delete from carrito where username=?");
-			stmt.setString(2,username);
+			stmt.setString(1, username);
 			
-			for (Linea linea : carrito.getLineas()) {
-				lineaData.delete(carrito.getNombre(), username, linea.getArticulo().getCodArticulo());
+			if (carrito != null) {
+				for (Linea linea : carrito.getLineas()) {
+					lineaData.delete(carrito.getNombre(), username, linea.getArticulo().getCodArticulo());
+				}
 			}
-			
 			stmt.execute();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			throw new CartException("Error al eliminar los carritos",e);
+			throw new CartException("Error al eliminar los carritos", e, Level.ERROR);
 		}
 		finally {
 			try {
@@ -151,7 +154,7 @@ public class CarritoData {
 					FactoryConnection.getInstancia().releaseConn();
 				} 
 				catch (SQLException e) {
-					throw new CartException("Oops ha ocurrido un error",e);
+					throw new CartException("Oops ha ocurrido un error", e);
 				}	
 		}
 	}

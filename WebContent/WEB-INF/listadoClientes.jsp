@@ -6,7 +6,7 @@
 		<meta charset="ISO-8859-1">
 		<%Cliente c = (Cliente)request.getSession().getAttribute("cliente"); %>
 		<%if(!(c!=null && c.isAdmin())){
-		response.sendRedirect("iniciarSesion.jsp?pagina=ListadoClientesServlet/todo");
+		response.sendRedirect("../iniciarSesion.jsp?pagina=ListadoClientesServlet/todo");
 		return;
 		}%>
 		<title>Clientes</title>
@@ -49,13 +49,13 @@
 					    <nav>
 					        <ul class="list-unstyled components menu-text">
 					            <li>
-									<a href="ListadoClienteServlet/todo">Todo</a>
+									<a href="todo">Todos los usuarios</a>
 					            </li>
 					            <li>
-									<a href="ListadoClienteServlet/admin">No Administradores</a>
+									<a href="admin">Administradores</a>
 					            </li>
 					            <li>
-									<a href="ListadoClienteServlet/noadmin">Administradores</a>
+									<a href="noadmin">No Administradores</a>
 					            </li>            
 					        </ul>
 					    </nav>
@@ -88,8 +88,8 @@
 							<td><input type="checkbox" name="isAdmin" value="Check Value" readonly="readonly" 
 								<%if(cli.isAdmin()){%>checked<%} %> onclick="javascript: return false;"/>
 							</td>
-							<td><a class="btn btn-primary" href="ModificarClienteServlet/IniciarModificacion?username=<%=cli.getUsername()%>">Modificar</a></td>
-							<td><a class="btn btn-danger" onclick="confirmarEIrA('EliminarClienteServlet?username=<%=cli.getUsername()%>')">Eliminar</a></td>
+							<td><a class="btn btn-primary" href="../ModificarClienteServlet/IniciarModificacion?username=<%=cli.getUsername()%>">Modificar</a></td>
+							<td><a class="btn btn-danger" onclick="confirmarEIrA('../EliminarClienteServlet?username=<%=cli.getUsername()%>')">Eliminar</a></td>
 						</tr>							
 								
 					<%} %>
