@@ -1,0 +1,9 @@
+TPJavaArticulosLimpieza/build/classes/log4j2.xml
+log4j logs file location and other configs
+
+ps aux | grep catalina
+find catalina process, in order to obtain catalina.home folder, i.e: ~/tomcat/apache-tomcat-9.0.89
+
+vim ~/tomcat/apache-tomcat-9.0.89/logs/error.log
+read error log file
+
