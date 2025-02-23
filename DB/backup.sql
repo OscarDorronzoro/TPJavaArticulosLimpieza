@@ -1,5 +1,7 @@
-CREATE DATABASE  IF NOT EXISTS `articuloslimpiezadb` /*!40100 DEFAULT CHARACTER SET latin1 */ /*!80016 DEFAULT ENCRYPTION='N' */;
+DROP DATABASE IF EXISTS `articuloslimpiezadb`;
+CREATE DATABASE `articuloslimpiezadb` /*!40100 DEFAULT CHARACTER SET latin1 */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `articuloslimpiezadb`;
+
 -- MySQL dump 10.13  Distrib 8.0.18, for Linux (x86_64)
 --
 -- Host: localhost    Database: articuloslimpiezadb
@@ -31,7 +33,10 @@ CREATE TABLE `articulo` (
   `punto_pedido` int(11) NOT NULL,
   `stock` int(11) NOT NULL,
   `url_imagen` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`cod_articulo`)
+  `nombre_categoria` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`cod_articulo`),
+  KEY `fk_articulo_categoria` (`nombre_categoria`),
+  CONSTRAINT `fk_articulo_categoria` FOREIGN KEY (`nombre_categoria`) REFERENCES `categoria` (`nombre`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -41,7 +46,7 @@ CREATE TABLE `articulo` (
 
 LOCK TABLES `articulo` WRITE;
 /*!40000 ALTER TABLE `articulo` DISABLE KEYS */;
-INSERT INTO `articulo` VALUES (1,'Escoba de paja',20,5,10,'img-articulos/escoba-paja.jpg'),(2,'Detergente magistral concentrado de limon 750ml',50,20,34,'img-articulos/detergente-magistral-concentrado-limon.jpg'),(3,'Papel higienico Higienol 4 rollos x 50mts',40,30,70,'img-articulos/papel-higienico-higienol4x50mts.jpg'),(4,'Jabon de mano Dove \"original\" 90gr',15,35,150,'img-articulos/jabon-dove-original-90gr.jpg'),(5,'Esponja ideal para facilitar tu dia a dia',15,35,150,'img-articulos/esponja-acanalada-amarilla-verde.jpg');
+INSERT INTO `articulo` VALUES (1,'Escoba de paja',20,5,10,'img-articulos/escoba-paja.jpg','General'),(2,'Detergente magistral concentrado de limon 750ml',50,20,34,'img-articulos/detergente-magistral-concentrado-limon.jpg','Cocina'),(3,'Papel higienico Higienol 4 rollos x 50mts',40,30,70,'img-articulos/papel-higienico-higienol4x50mts.jpg','Baño'),(4,'Jabon de mano Dove \"original\" 90gr',15,35,150,'img-articulos/jabon-dove-original-90gr.jpg','Baño'),(5,'Esponja ideal para facilitar tu dia a dia',15,35,150,'img-articulos/esponja-acanalada-amarilla-verde.jpg','Cocina');
 /*!40000 ALTER TABLE `articulo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -100,6 +105,30 @@ INSERT INTO `carrito` VALUES ('compraActual','oscar123','articulos seleccionados
 UNLOCK TABLES;
 
 --
+-- Table structure for table `categoria`
+--
+
+DROP TABLE IF EXISTS `categoria`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `categoria` (
+  `nombre` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `descripcion` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`nombre`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `categoria`
+--
+
+LOCK TABLES `categoria` WRITE;
+/*!40000 ALTER TABLE `categoria` DISABLE KEYS */;
+INSERT INTO `categoria` VALUES ('Baño','Articulos dedicados a la limpieza y aromatizacion de baños'),('Cocina','Articulos para limpiar facilmente la grasa de la cocina'),('General','Articulos para limpieza general'),('Muebles','Articulos para el cuidado de muebles');
+/*!40000 ALTER TABLE `categoria` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `cliente`
 --
 
@@ -113,7 +142,9 @@ CREATE TABLE `cliente` (
   `dni` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `admin` tinyint(1) NOT NULL,
-  PRIMARY KEY (`username`)
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`username`),
+  UNIQUE KEY `email_UNIQUE` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -123,7 +154,7 @@ CREATE TABLE `cliente` (
 
 LOCK TABLES `cliente` WRITE;
 /*!40000 ALTER TABLE `cliente` DISABLE KEYS */;
-INSERT INTO `cliente` VALUES ('agustina','Agustina','Blanco','11111111','3627909a29c31381a071ec27f7c9ca97726182aed29a7ddd2e54353322cfb30abb9e3a6df2ac2c20fe23436311d678564d0c8d305930575f60e2d3d048184d79',0),('oscar123','Oscar','Dorronzoro','41360767','3627909a29c31381a071ec27f7c9ca97726182aed29a7ddd2e54353322cfb30abb9e3a6df2ac2c20fe23436311d678564d0c8d305930575f60e2d3d048184d79',1);
+INSERT INTO `cliente` VALUES ('agustina','Agustina','Blanco','11111111','3627909a29c31381a071ec27f7c9ca97726182aed29a7ddd2e54353322cfb30abb9e3a6df2ac2c20fe23436311d678564d0c8d305930575f60e2d3d048184d79',0,'agustinablanco2524@gmail.com'),('oscar123','Oscar','Dorronzoro','41360767','3627909a29c31381a071ec27f7c9ca97726182aed29a7ddd2e54353322cfb30abb9e3a6df2ac2c20fe23436311d678564d0c8d305930575f60e2d3d048184d79',1,'oscar.dorronzoro@outlook.com');
 /*!40000 ALTER TABLE `cliente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -305,4 +336,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-12-15 18:45:55
+-- Dump completed on 2020-02-24 19:35:15
