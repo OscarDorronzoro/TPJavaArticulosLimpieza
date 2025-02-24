@@ -51,15 +51,16 @@ public class ModificarClienteServlet extends HttpServlet {
 			Cliente cliente= new Cliente();
 
 			cliente.setUsername(request.getParameter("username"));
+			cliente.setEmail(request.getParameter("email"));
 			cliente.setNombre(request.getParameter("nombre"));
 			cliente.setApellido(request.getParameter("apellido"));
 			cliente.setDNI(request.getParameter("DNI"));
-			cliente.setAdmin(Boolean.getBoolean(request.getParameter("isAdmin")));
+			cliente.setAdmin(request.getParameter("isAdmin").equals("on") ? true : false);
 			
 			try {
 				abmcc.update(cliente);
 				request.setAttribute("cliModificado",cliente);
-				request.getRequestDispatcher("../WEB-INF/modificarCliente.jsp");
+				request.getRequestDispatcher("../WEB-INF/modificarCliente.jsp").forward(request, response);;
 			} catch (DoniaMaryException e) {
 				// TODO Auto-generated catch block
 				response.sendRedirect("../errorPage.jsp?mensaje="+e.getMessage());

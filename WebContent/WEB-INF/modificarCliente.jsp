@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -27,22 +26,26 @@
 				<div class="col-md-6">
 					<section>
 						<h1>Modificar Cliente</h1>
-						<form action="ModificarClienteServlet/Modificar" method="get">		
+						<form action="Modificar" method="get">		
 							<div class="form-group">
 								<label for="username" class="control-label">Usuario</label>
 								<input class="form-control" value="<%=cli.getUsername() %>" readonly name="username" id="username"/>
+							</div>
+							<div class="form-group">
+								<label for="email" class="control-label">E-Mail</label>
+								<input class="form-control" value="<%=cli.getEmail() %>" name="email" id="email"/>
 							</div>		
 							<div class="form-group">
 								<label for="nombre" class="control-label">Nombre</label>
-								<input class="form-control" value="<%=cli.getNombre() %>" readonly name="nombre" id="nombre"/>
+								<input class="form-control" value="<%=cli.getNombre() %>" name="nombre" id="nombre"/>
 							</div>
 							<div class="form-group">
 								<label for="apellido" class="control-label">Apellido</label>
-								<input class="form-control" value="<%=cli.getApellido() %>" readonly name="apellido" id="apellido"/>
+								<input class="form-control" value="<%=cli.getApellido() %>" name="apellido" id="apellido"/>
 							</div>
 							<div class="form-group">
 								<label for="DNI" class="control-label">DNI</label>
-								<input class="form-control" value="<%=cli.getDNI() %>" readonly name="DNI" id="DNI"/>
+								<input class="form-control" value="<%=cli.getDNI() %>" name="DNI" id="DNI"/>
 							</div>
 							<div class="form-group">
 								<label for="isAdmin" class="control-label">Es administrador </label>
