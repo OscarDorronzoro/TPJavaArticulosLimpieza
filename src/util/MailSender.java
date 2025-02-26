@@ -1,7 +1,7 @@
 package util;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Properties;
 import javax.mail.*;
 import javax.mail.internet.*;
@@ -14,29 +14,26 @@ public class MailSender {
 	private Properties props;
 	
 	public static MailSender getInstance() throws MailSendException{
-		if (instance==null){
-			instance=new MailSender();
+		if (instance == null){
+			instance = new MailSender();
 		}
 		return instance;
 	}
 	
 	private MailSender() throws MailSendException {
-		
-		InputStream inputStream=getClass().getClassLoader().getResourceAsStream("app.properties");
 		try {
-			props = new Properties();
-			props.load(inputStream);
+			this.props = new Properties();
+			this.props.load(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("app.properties"), "UTF-8"));
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			throw new MailSendException("Error al cargar propiedades de mail",e,Level.ERROR);
+			throw new MailSendException("Error al cargar propiedades de mail", e, Level.ERROR);
 		}
 		
 	}
 	
 	public void send(String to, String subject, String body) throws MailSendException{
 
-		Session session = Session.getInstance(props,
+		Session session = Session.getInstance(this.props,
 		  new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
 				return new PasswordAuthentication(props.getProperty("mail.username"), props.getProperty("mail.password"));
@@ -47,8 +44,10 @@ public class MailSender {
 
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(props.getProperty("mail.username")));
-			message.setRecipients(Message.RecipientType.TO,
-				InternetAddress.parse(to));
+			message.setRecipients(
+				Message.RecipientType.TO
+				,InternetAddress.parse(to)
+			);
 			message.setSubject(subject);
 			message.setText(body);
 
