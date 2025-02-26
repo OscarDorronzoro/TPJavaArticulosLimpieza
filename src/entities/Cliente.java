@@ -12,9 +12,10 @@ public class Cliente {
 	private Carrito miCarrito;
 	
 	public Cliente() {
-		this.setMiCarrito(new Carrito());
-		this.getMiCarrito().setNombre("CompraActual");
-		this.getMiCarrito().setDescripcion("Aqui se encuentran los articulos que ha añadido en su ultima sesion");
+		Carrito carrito = new Carrito();
+		carrito.setNombre("CompraActual");
+		carrito.setDescripcion("Aqui se encuentran los articulos que ha aÃ±adido en su ultima sesion");
+		this.setMiCarrito(carrito);
 		this.setAdmin(false);
 	}
 	

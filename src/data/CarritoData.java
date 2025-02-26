@@ -40,7 +40,7 @@ public class CarritoData {
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
-			throw new CartException("Error al agregar un carrito", e);
+			throw new CartException("Error al agregar un carrito", e, Level.ERROR);
 		}
 		finally {
 			try {
@@ -48,7 +48,7 @@ public class CarritoData {
             FactoryConnection.getInstancia().releaseConn();
 			} 
 			catch (SQLException e) {
-				throw new CartException("Oops, ha ocurrido un error", e);
+				throw new CartException("Oops, ha ocurrido un error", e, Level.ERROR);
 			}
 		}
 		
@@ -79,7 +79,7 @@ public class CarritoData {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			throw new CartException("Error al buscar el carrito",e);
+			throw new CartException("Error al buscar el carrito", e, Level.ERROR);
 		}
 		finally {
 				try {
@@ -88,7 +88,7 @@ public class CarritoData {
 					FactoryConnection.getInstancia().releaseConn();
 				} 
 				catch (SQLException e) {
-					throw new CartException("Oops ha ocurrido un error",e);
+					throw new CartException("Oops ha ocurrido un error", e, Level.ERROR);
 				}
 		}
 		
@@ -113,7 +113,7 @@ public class CarritoData {
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			throw new CartException("Error al eliminar el carrito",e);
+			throw new CartException("Error al eliminar el carrito", e, Level.ERROR);
 		}
 		finally {
 			try {
@@ -121,7 +121,7 @@ public class CarritoData {
 					FactoryConnection.getInstancia().releaseConn();
 				} 
 				catch (SQLException e) {
-					throw new CartException("Oops ha ocurrido un error",e);
+					throw new CartException("Oops ha ocurrido un error", e, Level.ERROR);
 				}	
 		}
 		
@@ -154,7 +154,7 @@ public class CarritoData {
 					FactoryConnection.getInstancia().releaseConn();
 				} 
 				catch (SQLException e) {
-					throw new CartException("Oops ha ocurrido un error", e);
+					throw new CartException("Oops ha ocurrido un error", e, Level.ERROR);
 				}	
 		}
 	}
