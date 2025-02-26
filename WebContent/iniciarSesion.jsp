@@ -4,6 +4,7 @@
 <html>
 	<head>
 		<meta charset="ISO-8859-1">
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=yes">
 		<title>Iniciar Sesión</title>
 		<link rel="shortcut icon" href="png/favicon.ico">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.css">

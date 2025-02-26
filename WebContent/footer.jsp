@@ -1,16 +1,10 @@
-<div class="row">
+<div class="row footer-container">
 <footer class="page-footer font-small bg-dark pt-4">
   <div class="container-fluid text-center text-md-left">
     <div class="row">
       <div class="col-md-6 mt-md-0 mt-3 text-light">
         <h5 class="text-uppercase">Acerca de nosotros</h5>
-        <p>Somos una PyME dedicada a la venta de articulos de limpieza. chamuyo chamuyo chamuyo chamuyo 
-        chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo 
-        chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo 
-        chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo 
-        chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo 
-        chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo 
-        chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo chamuyo 
+        <p>En "Doña Mary Limpieza", nos dedicamos a ofrecer una amplia variedad de artículos de limpieza y productos de bazar, ideales para satisfacer las necesidades de tu hogar o negocio. Somos una empresa pequeña pero apasionada por brindar productos de calidad, atención personalizada y precios accesibles. Nuestro objetivo es hacer tu vida más práctica, proporcionando soluciones confiables y útiles para tu día a día. ¡Gracias por elegirnos como parte de tu hogar! 
         </p>
       </div>
       <hr class="clearfix w-100 d-md-none pb-3">

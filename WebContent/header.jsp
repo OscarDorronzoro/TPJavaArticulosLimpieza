@@ -12,8 +12,8 @@
 <!-- 						<span class="icon-bar"></span> -->
 <!-- 					</button> -->
 <!-- 					<div class="nav navbar-nav"> -->
-						<div class="col-xs-2 col-sm-1"><a href="main.jsp" class="navbar-brand m-5"><img height="50px" src="png/favicon.ico"></a></div>
-						<div class="col-xs-10 col-sm-5"><a href="../main.jsp" class="navbar-brand">Doña Mary Limpieza</a></div> <!-- class="navbar-text" agranda barra -->
+						<div class="col-xs-2 col-sm-1"><a href="/TP_Articulos_Limpieza/main.jsp" class="navbar-brand m-5"><img height="50px" src="/TP_Articulos_Limpieza/png/favicon.ico"></a></div>
+						<div class="col-xs-10 col-sm-5"><a href="/TP_Articulos_Limpieza/main.jsp" class="navbar-brand">Doña Mary Limpieza</a></div> <!-- class="navbar-text" agranda barra -->
 						 <div class="col-xs-12 col-sm-6">
 							<form class="form-inline navbar-brand" action="BusquedaServlet" method="get">      
 								<div class="row">
@@ -35,7 +35,7 @@
 		<div class="col-xs-12 col-sm-4 col-md-5">
 					<div id="navbarCollapse" class="navbar-collapse navbar-right">
 						<ul class="nav navbar-nav seccion">
-							<li ><a href="main.jsp">Inicio</a></li>
+							<li ><a href="/TP_Articulos_Limpieza/main.jsp">Inicio</a></li>
 							<!-- <li class="dropdown">
 								<a data-toggle="dropdown" class="dropdown-toggle" href="listadoArticulos.jsp">Categorias Articulos
 									<b class="caret"></b> 
@@ -45,25 +45,25 @@
 									<li><a href="#">Cocina</a></li>
 								</ul>
 							</li> -->
-							<li><a href="BusquedaServlet">Articulos</a></li>														
+							<li><a href="/TP_Articulos_Limpieza/BusquedaServlet">Articulos</a></li>														
 							
 							
 							<%@page import="entities.Cliente" %>
 							<%Cliente cliente = (Cliente)request.getSession().getAttribute("cliente"); %>
 							<%if(cliente==null){ %>
-							<li><a href="formCliente.jsp">Registrarse</a></li>
-							<li><a href="iniciarSesion.jsp">Iniciar Sesión</a></li>
+							<li><a href="/TP_Articulos_Limpieza/formCliente.jsp">Registrarse</a></li>
+							<li><a href="/TP_Articulos_Limpieza/iniciarSesion.jsp">Iniciar Sesión</a></li>
 							<%}else{
 							if(cliente.isAdmin()){%>
-								<li><a href="SeccionAdminServlet">Gestión del Sitio</a> </li>
+								<li><a href="/TP_Articulos_Limpieza/SeccionAdminServlet">Gestión del Sitio</a> </li>
 							<%}%>		
 							<li>
 								<a href="MisCarritos.jsp">Mi Carrito <% if(cliente.getMiCarrito().getLineas()!=null) { %> <%=cliente.getMiCarrito().getLineas().size()%> <% } %> </a>  
 							<li class="dropdown">
-								<a data-toggle="dropdown" class="dropdown-toggle" href="#"><img src="png/cog-2x.png"></a>
+								<a data-toggle="dropdown" class="dropdown-toggle" href="#"><img src="/TP_Articulos_Limpieza/png/cog-2x.png"></a>
 								<ul role="menu" class="dropdown-menu">
-									<li><a href="LogOutServlet">Cerrar Sesion</a></li>
-									<li><a href="EditarPerfilServlet/iniciarModificacion">Editar mi perfil</a></li>
+									<li><a href="/TP_Articulos_Limpieza/LogOutServlet">Cerrar Sesion</a></li>
+									<li><a href="/TP_Articulos_Limpieza/EditarPerfilServlet/iniciarModificacion">Editar mi perfil</a></li>
 								</ul>
 							</li>
 							<%} %>						

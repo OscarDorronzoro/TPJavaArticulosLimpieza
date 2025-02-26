@@ -8,7 +8,8 @@
 		<title>Articulos</title>
 		<link rel="shortcut icon" href="png/favicon.ico">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
-		<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css">	
+		<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css">
+		<link rel="stylesheet" href="bootstrap/css/customstyles.css">
 		<%
 			@SuppressWarnings("unchecked")	
 			ArrayList<Articulo> articulos=(ArrayList<Articulo>)request.getAttribute("articulos");
