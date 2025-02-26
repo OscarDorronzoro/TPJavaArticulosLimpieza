@@ -1,6 +1,8 @@
 package servlet;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -43,7 +45,7 @@ public class ModificarClienteServlet extends HttpServlet {
 				
 			} catch (DoniaMaryException e) {
 				// TODO Auto-generated catch block
-				response.sendRedirect("../errorPage.jsp?mensaje="+e.getMessage());
+				response.sendRedirect("errorPage.jsp?mensaje="+e.getMessage());
 			}
 			
 			break;
@@ -60,10 +62,11 @@ public class ModificarClienteServlet extends HttpServlet {
 			try {
 				abmcc.update(cliente);
 				request.setAttribute("cliModificado",cliente);
-				request.getRequestDispatcher("../WEB-INF/modificarCliente.jsp").forward(request, response);;
+				RequestDispatcher dispatcher = request.getRequestDispatcher("../WEB-INF/modificarCliente.jsp");
+				dispatcher.forward(request, response);
 			} catch (DoniaMaryException e) {
 				// TODO Auto-generated catch block
-				response.sendRedirect("../errorPage.jsp?mensaje="+e.getMessage());
+				response.sendRedirect("errorPage.jsp?mensaje="+e.getMessage());
 			}
 			break;
 		}
