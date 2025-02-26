@@ -42,7 +42,7 @@
 									<img src="png/limpieza/muebles.png">
 					            </li>
 					            <li>
-									<img src="png/categorias.png">
+									<img src="png/limpieza/categorias.png">
 					            </li>                
 					        </ul>
 			    	</div>
