@@ -30,7 +30,7 @@ public class ArticuloData {
 			
 			stmt= FactoryConnection.getInstancia().getConn().prepareStatement(
 					"insert into articulo(descripcion,cant_a_pedir,punto_pedido,"
-					+ "stock,url_imagen,nombre_categoria) values(?,?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
+					+ "stock,url_imagen,nombre_categoria,is_deleted) values(?,?,?,?,?,?,0)",PreparedStatement.RETURN_GENERATED_KEYS);
 			
 			stmt.setString(1, art.getDescripcion());
 			stmt.setInt(2, art.getCantAPedir());
@@ -79,7 +79,7 @@ public class ArticuloData {
 		
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().createStatement();
-			rs=stmt.executeQuery("select * from articulo");
+			rs=stmt.executeQuery("select * from articulo where is_deleted = 0");
 			if(rs!=null) {
 				while(rs.next()) {
 					Articulo art=new Articulo();
@@ -125,7 +125,7 @@ public class ArticuloData {
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
 					"select * from articulo art inner join precio p on art.cod_articulo=p.cod_articulo"
-					+ " where art.cod_articulo=?");
+					+ " where art.cod_articulo=? and is_deleted=0");
 			stmt.setInt(1, codArticulo);
 			rs=stmt.executeQuery();
 			if(rs!=null&&rs.next()) {
@@ -166,7 +166,7 @@ public class ArticuloData {
 		PreparedStatement stmt=null;
 		
 		try {
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from articulo where descripcion like ?");
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from articulo where descripcion like ? and is_deleted=0");
 			stmt.setString(1,"%"+descripcion+"%");
 			rs=stmt.executeQuery();
 			
@@ -211,7 +211,7 @@ public class ArticuloData {
 		PreparedStatement stmt=null;
 		
 		try {
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("delete from articulo where art.cod_articulo=?");
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update articulo set is_deleted=1 where cod_articulo=?");
 			stmt.setInt(1, codArticulo);
 			
 			stmt.executeUpdate();

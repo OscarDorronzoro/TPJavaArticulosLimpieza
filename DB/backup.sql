@@ -34,6 +34,7 @@ CREATE TABLE `articulo` (
   `stock` int(11) NOT NULL,
   `url_imagen` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `nombre_categoria` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL,
   PRIMARY KEY (`cod_articulo`),
   KEY `fk_articulo_categoria` (`nombre_categoria`),
   CONSTRAINT `fk_articulo_categoria` FOREIGN KEY (`nombre_categoria`) REFERENCES `categoria` (`nombre`) ON DELETE RESTRICT ON UPDATE CASCADE
@@ -46,7 +47,7 @@ CREATE TABLE `articulo` (
 
 LOCK TABLES `articulo` WRITE;
 /*!40000 ALTER TABLE `articulo` DISABLE KEYS */;
-INSERT INTO `articulo` VALUES (1,'Escoba de paja',20,5,10,'img-articulos/escoba-paja.jpg','General'),(2,'Detergente magistral concentrado de limon 750ml',50,20,34,'img-articulos/detergente-magistral-concentrado-limon.jpg','Cocina'),(3,'Papel higienico Higienol 4 rollos x 50mts',40,30,70,'img-articulos/papel-higienico-higienol4x50mts.jpg','Baño'),(4,'Jabon de mano Dove \"original\" 90gr',15,35,150,'img-articulos/jabon-dove-original-90gr.jpg','Baño'),(5,'Esponja ideal para facilitar tu dia a dia',15,35,150,'img-articulos/esponja-acanalada-amarilla-verde.jpg','Cocina');
+INSERT INTO `articulo` VALUES (1,'Escoba de paja',20,5,10,'img-articulos/escoba-paja.jpg','General',0),(2,'Detergente magistral concentrado de limon 750ml',50,20,34,'img-articulos/detergente-magistral-concentrado-limon.jpg','Cocina',0),(3,'Papel higienico Higienol 4 rollos x 50mts',40,30,70,'img-articulos/papel-higienico-higienol4x50mts.jpg','Baño',0),(4,'Jabon de mano Dove \"original\" 90gr',15,35,150,'img-articulos/jabon-dove-original-90gr.jpg','Baño',0),(5,'Esponja ideal para facilitar tu dia a dia',15,35,150,'img-articulos/esponja-acanalada-amarilla-verde.jpg','Cocina',0);
 /*!40000 ALTER TABLE `articulo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -87,7 +88,7 @@ DROP TABLE IF EXISTS `carrito`;
 CREATE TABLE `carrito` (
   `nombre` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `username` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `descripcion` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `descripcion` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`nombre`,`username`),
   KEY `fk_carrito_cliente` (`username`),
   CONSTRAINT `fk_carrito_cliente` FOREIGN KEY (`username`) REFERENCES `cliente` (`username`) ON DELETE RESTRICT ON UPDATE CASCADE
@@ -154,7 +155,11 @@ CREATE TABLE `cliente` (
 
 LOCK TABLES `cliente` WRITE;
 /*!40000 ALTER TABLE `cliente` DISABLE KEYS */;
-INSERT INTO `cliente` VALUES ('agustina','Agustina','Blanco','11111111','3627909a29c31381a071ec27f7c9ca97726182aed29a7ddd2e54353322cfb30abb9e3a6df2ac2c20fe23436311d678564d0c8d305930575f60e2d3d048184d79',0,'agustinablanco2524@gmail.com'),('oscar123','Oscar','Dorronzoro','41360767','3627909a29c31381a071ec27f7c9ca97726182aed29a7ddd2e54353322cfb30abb9e3a6df2ac2c20fe23436311d678564d0c8d305930575f60e2d3d048184d79',1,'oscar.dorronzoro@outlook.com');
+INSERT INTO `cliente` VALUES 
+  ('user1','User1','User1','11111111','1000:e6cca869536387846ca210ebe471f09b:7cca449a410be93d22094a991daae8b09f49c16e15a81a9aa279f7324098bae26a6681abcacc4c9008369ca7c3d7c18bcae25d54882cb09bc678f0b1894089a5',0,'user1@doniamary.com'),
+  ('user2','User2','User2','22222222','1000:e6cca869536387846ca210ebe471f09b:7cca449a410be93d22094a991daae8b09f49c16e15a81a9aa279f7324098bae26a6681abcacc4c9008369ca7c3d7c18bcae25d54882cb09bc678f0b1894089a5',0,'user2@    doniamary.com'),
+  ('admin','Admin', 'Istrator','66666666','1000:e6cca869536387846ca210ebe471f09b:7cca449a410be93d22094a991daae8b09f49c16e15a81a9aa279f7324098bae26a6681abcacc4c9008369ca7c3d7c18bcae25d54882cb09bc678f0b1894089a5',1,'admin@doniamary.com'),
+  ('oscar123','Oscar','Dorronzoro','12345678','1000:e6cca869536387846ca210ebe471f09b:7cca449a410be93d22094a991daae8b09f49c16e15a81a9aa279f7324098bae26a6681abcacc4c9008369ca7c3d7c18bcae25d54882cb09bc678f0b1894089a5',1,'oscar@doniamary.com');
 /*!40000 ALTER TABLE `cliente` ENABLE KEYS */;
 UNLOCK TABLES;
 
