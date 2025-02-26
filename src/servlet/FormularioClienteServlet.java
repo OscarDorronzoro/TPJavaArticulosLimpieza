@@ -45,12 +45,14 @@ public class FormularioClienteServlet extends HttpServlet {
 		try{
 			abmcc.add(cliente);
 			
-			MailSender ms = MailSender.getInstance();
-			int codigo = (int)(Math.random()*1000000);
+			//MailSender ms = MailSender.getInstance();
+			//int codigo = (int)(Math.random()*1000000);
+			
 			//ver donde guardar codigo
-			ms.send(cliente.getEmail(), "Confirmar E-Mail, Donia Mary Limpieza", 
-					"Si usted se ha registrado en Donia Mary Limpieza, con el usuario: "+cliente.getUsername()+", por favor ingrese el siguiente codigo"
-					+ " para terminar su registro:\n"+codigo+"\n\n Si usted no se ha registrado puede ignorar el mensaje");
+			
+			//ms.send(cliente.getEmail(), "Confirmar E-Mail, Donia Mary Limpieza", 
+			//		"Si usted se ha registrado en Donia Mary Limpieza, con el usuario: "+cliente.getUsername()+", por favor ingrese el siguiente codigo"
+			//		+ " para terminar su registro:\n"+codigo+"\n\n Si usted no se ha registrado puede ignorar el mensaje");
 			
 			//redirigir a pagina de confirmacion
 			response.sendRedirect("main.jsp");

@@ -13,4 +13,7 @@
 	        <page-encoding>ISO-8859-1</page-encoding>
 	    </jsp-property-group>
 	</jsp-config>
+	<session-config>
+        <session-timeout>120</session-timeout>
+    </session-config>
 </web-app>
