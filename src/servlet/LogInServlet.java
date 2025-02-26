@@ -31,7 +31,13 @@ public class LogInServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		response.sendError(405, getServletInfo());
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Cliente cliente = new Cliente();
 
 		cliente.setUsername(request.getParameter("username"));
@@ -47,17 +53,8 @@ public class LogInServlet extends HttpServlet {
 			
 			response.sendRedirect(paginaARedirigir);
 		} catch (DoniaMaryException e) {
-			// TODO Auto-generated catch block			
 			response.sendRedirect("errorPage.jsp?mensaje="+e.getMessage());
-		} 
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		}
 	}
 
 }

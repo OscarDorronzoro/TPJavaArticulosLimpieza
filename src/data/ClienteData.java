@@ -220,7 +220,7 @@ public Cliente getOneByUserYPassword(String username,String plainTextPassword ) 
 				isValidPassword = PasswordManager.validatePassword(plainTextPassword, storedPassword);
 				
 				if (!isValidPassword) {
-					throw new PasswordDoesNotMatchException("La contraseña no coincide");
+					throw new PasswordDoesNotMatchException("La contraseña no coincide", null, Level.INFO);
 				}
 				
 				c=new Cliente();

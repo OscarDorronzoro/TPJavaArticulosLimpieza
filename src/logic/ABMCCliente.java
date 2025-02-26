@@ -9,6 +9,9 @@ import util.ClientNotFoundException;
 import util.DoniaMaryException;
 
 import java.util.ArrayList;
+
+import org.apache.logging.log4j.Level;
+
 import data.ClienteData;
 import util.PasswordManager;
 import util.SaleException;
@@ -56,7 +59,7 @@ public class ABMCCliente {
 		Cliente cli = this.getClienteData().getOneByUserYPassword(c.getUsername(), c.getPassword());
 		
 		if(cli==null) {
-			throw new ClientNotFoundException("Cliente inexistente");
+			throw new ClientNotFoundException("Cliente inexistente", null, Level.INFO);
 		}
 		else {
 			c.setAdmin(cli.isAdmin());
