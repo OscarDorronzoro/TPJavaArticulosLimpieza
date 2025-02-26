@@ -1,10 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" import="java.nio.charset.Charset, java.net.URLDecoder" %>
+
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="ISO-8859-1">
-		<title>Doña Mary Limpieza</title>
+		<meta charset="UTF-8">
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<title>DoÃ±a Mary Limpieza</title>
 		<link rel="shortcut icon" href="png/favicon.ico">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css">
@@ -18,7 +19,7 @@
 			<div class="error-title">
 				Lo sentimos, ha ocurrido un problema
 			</div>
-			<div class="error-message">	
+			<div class="error-message">
 				<%=request.getParameter("mensaje") %>
 			</div>
 		</div>
