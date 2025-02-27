@@ -1,56 +1,72 @@
 package data;
 
 import java.sql.*;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.util.Properties;
+
+import org.apache.logging.log4j.Level;
+
+import util.DBException;
 
 public class FactoryConnection {
 
-	private static FactoryConnection instancia;
+	private static FactoryConnection Instancia;
+	private int conectados = 0;
+	private Connection conn = null;
+	private Properties props;
 	
-	private String driver="com.mysql.cj.jdbc.Driver";
-	private String host="localhost";
-	private String port="3306";
-	private String user="root";
-	private String password="root";
-	private String db="articuloslimpiezadb";
-	private int conectados=0;
-	private Connection conn=null;
-	
-	private FactoryConnection() {
+	private FactoryConnection() throws DBException {
+		this.props = new Properties();
+		
 		try {
-			Class.forName(driver);
+			this.props.load(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("app.properties"), "UTF-8"));
+			Class.forName(this.props.getProperty("db.driver"));
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			throw new DBException("DB driver not found", e, Level.ERROR);
+		} catch (UnsupportedEncodingException e) {
+			throw new DBException("Unsopported encoding for properties file", e, Level.ERROR);
+		} catch (IOException e) {
+			throw new DBException("Error reading properties file", e, Level.ERROR);
 		}
 	}
 	
-	public static FactoryConnection getInstancia() {
-		if (instancia == null) {
-			instancia = new FactoryConnection();
+	public static FactoryConnection getInstancia() throws DBException {
+		if (FactoryConnection.Instancia == null) {
+			FactoryConnection.Instancia = new FactoryConnection();
 		}
-		return instancia;
+		return FactoryConnection.Instancia;
 	}
 	
-	public Connection getConn() {
+	public Connection getConn() throws DBException {
 		try {
-			if(conn==null || conn.isClosed()) {
-				conn=DriverManager.getConnection("jdbc:mysql://"+host+":"+port+"/"+db, user, password);
-				conectados=0;
+			if(conn == null || conn.isClosed()) {
+				conn = DriverManager.getConnection(
+					"jdbc:mysql://"
+					+this.props.getProperty("db.host")
+					+":"+this.props.getProperty("db.port")
+					+"/"+this.props.getProperty("db.db_name")
+					,this.props.getProperty("db.user")
+					,this.props.getProperty("db.password")
+				);
+				conectados = 0;
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new DBException("Can't establish connection to DB", e, Level.ERROR);
 		}
 		conectados++;
 		return conn;
 	}
 	
-	public void releaseConn() {
+	public void releaseConn() throws DBException {
 		conectados--;
 		try {
-			if (conectados<=0) {
+			if (conectados <= 0) {
 				conn.close();
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new DBException("Error when closing connection to DB", e, Level.ERROR);
 		}
 	}
 

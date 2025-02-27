@@ -13,6 +13,7 @@ import util.CartException;
 import util.CartLineException;
 import util.CategoryException;
 import util.ClientException;
+import util.DBException;
 import util.PasswordDoesNotMatchException;
 import util.PasswordManager;
 import util.PriceException;
@@ -26,15 +27,15 @@ public class ClienteData {
 	static VentaData ventaData = new VentaData();
 	
 	public void add(Cliente c) throws ClientException {
-		PreparedStatement stmt=null;
-		Statement transaccion=null;
+		PreparedStatement stmt = null;
+		Statement transaccion = null;
 		try {
 			transaccion = FactoryConnection.getInstancia().getConn().createStatement();
 			transaccion.execute("begin");
 			
-			stmt= FactoryConnection.getInstancia().getConn().prepareStatement(
-					"insert into cliente(nombre,apellido,dni,username,password,admin,email) values(?,?,?,?,?,?,?)"
-					);
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
+				"insert into cliente(nombre,apellido,dni,username,password,admin,email) values(?,?,?,?,?,?,?)"
+			);
 			stmt.setString(1, c.getNombre());
 			stmt.setString(2, c.getApellido());
 			stmt.setString(3, c.getDNI());
@@ -48,131 +49,48 @@ public class ClienteData {
 			carritoData.add(c.getMiCarrito(), c.getUsername());
 			transaccion.execute("commit");
 		}
-		catch (SQLException | CartException | CartLineException e) {
-			// TODO Auto-generated catch block
+		catch (SQLException | CartException | CartLineException doRollback) {
 			try {
 				transaccion.execute("rollback");
-			} catch (SQLException e1) {
-				
+				throw new ClientException("Error when adding new customer", doRollback, Level.ERROR);
 			}
-			throw new ClientException("Error al agregar cliente",e,Level.ERROR);
-		} 
+			catch (SQLException e) {
+				throw new ClientException("Error when performing rollback from adding new customer", e, Level.ERROR);
+			}
+		}
+		catch (DBException e) {
+			throw new ClientException("Error when establishing connection to DB, to add new customer", e, Level.ERROR);
+		}
 		finally {
 			try {
-			if(stmt!=null)stmt.close();
-            FactoryConnection.getInstancia().releaseConn();
+				if (stmt != null) {
+					stmt.close();
+				}
+				FactoryConnection.getInstancia().releaseConn();
 			} 
 			catch (SQLException e) {
-				throw new ClientException("Oops! Ha ocurrido un error",e,Level.ERROR);
+				throw new ClientException("Error when finishing adding new customer", e, Level.ERROR);
+			}
+			catch (DBException e) {
+				throw new ClientException("Error when closing connection to DB, after adding new customer", e, Level.ERROR);
 			}
 		}
 		
-	}
-	
-	public ArrayList<Cliente> getAll() throws ProviderException, CartLineException, CartException, ArticleException, ClientException, PriceException{
-		
-		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
-		ResultSet rs=null;
-		Statement stmt=null;
-		
-		try {
-			stmt = FactoryConnection.getInstancia().getConn().createStatement();
-			rs=stmt.executeQuery("select * from cliente");
-			if(rs!=null) {
-				while(rs.next()) {
-					Cliente c=new Cliente();
-					
-					c.setNombre(rs.getString("nombre"));
-					c.setApellido(rs.getString("apellido"));
-					c.setDNI(rs.getString("dni"));
-					c.setPassword(rs.getString("password"));
-					c.setUsername(rs.getString("username"));
-					c.setAdmin(rs.getBoolean("admin"));
-					c.setEmail(rs.getString("email"));
-					
-					c.setMiCarrito(carritoData.getOne("compraActual", c.getUsername()));
-					
-					clientes.add(c);					
-				}
-			}
-		} catch (SQLException | CategoryException e) {
-			// TODO Auto-generated catch block
-			throw new ClientException("Error al recuperar clientes",e,Level.ERROR);
-		}
-		finally {
-				try {
-					if(rs!=null) {rs.close();}
-					if(stmt!=null) {stmt.close();}
-					FactoryConnection.getInstancia().releaseConn();
-				} 
-				catch (SQLException e) {
-					throw new ClientException("Oops! Ha ocurrido un error",e,Level.ERROR);
-				}
-		}
-		
-		return clientes;
-	}
-	
-	public ArrayList<Cliente> getAllByAdmin(boolean isAdmin) throws ProviderException, CartLineException, CartException, ArticleException, ClientException, PriceException, CategoryException{
-		
-		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
-		ResultSet rs=null;
-		PreparedStatement stmt=null;
-		
-		try {
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from cliente where admin=?");
-			stmt.setBoolean(1, isAdmin);
-			
-			rs=stmt.executeQuery();
-			
-			if(rs!=null) {
-				while(rs.next()) {
-					Cliente c=new Cliente();
-					
-					c.setNombre(rs.getString("nombre"));
-					c.setApellido(rs.getString("apellido"));
-					c.setDNI(rs.getString("dni"));
-					c.setPassword(rs.getString("password"));
-					c.setUsername(rs.getString("username"));
-					c.setAdmin(rs.getBoolean("admin"));
-					c.setEmail(rs.getString("email"));
-					
-					c.setMiCarrito(carritoData.getOne("compraActual", c.getUsername()));
-					
-					clientes.add(c);					
-				}
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			throw new ClientException("Error al recuperar clientes",e,Level.ERROR);
-		}
-		finally {
-				try {
-					if(rs!=null) {rs.close();}
-					if(stmt!=null) {stmt.close();}
-					FactoryConnection.getInstancia().releaseConn();
-				} 
-				catch (SQLException e) {
-					throw new ClientException("Oops! Ha ocurrido un error",e,Level.ERROR);
-				}
-		}
-		
-		return clientes;
 	}
 	
 	public Cliente getOne(String username) throws ProviderException, CartLineException, CartException, ArticleException, ClientException, PriceException, CategoryException {
 		
-		Cliente c=null;
-		ResultSet rs=null;
-		PreparedStatement stmt=null;
+		Cliente c = null;
+		ResultSet rs = null;
+		PreparedStatement stmt = null;
 		
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
 					"select * from cliente where username=?");
 			stmt.setString(1, username);
-			rs=stmt.executeQuery();
-			if(rs!=null&&rs.next()) {
-					c=new Cliente();
+			rs = stmt.executeQuery();
+			if(rs != null && rs.next()) {
+					c = new Cliente();
 					
 					c.setNombre(rs.getString("nombre"));
 					c.setApellido(rs.getString("apellido"));
@@ -184,37 +102,102 @@ public class ClienteData {
 					
 					c.setMiCarrito(carritoData.getOne("compraActual", c.getUsername()));
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			throw new ClientException("Error al recuperar cliente",e,Level.ERROR);
+		}
+		catch (SQLException e) {
+			throw new ClientException("Error when getting one customer", e, Level.ERROR);
+		}
+		catch (DBException e) {
+			throw new ClientException("Error when establishing connection to DB, to get one customer", e, Level.ERROR);
 		}
 		finally {
-				try {
-					if(rs!=null) {rs.close();}
-					if(stmt!=null) {stmt.close();}
-					FactoryConnection.getInstancia().releaseConn();
-				} 
-				catch (SQLException e) {
-					throw new ClientException("Oops! Ha ocurrido un error",e,Level.ERROR);
+			try {
+				if (rs != null) {
+					rs.close();
 				}
+				if (stmt != null) {
+					stmt.close();
+				}
+				FactoryConnection.getInstancia().releaseConn();
+			} 
+			catch (SQLException e) {
+				throw new ClientException("Error when finishing getting one customer", e, Level.ERROR);
+			}
+			catch (DBException e) {
+				throw new ClientException("Error when closing connection to DB, after getting one customer", e, Level.ERROR);
+			}
 		}
 		
 		return c;
 	}
-public Cliente getOneByUserYPassword(String username,String plainTextPassword ) throws ProviderException, CartLineException, CartException, ArticleException, ClientException, PriceException, CategoryException {
+
+	public ArrayList<Cliente> getAll() throws ProviderException, CartLineException, CartException, ArticleException, ClientException, PriceException{
 		
-		Cliente c=null;
-		ResultSet rs=null;
-		PreparedStatement stmt=null;
+		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+		ResultSet rs = null;
+		Statement stmt = null;
+		
+		try {
+			stmt = FactoryConnection.getInstancia().getConn().createStatement();
+			rs = stmt.executeQuery("select * from cliente");
+			if (rs != null) {
+				while (rs.next()) {
+					Cliente c = new Cliente();
+					
+					c.setNombre(rs.getString("nombre"));
+					c.setApellido(rs.getString("apellido"));
+					c.setDNI(rs.getString("dni"));
+					c.setPassword(rs.getString("password"));
+					c.setUsername(rs.getString("username"));
+					c.setAdmin(rs.getBoolean("admin"));
+					c.setEmail(rs.getString("email"));
+					
+					c.setMiCarrito(carritoData.getOne("compraActual", c.getUsername()));
+					
+					clientes.add(c);					
+				}
+			}
+		}
+		catch (SQLException | CategoryException e) {
+			throw new ClientException("Error when getting all customers", e, Level.ERROR);
+		}
+		catch (DBException e) {
+			throw new ClientException("Error when establishing connection to DB, to get all customers", e, Level.ERROR);
+		}
+		finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (stmt != null) {
+					stmt.close();
+				}
+				FactoryConnection.getInstancia().releaseConn();
+			} 
+			catch (SQLException e) {
+				throw new ClientException("Error when finishing getting all customers", e, Level.ERROR);
+			}
+			catch (DBException e) {
+				throw new ClientException("Error when closing connection to DB, after getting all customers", e, Level.ERROR);
+			}
+		}
+		
+		return clientes;
+	}
+	
+	public Cliente getOneByUserYPassword(String username,String plainTextPassword ) throws ProviderException, CartLineException, CartException, ArticleException, ClientException, PriceException, CategoryException {
+		
+		Cliente c = null;
+		ResultSet rs = null;
+		PreparedStatement stmt = null;
 		
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
 					"select * from cliente where username=?");
 			
 			stmt.setString(1, username);
-			rs=stmt.executeQuery();
+			rs = stmt.executeQuery();
 			
-			if(rs!=null&&rs.next()) {
+			if (rs != null && rs.next()) {
 				String storedPassword = rs.getString("password");
 				boolean isValidPassword;
 				isValidPassword = PasswordManager.validatePassword(plainTextPassword, storedPassword);
@@ -223,7 +206,7 @@ public Cliente getOneByUserYPassword(String username,String plainTextPassword ) 
 					throw new PasswordDoesNotMatchException("La contraseña no coincide", null, Level.INFO);
 				}
 				
-				c=new Cliente();
+				c = new Cliente();
 				
 				c.setNombre(rs.getString("nombre"));
 				c.setApellido(rs.getString("apellido"));
@@ -234,27 +217,97 @@ public Cliente getOneByUserYPassword(String username,String plainTextPassword ) 
 				
 				c.setMiCarrito(carritoData.getOne("compraActual", c.getUsername()));
 			}
-		} catch (SQLException e) {
-			throw new ClientException("Error al recuperar cliente",e,Level.ERROR);
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		} catch (InvalidKeySpecException e) {
-			e.printStackTrace();
+		}
+		catch (SQLException e) {
+			throw new ClientException("Error when getting one customer by username and password", e, Level.ERROR);
+		}
+		catch (DBException e) {
+			throw new ClientException("Error when establishing connection to DB, to get one customer by username and password", e, Level.ERROR);
+		}
+		catch (NoSuchAlgorithmException e) {
+			throw new ClientException("Error when comparing user's password, no such algorithm", e, Level.ERROR);
+		}
+		catch (InvalidKeySpecException e) {
+			throw new ClientException("Error when comparing user's password, invalid key spec", e, Level.ERROR);
 		}
 		finally {
-				try {
-					if(rs!=null) {rs.close();}
-					if(stmt!=null) {stmt.close();}
-					FactoryConnection.getInstancia().releaseConn();
-				} 
-				catch (SQLException e) {
-					throw new ClientException("Oops! Ha ocurrido un error",e,Level.ERROR);
+			try {
+				if (rs != null) {
+					rs.close();
 				}
+				if (stmt != null) {
+					stmt.close();
+				}
+				FactoryConnection.getInstancia().releaseConn();
+			} 
+			catch (SQLException e) {
+				throw new ClientException("Error when finishing getting one customer", e, Level.ERROR);
+			}
+			catch (DBException e) {
+				throw new ClientException("Error when closing connection to DB, after getting one customer", e, Level.ERROR);
+			}
 		}
 		
 		return c;
 	}
-
+		
+	public ArrayList<Cliente> getAllByAdmin(boolean isAdmin) throws ProviderException, CartLineException, CartException, ArticleException, ClientException, PriceException, CategoryException{
+		
+		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+		ResultSet rs = null;
+		PreparedStatement stmt = null;
+		
+		try {
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from cliente where admin=?");
+			stmt.setBoolean(1, isAdmin);
+			
+			rs=stmt.executeQuery();
+			
+			if (rs != null) {
+				while (rs.next()) {
+					Cliente c = new Cliente();
+					
+					c.setNombre(rs.getString("nombre"));
+					c.setApellido(rs.getString("apellido"));
+					c.setDNI(rs.getString("dni"));
+					c.setPassword(rs.getString("password"));
+					c.setUsername(rs.getString("username"));
+					c.setAdmin(rs.getBoolean("admin"));
+					c.setEmail(rs.getString("email"));
+					
+					c.setMiCarrito(carritoData.getOne("compraActual", c.getUsername()));
+					
+					clientes.add(c);					
+				}
+			}
+		}
+		catch (SQLException | CategoryException e) {
+			throw new ClientException("Error when getting all admin users", e, Level.ERROR);
+		}
+		catch (DBException e) {
+			throw new ClientException("Error when establishing connection to DB, to get all admin users", e, Level.ERROR);
+		}
+		finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (stmt != null) {
+					stmt.close();
+				}
+				FactoryConnection.getInstancia().releaseConn();
+			} 
+			catch (SQLException e) {
+				throw new ClientException("Error when finishing getting all admin users", e, Level.ERROR);
+			}
+			catch (DBException e) {
+				throw new ClientException("Error when closing connection to DB, after getting all admin users", e, Level.ERROR);
+			}
+		}
+		
+		return clientes;
+	}
+	
 	public void update(Cliente cliente) throws ClientException
 	{
 		PreparedStatement stmt = null;
@@ -271,24 +324,32 @@ public Cliente getOneByUserYPassword(String username,String plainTextPassword ) 
 			
 			stmt.executeUpdate();
 			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			throw new ClientException("Error al actualizar cliente", e, Level.ERROR);
+		}
+		catch (SQLException e) {
+			throw new ClientException("Error when updating customer", e, Level.ERROR);
+		}
+		catch (DBException e) {
+			throw new ClientException("Error when establishing connection to DB, to update customer", e, Level.ERROR);
 		}
 		finally {
 			try {
-				if(stmt!=null) {stmt.close();}
+				if (stmt != null) {
+					stmt.close();
+				}
 				FactoryConnection.getInstancia().releaseConn();
 			} 
 			catch (SQLException e) {
-				throw new ClientException("Oops, ha ocurrido un error", e, Level.ERROR);
+				throw new ClientException("Error when finishing updating customer", e, Level.ERROR);
+			}
+			catch (DBException e) {
+				throw new ClientException("Error when closing connection to DB, after updating customer", e, Level.ERROR);
 			}	
 		}	
 	}
 	
 	public void delete(Cliente cliente) throws ClientException, CartException, CartLineException, SaleException, SaleLineException {
 		
-		PreparedStatement stmt=null;
+		PreparedStatement stmt = null;
 		
 		try {
 			stmt=FactoryConnection.getInstancia().getConn().prepareStatement("delete from cliente where username=?");
@@ -298,16 +359,25 @@ public Cliente getOneByUserYPassword(String username,String plainTextPassword ) 
 			ventaData.deleteAllByCliente(cliente.getUsername());
 			
 			stmt.execute();
-		}catch(SQLException e) {
-			throw new ClientException("Error al eliminar cliente", e, Level.ERROR);
+		}
+		catch (SQLException e) {
+			throw new ClientException("Error when deleting customer", e, Level.ERROR);
+		}
+		catch (DBException e) {
+			throw new ClientException("Error when establishing connection to DB, to delete customer", e, Level.ERROR);
 		}
 		finally {
 			try {
-				if(stmt!=null) {stmt.close();}
+				if (stmt != null) {
+					stmt.close();
+				}
 				FactoryConnection.getInstancia().releaseConn();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				throw new ClientException("Oops, ha ocurrido un error", e, Level.ERROR);
+			}
+			catch (SQLException e) {
+				throw new ClientException("Error when finishing deleting sale", e, Level.ERROR);
+			}
+			catch (DBException e) {
+				throw new ClientException("Error when closing connection to DB, after deleting sale", e, Level.ERROR);
 			}
 		}
 	}

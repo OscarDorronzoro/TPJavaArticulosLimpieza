@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import org.apache.logging.log4j.Level;
 
 import entities.Proveedor;
+import util.DBException;
 import util.ProviderException;
 
 public class ProveedorData {
@@ -30,19 +31,74 @@ public class ProveedorData {
 			stmt.executeUpdate();
 				
 		}
-		catch (SQLException e)  {
-			// TODO Auto-generated catch block
-			throw new ProviderException("Error al agregar proveedor", e, Level.ERROR);
+		catch (SQLException e) {
+			throw new ProviderException("Error when adding new provider", e, Level.ERROR);
+		}
+		catch (DBException e) {
+			throw new ProviderException("Error when establishing connection to DB, to add new provider", e, Level.ERROR);
 		}
 		finally {
 			try {
-			if(stmt!=null)stmt.close();
-            FactoryConnection.getInstancia().releaseConn();
+				if (stmt != null) {
+					stmt.close();
+				}
+				FactoryConnection.getInstancia().releaseConn();
 			} 
 			catch (SQLException e) {
-				throw new ProviderException("Oops ha ocurrido un error", e, Level.ERROR);
+				throw new ProviderException("Error when finishing adding new provider", e, Level.ERROR);
+			}
+			catch (DBException e) {
+				throw new ProviderException("Error when closing connection to DB, after adding new provider", e, Level.ERROR);
 			}
 		}
+	}
+	
+	public Proveedor getOne(String cuit) throws ProviderException {
+		
+		Proveedor prov=null;
+		ResultSet rs=null;
+		PreparedStatement stmt=null;
+		
+		try {
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
+					"select * from proveedor p where p.cuit=?"); 
+			stmt.setString(1, cuit);
+			rs=stmt.executeQuery();
+			if(rs!=null&&rs.next()) {
+					prov=new Proveedor();
+					
+					prov.setCuit(rs.getString("cuit"));
+					prov.setDireccion(rs.getString("direccion"));
+					prov.setMail(rs.getString("mail"));
+					prov.setRazonSocial(rs.getString("razon_social"));
+					prov.setTelefono(rs.getString("telefono"));
+			}
+		}
+		catch (SQLException e) {
+			throw new ProviderException("Error when getting one provider", e, Level.ERROR);
+		}
+		catch (DBException e) {
+			throw new ProviderException("Error when establishing connection to DB, to get one provider", e, Level.ERROR);
+		}
+		finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (stmt != null) {
+					stmt.close();
+				}
+				FactoryConnection.getInstancia().releaseConn();
+			} 
+			catch (SQLException e) {
+				throw new ProviderException("Error when finishing getting one provider", e, Level.ERROR);
+			}
+			catch (DBException e) {
+				throw new ProviderException("Error when closing connection to DB, after getting one provider", e, Level.ERROR);
+			}
+		}
+		
+		return prov;
 	}
 	
 	public ArrayList<Proveedor> getAll() throws ProviderException{
@@ -53,9 +109,9 @@ public class ProveedorData {
 		
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().createStatement();
-			rs=stmt.executeQuery("select * from proveedor");
-			if(rs!=null) {
-				while(rs.next()) {
+			rs = stmt.executeQuery("select * from proveedor");
+			if (rs != null) {
+				while (rs.next()) {
 					Proveedor prov=new Proveedor();
 					
 					prov.setCuit(rs.getString("cuit"));
@@ -67,19 +123,29 @@ public class ProveedorData {
 					proveedores.add(prov);					
 				}
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			throw new ProviderException("Error al buscar proveedores", e, Level.ERROR);
+		}
+		catch (SQLException e) {
+			throw new ProviderException("Error when getting all providers", e, Level.ERROR);
+		}
+		catch (DBException e) {
+			throw new ProviderException("Error when establishing connection to DB, to get all providers", e, Level.ERROR);
 		}
 		finally {
-				try {
-					if(rs!=null) {rs.close();}
-					if(stmt!=null) {stmt.close();}
-					FactoryConnection.getInstancia().releaseConn();
-				} 
-				catch (SQLException e) {
-					throw new ProviderException("Oops ha ocurrido un error", e, Level.ERROR);
+			try {
+				if (rs != null) {
+					rs.close();
 				}
+				if (stmt != null) {
+					stmt.close();
+				}
+				FactoryConnection.getInstancia().releaseConn();
+			} 
+			catch (SQLException e) {
+				throw new ProviderException("Error when finishing getting all providers", e, Level.ERROR);
+			}
+			catch (DBException e) {
+				throw new ProviderException("Error when closing connection to DB, after getting all providers", e, Level.ERROR);
+			}
 		}
 		
 		return proveedores;
@@ -109,86 +175,35 @@ public class ProveedorData {
 					proveedores.add(prov);					
 				}
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			throw new ProviderException("Error al buscar proveedores", e, Level.ERROR);
+		}
+		catch (SQLException e) {
+			throw new ProviderException("Error when getting all providers by article", e, Level.ERROR);
+		}
+		catch (DBException e) {
+			throw new ProviderException("Error when establishing connection to DB, to get all providers by article", e, Level.ERROR);
 		}
 		finally {
-				try {
-					if(rs!=null) {rs.close();}
-					if(stmt!=null) {stmt.close();}
-					FactoryConnection.getInstancia().releaseConn();
-				} 
-				catch (SQLException e) {
-					throw new ProviderException("Oops ha ocurrido un error", e, Level.ERROR);
+			try {
+				if (rs != null) {
+					rs.close();
 				}
+				if (stmt != null) {
+					stmt.close();
+				}
+				FactoryConnection.getInstancia().releaseConn();
+			} 
+			catch (SQLException e) {
+				throw new ProviderException("Error when finishing getting all providers by article", e, Level.ERROR);
+			}
+			catch (DBException e) {
+				throw new ProviderException("Error when closing connection to DB, after getting all providers by article", e, Level.ERROR);
+			}
 		}
 		
 		return proveedores;
 	}
-	
-	public Proveedor getOne(String cuit) throws ProviderException {
-		
-		Proveedor prov=null;
-		ResultSet rs=null;
-		PreparedStatement stmt=null;
-		
-		try {
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
-					"select * from proveedor p where p.cuit=?"); 
-			stmt.setString(1, cuit);
-			rs=stmt.executeQuery();
-			if(rs!=null&&rs.next()) {
-					prov=new Proveedor();
-					
-					prov.setCuit(rs.getString("cuit"));
-					prov.setDireccion(rs.getString("direccion"));
-					prov.setMail(rs.getString("mail"));
-					prov.setRazonSocial(rs.getString("razon_social"));
-					prov.setTelefono(rs.getString("telefono"));
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			throw new ProviderException("Error al buscar proveedor", e, Level.ERROR);
-		}
-		finally {
-				try {
-					if(rs!=null) {rs.close();}
-					if(stmt!=null) {stmt.close();}
-					FactoryConnection.getInstancia().releaseConn();
-				} 
-				catch (SQLException e) {
-					throw new ProviderException("Oops ha ocurrido un error", e, Level.ERROR);
-				}
-		}
-		
-		return prov;
-	}
 
-	public void delete(String cuit) throws ProviderException {
-		
-		PreparedStatement stmt=null;
-		
-		try {
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("delete from proveedor p where p.cuit=?");
-			stmt.setString(1, cuit);
-			stmt.executeUpdate();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			throw new ProviderException("Error al eliminar proveedor", e, Level.ERROR);
-		}
-		finally {
-				try {
-					if(stmt!=null) {stmt.close();}
-					FactoryConnection.getInstancia().releaseConn();
-				} 
-				catch (SQLException e) {
-					throw new ProviderException("Oops ha ocurrido un error", e, Level.ERROR);
-				}
-		}
-	}
-	
-	public void update(Proveedor proveedor) throws ProviderException{
+	public void update(Proveedor proveedor) throws ProviderException {
 		
 		PreparedStatement stmt=null;
 		
@@ -205,18 +220,57 @@ public class ProveedorData {
 			stmt.executeUpdate();
 			
 			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			throw new ProviderException("Error al actualizar proveedor", e, Level.ERROR);
+		}
+		catch (SQLException e) {
+			throw new ProviderException("Error when updating provider", e, Level.ERROR);
+		}
+		catch (DBException e) {
+			throw new ProviderException("Error when establishing connection to DB, to update provider", e, Level.ERROR);
 		}
 		finally {
-				try {
-					if(stmt!=null) {stmt.close();}
-					FactoryConnection.getInstancia().releaseConn();
-				} 
-				catch (SQLException e) {
-					throw new ProviderException("Oops, ha ocurrido un error", e, Level.ERROR);
+			try {
+				if (stmt != null) {
+					stmt.close();
 				}
+				FactoryConnection.getInstancia().releaseConn();
+			} 
+			catch (SQLException e) {
+				throw new ProviderException("Error when finishing updating provider", e, Level.ERROR);
+			}
+			catch (DBException e) {
+				throw new ProviderException("Error when closing connection to DB, after updating provider", e, Level.ERROR);
+			}
+		}
+	}
+	
+	public void delete(String cuit) throws ProviderException {
+		
+		PreparedStatement stmt = null;
+		
+		try {
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("delete from proveedor p where p.cuit=?");
+			stmt.setString(1, cuit);
+			stmt.executeUpdate();
+		}
+		catch (SQLException e) {
+			throw new ProviderException("Error when deleting provider", e, Level.ERROR);
+		}
+		catch (DBException e) {
+			throw new ProviderException("Error when establishing connection to DB, to delete provider", e, Level.ERROR);
+		}
+		finally {
+			try {
+				if (stmt != null) {
+					stmt.close();
+				}
+				FactoryConnection.getInstancia().releaseConn();
+			} 
+			catch (SQLException e) {
+				throw new ProviderException("Error when finishing deleting provider", e, Level.ERROR);
+			}
+			catch (DBException e) {
+				throw new ProviderException("Error when closing connection to DB, after deleting provider", e, Level.ERROR);
+			}	
 		}
 	}
 }

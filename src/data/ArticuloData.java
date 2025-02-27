@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Level;
 import entities.Articulo;
 import util.ArticleException;
 import util.CategoryException;
+import util.DBException;
 import util.PriceException;
 import util.ProviderException;
 
@@ -50,70 +51,33 @@ public class ArticuloData {
 			
 			transaccion.execute("commit;");
 		}
-		catch (SQLException e) {
-			// TODO Auto-generated catch block
+		catch (SQLException doRollback) {
 			try {
-				transaccion.execute("rollback;");
-			} catch (SQLException e2) {
-				
+				transaccion.execute("rollback");
+				throw new ArticleException("Error when adding new article", doRollback, Level.ERROR);
 			}
-			throw new ArticleException("Error al agregar articulo", e, Level.ERROR) ;
+			catch (SQLException e) {
+				throw new ArticleException("Error when performing rollback from adding new article", e, Level.ERROR);
+			}
+		}
+		catch (DBException e) {
+			throw new ArticleException("Error when establishing connection to DB, to add new article", e, Level.ERROR);
 		}
 		finally {
 			try {
-				if(stmt!=null) stmt.close();
+				if (stmt != null) {
+					stmt.close();
+				}
 	            FactoryConnection.getInstancia().releaseConn();
 			} 
 			catch (SQLException e) {
-        	throw new ArticleException("Oops, ha ocurrido un error", e, Level.ERROR);
+				throw new ArticleException("Error when finishing adding new article", e, Level.ERROR);
+			}
+			catch (DBException e) {
+				throw new ArticleException("Error when closing connection to DB, after adding new article", e, Level.ERROR);
 			}
 		}
 		
-	}
-	
-	public ArrayList<Articulo> getAll() throws ProviderException, ArticleException, PriceException, CategoryException{
-		
-		ArrayList<Articulo> articulos = new ArrayList<Articulo>();
-		ResultSet rs=null;
-		Statement stmt=null;
-		
-		try {
-			stmt = FactoryConnection.getInstancia().getConn().createStatement();
-			rs=stmt.executeQuery("select * from articulo where is_deleted = 0");
-			if(rs!=null) {
-				while(rs.next()) {
-					Articulo art=new Articulo();
-					
-					art.setCodArticulo(rs.getInt("cod_articulo"));
-					art.setDescripcion(rs.getString("descripcion"));
-					art.setCantAPedir(rs.getInt("cant_a_pedir"));
-					art.setPuntoPedido(rs.getInt("punto_pedido"));
-					art.setStock(rs.getInt("stock"));
-					art.setUrlImagen(rs.getString("url_imagen"));
-					
-					art.setPrecio(precioData.getPrecioActual(art.getCodArticulo()));
-					art.setProveedores(proveedorData.getAllByArticulo(art.getCodArticulo()));
-					art.setCategoria(categoriaData.getOne(rs.getString("nombre_categoria")));
-					
-					articulos.add(art);					
-				}
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			throw new ArticleException("Error al recuperar articulos", e, Level.ERROR);
-		}
-		finally {
-				try {
-					if(rs!=null) {rs.close();}
-					if(stmt!=null) {stmt.close();}
-					FactoryConnection.getInstancia().releaseConn();
-				} 
-				catch (SQLException e) {
-					throw new ArticleException("Oops, ha ocurrido un error", e, Level.ERROR);
-				}
-		}
-		
-		return articulos;
 	}
 	
 	public Articulo getOne(int codArticulo) throws ProviderException, ArticleException, PriceException, CategoryException {
@@ -142,34 +106,43 @@ public class ArticuloData {
 					art.setProveedores(proveedorData.getAllByArticulo(art.getCodArticulo()));
 					art.setCategoria(categoriaData.getOne(rs.getString("nombre_categoria")));
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			throw new ArticleException("Error al recuperar articulo", e, Level.ERROR);
+		}
+		catch (SQLException e) {
+			throw new ArticleException("Error when getting one article", e, Level.ERROR);
+		}
+		catch (DBException e) {
+			throw new ArticleException("Error when establishing connection to DB, to get one article", e, Level.ERROR);
 		}
 		finally {
 				try {
-					if(rs!=null) {rs.close();}
-					if(stmt!=null) {stmt.close();}
+					if (rs != null) {
+						rs.close();
+					}
+					if (stmt != null) {
+						stmt.close();
+					}
 					FactoryConnection.getInstancia().releaseConn();
 				} 
 				catch (SQLException e) {
-					throw new ArticleException("Oops, ha ocurrido un error", e, Level.ERROR);
+					throw new ArticleException("Error when finishing getting one article", e, Level.ERROR);
+				}
+				catch (DBException e) {
+					throw new ArticleException("Error when closing connection to DB, after getting one article", e, Level.ERROR);
 				}
 		}
 		
 		return art;
 	}
 	
-	public ArrayList<Articulo> getAllByDescripcion(String descripcion) throws ProviderException, ArticleException, PriceException, CategoryException{
+	public ArrayList<Articulo> getAll() throws ProviderException, ArticleException, PriceException, CategoryException{
+		
 		ArrayList<Articulo> articulos = new ArrayList<Articulo>();
-		ResultSet rs=null;
-		PreparedStatement stmt=null;
+		ResultSet rs = null;
+		Statement stmt = null;
 		
 		try {
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from articulo where descripcion like ? and is_deleted=0");
-			stmt.setString(1,"%"+descripcion+"%");
-			rs=stmt.executeQuery();
-			
+			stmt = FactoryConnection.getInstancia().getConn().createStatement();
+			rs=stmt.executeQuery("select * from articulo where is_deleted = 0");
 			if(rs!=null) {
 				while(rs.next()) {
 					Articulo art=new Articulo();
@@ -188,46 +161,88 @@ public class ArticuloData {
 					articulos.add(art);					
 				}
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			throw new ArticleException("Error al recuperar articulos", e, Level.ERROR);
+		}
+		catch (SQLException e) {
+			throw new ArticleException("Error when getting all articles", e, Level.ERROR);
+		}
+		catch (DBException e) {
+			throw new ArticleException("Error when establishing connection to DB, to get all articles", e, Level.ERROR);
 		}
 		finally {
 				try {
-					if(rs!=null) {rs.close();}
-					if(stmt!=null) {stmt.close();}
+					if (rs != null) {
+						rs.close();
+					}
+					if (stmt != null) {
+						stmt.close();
+					}
 					FactoryConnection.getInstancia().releaseConn();
 				} 
 				catch (SQLException e) {
-					throw new ArticleException("Oops, ha ocurrido un error", e, Level.ERROR);
+					throw new ArticleException("Error when finishing getting all articles", e, Level.ERROR);
+				}
+				catch (DBException e) {
+					throw new ArticleException("Error when closing connection to DB, after getting all articles", e, Level.ERROR);
 				}
 		}
 		
 		return articulos;
 	}
 	
-	public void delete(int codArticulo) throws ArticleException {
-		
-		PreparedStatement stmt=null;
+	public ArrayList<Articulo> getAllByDescripcion(String descripcion) throws ProviderException, ArticleException, PriceException, CategoryException{
+		ArrayList<Articulo> articulos = new ArrayList<Articulo>();
+		ResultSet rs = null;
+		PreparedStatement stmt = null;
 		
 		try {
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update articulo set is_deleted=1 where cod_articulo=?");
-			stmt.setInt(1, codArticulo);
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from articulo where descripcion like ? and is_deleted=0");
+			stmt.setString(1,"%"+descripcion+"%");
+			rs = stmt.executeQuery();
 			
-			stmt.executeUpdate();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			throw new ArticleException("Error al eliminar articulo", e, Level.ERROR);
+			if (rs != null) {
+				while (rs.next()) {
+					Articulo art = new Articulo();
+					
+					art.setCodArticulo(rs.getInt("cod_articulo"));
+					art.setDescripcion(rs.getString("descripcion"));
+					art.setCantAPedir(rs.getInt("cant_a_pedir"));
+					art.setPuntoPedido(rs.getInt("punto_pedido"));
+					art.setStock(rs.getInt("stock"));
+					art.setUrlImagen(rs.getString("url_imagen"));
+					
+					art.setPrecio(precioData.getPrecioActual(art.getCodArticulo()));
+					art.setProveedores(proveedorData.getAllByArticulo(art.getCodArticulo()));
+					art.setCategoria(categoriaData.getOne(rs.getString("nombre_categoria")));
+					
+					articulos.add(art);					
+				}
+			}
+		}
+		catch (SQLException e) {
+			throw new ArticleException("Error when getting all articles by description", e, Level.ERROR);
+		}
+		catch (DBException e) {
+			throw new ArticleException("Error when establishing connection to DB, to get all articles by description", e, Level.ERROR);
 		}
 		finally {
 				try {
-					if(stmt!=null) {stmt.close();}
+					if (rs != null) {
+						rs.close();
+					}
+					if (stmt != null) {
+						stmt.close();
+					}
 					FactoryConnection.getInstancia().releaseConn();
 				} 
 				catch (SQLException e) {
-					throw new ArticleException("Oops, ha ocurrido un error", e, Level.ERROR);
+					throw new ArticleException("Error when finishing getting all articles by description", e, Level.ERROR);
+				}
+				catch (DBException e) {
+					throw new ArticleException("Error when closing connection to DB, after getting all articles by description", e, Level.ERROR);
 				}
 		}
+		
+		return articulos;
 	}
 	
 	public void update(Articulo articulo) throws ArticleException, PriceException {
@@ -248,23 +263,60 @@ public class ArticuloData {
 			stmt.executeUpdate();
 			
 			precioData.add(articulo.getPrecio(), articulo.getCodArticulo());
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			throw new ArticleException("Error al actualizar articulo", e, Level.ERROR);
+		}
+		catch (SQLException e) {
+			throw new ArticleException("Error when updating article", e, Level.ERROR);
+		}
+		catch (DBException e) {
+			throw new ArticleException("Error when establishing connection to DB, to update article", e, Level.ERROR);
 		}
 		finally {
 				try {
-					if(stmt!=null) {stmt.close();}
+					if (stmt != null) {
+						stmt.close();
+					}
 					FactoryConnection.getInstancia().releaseConn();
 				} 
 				catch (SQLException e) {
-					throw new ArticleException("Oops, ha ocurrido un error", e, Level.ERROR);
+					throw new ArticleException("Error when finishing updating article", e, Level.ERROR);
+				}
+				catch (DBException e) {
+					throw new ArticleException("Error when closing connection to DB, after updating article", e, Level.ERROR);
 				}
 		}
 	}
 	
-	
-	
+	public void delete(int codArticulo) throws ArticleException {
+		
+		PreparedStatement stmt=null;
+		
+		try {
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update articulo set is_deleted=1 where cod_articulo=?");
+			stmt.setInt(1, codArticulo);
+			
+			stmt.executeUpdate();
+		}
+		catch (SQLException e) {
+			throw new ArticleException("Error when deleting article", e, Level.ERROR);
+		}
+		catch (DBException e) {
+			throw new ArticleException("Error when establishing connection to DB, to delete article", e, Level.ERROR);
+		}
+		finally {
+				try {
+					if (stmt != null) {
+						stmt.close();
+					}
+					FactoryConnection.getInstancia().releaseConn();
+				} 
+				catch (SQLException e) {
+					throw new ArticleException("Error when finishing deleting article", e, Level.ERROR);
+				}
+				catch (DBException e) {
+					throw new ArticleException("Error when closing connection to DB, after deleting article", e, Level.ERROR);
+				}	
+		}
+	}
 }
 
 

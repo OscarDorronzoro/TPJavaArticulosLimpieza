@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import org.apache.logging.log4j.Level;
 
 import entities.Precio;
+import util.DBException;
 import util.PriceException;
 
 public class PrecioData {
@@ -26,16 +27,23 @@ public class PrecioData {
 			stmt.executeUpdate();
 		}
 		catch (SQLException e) {
-			// TODO Auto-generated catch block
-			throw new PriceException("Error al cargar el precio", e, Level.ERROR);
+			throw new PriceException("Error when adding new price", e, Level.ERROR);
+		}
+		catch (DBException e) {
+			throw new PriceException("Error when establishing connection to DB, to add new price", e, Level.ERROR);
 		}
 		finally {
 			try {
-			if(stmt!=null)stmt.close();
-            FactoryConnection.getInstancia().releaseConn();
-			} 
+				if (stmt != null) {
+					stmt.close();
+				}
+				FactoryConnection.getInstancia().releaseConn();
+			}
 			catch (SQLException e) {
-				throw new PriceException("Oops, ha ocurrido un error", e, Level.ERROR);
+				throw new PriceException("Error when finishing adding new price", e, Level.ERROR);
+			}
+			catch (DBException e) {
+				throw new PriceException("Error when closing connection to DB, after adding new price", e, Level.ERROR);
 			}
 		}
 		
@@ -62,18 +70,28 @@ public class PrecioData {
 					precio.setValor(rs.getDouble("precio"));					
 			}
 			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			throw new PriceException("Error al obtener precio actual", e, Level.ERROR);
+		}
+		catch (SQLException e) {
+			throw new PriceException("Error when getting current price", e, Level.ERROR);
+		}
+		catch (DBException e) {
+			throw new PriceException("Error when establishing connection to DB, to get current price", e, Level.ERROR);
 		}
 		finally {
 				try {
-					if(rs!=null) {rs.close();}
-					if(stmt!=null) {stmt.close();}
+					if (rs != null) {
+						rs.close();
+					}
+					if (stmt != null) {
+						stmt.close();
+					}
 					FactoryConnection.getInstancia().releaseConn();
 				} 
 				catch (SQLException e) {
-					throw new PriceException("Oops, ha ocurrido un error", e, Level.ERROR);
+					throw new PriceException("Error when finishing getting current price", e, Level.ERROR);
+				}
+				catch (DBException e) {
+					throw new PriceException("Error when closing connection to DB, after getting current price", e, Level.ERROR);
 				}
 		}
 		
@@ -102,18 +120,28 @@ public class PrecioData {
 					precios.add(precio);					
 				}
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			throw new PriceException("Error al obtener precios", e, Level.ERROR);
+		}
+		catch (SQLException e) {
+			throw new PriceException("Error when getting all prices", e, Level.ERROR);
+		}
+		catch (DBException e) {
+			throw new PriceException("Error when establishing connection to DB, to get all prices", e, Level.ERROR);
 		}
 		finally {
 				try {
-					if(rs!=null) {rs.close();}
-					if(stmt!=null) {stmt.close();}
+					if (rs != null) {
+						rs.close();
+					}
+					if (stmt != null) {
+						stmt.close();
+					}
 					FactoryConnection.getInstancia().releaseConn();
 				} 
 				catch (SQLException e) {
-					throw new PriceException("Oops, ha ocurrido un error", e, Level.ERROR);
+					throw new PriceException("Error when finishing getting all prices", e, Level.ERROR);
+				}
+				catch (DBException e) {
+					throw new PriceException("Error when closing connection to DB, after getting all prices", e, Level.ERROR);
 				}
 		}
 		
@@ -132,17 +160,25 @@ public class PrecioData {
 			stmt.setInt(6, codArticulo);
 			
 			stmt.executeUpdate();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			throw new PriceException("Error al actualizar precio", e, Level.ERROR);
+		}
+		catch (SQLException e) {
+			throw new PriceException("Error when updating price", e, Level.ERROR);
+		}
+		catch (DBException e) {
+			throw new PriceException("Error when establishing connection to DB, to update price", e, Level.ERROR);
 		}
 		finally {
 				try {
-					if(stmt!=null) {stmt.close();}
+					if( stmt != null) {
+						stmt.close();
+					}
 					FactoryConnection.getInstancia().releaseConn();
-				} 
+				}
 				catch (SQLException e) {
-					throw new PriceException("Oops, ha ocurrido un error", e, Level.ERROR);
+					throw new PriceException("Error when finishing updating price", e, Level.ERROR);
+				}
+				catch (DBException e) {
+					throw new PriceException("Error when closing connection to DB, after updating price", e, Level.ERROR);
 				}
 		}
 	}

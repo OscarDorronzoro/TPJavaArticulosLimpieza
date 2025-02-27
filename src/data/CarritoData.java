@@ -10,6 +10,7 @@ import util.ArticleException;
 import util.CartException;
 import util.CartLineException;
 import util.CategoryException;
+import util.DBException;
 import util.PriceException;
 import util.ProviderException;
 
@@ -23,7 +24,6 @@ public class CarritoData {
 		
 		PreparedStatement stmt=null;
 			
-
 		try {
 			stmt= FactoryConnection.getInstancia().getConn().prepareStatement("insert into carrito "
 					+ "(nombre,username,descripcion) values(?,?,?)");
@@ -39,16 +39,23 @@ public class CarritoData {
 			
 		}
 		catch (SQLException e) {
-			// TODO Auto-generated catch block
-			throw new CartException("Error al agregar un carrito", e, Level.ERROR);
+			throw new CartException("Error when adding new cart", e, Level.ERROR);
+		}
+		catch (DBException e) {
+			throw new CartException("Error when establishing connection to DB, to add new cart", e, Level.ERROR);
 		}
 		finally {
 			try {
-			if(stmt!=null)stmt.close();
-            FactoryConnection.getInstancia().releaseConn();
+				if (stmt != null) {
+					stmt.close();
+				}
+				FactoryConnection.getInstancia().releaseConn();
 			} 
 			catch (SQLException e) {
-				throw new CartException("Oops, ha ocurrido un error", e, Level.ERROR);
+				throw new CartException("Error when finishing adding new cart", e, Level.ERROR);
+			}
+			catch (DBException e) {
+				throw new CartException("Error when closing connection to DB, after adding new cart", e, Level.ERROR);
 			}
 		}
 		
@@ -56,9 +63,9 @@ public class CarritoData {
 	
 	public Carrito getOne(String nombre, String username) throws ProviderException, CartLineException, CartException, ArticleException, PriceException, CategoryException {
 		
-		Carrito carrito=null;
-		ResultSet rs=null;
-		PreparedStatement stmt=null;
+		Carrito carrito = null;
+		ResultSet rs = null;
+		PreparedStatement stmt = null;
 		
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
@@ -77,18 +84,28 @@ public class CarritoData {
 
 				
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			throw new CartException("Error al buscar el carrito", e, Level.ERROR);
+		}
+		catch (SQLException e) {
+			throw new ProviderException("Error when getting one cart", e, Level.ERROR);
+		}
+		catch (DBException e) {
+			throw new ProviderException("Error when establishing connection to DB, to get one cart", e, Level.ERROR);
 		}
 		finally {
 				try {
-					if(rs!=null) {rs.close();}
-					if(stmt!=null) {stmt.close();}
+					if (rs != null) {
+						rs.close();
+					}
+					if (stmt != null) {
+						stmt.close();
+					}
 					FactoryConnection.getInstancia().releaseConn();
 				} 
 				catch (SQLException e) {
-					throw new CartException("Oops ha ocurrido un error", e, Level.ERROR);
+					throw new ProviderException("Error when finishing getting one cart", e, Level.ERROR);
+				}
+				catch (DBException e) {
+					throw new ProviderException("Error when closing connection to DB, after getting one cart", e, Level.ERROR);
 				}
 		}
 		
@@ -97,9 +114,8 @@ public class CarritoData {
 	
 	public void delete(Carrito carrito, String username) throws CartException, CartLineException {
 		
-		PreparedStatement stmt=null;
+		PreparedStatement stmt = null;
 		
-			
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("delete from carrito where nombre=? and username=?");
 			stmt.setString(1,carrito.getNombre());
@@ -111,24 +127,32 @@ public class CarritoData {
 			
 			stmt.execute();
 			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			throw new CartException("Error al eliminar el carrito", e, Level.ERROR);
+		}
+		catch (SQLException e) {
+			throw new CartException("Error when deleting cart", e, Level.ERROR);
+		}
+		catch (DBException e) {
+			throw new CartException("Error when establishing connection to DB, to delete cart", e, Level.ERROR);
 		}
 		finally {
 			try {
-					if(stmt!=null) {stmt.close();}
-					FactoryConnection.getInstancia().releaseConn();
-				} 
-				catch (SQLException e) {
-					throw new CartException("Oops ha ocurrido un error", e, Level.ERROR);
-				}	
+				if (stmt != null) {
+					stmt.close();
+				}
+				FactoryConnection.getInstancia().releaseConn();
+			} 
+			catch (SQLException e) {
+				throw new CartException("Error when finishing deleting cart", e, Level.ERROR);
+			}
+			catch (DBException e) {
+				throw new CartException("Error when closing connection to DB, after deleting cart", e, Level.ERROR);
+			}		
 		}
 		
 		
 	}
 
-	public void deleteAllByCliente(Carrito carrito, String username) throws CartException, CartLineException {
+	public void deleteAllByCliente(Carrito carrito, String username) throws DBException, CartException, CartLineException {
 		
 		PreparedStatement stmt=null;
 		
@@ -144,18 +168,26 @@ public class CarritoData {
 			}
 			stmt.execute();
 			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			throw new CartException("Error al eliminar los carritos", e, Level.ERROR);
+		}
+		catch (SQLException e) {
+			throw new CartException("Error when deleting all carts by customer", e, Level.ERROR);
+		}
+		catch (DBException e) {
+			throw new CartException("Error when establishing connection to DB, to delete all carts by customer", e, Level.ERROR);
 		}
 		finally {
 			try {
-					if(stmt!=null) {stmt.close();}
-					FactoryConnection.getInstancia().releaseConn();
-				} 
-				catch (SQLException e) {
-					throw new CartException("Oops ha ocurrido un error", e, Level.ERROR);
-				}	
+				if (stmt != null) {
+					stmt.close();
+				}
+				FactoryConnection.getInstancia().releaseConn();
+			} 
+			catch (SQLException e) {
+				throw new CartException("Error when finishing deleting all carts by customer", e, Level.ERROR);
+			}
+			catch (DBException e) {
+				throw new CartException("Error when closing connection to DB, after deleting all carts by customer", e, Level.ERROR);
+			}		
 		}
 	}
 
