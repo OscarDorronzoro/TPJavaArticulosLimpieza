@@ -21,7 +21,7 @@ public class PrecioData {
 			stmt= FactoryConnection.getInstancia().getConn().prepareStatement(
 					"insert into precio(cod_articulo,fecha_desde,precio) values(?,?,?)");
 			stmt.setInt(1, codArticulo);
-			stmt.setTimestamp(2, new java.sql.Timestamp( precio.getFechaDesde().getTime()));
+			stmt.setTimestamp(2, Timestamp.valueOf(precio.getFechaDesde()));
 			stmt.setDouble(3, precio.getValor());
 			
 			stmt.executeUpdate();
@@ -66,7 +66,7 @@ public class PrecioData {
 			if(rs!=null && rs.next()) {
 					precio=new Precio();
 					
-					precio.setFechaDesde(rs.getTimestamp("fecha_desde"));
+					precio.setFechaDesde(rs.getTimestamp("fecha_desde").toLocalDateTime());
 					precio.setValor(rs.getDouble("precio"));					
 			}
 			
@@ -114,7 +114,7 @@ public class PrecioData {
 				while(rs.next()) {
 					Precio precio=new Precio();
 					
-					precio.setFechaDesde(rs.getTimestamp("fecha_desde"));
+					precio.setFechaDesde(rs.getTimestamp("fecha_desde").toLocalDateTime());
 					precio.setValor(rs.getDouble("precio"));
 					
 					precios.add(precio);					
@@ -155,7 +155,7 @@ public class PrecioData {
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update from precio set fecha_desde=?,precio=?"
 					+ " where precio.cod_articulo=?");
-			stmt.setTimestamp(1, new Timestamp(precio.getFechaDesde().getTime()));
+			stmt.setTimestamp(1, Timestamp.valueOf(precio.getFechaDesde()));
 			stmt.setDouble(2, precio.getValor());
 			stmt.setInt(6, codArticulo);
 			

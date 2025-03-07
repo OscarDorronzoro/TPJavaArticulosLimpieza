@@ -4,8 +4,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Paths;
-import java.util.Date;
-import java.io.File;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -89,9 +87,7 @@ public class CargaArticuloServlet extends HttpServlet {
 		    }
 		    output.close();
 			
-			Precio precio = new Precio();
-			precio.setValor(Double.parseDouble(request.getParameter("precio")));
-			precio.setFechaDesde(new Date());
+			Precio precio = new Precio(Double.parseDouble(request.getParameter("precio")));
 			articulo.setPrecio(precio);
 			
 			try {

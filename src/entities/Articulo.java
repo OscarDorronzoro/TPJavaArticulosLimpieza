@@ -16,6 +16,7 @@ public class Articulo {
 	
 	public Articulo() {
 		this.setProveedores(new ArrayList<Proveedor>());
+		this.setCategoria(new Categoria());
 	}
 	
 	public int getCodArticulo() {

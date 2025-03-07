@@ -35,7 +35,13 @@ public class ModificarClienteServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		ABMCCliente abmcc = new ABMCCliente();
 		
-		switch(request.getPathInfo()) {
+		String pathInfo = request.getPathInfo();
+		if (pathInfo == null) {
+			response.sendError(404, "Resource not found");
+			return;
+		}
+		
+		switch(pathInfo) {
 		case "/IniciarModificacion": 
 			Cliente cli;
 			try {

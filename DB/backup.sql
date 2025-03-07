@@ -257,7 +257,7 @@ DROP TABLE IF EXISTS `precio`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `precio` (
   `cod_articulo` int(11) NOT NULL,
-  `fecha_desde` date NOT NULL,
+  `fecha_desde` datetime NOT NULL,
   `precio` double NOT NULL,
   PRIMARY KEY (`cod_articulo`,`fecha_desde`),
   CONSTRAINT `fk_precio_articulo` FOREIGN KEY (`cod_articulo`) REFERENCES `articulo` (`cod_articulo`) ON DELETE RESTRICT ON UPDATE CASCADE
@@ -270,7 +270,7 @@ CREATE TABLE `precio` (
 
 LOCK TABLES `precio` WRITE;
 /*!40000 ALTER TABLE `precio` DISABLE KEYS */;
-INSERT INTO `precio` VALUES (1,'2019-07-15',300),(2,'2019-07-15',100),(3,'2019-08-14',120),(4,'2019-08-14',55),(5,'2019-08-14',80);
+INSERT INTO `precio` VALUES (1,'2019-07-15 12:00:00',300),(2,'2019-07-15 12:00:00',100),(3,'2019-08-14 12:00:00',120),(4,'2019-08-14 12:00:00',55),(5,'2019-08-14 12:00:00',80);
 /*!40000 ALTER TABLE `precio` ENABLE KEYS */;
 UNLOCK TABLES;
 

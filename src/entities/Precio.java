@@ -1,11 +1,20 @@
 package entities;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class Precio {
 
 	private double valor;
-	private Date fechaDesde;
+	private LocalDateTime fechaDesde;
+	
+	public Precio() {
+		this.setFechaDesde(LocalDateTime.now());
+	}
+	
+	public Precio(double valor) {
+		this();
+		this.setValor(valor);
+	}
 	
 	public double getValor() {
 		return valor;
@@ -13,10 +22,10 @@ public class Precio {
 	public void setValor(double valor) {
 		this.valor = valor;
 	}
-	public Date getFechaDesde() {
+	public LocalDateTime getFechaDesde() {
 		return fechaDesde;
 	}
-	public void setFechaDesde(Date fechaDesde) {
+	public void setFechaDesde(LocalDateTime fechaDesde) {
 		this.fechaDesde = fechaDesde;
 	}
 }

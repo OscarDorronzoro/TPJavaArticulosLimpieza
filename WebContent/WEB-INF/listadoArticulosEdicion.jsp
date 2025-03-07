@@ -104,7 +104,7 @@
 							<td><%=art.getPuntoPedido()%></td>
 							<td><%=art.getUrlImagen()%></td>
 							
-							<td><a class="btn btn-primary" href="ModificarArticuloServlet?codArticulo=<%=art.getCodArticulo()%>">Modificar</a></td>
+							<td><a class="btn btn-primary" href="ModificarArticuloServlet/IniciarModificacion?codArticulo=<%=art.getCodArticulo()%>">Modificar</a></td>
 							<td><a class="btn btn-danger" onclick="confirmarEIrA('EliminarArticuloServlet?codArticulo='+'<%=art.getCodArticulo()%>')">Eliminar</a></td>
 						</tr>							
 								

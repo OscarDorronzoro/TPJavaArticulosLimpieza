@@ -251,7 +251,7 @@ public class ArticuloData {
 		
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update articulo set descripcion=?,cant_a_pedir=?,punto_pedido=?,"
-					+ "stock=?,url_imagen=?, nombre_categoria=? where art.cod_articulo=?");
+					+ "stock=?,url_imagen=?, nombre_categoria=? where cod_articulo=?");
 			stmt.setString(1, articulo.getDescripcion());
 			stmt.setInt(2, articulo.getCantAPedir());
 			stmt.setInt(3, articulo.getPuntoPedido());
