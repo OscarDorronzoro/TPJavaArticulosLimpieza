@@ -2,7 +2,6 @@ package servlet;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,78 +12,85 @@ import entities.Cliente;
 import logic.ABMCCliente;
 import util.DoniaMaryException;
 
-/**
- * Servlet implementation class ModificarClienteServlet
- */
-@WebServlet("/ModificarClienteServlet/*")
+@WebServlet("/ModificarClienteServlet")
 public class ModificarClienteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public ModificarClienteServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		ABMCCliente abmcc = new ABMCCliente();
-		
-		String pathInfo = request.getPathInfo();
-		if (pathInfo == null) {
-			response.sendError(404, "Resource not found");
-			return;
-		}
-		
-		switch(pathInfo) {
-		case "/IniciarModificacion": 
-			Cliente cli;
-			try {
-				cli = abmcc.getOne(request.getParameter("username"));
-				request.setAttribute("cli", cli );
-				request.getRequestDispatcher("../WEB-INF/modificarCliente.jsp").forward(request, response);
-				
-			} catch (DoniaMaryException e) {
-				// TODO Auto-generated catch block
-				response.sendRedirect("errorPage.jsp?mensaje="+e.getMessage());
-			}
-			
-			break;
-		case "/Modificar":
-			Cliente cliente= new Cliente();
 
-			cliente.setUsername(request.getParameter("username"));
-			cliente.setEmail(request.getParameter("email"));
-			cliente.setNombre(request.getParameter("nombre"));
-			cliente.setApellido(request.getParameter("apellido"));
-			cliente.setDNI(request.getParameter("DNI"));
-			cliente.setAdmin(request.getParameter("isAdmin").equals("on") ? true : false);
-			
-			try {
-				abmcc.update(cliente);
-				request.setAttribute("cliModificado",cliente);
-				RequestDispatcher dispatcher = request.getRequestDispatcher("../WEB-INF/modificarCliente.jsp");
-				dispatcher.forward(request, response);
-			} catch (DoniaMaryException e) {
-				// TODO Auto-generated catch block
-				response.sendRedirect("errorPage.jsp?mensaje="+e.getMessage());
+		Cliente client;
+		try {
+			String username = request.getParameter("username");
+			if (username == null) {
+				response.sendError(400, "username parameter is required");
+				return;
 			}
-			break;
+			client = abmcc.getOne(username);
+			request.setAttribute("client", client );
+			request.getRequestDispatcher("/WEB-INF/modificarCliente.jsp").forward(request, response);
+			
+		} catch (DoniaMaryException e) {
+			response.sendRedirect("errorPage.jsp?mensaje="+e.getMessage());
 		}
-		
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		ABMCCliente abmcc = new ABMCCliente();
+		
+		String username = request.getParameter("username");
+		if (username == null) {
+			response.sendError(400, "username parameter is required");
+			return;
+		}
+		
+		Cliente client = null;
+		try {
+			client = abmcc.getOne(username);
+		} catch (DoniaMaryException e) {
+			response.sendRedirect("errorPage.jsp?mensaje=" + e.getMessage());
+			return;
+		}
+
+		String email = request.getParameter("email");
+		if (email != null) {
+			client.setEmail(email);
+		}
+			
+		String nombre = request.getParameter("nombre");
+		if (nombre != null) {
+			client.setNombre(nombre);
+		}
+			
+		String apellido = request.getParameter("apellido");
+		if (apellido != null) {
+			client.setApellido(apellido);
+		}
+			
+		String dni = request.getParameter("DNI");
+		if (dni != null) {
+			client.setDNI(dni);
+		}
+			
+		String isAdmin = request.getParameter("isAdmin");
+		if (isAdmin != null) {
+			client.setAdmin(isAdmin.equals("on") ? true : false);
+		}
+			
+		try {
+			abmcc.update(client);
+			response.sendRedirect("ListadoClientesServlet/todo");
+		} catch (DoniaMaryException e) {
+			response.sendRedirect("errorPage.jsp?mensaje=" + e.getMessage());
+		}
+
 	}
 
 }

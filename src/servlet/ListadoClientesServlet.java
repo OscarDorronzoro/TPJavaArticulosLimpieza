@@ -11,27 +11,22 @@ import javax.servlet.http.HttpServletResponse;
 import logic.ABMCCliente;
 import util.DoniaMaryException;
 
-/**
- * Servlet implementation class ListadoClientesServlet
- */
 @WebServlet("/ListadoClientesServlet/*")
 public class ListadoClientesServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public ListadoClientesServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		ABMCCliente abmcC = new ABMCCliente();
+		
+		String pathInfo = request.getPathInfo();
+		if (pathInfo == null) {
+			response.sendRedirect("ListadoClientesServlet/todo");
+			return;
+		}
 		
 		try {
 			switch (request.getPathInfo()) {
@@ -41,25 +36,15 @@ public class ListadoClientesServlet extends HttpServlet {
 					break;
 				default: request.setAttribute("clientes", abmcC.getAll());
 					break;
-					
-				//el problema esta en los servlet que escuchan en Servlet/*	
-				//default: System.out.println(request.getPathInfo());throw new ServletException("Path incorrecto (admin/no admin)");
 			}
-			
 			request.getRequestDispatcher("/WEB-INF/listadoClientes.jsp").forward(request,response);
 		} catch (DoniaMaryException e) {
-			// TODO Auto-generated catch block
-			request.setAttribute("mensaje", e.getMessage());
-			request.getRequestDispatcher("errorPage.jsp").forward(request, response);
+			response.sendRedirect("../errorPage.jsp?mensaje=" + e.getMessage());
 		}
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		response.sendError(405, "Method not allowed");
 	}
 
 }
