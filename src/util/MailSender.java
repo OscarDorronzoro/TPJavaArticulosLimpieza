@@ -23,7 +23,7 @@ public class MailSender {
 	private MailSender() throws MailSendException {
 		try {
 			this.props = new Properties();
-			this.props.load(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("app.properties"), "UTF-8"));
+			this.props.load(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("app.properties"), "ISO-8859-1"));
 			
 		} catch (IOException e) {
 			throw new MailSendException("Error al cargar propiedades de mail", e, Level.ERROR);

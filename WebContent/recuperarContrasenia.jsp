@@ -1,10 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" %>
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="UTF-8">
-		<title>Recuperar ContraseÃ±a</title>
+		<meta charset="ISO-8859-1">
+		<title>Recuperar Contraseña</title>
 		<link rel="shortcut icon" href="png/favicon.ico">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css">		
@@ -12,7 +11,7 @@
 	<body class="bg-light">
 		<%@include file="header.jsp" %>
 		
-		<form action="RecuperarContraseniaServlet/verificarCodigo" method="get">
+		<form action="RecuperarContraseniaServlet/verificarCodigo" method="post">
 			<div class="form-group">
 				<label class="label-control" for="codigo">Ingrese el codigo enviado a su e-mail</label>
 				<input class="form-control" name="codigo" type="password" id="codigo"/>
