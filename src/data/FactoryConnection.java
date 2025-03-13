@@ -21,7 +21,7 @@ public class FactoryConnection {
 		this.props = new Properties();
 		
 		try {
-			this.props.load(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("app.properties"), "UTF-8"));
+			this.props.load(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("app.properties"), "ISO-8859-1"));
 			Class.forName(this.props.getProperty("db.driver"));
 		} catch (ClassNotFoundException e) {
 			throw new DBException("DB driver not found", e, Level.ERROR);
@@ -41,7 +41,7 @@ public class FactoryConnection {
 	
 	public Connection getConn() throws DBException {
 		try {
-			if(conn == null || conn.isClosed()) {
+			if (conn == null || conn.isClosed()) {
 				conn = DriverManager.getConnection(
 					"jdbc:mysql://"
 					+this.props.getProperty("db.host")
@@ -62,7 +62,7 @@ public class FactoryConnection {
 	public void releaseConn() throws DBException {
 		conectados--;
 		try {
-			if (conectados <= 0) {
+			if (conectados <= 0 && conn != null) {
 				conn.close();
 			}
 		} catch (SQLException e) {
