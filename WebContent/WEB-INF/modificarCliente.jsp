@@ -1,11 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="UTF-8">
+		<meta charset="ISO-8859-1">
 		<%Cliente currentUser = (Cliente)request.getSession().getAttribute("cliente"); %>
 		<%if (currentUser == null || !currentUser.isAdmin()) {
-			response.sendRedirect("../iniciarSesion.jsp");
+			response.sendRedirect("../iniciarSesion.jsp?pagina=ModificarClienteServlet");
 			return;
 		}%>
 		<title>Modificar Cliente</title>

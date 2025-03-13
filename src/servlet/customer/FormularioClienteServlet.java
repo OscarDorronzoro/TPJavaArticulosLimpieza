@@ -1,4 +1,4 @@
-package servlet;
+package servlet.customer;
 
 import entities.Cliente;
 import logic.ABMCCliente;

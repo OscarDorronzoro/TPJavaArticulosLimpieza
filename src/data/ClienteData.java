@@ -203,7 +203,7 @@ public class ClienteData {
 				isValidPassword = PasswordManager.validatePassword(plainTextPassword, storedPassword);
 				
 				if (!isValidPassword) {
-					throw new PasswordDoesNotMatchException("La contraseÃ±a no coincide", null, Level.INFO);
+					throw new PasswordDoesNotMatchException("La contraseña no coincide", null, Level.INFO);
 				}
 				
 				c = new Cliente();

@@ -1,11 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" %>
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="ISO-8859-1">
 		<%if(request.getSession().getAttribute("cliente")==null){
-			response.sendRedirect("../iniciarSesion.jsp");
+			response.sendRedirect("../iniciarSesion.jsp?pagina=editarPerfil.jsp");
 			return;
 		}%>
 		<title>Editar perfil</title>
