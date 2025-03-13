@@ -1,12 +1,10 @@
-
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" %>
 <!DOCTYPE html>
 <html>
 	<head>
 	<meta charset="ISO-8859-1">
-	<%if(request.getSession().getAttribute("cliente")==null){
-		response.sendRedirect("iniciarSesion.jsp?pagina=MisCarritos.jsp");
+	<% if(request.getSession().getAttribute("cliente") == null){
+		response.sendRedirect("iniciarSesion.jsp?pagina=misCarritos.jsp");
 		return;
 	}%>
 	
@@ -94,12 +92,12 @@
 						<div class="col-md-4">
 							<div class="row">
 								<a href=<%="EliminarDeCarritoServlet?codArticulo="+linea.getArticulo().getCodArticulo()%> class="btn btn-danger">Eliminar del carrito</a><br/>
-								<form action="ModificarCarritoServlet/"<%=linea.getArticulo().getCodArticulo()%> method="get">
+								<form action="ModificarCarritoServlet" method="post">
 									
 									<div class="form-group">
-										<input name="codArticulo" type="hidden" value="<%=linea.getArticulo().getCodArticulo()%>">
+										<input name="articleCode" type="hidden" value="<%=linea.getArticulo().getCodArticulo()%>">
 										<label class="label-control">Cantidad:</label>
-										<input name="cantidad" value="<%=linea.getCantidad() %>"  class="form-control" maxlength="3" pattern="[1-9][0-9]*" size=2px>
+										<input name="amount" value="<%=linea.getCantidad() %>"  class="form-control" maxlength="3" pattern="[1-9][0-9]*" size=2px>
 									</div>
 									<div class="form-group">
 										<input type="submit" value="Modificar" name="btnmodificar" class="btn btn-primary btn-block">

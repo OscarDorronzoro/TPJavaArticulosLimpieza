@@ -1,7 +1,6 @@
-package servlet;
+package servlet.cart;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,57 +16,57 @@ import entities.Linea;
 import logic.ABMCLineaCarrito;
 import util.DoniaMaryException;
 
-/**
- * Servlet implementation class ModificarCarritoServlet
- */
-@WebServlet("/ModificarCarritoServlet/*")
+@WebServlet("/ModificarCarritoServlet")
 public class ModificarCarritoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public ModificarCarritoServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		Cliente cliente = (Cliente)request.getSession().getAttribute("cliente");
-		ABMCLineaCarrito abmcLinea= new ABMCLineaCarrito(cliente);
-		
-		try {
-			int indexlinea = cliente.getMiCarrito().getLineas().indexOf(abmcLinea.getOne(Integer.parseInt(request.getParameter("codArticulo"))));
-			Linea linea = cliente.getMiCarrito().getLineas().get(indexlinea);
-			linea.setCantidad(Integer.parseInt(request.getParameter("cantidad")));
-			
-			abmcLinea.update(linea);
-			request.getRequestDispatcher("/MisCarritos.jsp").forward(request, response);
-		} catch (DoniaMaryException e) {
-			// TODO Auto-generated catch block
-			response.sendRedirect(request.getContextPath()+"../errorPage.jsp?mensaje="+URLEncoder.encode( e.getMessage(), "UTF8"));
-			//request.getRequestDispatcher("errorPage.jsp").forward(request, response);
-		}
-		catch(Exception e) {
-			
-			
-			response.sendRedirect(request.getContextPath()+"/errorPage.jsp?mensaje=Oops ha ocurrido un error");
-		         //   + URLEncoder.encode( e.getMessage(), "UTF8"));
-			
-			//request.getRequestDispatcher("/errorPage.jsp").forward(request, response);
-		}
+		response.sendError(405, "Method not allowed");
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		Cliente cliente = (Cliente) request.getSession().getAttribute("cliente");
+		ABMCLineaCarrito abmcLinea = new ABMCLineaCarrito(cliente);
+		
+		String articleCodeParam = request.getParameter("articleCode");
+		if (articleCodeParam == null) {
+			response.sendError(400, "Parameter 'articleCode' is required");
+			return;
+		}
+		
+		String amount = request.getParameter("amount");
+		if (amount == null) {
+			response.sendError(400, "Parameter 'amount' is required");
+			return;
+		}
+		
+		try {
+			int articleCode = Integer.parseInt(articleCodeParam);
+			Linea originalCartLine = abmcLinea.getOne(articleCode);
+			
+			int cartLineIndexOnCustomerCart = cliente.getMiCarrito().getLineas().indexOf(originalCartLine);
+			// Update cart line on memory
+			Linea currentCartLine = cliente.getMiCarrito().getLineas().get(cartLineIndexOnCustomerCart);
+			currentCartLine.setCantidad(Integer.parseInt(amount));
+			
+			// Update cart line on DB
+			abmcLinea.update(currentCartLine);
+			response.sendRedirect("misCarritos.jsp");
+			//request.getRequestDispatcher("misCarritos.jsp").forward(request, response);
+		}
+		catch (DoniaMaryException e) {
+			response.sendRedirect("../errorPage.jsp?mensaje=" + e.getMessage());
+		}
+		catch (NumberFormatException e) {
+			response.sendRedirect("../errorPage.jsp?mensaje=Numero invalido");
+		}
+		catch(Exception e) {
+			response.sendRedirect("../errorPage.jsp?mensaje=Oops ha ocurrido un error");
+		}
 	}
 
 }
