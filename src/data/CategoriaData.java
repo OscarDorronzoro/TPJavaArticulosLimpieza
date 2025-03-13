@@ -63,13 +63,12 @@ public class CategoriaData {
 			stmt.setString(1, nombre);
 			rs=stmt.executeQuery();
 			
-			if(rs!=null&&rs.next()) {
-					c=new Categoria();
+			if (rs != null && rs.next()) {
+					c = new Categoria();
 					
 					c.setNombre(rs.getString("nombre"));
 					c.setDescripcion(rs.getString("descripcion"));
 			}
-			
 		}
 		catch (SQLException e) {
 			throw new CategoryException("Error when getting one category", e, Level.ERROR);
@@ -99,7 +98,6 @@ public class CategoriaData {
 	}
 	
 	public ArrayList<Categoria> getAll() throws CategoryException{
-		
 		ArrayList<Categoria> categorias = new ArrayList<Categoria>();
 		ResultSet rs = null;
 		Statement stmt = null;

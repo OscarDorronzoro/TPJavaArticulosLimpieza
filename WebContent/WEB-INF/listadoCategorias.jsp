@@ -1,19 +1,18 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" %>
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="UTF-8">
-		<%Cliente c = (Cliente)request.getSession().getAttribute("cliente"); %>
-		<%if(!(c!=null && c.isAdmin())){
-		response.sendRedirect("iniciarSesion.jsp?pagina=ListadoCategoriasServlet");
-		return;
-		}%>
+		<meta charset="ISO-8859-1">
+		<% Cliente currentUser = (Cliente)request.getSession().getAttribute("cliente"); %>
+		<% if (currentUser == null || !currentUser.isAdmin()) {
+			response.sendRedirect("iniciarSesion.jsp?pagina=ListadoCategoriasServlet");
+			return;
+		} %>
 		<title>Listado de Categorias</title>
 		<link rel="shortcut icon" href="png/favicon.ico">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css">
-		
+		<%@ page import="java.net.URLEncoder" %>
 		<% 
 			@SuppressWarnings("unchecked")	
 			ArrayList<Categoria> categorias = (ArrayList<Categoria>) request.getAttribute("categorias"); 
@@ -22,13 +21,12 @@
 	<body>
 		<%@include file="../header.jsp" %>
 		
-		
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-3 bg-sidebar">
 			    <div class="row">
 			    	<div class="col-xs-12 col-sm-12 col-md-12">
 			    		 <div class="sidebar-header">
-					         <h3>Categorias de Articulos</h3>
+					         <h3>Categorías de Articulos</h3>
 					     </div>		
 			    	</div>
 			    	<div class="col-xs-1 col-sm-1 col-md-1">
@@ -57,7 +55,7 @@
 									<a href="#">Cocina</a>
 					            </li>
 					            <li>
-									<a href="#">BaÃ±o</a>
+									<a href="#">Baño</a>
 					            </li>
 					            <li>
 									<a href="#">Muebles</a>
@@ -73,7 +71,7 @@
 				<%@page import="java.util.ArrayList"%>
 				
 				<div>
-					<a href="CargaCategoriaServlet/iniciarCarga" class="btn btn-success"><img src="png/plus-2x.png"> Nueva categoria</a>
+					<a href="CargaCategoriaServlet" class="btn btn-success"><img src="png/plus-2x.png"> Nueva categoria</a>
 				</div>
 				
 				<table class="table table-striped table-hover">					
@@ -91,8 +89,8 @@
 							<td><%=cat.getNombre() %></td>
 							<td><%=cat.getDescripcion()%></td>
 							
-							<td><a class="btn btn-primary" href="ModificarCategoriaServlet?nombre=<%=cat.getNombre()%>">Modificar</a></td>
-							<td><a class="btn btn-danger" onclick="confirmarEIrA('EliminarCategoriaServlet?nombre='+'<%=cat.getNombre()%>')">Eliminar</a></td>
+							<td><a class="btn btn-primary" href="ModificarCategoriaServlet?name=<%=URLEncoder.encode(cat.getNombre(), "ISO-8859-1") %>">Modificar</a></td>
+							<td><a class="btn btn-danger" onclick="confirmarEIrA('EliminarCategoriaServlet?name='+'<%=URLEncoder.encode(cat.getNombre(), "ISO-8859-1") %>')">Eliminar</a></td>
 						</tr>							
 								
 					<%} %>
@@ -102,8 +100,8 @@
 			</div>
 		</div>
 		
-		
 		<%@include file="../footer.jsp" %>
+		
 		<script src="bootstrap/js/jquery-3.4.1.js"></script>
 		<script src="bootstrap/js/popper.js"></script>
 		<script src="bootstrap/js/bootstrap.js"></script>

@@ -1,6 +1,8 @@
-package servlet;
+package servlet.category;
 
 import java.io.IOException;
+import java.net.URLDecoder;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,61 +13,65 @@ import entities.Categoria;
 import logic.ABMCCategoria;
 import util.DoniaMaryException;
 
-/**
- * Servlet implementation class ModificarCategoriaServlet
- */
 @WebServlet("/ModificarCategoriaServlet/*")
 public class ModificarCategoriaServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public ModificarCategoriaServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		ABMCCategoria abmcC = new ABMCCategoria();
 		
-		switch(request.getPathInfo()) {
-		case "/iniciarModificacion":
-			request.getRequestDispatcher("../WEB-INF/modificarCategoria.jsp").forward(request, response);;
-			break;
-		case "/modificar":
-			ABMCCategoria abmcC = new ABMCCategoria();
-			Categoria cat = new Categoria();
-			
-			cat.setNombre(request.getParameter("nombre"));
-			cat.setDescripcion(request.getParameter("descripcion"));
-			
-			try {
-				abmcC.update(cat);
-				response.sendRedirect("../ListadoCategoriasServlet");
-			} catch (DoniaMaryException e) {
-				// TODO Auto-generated catch block
-				response.setStatus(400);
-				response.sendRedirect("../errorPage.jsp?mensaje="+e.getMessage());
-			}
-			catch(Exception e) {
-				response.setStatus(500);
-				response.sendRedirect("../errorPage.jsp?mensaje=Oops, ha ocurrido un error");
-			}
-			break;
-		default:
+		String name = request.getParameter("name");
+		
+		if (name == null) {
+			response.sendError(400, "Parameter 'name' is required");
+			return;
+		}
+		name = URLDecoder.decode(name, "ISO-8859-1");
+		try {
+			request.setAttribute("category", abmcC.getOne(name));
+			request.getRequestDispatcher("/WEB-INF/modificarCategoria.jsp").forward(request, response);
+		}
+		catch (DoniaMaryException e) {
+			response.sendRedirect("../errorPage.jsp?mensaje=" + e.getMessage());
 		}
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		ABMCCategoria abmcC = new ABMCCategoria();
+		
+		Categoria category = null;
+		try {
+			String name = request.getParameter("name");
+			if (name == null) {
+				response.sendError(400, "Parameter 'name' is required");
+				return;
+			}
+			name = URLDecoder.decode(name, "ISO-8859-1");
+			category = abmcC.getOne(name);
+		}
+		catch (DoniaMaryException e) {
+			response.sendRedirect("..errorPage.jsp?mensaje=" + e.getMessage());
+			return;
+		}
+		
+		String description = request.getParameter("description");
+		if (description != null) {
+			category.setDescripcion(description);
+		}
+		
+		try {
+			abmcC.update(category);
+			response.sendRedirect("ListadoCategoriasServlet");
+		}
+		catch (DoniaMaryException e) {
+			response.sendRedirect("../errorPage.jsp?mensaje=" + e.getMessage());
+		}
+		catch(Exception e) {
+			response.sendRedirect("../errorPage.jsp?mensaje=Oops, ha ocurrido un error");
+		}
 	}
-
 }
