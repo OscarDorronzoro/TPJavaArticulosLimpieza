@@ -1,4 +1,4 @@
-package servlet;
+package servlet.article;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -22,29 +22,19 @@ import logic.ABMCArticulo;
 import logic.ABMCCategoria;
 import util.DoniaMaryException;
 
-/**
- * Servlet implementation class ModificarArticuloServlet
- */
 @WebServlet("/ModificarArticuloServlet/*")
 @MultipartConfig(
         fileSizeThreshold   = 1024 * 1024 * 1,  // 1 MB
         maxFileSize         = 1024 * 1024 * 10, // 10 MB
-        maxRequestSize      = 1024 * 1024 * 15, // 15 MB
-        location            = "uploads"
+        maxRequestSize      = 1024 * 1024 * 15 // 15 MB
 )
 public class ModificarArticuloServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+
     public ModificarArticuloServlet() {
         super();
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ABMCArticulo abmcA = new ABMCArticulo();
 		ABMCCategoria abmcC = new ABMCCategoria();
@@ -79,9 +69,6 @@ public class ModificarArticuloServlet extends HttpServlet {
 		}
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ABMCArticulo abmcA = new ABMCArticulo();
 		

@@ -1,14 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" %>
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="ISO-8859-1">
-		<%Cliente c = (Cliente)request.getSession().getAttribute("cliente"); %>
-		<%if(!(c!=null && c.isAdmin())){
-		response.sendRedirect("iniciarSesion.jsp");
-		return;
-		}%>
+		<% Cliente c = (Cliente)request.getSession().getAttribute("cliente"); %>
+		<% if(!(c!=null && c.isAdmin())){
+			response.sendRedirect("iniciarSesion.jsp?pagina=CargaArticuloServlet");
+			return;
+		} %>
 		<title>Carga Articulo</title>
 		<link rel="icon" href="png/favicon.ico">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
@@ -28,7 +27,7 @@
 				<div class="col-md-6">
 					<section>
 						<h1>Ingrese un articulo</h1>
-						<form action="CargaArticuloServlet/cargado" method="post" enctype="multipart/form-data">		
+						<form action="CargaArticuloServlet" method="post" enctype="multipart/form-data">		
 							<div class="form-group">
 								<label for="desc">Descripción</label>
 								<input class="form-control" name="descripcion" required id="desc"/>

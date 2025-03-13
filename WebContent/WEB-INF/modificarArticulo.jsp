@@ -1,8 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="UTF-8">
+		<meta charset="ISO-8859-1">
 		<%Cliente c = (Cliente)request.getSession().getAttribute("cliente"); %>
 		<%if(!(c!=null && c.isAdmin())){
 		response.sendRedirect("iniciarSesion.jsp?pagina=ModificarArticuloServlet");
@@ -16,7 +16,10 @@
 		<%@page import="java.util.ArrayList" %>
 		<%@page import="entities.Categoria" %>
 		<%Articulo art = (Articulo) request.getAttribute("articulo"); %>
-		<%ArrayList<Categoria> categorias = (ArrayList<Categoria>) request.getAttribute("categorias"); %>
+		<% 
+			@SuppressWarnings("unchecked")
+			ArrayList<Categoria> categorias = (ArrayList<Categoria>) request.getAttribute("categorias");
+		%>
 	</head>
 	<body class=bg-light>
 		<%@include file="../header.jsp"%>
@@ -30,11 +33,11 @@
 							<input value="<%=art.getCodArticulo() %>" name="codArticulo" type="hidden" />
 							
 							<div class="form-group">
-								<label for="desc">DescripciÃ³n</label>
+								<label for="desc">Descripción</label>
 								<input value="<%=art.getDescripcion() %>" class="form-control" name="descripcion" required id="desc"/>
 							</div>
 							<div class="form-group">
-								<label for="categ">CategorÃ­a</label>
+								<label for="categ">Categoría</label>
 								<select class="form-control" name="categoria" id="categ">
 									<%for (Categoria cat : categorias) { %>
 										<option <%=cat.getNombre().equals(art.getCategoria().getNombre())?"selected":"" %> value="<%=cat.getNombre() %>"><%=cat.getDescripcion() %></option>
@@ -63,7 +66,7 @@
 								<label for="precio">Precio</label>
 								<input value="<%=art.getPrecio().getValor() %>" class="form-control" name="precio" required id="precio"/>
 							</div>
-							<input type="submit" class="btn btn-success btn-block"  title="Presione para registrar articulo" value="Guardar artÃ­culo"/>
+							<input type="submit" class="btn btn-success btn-block"  title="Presione para registrar articulo" value="Guardar artículo"/>
 						</form>
 					</section>
 				</div>

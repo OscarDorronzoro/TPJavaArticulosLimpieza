@@ -1,4 +1,4 @@
-package servlet;
+package servlet.article;
 
 import java.io.IOException;
 
@@ -8,54 +8,37 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 import logic.ABMCArticulo;
 import util.DoniaMaryException;
 
-/**
- * Servlet implementation class BusquedaServlet
- */
+
 @WebServlet("/BusquedaServlet")
 public class BusquedaServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public BusquedaServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		ABMCArticulo abmca = new ABMCArticulo();
 		
 		try {
-			if(request.getParameter("descBusqueda")!=null){
-				request.setAttribute("articulos",abmca.getAllByDescripcion(request.getParameter("descBusqueda")));
+			if (request.getParameter("descBusqueda") != null){
+				request.setAttribute("articulos", abmca.getAllByDescripcion(request.getParameter("descBusqueda")));
 			}
 			else {
 				request.setAttribute("articulos",abmca.getAll());
 			}
 			request.getRequestDispatcher("listadoArticulos.jsp").forward(request, response);
 		} catch (DoniaMaryException e) {
-			// TODO Auto-generated catch block
-			response.sendRedirect("errorPage.jsp?mensaje="+e.getMessage());
+			response.sendRedirect("errorPage.jsp?mensaje=" + e.getMessage());
 		}
 		
 	}
 
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		response.sendError(405, "Method not allowed");
 	}
 
 }

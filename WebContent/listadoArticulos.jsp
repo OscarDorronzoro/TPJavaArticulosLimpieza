@@ -1,10 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" %>
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="ISO-8859-1">
-		<meta name="viewport" content="width=device-width, user-scalable=no">
+		<meta name="viewport" content="width=device-width, user-scalable=yes">
 		<title>Articulos</title>
 		<link rel="shortcut icon" href="png/favicon.ico">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
@@ -84,11 +83,11 @@
 								</div>
 								<div class="col-xs-6 col-md-4">
 									<div class="row">
-										<form action="CarritoServlet" method="get">
+										<form action="CarritoServlet" method="post">
 											<div class="form-group">
-												<input type="hidden" name="id" value=<%=art.getCodArticulo() %>>
+												<input type="hidden" name="articleCode" value=<%=art.getCodArticulo() %>>
 												<label class="label-control">Cantidad:</label>
-												<input name="cantidad" class="form-control" size=2px>
+												<input name="amount" class="form-control" size=2px>
 											</div>
 											<div class="form-group">
 												<input type="submit" value="Comprar" name="comprar" class="btn btn-success btn-block">
