@@ -10,23 +10,30 @@ import javax.servlet.http.HttpServletResponse;
 import logic.ABMCProveedor;
 import util.DoniaMaryException;
 
-@WebServlet("/ListadoProveedoresServlet")
-public class ListadoProveedoresServlet extends HttpServlet {
+@WebServlet("/EliminarProveedorServlet")
+public class EliminarProveedorServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-    public ListadoProveedoresServlet() {
+       
+    public EliminarProveedorServlet() {
         super();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ABMCProveedor abmcprov = new ABMCProveedor();
-		
+		ABMCProveedor abmcProv = new ABMCProveedor();
 		try {
-			request.setAttribute("proveedores", abmcprov.getAll());
-			request.getRequestDispatcher("/WEB-INF/listadoProveedores.jsp").forward(request, response);
-			
-		} catch (DoniaMaryException e) {
+			String cuit = request.getParameter("cuit");
+			if (cuit == null) {
+				response.sendError(400, "Parameter 'cuit' is required");
+				return;
+			}
+			abmcProv.delete(cuit);
+			response.sendRedirect("ListadoProveedoresServlet");
+		}
+		catch (DoniaMaryException e) {
 			response.sendRedirect("errorPage.jsp?mensaje=" + e.getMessage());
+		}
+		catch (Exception e) {
+			response.sendRedirect("errorPage.jsp?mensaje=Oops, ha ocurrido un error");
 		}
 	}
 

@@ -1,9 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" %>
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="UTF-8">
+		<meta charset="ISO-8859-1">
 		<%Cliente c = (Cliente)request.getSession().getAttribute("cliente"); %>
 		<%if(!(c!=null && c.isAdmin())){
 		response.sendRedirect("iniciarSesion.jsp?pagina=ListadoProveedoresServlet");
@@ -73,16 +72,16 @@
 				<%@page import="java.util.ArrayList"%>
 				
 				<div>
-					<a class="btn btn-success" href="CargaArticuloServlet"><img src="png/plus-2x.png"> Nuevo articulo</a>
+					<a class="btn btn-success" href="CargaProveedorServlet"><img src="png/plus-2x.png"> Nuevo proveedor</a>
 				</div>
 				
 				<table class="table table-striped table-hover">					
 					<thead>
 						<tr>
-						    <td>RazÃ³n social</td>
+						    <td>Razón social</td>
 							<td>Cuit</td>
-							<td>DirecciÃ³n</td>
-							<td>TelÃ©fono</td>
+							<td>Dirección</td>
+							<td>Teléfono</td>
 							<td>Mail</td>
 						</tr>
 					</thead>
