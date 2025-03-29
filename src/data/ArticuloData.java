@@ -21,8 +21,8 @@ public class ArticuloData {
 	ProveedorData proveedorData= new ProveedorData();
 	CategoriaData categoriaData= new CategoriaData();
 	
-	public void add(Articulo art) throws ArticleException, PriceException {
-		PreparedStatement stmt=null;
+	public void add(Articulo art) throws ArticleException {
+		PreparedStatement stmt = null;
 		Statement transaccion = null;
 		
 		try {
@@ -43,7 +43,7 @@ public class ArticuloData {
 			stmt.executeUpdate();
 			
 			ResultSet primaryKey = stmt.getGeneratedKeys();
-			if(primaryKey!=null && primaryKey.next()) {
+			if (primaryKey != null && primaryKey.next()) {
 				art.setCodArticulo(primaryKey.getInt(1));
 			}	
 			
@@ -63,6 +63,9 @@ public class ArticuloData {
 		catch (DBException e) {
 			throw new ArticleException("Error when establishing connection to DB, to add new article", e, Level.ERROR);
 		}
+		catch (PriceException e) {
+			throw new ArticleException("Error when adding new price, to add new article", e, Level.ERROR);
+		}
 		finally {
 			try {
 				if (stmt != null) {
@@ -80,7 +83,7 @@ public class ArticuloData {
 		
 	}
 	
-	public Articulo getOne(int codArticulo) throws ProviderException, ArticleException, PriceException, CategoryException {
+	public Articulo getOne(int codArticulo) throws ArticleException {
 		
 		Articulo art=null;
 		ResultSet rs=null;
@@ -113,6 +116,15 @@ public class ArticuloData {
 		catch (DBException e) {
 			throw new ArticleException("Error when establishing connection to DB, to get one article", e, Level.ERROR);
 		}
+		catch (ProviderException e) {
+			throw new ArticleException("Error when getting all providers by article, to get one article", e, Level.ERROR);
+		}
+		catch (PriceException e) {
+			throw new ArticleException("Error when getting current price, to get one article", e, Level.ERROR);
+		}
+		catch (CategoryException e) {
+			throw new ArticleException("Error when getting one category, to get one article", e, Level.ERROR);
+		}
 		finally {
 				try {
 					if (rs != null) {
@@ -134,7 +146,7 @@ public class ArticuloData {
 		return art;
 	}
 	
-	public ArrayList<Articulo> getAll() throws ProviderException, ArticleException, PriceException, CategoryException{
+	public ArrayList<Articulo> getAll() throws ArticleException {
 		
 		ArrayList<Articulo> articulos = new ArrayList<Articulo>();
 		ResultSet rs = null;
@@ -142,10 +154,10 @@ public class ArticuloData {
 		
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().createStatement();
-			rs=stmt.executeQuery("select * from articulo where is_deleted = 0");
-			if(rs!=null) {
-				while(rs.next()) {
-					Articulo art=new Articulo();
+			rs = stmt.executeQuery("select * from articulo where is_deleted = 0");
+			if (rs != null) {
+				while (rs.next()) {
+					Articulo art = new Articulo();
 					
 					art.setCodArticulo(rs.getInt("cod_articulo"));
 					art.setDescripcion(rs.getString("descripcion"));
@@ -168,6 +180,15 @@ public class ArticuloData {
 		catch (DBException e) {
 			throw new ArticleException("Error when establishing connection to DB, to get all articles", e, Level.ERROR);
 		}
+		catch (ProviderException e) {
+			throw new ArticleException("Error when getting all providers by article, to get all articles", e, Level.ERROR);
+		}
+		catch (PriceException e) {
+			throw new ArticleException("Error when getting current price, to get all articles", e, Level.ERROR);
+		}
+		catch (CategoryException e) {
+			throw new ArticleException("Error when getting one category, to get all articles", e, Level.ERROR);
+		}
 		finally {
 				try {
 					if (rs != null) {
@@ -185,11 +206,10 @@ public class ArticuloData {
 					throw new ArticleException("Error when closing connection to DB, after getting all articles", e, Level.ERROR);
 				}
 		}
-		
 		return articulos;
 	}
 	
-	public ArrayList<Articulo> getAllByDescripcion(String descripcion) throws ProviderException, ArticleException, PriceException, CategoryException{
+	public ArrayList<Articulo> getAllByDescripcion(String descripcion) throws ArticleException {
 		ArrayList<Articulo> articulos = new ArrayList<Articulo>();
 		ResultSet rs = null;
 		PreparedStatement stmt = null;
@@ -224,6 +244,15 @@ public class ArticuloData {
 		catch (DBException e) {
 			throw new ArticleException("Error when establishing connection to DB, to get all articles by description", e, Level.ERROR);
 		}
+		catch (ProviderException e) {
+			throw new ArticleException("Error when getting all providers by article, to get all articles by description", e, Level.ERROR);
+		}
+		catch (PriceException e) {
+			throw new ArticleException("Error when getting current price, to get all articles by description", e, Level.ERROR);
+		}
+		catch (CategoryException e) {
+			throw new ArticleException("Error when getting one category, to get all articles by description", e, Level.ERROR);
+		}
 		finally {
 				try {
 					if (rs != null) {
@@ -245,7 +274,7 @@ public class ArticuloData {
 		return articulos;
 	}
 	
-	public void update(Articulo articulo) throws ArticleException, PriceException {
+	public void update(Articulo articulo) throws ArticleException {
 		
 		PreparedStatement stmt=null;
 		
@@ -270,6 +299,9 @@ public class ArticuloData {
 		catch (DBException e) {
 			throw new ArticleException("Error when establishing connection to DB, to update article", e, Level.ERROR);
 		}
+		catch (PriceException e) {
+			throw new ArticleException("Error when adding new price, to update article", e, Level.ERROR);
+		}
 		finally {
 				try {
 					if (stmt != null) {
@@ -288,7 +320,7 @@ public class ArticuloData {
 	
 	public void delete(int codArticulo) throws ArticleException {
 		
-		PreparedStatement stmt=null;
+		PreparedStatement stmt = null;
 		
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update articulo set is_deleted=1 where cod_articulo=?");

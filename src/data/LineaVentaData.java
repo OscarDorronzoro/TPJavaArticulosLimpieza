@@ -9,10 +9,9 @@ import org.apache.logging.log4j.Level;
 
 import entities.Linea;
 import entities.Proveedor;
+
 import util.ArticleException;
-import util.CategoryException;
 import util.DBException;
-import util.PriceException;
 import util.ProviderException;
 import util.SaleLineException;
 
@@ -58,18 +57,18 @@ public class LineaVentaData extends LineaData {
 		
 	}
 	
-	public ArrayList<Linea> getAllByVenta(int nroVenta) throws ProviderException, ArticleException, SaleLineException, PriceException, CategoryException{
+	public ArrayList<Linea> getAllByVenta(int nroVenta) throws SaleLineException {
 		
 		ArrayList<Linea> lineas = new ArrayList<Linea>();
-		ResultSet rs=null;
-		PreparedStatement stmt=null;
+		ResultSet rs = null;
+		PreparedStatement stmt = null;
 		
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from linea_venta where nro_venta=?");
 			stmt.setInt(1,nroVenta);
-			rs=stmt.executeQuery();
-			if(rs!=null) {
-				while(rs.next()) {
+			rs = stmt.executeQuery();
+			if (rs != null) {
+				while (rs.next()) {
 					Linea linea = new Linea();
 					
 					linea.setArticulo(this.getArticuloData().getOne(rs.getInt("cod_articulo")));
@@ -85,6 +84,12 @@ public class LineaVentaData extends LineaData {
 		}
 		catch (DBException e) {
 			throw new SaleLineException("Error when establishing connection to DB, to get all sale lines by sale", e, Level.ERROR);
+		}
+		catch (ArticleException e) {
+			throw new SaleLineException("Error when getting one article, to get all sale lines by sale", e, Level.ERROR);
+		}
+		catch (ProviderException e) {
+			throw new SaleLineException("Error when getting one provider, to get all sale lines by sale", e, Level.ERROR);
 		}
 		finally {
 			try {

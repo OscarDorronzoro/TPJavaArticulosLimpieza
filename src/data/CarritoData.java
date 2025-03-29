@@ -6,23 +6,20 @@ import java.sql.SQLException;
 
 import entities.Linea;
 import entities.Carrito;
-import util.ArticleException;
+
 import util.CartException;
 import util.CartLineException;
-import util.CategoryException;
 import util.DBException;
-import util.PriceException;
-import util.ProviderException;
 
 import org.apache.logging.log4j.Level;
 
 public class CarritoData {
 	
-	private LineaCarritoData lineaData=new LineaCarritoData();
+	private LineaCarritoData lineaData = new LineaCarritoData();
 	
-	public void add(Carrito carrito, String username) throws CartException, CartLineException {
+	public void add(Carrito carrito, String username) throws CartException {
 		
-		PreparedStatement stmt=null;
+		PreparedStatement stmt = null;
 			
 		try {
 			stmt= FactoryConnection.getInstancia().getConn().prepareStatement("insert into carrito "
@@ -44,6 +41,9 @@ public class CarritoData {
 		catch (DBException e) {
 			throw new CartException("Error when establishing connection to DB, to add new cart", e, Level.ERROR);
 		}
+		catch (CartLineException e) {
+			throw new CartException("Error when adding cart line, to add new cart", e, Level.ERROR);
+		}
 		finally {
 			try {
 				if (stmt != null) {
@@ -61,7 +61,7 @@ public class CarritoData {
 		
 	}
 	
-	public Carrito getOne(String nombre, String username) throws ProviderException, CartLineException, CartException, ArticleException, PriceException, CategoryException {
+	public Carrito getOne(String nombre, String username) throws CartException {
 		
 		Carrito carrito = null;
 		ResultSet rs = null;
@@ -75,21 +75,22 @@ public class CarritoData {
 			stmt.setString(2, username);			
 			rs=stmt.executeQuery();
 			
-			if(rs!=null&&rs.next()) {
-				carrito=new Carrito();
+			if (rs != null && rs.next()) {
+				carrito = new Carrito();
 					
 				carrito.setNombre(rs.getString("nombre"));
 				carrito.setDescripcion(rs.getString("descripcion"));
-				carrito.setLineas(lineaData.getAllByCarrito(carrito.getNombre(),username));
-
-				
+				carrito.setLineas(lineaData.getAllByCarrito(carrito.getNombre(), username));
 			}
 		}
 		catch (SQLException e) {
-			throw new ProviderException("Error when getting one cart", e, Level.ERROR);
+			throw new CartException("Error when getting one cart", e, Level.ERROR);
 		}
 		catch (DBException e) {
-			throw new ProviderException("Error when establishing connection to DB, to get one cart", e, Level.ERROR);
+			throw new CartException("Error when establishing connection to DB, to get one cart", e, Level.ERROR);
+		}
+		catch (CartLineException e) {
+			throw new CartException("Error when getting all cart line by cart, to get one cart", e, Level.ERROR);
 		}
 		finally {
 				try {
@@ -102,17 +103,17 @@ public class CarritoData {
 					FactoryConnection.getInstancia().releaseConn();
 				} 
 				catch (SQLException e) {
-					throw new ProviderException("Error when finishing getting one cart", e, Level.ERROR);
+					throw new CartException("Error when finishing getting one cart", e, Level.ERROR);
 				}
 				catch (DBException e) {
-					throw new ProviderException("Error when closing connection to DB, after getting one cart", e, Level.ERROR);
+					throw new CartException("Error when closing connection to DB, after getting one cart", e, Level.ERROR);
 				}
 		}
 		
 		return carrito;
 	}
 	
-	public void delete(Carrito carrito, String username) throws CartException, CartLineException {
+	public void delete(Carrito carrito, String username) throws CartException {
 		
 		PreparedStatement stmt = null;
 		
@@ -126,13 +127,15 @@ public class CarritoData {
 			}
 			
 			stmt.execute();
-			
 		}
 		catch (SQLException e) {
 			throw new CartException("Error when deleting cart", e, Level.ERROR);
 		}
 		catch (DBException e) {
 			throw new CartException("Error when establishing connection to DB, to delete cart", e, Level.ERROR);
+		}
+		catch (CartLineException e) {
+			throw new CartException("Error when deleting cart line, to delete cart", e, Level.ERROR);
 		}
 		finally {
 			try {
@@ -152,11 +155,9 @@ public class CarritoData {
 		
 	}
 
-	public void deleteAllByCliente(Carrito carrito, String username) throws DBException, CartException, CartLineException {
-		
+	public void deleteAllByCliente(Carrito carrito, String username) throws CartException {
 		PreparedStatement stmt=null;
 		
-			
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("delete from carrito where username=?");
 			stmt.setString(1, username);
@@ -174,6 +175,9 @@ public class CarritoData {
 		}
 		catch (DBException e) {
 			throw new CartException("Error when establishing connection to DB, to delete all carts by customer", e, Level.ERROR);
+		}
+		catch (CartLineException e) {
+			throw new CartException("Error when deleting cart line, to delete all carts by customer", e, Level.ERROR);
 		}
 		finally {
 			try {

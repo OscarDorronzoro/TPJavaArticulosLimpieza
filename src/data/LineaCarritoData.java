@@ -8,20 +8,17 @@ import java.util.ArrayList;
 import org.apache.logging.log4j.Level;
 
 import entities.Linea;
+
 import util.ArticleException;
 import util.CartLineException;
-import util.CategoryException;
 import util.DBException;
-import util.PriceException;
 import util.ProviderException;
 
 public class LineaCarritoData extends LineaData {
 	
 	public void add(Linea linea, String nombreCarrito, String username) throws CartLineException {
-		
 		PreparedStatement stmt = null;
 			
-
 		try {
 			stmt= FactoryConnection.getInstancia().getConn().prepareStatement("insert into linea_carrito "
 					+ "(nombre_carrito,cod_articulo,cuit_proveedor,username,cantidad) values(?,?,?,?,?)");
@@ -57,8 +54,7 @@ public class LineaCarritoData extends LineaData {
 		
 	}
 	
-	public Linea getOne(String nombreCarrito, String username, int codArticulo) throws ProviderException, CartLineException, ArticleException, PriceException, CategoryException {
-		
+	public Linea getOne(String nombreCarrito, String username, int codArticulo) throws CartLineException {
 		Linea linea = null;
 		ResultSet rs = null;
 		PreparedStatement stmt = null;
@@ -86,6 +82,12 @@ public class LineaCarritoData extends LineaData {
 		catch (DBException e) {
 			throw new CartLineException("Error when establishing connection to DB, to get one cart line", e, Level.ERROR);
 		}
+		catch (ArticleException e) {
+			throw new CartLineException("Error when getting one article, to get one cart line", e, Level.ERROR);
+		}
+		catch (ProviderException e) {
+			throw new CartLineException("Error when getting one provider, to get one cart line", e, Level.ERROR);
+		}
 		finally {
 				try {
 					if (rs != null) {
@@ -107,8 +109,7 @@ public class LineaCarritoData extends LineaData {
 		return linea;
 	}
 	
-	public ArrayList<Linea> getAllByCarrito(String nombreCarrito,String username) throws ProviderException, CartLineException, ArticleException, PriceException, CategoryException{
-		
+	public ArrayList<Linea> getAllByCarrito(String nombreCarrito,String username) throws CartLineException {
 		ArrayList<Linea> lineas = new ArrayList<Linea>();
 		ResultSet rs = null;
 		PreparedStatement stmt = null;
@@ -138,6 +139,12 @@ public class LineaCarritoData extends LineaData {
 		catch (DBException e) {
 			throw new CartLineException("Error when establishing connection to DB, to get all cart lines by cart", e, Level.ERROR);
 		}
+		catch (ArticleException e) {
+			throw new CartLineException("Error when getting one article, to get all cart lines by cart", e, Level.ERROR);
+		}
+		catch (ProviderException e) {
+			throw new CartLineException("Error when getting one provider, to get all cart lines by cart", e, Level.ERROR);
+		}
 		finally {
 			try {
 				if (rs != null) {
@@ -147,7 +154,7 @@ public class LineaCarritoData extends LineaData {
 					stmt.close();
 				}
 				FactoryConnection.getInstancia().releaseConn();
-			} 
+			}
 			catch (SQLException e) {
 				throw new CartLineException("Error when finishing getting all cart lines by cart", e, Level.ERROR);
 			}
@@ -160,9 +167,7 @@ public class LineaCarritoData extends LineaData {
 	}
 	
 	public void update(Linea linea, String nombreCarrito, String username) throws CartLineException {
-		
 		PreparedStatement stmt = null;
-			
 
 		try {
 			stmt= FactoryConnection.getInstancia().getConn().prepareStatement("update linea_carrito "
@@ -173,7 +178,6 @@ public class LineaCarritoData extends LineaData {
 			stmt.setString(3, username);
 
 			stmt.executeUpdate();
-			
 		}
 		catch (SQLException e) {
 			throw new CartLineException("Error when updating cart line", e, Level.ERROR);

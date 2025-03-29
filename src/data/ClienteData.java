@@ -8,18 +8,13 @@ import java.util.ArrayList;
 import org.apache.logging.log4j.Level;
 
 import entities.Cliente;
-import util.ArticleException;
+import util.PasswordManager;
+
 import util.CartException;
-import util.CartLineException;
-import util.CategoryException;
 import util.ClientException;
 import util.DBException;
 import util.PasswordDoesNotMatchException;
-import util.PasswordManager;
-import util.PriceException;
-import util.ProviderException;
 import util.SaleException;
-import util.SaleLineException;
 
 public class ClienteData {
 	
@@ -49,7 +44,7 @@ public class ClienteData {
 			carritoData.add(c.getMiCarrito(), c.getUsername());
 			transaccion.execute("commit");
 		}
-		catch (SQLException | CartException | CartLineException doRollback) {
+		catch (SQLException | CartException doRollback) {
 			try {
 				transaccion.execute("rollback");
 				throw new ClientException("Error when adding new customer", doRollback, Level.ERROR);
@@ -75,10 +70,9 @@ public class ClienteData {
 				throw new ClientException("Error when closing connection to DB, after adding new customer", e, Level.ERROR);
 			}
 		}
-		
 	}
 	
-	public Cliente getOne(String username) throws ProviderException, CartLineException, CartException, ArticleException, ClientException, PriceException, CategoryException {
+	public Cliente getOne(String username) throws ClientException {
 		
 		Cliente c = null;
 		ResultSet rs = null;
@@ -88,19 +82,21 @@ public class ClienteData {
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
 					"select * from cliente where username=?");
 			stmt.setString(1, username);
+			
 			rs = stmt.executeQuery();
-			if(rs != null && rs.next()) {
-					c = new Cliente();
-					
-					c.setNombre(rs.getString("nombre"));
-					c.setApellido(rs.getString("apellido"));
-					c.setDNI(rs.getString("dni"));
-					c.setPassword(rs.getString("password"));
-					c.setUsername(rs.getString("username"));
-					c.setAdmin(rs.getBoolean("admin"));
-					c.setEmail(rs.getString("email"));
-					
-					c.setMiCarrito(carritoData.getOne("compraActual", c.getUsername()));
+			
+			if (rs != null && rs.next()) {
+				c = new Cliente();
+				
+				c.setNombre(rs.getString("nombre"));
+				c.setApellido(rs.getString("apellido"));
+				c.setDNI(rs.getString("dni"));
+				c.setPassword(rs.getString("password"));
+				c.setUsername(rs.getString("username"));
+				c.setAdmin(rs.getBoolean("admin"));
+				c.setEmail(rs.getString("email"));
+				
+				c.setMiCarrito(carritoData.getOne("compraActual", c.getUsername()));
 			}
 		}
 		catch (SQLException e) {
@@ -108,6 +104,9 @@ public class ClienteData {
 		}
 		catch (DBException e) {
 			throw new ClientException("Error when establishing connection to DB, to get one customer", e, Level.ERROR);
+		}
+		catch (CartException e) {
+			throw new ClientException("Error when getting one cart, to get one customer", e, Level.ERROR);
 		}
 		finally {
 			try {
@@ -130,7 +129,7 @@ public class ClienteData {
 		return c;
 	}
 
-	public ArrayList<Cliente> getAll() throws ProviderException, CartLineException, CartException, ArticleException, ClientException, PriceException{
+	public ArrayList<Cliente> getAll() throws ClientException {
 		
 		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
 		ResultSet rs = null;
@@ -157,11 +156,14 @@ public class ClienteData {
 				}
 			}
 		}
-		catch (SQLException | CategoryException e) {
+		catch (SQLException e) {
 			throw new ClientException("Error when getting all customers", e, Level.ERROR);
 		}
 		catch (DBException e) {
 			throw new ClientException("Error when establishing connection to DB, to get all customers", e, Level.ERROR);
+		}
+		catch (CartException e) {
+			throw new ClientException("Error when getting one cart, to get all customers", e, Level.ERROR);
 		}
 		finally {
 			try {
@@ -180,12 +182,10 @@ public class ClienteData {
 				throw new ClientException("Error when closing connection to DB, after getting all customers", e, Level.ERROR);
 			}
 		}
-		
 		return clientes;
 	}
 	
-	public Cliente getOneByUserYPassword(String username,String plainTextPassword ) throws ProviderException, CartLineException, CartException, ArticleException, ClientException, PriceException, CategoryException {
-		
+	public Cliente getOneByUserYPassword(String username,String plainTextPassword ) throws ClientException {
 		Cliente c = null;
 		ResultSet rs = null;
 		PreparedStatement stmt = null;
@@ -230,6 +230,9 @@ public class ClienteData {
 		catch (InvalidKeySpecException e) {
 			throw new ClientException("Error when comparing user's password, invalid key spec", e, Level.ERROR);
 		}
+		catch (CartException e) {
+			throw new ClientException("Error when getting one cart, to get one customer by username and password", e, Level.ERROR);
+		}
 		finally {
 			try {
 				if (rs != null) {
@@ -247,12 +250,10 @@ public class ClienteData {
 				throw new ClientException("Error when closing connection to DB, after getting one customer", e, Level.ERROR);
 			}
 		}
-		
 		return c;
 	}
 		
-	public ArrayList<Cliente> getAllByAdmin(boolean isAdmin) throws ProviderException, CartLineException, CartException, ArticleException, ClientException, PriceException, CategoryException{
-		
+	public ArrayList<Cliente> getAllByAdmin(boolean isAdmin) throws ClientException {
 		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
 		ResultSet rs = null;
 		PreparedStatement stmt = null;
@@ -261,7 +262,7 @@ public class ClienteData {
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from cliente where admin=?");
 			stmt.setBoolean(1, isAdmin);
 			
-			rs=stmt.executeQuery();
+			rs = stmt.executeQuery();
 			
 			if (rs != null) {
 				while (rs.next()) {
@@ -281,11 +282,14 @@ public class ClienteData {
 				}
 			}
 		}
-		catch (SQLException | CategoryException e) {
+		catch (SQLException e) {
 			throw new ClientException("Error when getting all admin users", e, Level.ERROR);
 		}
 		catch (DBException e) {
 			throw new ClientException("Error when establishing connection to DB, to get all admin users", e, Level.ERROR);
+		}
+		catch (CartException e) {
+			throw new ClientException("Error when getting one cart, to get all admin users", e, Level.ERROR);
 		}
 		finally {
 			try {
@@ -347,16 +351,15 @@ public class ClienteData {
 		}	
 	}
 	
-	public void delete(Cliente cliente) throws ClientException, CartException, CartLineException, SaleException, SaleLineException {
-		
+	public void delete(Cliente cliente) throws ClientException {
 		PreparedStatement stmt = null;
 		
 		try {
-			stmt=FactoryConnection.getInstancia().getConn().prepareStatement("delete from cliente where username=?");
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("delete from cliente where username=?");
 			stmt.setString(1, cliente.getUsername());
 			
 			carritoData.deleteAllByCliente(cliente.getMiCarrito(), cliente.getUsername());
-			ventaData.deleteAllByCliente(cliente.getUsername());
+			ventaData.deleteAllByCustomer(cliente.getUsername());
 			
 			stmt.execute();
 		}
@@ -365,6 +368,12 @@ public class ClienteData {
 		}
 		catch (DBException e) {
 			throw new ClientException("Error when establishing connection to DB, to delete customer", e, Level.ERROR);
+		}
+		catch (CartException e) {
+			throw new ClientException("Error when deleting all carts by customer, to delete customer", e, Level.ERROR);
+		}
+		catch (SaleException e) {
+			throw new ClientException("Error when deleting all sales by customer, to delete customer", e, Level.ERROR);
 		}
 		finally {
 			try {
