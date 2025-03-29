@@ -1,15 +1,15 @@
 package entities;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Venta {
 
 	private int nroVenta;
-	private Date fEmision;
-	private Date fPago;
-	private Date fRetiro;
-	private Date fCancelacion;
+	private LocalDateTime fEmision;
+	private LocalDateTime fPago;
+	private LocalDateTime fRetiro;
+	private LocalDateTime fCancelacion;
 	private double importe;
 	private Cliente cliente;
 	private ArrayList<Linea> lineas;
@@ -36,28 +36,28 @@ public class Venta {
 	public void setNroVenta(int nroVenta) {
 		this.nroVenta = nroVenta;
 	}
-	public Date getfEmision() {
+	public LocalDateTime getfEmision() {
 		return fEmision;
 	}
-	public void setfEmision(Date fEmision) {
+	public void setfEmision(LocalDateTime fEmision) {
 		this.fEmision = fEmision;
 	}
-	public Date getfPago() {
+	public LocalDateTime getfPago() {
 		return fPago;
 	}
-	public void setfPago(Date fPago) {
+	public void setfPago(LocalDateTime fPago) {
 		this.fPago = fPago;
 	}
-	public Date getfRetiro() {
+	public LocalDateTime getfRetiro() {
 		return fRetiro;
 	}
-	public void setfRetiro(Date fRetiro) {
+	public void setfRetiro(LocalDateTime fRetiro) {
 		this.fRetiro = fRetiro;
 	}
-	public Date getfCancelacion() {
+	public LocalDateTime getfCancelacion() {
 		return fCancelacion;
 	}
-	public void setfCancelacion(Date fCancelacion) {
+	public void setfCancelacion(LocalDateTime fCancelacion) {
 		this.fCancelacion = fCancelacion;
 	}
 	public Cliente getCliente() {

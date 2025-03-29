@@ -2,62 +2,60 @@ package logic;
 
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import data.VentaData;
+import entities.Carrito;
 import entities.Linea;
 import entities.Venta;
-import util.ArticleException;
 import util.CartException;
 import util.CartLineException;
-import util.CategoryException;
-import util.ClientException;
-import util.PriceException;
-import util.ProviderException;
 import util.SaleException;
-import util.SaleLineException;
 
 public class ABMCVenta {
 	
 	private VentaData ventaData = new VentaData();
 
 	@SuppressWarnings("unchecked")
-	public void registrarVenta(Venta venta) throws SaleException, SaleLineException, CartLineException{
-	
+	public void registrarVenta(Venta venta) throws SaleException, CartException, CartLineException {
 		ABMCLineaCarrito abmcLineaCarrito = new ABMCLineaCarrito(venta.getCliente());
+		Carrito carrito = venta.getCliente().getMiCarrito();
 		
-		venta.setLineas((ArrayList<Linea>)(venta.getCliente().getMiCarrito().getLineas().clone()));
-		venta.getCliente().getMiCarrito().setLineas(new ArrayList<Linea>());
+		// Cart to Sale
+		venta.setLineas((ArrayList<Linea>) (carrito.getLineas().clone()));
+		
+		// Empty cart
+		carrito.setLineas(new ArrayList<Linea>());
 		abmcLineaCarrito.deleteAllByCarrito();
-		venta.setfEmision(new Date());
-		ventaData.add(venta);
 		
+		venta.setfEmision(LocalDateTime.now());
+		ventaData.add(venta);
 	}
 	
-	public ArrayList<Venta> getAll() throws SaleException, ProviderException, CartLineException, CartException, ArticleException, ClientException, SaleLineException, PriceException, CategoryException
-	{
+	public ArrayList<Venta> getAll() throws SaleException {
 		return ventaData.getAll();
 	}
 	
-	public Venta getOne(int nroVenta) throws ProviderException, CartLineException, CartException, ArticleException, ClientException, SaleException, SaleLineException, PriceException, CategoryException
-	{
+	public Venta getOne(int nroVenta) throws SaleException {
 		return ventaData.getOne(nroVenta);
 	}
 	
-	public ArrayList<Venta> getAllPendientesByCliente(String username) throws ProviderException, CartLineException, CartException, ArticleException, ClientException, SaleException, SaleLineException, PriceException, CategoryException
-	{
-		return ventaData.getAllPendientesByCliente(username);	
+	public ArrayList<Venta> getAllPendientesByCliente(String username) throws SaleException {
+		return ventaData.getAllPendingByCustomer(username);	
+	}
+
+	public ArrayList<Venta> getAllCompletedByCustomer(String username) throws SaleException {
+		return ventaData.getAllCompletedByCustomer(username);	
 	}
 	
-	public void add(Venta venta) throws SaleException, SaleLineException
-	{
+	public void add(Venta venta) throws SaleException {
 		ventaData.add(venta);
 	}
 	
-	public void delete(Venta venta) throws SaleException, SaleLineException
-	{
+	public void delete(Venta venta) throws SaleException {
 		ventaData.delete(venta);
 	}
+	
 	public void update(Venta venta) throws SaleException {
 		ventaData.update(venta);
 	}

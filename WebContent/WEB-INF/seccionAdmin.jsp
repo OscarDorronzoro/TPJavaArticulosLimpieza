@@ -3,11 +3,11 @@
 <html>
 	<head>
 		<meta charset="ISO-8859-1">
-		<%Cliente c = (Cliente)request.getSession().getAttribute("cliente"); %>
-		<%if(!(c!=null && c.isAdmin())){
-		response.sendRedirect("iniciarSesion.jsp");
-		return;
-		}%>
+		<% Cliente currentUser = (Cliente)request.getSession().getAttribute("cliente"); %>
+		<% if (currentUser == null || !currentUser.isAdmin()) {
+			response.sendRedirect("iniciarSesion.jsp?pagina=SeccionAdminServlet");
+			return;
+		} %>
 		<title>Gestion del Sitio</title>
 		<link rel="shortcut icon" href="png/favicon.ico">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
@@ -58,7 +58,7 @@
 									<a href="ListadoProveedoresServlet">Listado de Proveedores</a>
 					            </li>
 					            <li>
-									<a href="RegistrarPagoServlet/iniciarRegistro">Registrar pago</a>
+									<a href="RegistrarPagoServlet/IniciarRegistro">Registrar pago</a>
 					            </li>	            
 					            <li>
 									<a href="ListadoCategoriasServlet">Listado de Categorias</a>

@@ -1,7 +1,8 @@
-package servlet;
+package servlet.sale;
 
 import java.io.IOException;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,78 +16,100 @@ import entities.Venta;
 import logic.ABMCVenta;
 import util.DoniaMaryException;
 
-/**
- * Servlet implementation class RegistrarPagoServlet
- */
-@WebServlet("/RegistrarPagoServlet/*")
+@WebServlet(
+	urlPatterns = {
+		"/RegistrarPagoServlet"
+		,"/RegistrarPagoServlet/IniciarRegistro"
+		,"/RegistrarPagoServlet/Buscar"
+		,"/RegistrarPagoServlet/RegistrarPago"
+	}
+)
 public class RegistrarPagoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+
     public RegistrarPagoServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		ABMCVenta abmcVenta = new ABMCVenta();		
 		
-		switch(request.getPathInfo()) {
-		case "/iniciarRegistro": 
-			request.getRequestDispatcher("../WEB-INF/registrarPago.jsp").forward(request, response);
+		String servletPath = request.getServletPath();
+		
+		switch(servletPath) {
+		case "/RegistrarPagoServlet/IniciarRegistro": 
+			request.getRequestDispatcher("/WEB-INF/registrarPago.jsp").forward(request, response);
 			break;
-		case "/buscar":
+		case "/RegistrarPagoServlet/Buscar":
 			try {
-				request.setAttribute("ventas", abmcVenta.getAllPendientesByCliente(request.getParameter("username")));
-				request.getRequestDispatcher("../WEB-INF/registrarPago.jsp").forward(request, response);
-			} catch (DoniaMaryException e) {
-				// TODO Auto-generated catch block
-				response.sendRedirect("../errorPage.jsp?mensaje="+e.getMessage());
+				String username = request.getParameter("username");
+				if (username == null) {
+					response.sendError(405, "Parameter 'username' is required");
+					return;
+				}
+				
+				ArrayList<Venta> ventas = abmcVenta.getAllPendientesByCliente(username);
+				request.setAttribute("ventas", ventas);
+				request.setAttribute("username", username);
+				
+				request.getRequestDispatcher("/WEB-INF/registrarPago.jsp").forward(request, response);
+			}
+			catch (DoniaMaryException e) {
+				response.sendRedirect("../errorPage.jsp?mensaje=" + e.getMessage());
 			}
 			break;
-		case "/RegistrarPagado":
-			registrarPago(new Date(),abmcVenta,request,response);
+		case "/RegistrarPagoServlet/RegistrarPago":
+			response.sendError(405, "Method not allowed");
 			break;
-		case "/RegistrarNoPagado": 
-			registrarPago(null,abmcVenta,request,response);
-			break;
-		default: throw new ServletException("error en switch");
-				
 		}
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
-
-	private void registrarPago(Date fechaPago,ABMCVenta abmcVenta,HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
+		ABMCVenta abmcVenta = new ABMCVenta();		
 		
-		try {
-			Venta venta = abmcVenta.getOne(Integer.parseInt(request.getParameter("nroVenta")));
-			venta.setfPago(fechaPago);
-			venta.setfRetiro(fechaPago);
-			abmcVenta.update(venta);
-			request.setAttribute("venta", venta);
-			request.getRequestDispatcher("../WEB-INF/registrarPago.jsp").forward(request, response);
-		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			response.sendRedirect("../errorPage.jsp?mensaje=Numero de venta incorrecto");
-		} catch (DoniaMaryException e) {
-			// TODO Auto-generated catch block
-			response.sendRedirect("../errorPage.jsp?mensaje="+e.getMessage());
-		}catch(Exception e) {
-			new DoniaMaryException("Exception catched",e,Level.ERROR);
-			response.sendRedirect("../errorPage.jsp?mensaje=Oops ha ocurrido un error");
+		String servletPath = request.getServletPath();
+		
+		switch(servletPath) {
+		case "/RegistrarPagoServlet/IniciarRegistro": 
+			response.sendError(405, "Method not allowed");
+			break;
+		case "/RegistrarPagoServlet/Buscar":
+			response.sendError(405, "Method not allowed");
+			break;
+		case "/RegistrarPagoServlet/RegistrarPago":
+			String sellNumber = request.getParameter("nroVenta");
+			if (sellNumber == null) {
+				response.sendError(400, "Parameter 'sellNumber' is required");
+				return;
+			}
+			
+			LocalDateTime paymentDate = null;
+			String paid = request.getParameter("paid");
+			if (paid != null) {
+				paymentDate = LocalDateTime.now();
+			}
+			
+			try {
+				Venta venta = abmcVenta.getOne(Integer.parseInt(sellNumber));
+				venta.setfPago(paymentDate);
+				venta.setfRetiro(paymentDate);
+				
+				abmcVenta.update(venta);
+				
+				request.setAttribute("venta", venta);
+				request.getRequestDispatcher("/WEB-INF/registrarPago.jsp").forward(request, response);
+			}
+			catch (NumberFormatException e) {
+				response.sendRedirect("../errorPage.jsp?mensaje=Numero de venta incorrecto");
+			}
+			catch (DoniaMaryException e) {
+				response.sendRedirect("../errorPage.jsp?mensaje=" + e.getMessage());
+			}
+			catch(Exception e) {
+				new DoniaMaryException("Exception catched", e, Level.ERROR);
+				response.sendRedirect("../errorPage.jsp?mensaje=Oops ha ocurrido un error");
+			}
+			break;
 		}
 	}
 }
