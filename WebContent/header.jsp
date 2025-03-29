@@ -58,7 +58,7 @@
 								<li><a href="/TP_Articulos_Limpieza/SeccionAdminServlet">Gestión del Sitio</a> </li>
 							<%}%>		
 							<li>
-								<a href="MisCarritos.jsp">Mi Carrito <% if(cliente.getMiCarrito().getLineas()!=null) { %> <%=cliente.getMiCarrito().getLineas().size()%> <% } %> </a>  
+								<a href="misCarritos.jsp">Mi Carrito <% if(cliente.getMiCarrito().getLineas()!=null) { %> <%=cliente.getMiCarrito().getLineas().size()%> <% } %> </a>  
 							<li class="dropdown">
 								<a data-toggle="dropdown" class="dropdown-toggle" href="#"><img src="/TP_Articulos_Limpieza/png/cog-2x.png"></a>
 								<ul role="menu" class="dropdown-menu">
