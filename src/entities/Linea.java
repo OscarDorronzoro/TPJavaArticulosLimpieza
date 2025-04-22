@@ -11,8 +11,9 @@ public class Linea{
 	}
 	
 	@Override
-	public boolean equals(Object o) {
-		return this.getArticulo().getCodArticulo()==((Linea)o).getArticulo().getCodArticulo();
+	public boolean equals(Object obj) {
+		Linea line = (Linea) obj;
+		return this.getArticulo().getCodArticulo() == line.getArticulo().getCodArticulo();
 	}
 	
 	public int getCantidad() {
