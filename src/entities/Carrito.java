@@ -13,29 +13,50 @@ public class Carrito {
 		this.setLineas(new ArrayList<Linea>());
 	}
 	
+	public Carrito(String cartName) {
+		this();
+		this.setNombre(cartName);
+	}
+	
 	public String getNombre() {
 		return nombre;
 	}
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+	
 	public String getDescripcion() {
 		return descripcion;
 	}
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
+	
 	public Cliente getCliente() {
 		return cliente;
 	}
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
+	
 	public ArrayList<Linea> getLineas() {
 		return lineas;
 	}
 	public void setLineas(ArrayList<Linea> lineas) {
 		this.lineas = lineas;
 	}
-
+	
+	public double getTotal() {
+		double sum = 0;
+		for (int i = 0; i < this.getLineas().size(); i++) {
+			sum += this.getLineas().get(i).getSubTotal();
+		}
+		return sum;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		Carrito cart = (Carrito) obj;
+		return this.getNombre().equals(cart.getNombre());
+	}
 }
