@@ -63,7 +63,7 @@
 						<td><%=vta.getImporte()%></td>
 						
 						<td>
-							<form action="../RegistrarPagoServlet/RegistrarPago" method="post">
+							<form action="../RegistrarPagoServlet/RegistrarPago?sellNumber=<%=vta.getNroVenta()%>" method="post">
 								<input type="submit" name="paid" value="Pagado" class="btn btn-success">
 								<input type="submit" name="notPaid" value="No pagado" class="btn btn-primary">
 							</form>

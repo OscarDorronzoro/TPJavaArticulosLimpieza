@@ -36,7 +36,7 @@ public class RegistrarPagoServlet extends HttpServlet {
 		
 		String servletPath = request.getServletPath();
 		
-		switch(servletPath) {
+		switch (servletPath) {
 		case "/RegistrarPagoServlet/IniciarRegistro": 
 			request.getRequestDispatcher("/WEB-INF/registrarPago.jsp").forward(request, response);
 			break;
@@ -77,7 +77,7 @@ public class RegistrarPagoServlet extends HttpServlet {
 			response.sendError(405, "Method not allowed");
 			break;
 		case "/RegistrarPagoServlet/RegistrarPago":
-			String sellNumber = request.getParameter("nroVenta");
+			String sellNumber = request.getParameter("sellNumber");
 			if (sellNumber == null) {
 				response.sendError(400, "Parameter 'sellNumber' is required");
 				return;
