@@ -1,5 +1,5 @@
 function confirmarEIrA(servlet){
-	if(confirm('Â¿Esta seguro?')){
+	if(confirm('¿Esta seguro?')){
 		location.href=servlet;
 	}
 }	
