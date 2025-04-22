@@ -3,6 +3,7 @@ package data;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import entities.Linea;
 import entities.Carrito;
@@ -73,7 +74,7 @@ public class CarritoData {
 			
 			stmt.setString(1, nombre);
 			stmt.setString(2, username);			
-			rs=stmt.executeQuery();
+			rs = stmt.executeQuery();
 			
 			if (rs != null && rs.next()) {
 				carrito = new Carrito();
@@ -111,6 +112,61 @@ public class CarritoData {
 		}
 		
 		return carrito;
+	}
+	
+	public ArrayList<Carrito> getAllByCustomer(String username) throws CartException {
+		
+		ArrayList<Carrito> carts = new ArrayList<Carrito>();
+		ResultSet rs = null;
+		PreparedStatement stmt = null;
+		
+		try {
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
+					"select * from carrito where username=?");
+			
+			stmt.setString(1, username);			
+			rs = stmt.executeQuery();
+			
+			if (rs != null) {
+				while (rs.next()) {
+					Carrito cart = new Carrito();
+						
+					cart.setNombre(rs.getString("nombre"));
+					cart.setDescripcion(rs.getString("descripcion"));
+					cart.setLineas(lineaData.getAllByCarrito(cart.getNombre(), username));
+					
+					carts.add(cart);
+				}
+			}
+		}
+		catch (SQLException e) {
+			throw new CartException("Error when getting all carts by customer", e, Level.ERROR);
+		}
+		catch (DBException e) {
+			throw new CartException("Error when establishing connection to DB, to get all carts by customer", e, Level.ERROR);
+		}
+		catch (CartLineException e) {
+			throw new CartException("Error when getting all cart line by cart, to get all carts by customer", e, Level.ERROR);
+		}
+		finally {
+				try {
+					if (rs != null) {
+						rs.close();
+					}
+					if (stmt != null) {
+						stmt.close();
+					}
+					FactoryConnection.getInstancia().releaseConn();
+				} 
+				catch (SQLException e) {
+					throw new CartException("Error when finishing getting all carts by customer", e, Level.ERROR);
+				}
+				catch (DBException e) {
+					throw new CartException("Error when closing connection to DB, after getting all carts by custoemr", e, Level.ERROR);
+				}
+		}
+		
+		return carts;
 	}
 	
 	public void delete(Carrito carrito, String username) throws CartException {

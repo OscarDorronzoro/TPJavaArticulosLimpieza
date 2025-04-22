@@ -21,13 +21,25 @@ public class EliminarDeCarritoServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Cliente cliente = (Cliente)request.getSession().getAttribute("cliente");
-		ABMCLineaCarrito abmcLineaCarrito = new ABMCLineaCarrito(cliente);
 		
+		String cartType = request.getParameter("cartType");
+		if (cartType == null) {
+			response.sendError(400, "Parameter 'cartType' is required");
+			return;
+		}
+		
+		String articleCodeParam = request.getParameter("articleCode");
+		if (articleCodeParam == null) {
+			response.sendError(400, "Parameter 'articleCode' is required");
+			return;
+		}
+		
+		ABMCLineaCarrito abmcLineaCarrito = new ABMCLineaCarrito(cliente, cliente.getMiCarrito(cartType));
 		try {
-			int codArt = Integer.parseInt(request.getParameter("codArticulo"));
-			cliente.getMiCarrito().getLineas().remove(abmcLineaCarrito.getOne(codArt));
-			abmcLineaCarrito.delete(codArt);
-			response.sendRedirect("misCarritos.jsp");
+			int articleCode = Integer.parseInt(articleCodeParam);
+			cliente.getMiCarrito(cartType).getLineas().remove(abmcLineaCarrito.getOne(articleCode));
+			abmcLineaCarrito.delete(articleCode);
+			response.sendRedirect("CarritoServlet");
 		}
 		catch(NumberFormatException e) {
 			response.sendRedirect("errorPage.jsp?mensaje=Numero invalido");

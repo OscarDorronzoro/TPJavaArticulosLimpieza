@@ -58,9 +58,9 @@
 								<li><a href="/TP_Articulos_Limpieza/SeccionAdminServlet">Gestión del Sitio</a> </li>
 							<%}%>		
 							<li>
-								<a href="misCarritos.jsp">Mi Carrito <% if(cliente.getMiCarrito().getLineas()!=null) { %> <%=cliente.getMiCarrito().getLineas().size()%> <% } %> </a>  
+								<a href="/TP_Articulos_Limpieza/CarritoServlet/currentPurchase">Mi Carrito <% if(cliente.getMiCarrito().getLineas()!=null) { %> <%=cliente.getMiCarrito().getLineas().size()%> <% } %> </a>  
 							<li class="dropdown">
-								<a data-toggle="dropdown" class="dropdown-toggle" href="#"><img src="/TP_Articulos_Limpieza/png/cog-2x.png"></a>
+								<a data-toggle="dropdown" class="dropdown-toggle" href="/TP_Articulos_Limpieza/#"><img src="/TP_Articulos_Limpieza/png/cog-2x.png"></a>
 								<ul role="menu" class="dropdown-menu">
 									<li><a href="/TP_Articulos_Limpieza/LogOutServlet">Cerrar Sesion</a></li>
 									<li><a href="/TP_Articulos_Limpieza/EditarPerfilServlet/iniciarModificacion">Editar mi perfil</a></li>

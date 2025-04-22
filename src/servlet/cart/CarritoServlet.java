@@ -9,13 +9,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import entities.Carrito;
 import entities.Cliente;
 import entities.Linea;
 import logic.ABMCArticulo;
 import logic.ABMCLineaCarrito;
 import util.DoniaMaryException;
 
-@WebServlet("/CarritoServlet")
+@WebServlet(
+	urlPatterns = {
+		"/CarritoServlet"
+		,"/CarritoServlet/currentPurchase"
+		,"/CarritoServlet/favorites"
+		,"/CarritoServlet/wishList"
+		,"/CarritoServlet/budget"
+	}
+)
 public class CarritoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -24,11 +33,45 @@ public class CarritoServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
-		response.sendError(405, "Method not allowed");
+		Cliente customer = (Cliente) request.getSession().getAttribute("cliente");
+		
+		if (customer == null) {
+			response.sendRedirect("../iniciarSesion.jsp");
+			return;
+		}
+		
+		String servletPath = request.getServletPath();
+		
+		String cartType = "currentPurchase";
+		switch (servletPath) {
+		case "/CarritoServlet":
+			response.sendRedirect("CarritoServlet/currentPurchase");
+			break;
+		case "/CarritoServlet/currentPurchase":
+			cartType = "currentPurchase";
+			break;
+		case "/CarritoServlet/favorites":
+			cartType = "favorites";
+			break;
+		case "/CarritoServlet/wishList":
+			cartType = "wishList";
+			break;
+		case "/CarritoServlet/budget":
+			cartType = "budget";
+			break;
+		}
+		
+		Carrito cart = customer.getMiCarrito(cartType);
+		if (cart == null) {
+			cart = new Carrito("dummy cart");
+		}
+		
+		request.setAttribute("cart", cart);
+		request.getRequestDispatcher("../misCarritos.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Cliente cliente = (Cliente)request.getSession().getAttribute("cliente");
+		Cliente cliente = (Cliente) request.getSession().getAttribute("cliente");
 		
 		if (cliente == null) {
 			response.sendRedirect("iniciarSesion.jsp");
@@ -62,20 +105,21 @@ public class CarritoServlet extends HttpServlet {
 			linea.setArticulo(articuloLogic.getOne(Integer.parseInt(articleCode)));
 			ArrayList<Linea> lineas = cliente.getMiCarrito().getLineas();
 			
-			if(lineas.contains(linea)) { // equals sobreescrito	
+			if (lineas.contains(linea)) { // equals overwritten
 				int index = lineas.indexOf(linea);
 				lineas.get(index).setCantidad(lineas.get(index).getCantidad() + amount);
 				abmcLinea.update(lineas.get(index));
-			} else {
-				lineas.add(linea); // agregar mas carritos					
+			}
+			else {
+				lineas.add(linea);
 				abmcLinea.add(linea);
 			}
 			
-			if(request.getParameter("comprar") != null) {
-				response.sendRedirect("misCarritos.jsp");
+			if (request.getParameter("comprar") != null) {
+				response.sendRedirect("CarritoServlet");
 				return;
 			}
-			response.sendRedirect("ListadoArticulosServlet");
+			response.sendRedirect("BusquedaServlet");
 		}
 		catch (DoniaMaryException e) {			
 			response.sendRedirect("errorPage.jsp?mensaje=" + e.getMessage());

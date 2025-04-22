@@ -1,5 +1,7 @@
 package entities;
 
+import java.util.ArrayList;
+
 public class Cliente {
 
 	private String username;
@@ -7,15 +9,31 @@ public class Cliente {
 	private String nombre;
 	private String apellido;
 	private boolean admin;
-	private String DNI;
+	private String dni;
 	private String email;
-	private Carrito miCarrito;
+	private ArrayList<Carrito> myCarts;
 	
 	public Cliente() {
-		Carrito carrito = new Carrito();
-		carrito.setNombre("CompraActual");
-		carrito.setDescripcion("Aqui se encuentran los articulos que ha aÃ±adido en su ultima sesion");
-		this.setMiCarrito(carrito);
+		this.myCarts = new ArrayList<Carrito>();
+		
+		Carrito cart = new Carrito("currentPurchase");
+		cart.setDescripcion("Aqui se encuentran los articulos que ha añadido en su ultima sesion");
+		this.setMiCarrito(cart);
+		
+		/*
+		cart = new Carrito("favorites");
+		cart.setDescripcion("Articulos guardados como favoritos");
+		this.setMiCarrito(cart);
+		
+		cart = new Carrito("wishList");
+		cart.setDescripcion("Articulos que se desean comprar en el futuro");
+		this.setMiCarrito(cart);
+		
+		cart = new Carrito("budget");
+		cart.setDescripcion("Conjunto de articulos guardados para evaluar costo");
+		this.setMiCarrito(cart);
+		*/
+		
 		this.setAdmin(false);
 	}
 	
@@ -25,45 +43,73 @@ public class Cliente {
 	public void setUsername(String username) {
 		this.username = username;
 	}
+	
 	public String getPassword() {
 		return password;
 	}
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
 	public String getNombre() {
 		return nombre;
 	}
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+	
 	public String getApellido() {
 		return apellido;
 	}
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
 	}
+	
 	public String getDNI() {
-		return DNI;
+		return this.dni;
 	}
-	public void setDNI(String dNI) {
-		DNI = dNI;
+	public void setDNI(String dni) {
+		this.dni = dni;
 	}
+	
 	@Override
 	public String toString() {
-		return "Nombre: "+this.getNombre()+"  Apellido: "+this.getApellido();
+		return "Nombre: " + this.getNombre() + "  Apellido: " + this.getApellido();
 	}
+	
 	public Carrito getMiCarrito() {
-		return miCarrito;
+		return this.myCarts.getFirst();
 	}
-	public void setMiCarrito(Carrito miCarrito) {
-		this.miCarrito = miCarrito;
+	public Carrito getMiCarrito(String cartName) {
+		Carrito cart = new Carrito(cartName);
+		int index = this.myCarts.indexOf(cart);
+		if (index == -1) {
+			return null;
+		}
+		return this.myCarts.get(index);
+	}
+	public void setMiCarrito(Carrito cart) {
+		int index = this.myCarts.indexOf(cart);
+		if (index == -1) {
+			this.myCarts.add(cart);
+		}
+		else {
+			this.myCarts.remove(index);
+			this.myCarts.add(index, cart);
+		}
+	}
+	
+	public ArrayList<Carrito> getMyCarts() {
+		return this.myCarts;
+	}
+	
+	public void setMiCarrito(ArrayList<Carrito> carts) {
+		this.myCarts = carts;
 	}
 
 	public boolean isAdmin() {
 		return admin;
 	}
-
 	public void setAdmin(boolean admin) {
 		this.admin = admin;
 	}
@@ -71,7 +117,6 @@ public class Cliente {
 	public String getEmail() {
 		return email;
 	}
-
 	public void setEmail(String email) {
 		this.email = email;
 	}

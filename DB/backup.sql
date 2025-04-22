@@ -101,7 +101,9 @@ CREATE TABLE `carrito` (
 
 LOCK TABLES `carrito` WRITE;
 /*!40000 ALTER TABLE `carrito` DISABLE KEYS */;
-INSERT INTO `carrito` VALUES ('compraActual','oscar123','articulos seleccionados en su sesion actual');
+INSERT INTO `carrito` VALUES ('currentPurchase','oscar123','Aqui se encuentran los articulos que ha añadido en su ultima sesion')
+	,('favorites', 'oscar123', 'Articulos favoritos');
+
 /*!40000 ALTER TABLE `carrito` ENABLE KEYS */;
 UNLOCK TABLES;
 

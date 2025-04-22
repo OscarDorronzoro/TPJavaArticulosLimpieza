@@ -58,17 +58,16 @@ public class ABMCCliente {
 	public void completarCliente(Cliente c) throws DoniaMaryException {
 		Cliente cli = this.getClienteData().getOneByUserYPassword(c.getUsername(), c.getPassword());
 		
-		if(cli==null) {
+		if (cli == null) {
 			throw new ClientNotFoundException("Cliente inexistente", null, Level.INFO);
 		}
-		else {
-			c.setAdmin(cli.isAdmin());
-			c.setApellido(cli.getApellido());
-			c.setDNI(cli.getDNI());
-			c.setMiCarrito(cli.getMiCarrito());
-			c.setNombre(cli.getNombre());
-			c.setPassword(null);
-		}
+	
+		c.setAdmin(cli.isAdmin());
+		c.setApellido(cli.getApellido());
+		c.setDNI(cli.getDNI());
+		c.setMiCarrito(cli.getMyCarts());
+		c.setNombre(cli.getNombre());
+		c.setPassword(null);
 	}
 	
 	public void update(Cliente cliente) throws ClientException {

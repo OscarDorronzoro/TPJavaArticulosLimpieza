@@ -215,7 +215,7 @@ public class ClienteData {
 				c.setAdmin(rs.getBoolean("admin"));
 				c.setEmail(rs.getString("email"));
 				
-				c.setMiCarrito(carritoData.getOne("compraActual", c.getUsername()));
+				c.setMiCarrito(carritoData.getAllByCustomer(c.getUsername()));
 			}
 		}
 		catch (SQLException e) {
