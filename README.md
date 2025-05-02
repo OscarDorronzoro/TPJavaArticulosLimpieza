@@ -19,11 +19,31 @@
 * Muchos carritos
 * ABMC Categorías (artículos)
 
-### 1.4 - Modelo de Datos
+## 2 - Documentación
+
+### 2.1 - Modelo de Datos
 
 ![Modelo de datos][modeloDatos]
 
+### 2.2 - Diagrama de Clases
 
-[modeloDatos]: ./tp-info/TP_Java-Modelo_de_Datos.jpg
+![Diagrama de clases][diagramaClases]
 
+### 2.3 - Casos de Uso
+
+<a href="./tp-info/CURSre01-ComprarArticulosDeLimpieza.pdf">CURSre01 - Comprar Artículos de Limpieza</a>
+
+<a href="./tp-info/CURSre02-AnalizarBalanceDeVentas.pdf">CURSre02 - Analizar Balance de Ventas</a>
+
+<a href="./tp-info/CUU1.1-RegistrarVenta.pdf">CUU 1.1 - Registrar Venta</a>
+
+<a href="./tp-info/CUU1.2-RegistrarPago.pdf">CUU 1.2 - Registrar Pago</a>
+
+<a href="./tp-info/CUU1.3-ListarVentasPendientes.pdf">CUU 1.3 - Listar Ventas Pendientes</a>
+
+<a href="./tp-info/CUU2.1-ListarVentasRealizadas.pdf">CUU 2.1 - Registrar Ventas Realizadas</a>
+
+
+[modeloDatos]: ./tp-info/Modelo_de_Datos.jpg
+[diagramaClases]: ./tp-info/Diagrama_de_Clases.jpg
 
