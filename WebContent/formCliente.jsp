@@ -3,12 +3,15 @@
 <html>
 	<head>
 		<meta charset="ISO-8859-1">
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=yes">
 		<title>Registrar Cliente</title>
 		<link rel="shortcut icon" href="png/favicon.ico">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css">
+		<link rel="stylesheet" href="custom/custom-styles.css">
 	</head>
 	<body class="bg-light">
+	
 		<%@include file="header.jsp" %>
 		
 		<div class="container">
@@ -16,7 +19,7 @@
 				<div class="col-md-6">
 					<section>
 						<h1>Registrarse</h1>
-						<form action="FormularioClienteServlet" method="get">		
+						<form action="FormularioClienteServlet" method="post">		
 							<div class="form-group">
 								<label for="username" class="control-label">Usuario</label>
 								<input class="form-control" name="username" id="username"/>
@@ -26,16 +29,16 @@
 								<input class="form-control" name="password" id="password" type="password"/>
 							</div>		
 							<div class="form-group">
-								<label for="nombre" class="control-label">Nombre</label>
-								<input class="form-control" name="nombre" id="nombre"/>
+								<label for="name" class="control-label">Nombre</label>
+								<input class="form-control" name="name" id="name"/>
 							</div>
 							<div class="form-group">
-								<label for="apellido" class="control-label">Apellido</label>
-								<input class="form-control" name="apellido" id="apellido"/>
+								<label for="lastname" class="control-label">Apellido</label>
+								<input class="form-control" name="lastname" id="lastname"/>
 							</div>
 							<div class="form-group">
-								<label for="DNI" class="control-label">DNI</label>
-								<input class="form-control" name="DNI" id="DNI"/>
+								<label for="dni" class="control-label">DNI</label>
+								<input class="form-control" name="dni" id="dni"/>
 							</div>	
 							<div class="form-group">
 								<label for="email" class="control-label">E-Mail</label>
@@ -50,9 +53,10 @@
 			</div>
 		</div>
 		
-		<%@include file="footer.jsp" %>	
+		<%@include file="footer.jsp" %>
+		
+		<script src="custom/custom-scripts.js"></script>
 		<script src="bootstrap/js/jquery-3.4.1.js"></script>
 		<script src="bootstrap/js/bootstrap.js"></script>
-		<script type="text/javascript" src="bootstrap/js/miJavaSript.js"></script>
 	</body>
 </html>

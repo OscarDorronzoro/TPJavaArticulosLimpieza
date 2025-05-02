@@ -5,7 +5,8 @@
 	<head>
 		<% response.sendRedirect("main.jsp"); %>
 		<meta charset="ISO-8859-1">
-		<title>Insert title here</title>
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=yes">
+		<title>Artículos de Limpieza</title>
 	</head>
 	<body>
 	

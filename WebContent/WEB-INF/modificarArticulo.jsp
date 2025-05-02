@@ -3,22 +3,31 @@
 <html>
 	<head>
 		<meta charset="ISO-8859-1">
-		<%Cliente c = (Cliente)request.getSession().getAttribute("cliente"); %>
-		<%if(!(c!=null && c.isAdmin())){
-		response.sendRedirect("iniciarSesion.jsp?pagina=ModificarArticuloServlet");
-		return;
-		}%>
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=yes">
+		<%
+		 	Cliente currentUser = (Cliente) request.getSession().getAttribute("cliente");
+		%>
+		<% 
+			 if (currentUser == null || !currentUser.isAdmin()) {
+				response.sendRedirect("iniciarSesion.jsp?pagina=ModificarArticuloServlet");
+				return;
+			 }
+		%>
 		<title>Modificar Articulo</title>
 		<link rel="icon" href="../png/favicon.ico">
 		<link rel="stylesheet" href="../bootstrap/css/bootstrap.css">
 		<link rel="stylesheet" href="../bootstrap/css/bootstrap-theme.css">
-		<%@page import="entities.Articulo" %>
+		<link rel="stylesheet" href="../custom/custom-styles.css">
+		
+		<%@page import="entities.Article" %>
 		<%@page import="java.util.ArrayList" %>
 		<%@page import="entities.Categoria" %>
-		<%Articulo art = (Articulo) request.getAttribute("articulo"); %>
+		<%
+			Article article = (Article) request.getAttribute("articulo");
+		%>
 		<% 
 			@SuppressWarnings("unchecked")
-			ArrayList<Categoria> categorias = (ArrayList<Categoria>) request.getAttribute("categorias");
+			ArrayList<Categoria> categories = (ArrayList<Categoria>) request.getAttribute("categorias");
 		%>
 	</head>
 	<body class=bg-light>
@@ -30,31 +39,31 @@
 					<section>
 						<h1>Modifique los datos del articulo</h1>
 						<form action="../ModificarArticuloServlet/Cargado" method="post" enctype="multipart/form-data">		
-							<input value="<%=art.getCodArticulo() %>" name="codArticulo" type="hidden" />
+							<input value="<%=article.getCodArticulo() %>" name="codArticulo" type="hidden" />
 							
 							<div class="form-group">
 								<label for="desc">Descripción</label>
-								<input value="<%=art.getDescripcion() %>" class="form-control" name="descripcion" required id="desc"/>
+								<input value="<%=article.getDescripcion() %>" class="form-control" name="descripcion" required id="desc"/>
 							</div>
 							<div class="form-group">
 								<label for="categ">Categoría</label>
 								<select class="form-control" name="categoria" id="categ">
-									<%for (Categoria cat : categorias) { %>
-										<option <%=cat.getNombre().equals(art.getCategoria().getNombre())?"selected":"" %> value="<%=cat.getNombre() %>"><%=cat.getDescripcion() %></option>
+									<%for (Categoria cat : categories) { %>
+										<option <%=cat.getNombre().equals(article.getCategoria().getNombre())?"selected":"" %> value="<%=cat.getNombre() %>"><%=cat.getDescripcion() %></option>
 									<%} %>
 								</select>
 							</div>
 							<div class="form-group">
 								<label for="pto_ped" title="indica el stock minimo">Punto de pedido</label>
-								<input value="<%=art.getPuntoPedido() %>" class="form-control" name="puntoPedido" required id="pto_ped"/>
+								<input value="<%=article.getPuntoPedido() %>" class="form-control" name="puntoPedido" required id="pto_ped"/>
 							</div>
 							<div class="form-group">
 								<label for="cant_a_pedir" title="cuando se alcance el stock minimo">Cantidad a pedir</label>
-								<input value="<%=art.getCantAPedir() %>" class="form-control" name="cantAPedir" required id="cant_a_pedir"/>
+								<input value="<%=article.getCantAPedir() %>" class="form-control" name="cantAPedir" required id="cant_a_pedir"/>
 							</div>
 							<div class="form-group">
 								<label for="stock">Stock</label>
-								<input value="<%=art.getStock() %>" class="form-control" name="stock" required id="stock"/>
+								<input value="<%=article.getStock() %>" class="form-control" name="stock" required id="stock"/>
 							</div>
 							<div class="form-group">
 								<label for="imagen">Imagen</label>
@@ -64,7 +73,7 @@
 							</div>
 							<div class="form-group">
 								<label for="precio">Precio</label>
-								<input value="<%=art.getPrecio().getValor() %>" class="form-control" name="precio" required id="precio"/>
+								<input value="<%=article.getPrecio().getValor() %>" class="form-control" name="precio" required id="precio"/>
 							</div>
 							<input type="submit" class="btn btn-success btn-block"  title="Presione para registrar articulo" value="Guardar artículo"/>
 						</form>
@@ -73,7 +82,8 @@
 			</div>
 		</div>
 		
-		<%@include file="../footer.jsp" %>	
+		<%@include file="../footer.jsp" %>
+		
 		<script src="bootstrap/js/jquery-3.4.1.js"></script>
 		<script src="bootstrap/js/bootstrap.js"></script>
 	</body>

@@ -3,15 +3,18 @@
 <html>
 	<head>
 		<meta charset="ISO-8859-1">
-		<% Cliente currentUser = (Cliente)request.getSession().getAttribute("cliente"); %>
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=yes">
+		<% Cliente currentUser = (Cliente) request.getSession().getAttribute("cliente"); %>
 		<% if (currentUser == null || !currentUser.isAdmin()) {
 			response.sendRedirect("iniciarSesion.jsp?pagina=SeccionAdminServlet");
 			return;
 		} %>
-		<title>Gestion del Sitio</title>
+		<title>Site management</title>
 		<link rel="shortcut icon" href="png/favicon.ico">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css">
+		<link rel="stylesheet" href="custom/custom-styles.css">
+		
 	</head>
 	
 	<body class="bg-light">
@@ -23,7 +26,7 @@
 			    <div class="row">
 			    	<div class="col-xs-12 col-sm-12 col-md-12">
 			    		 <div class="sidebar-header">
-					         <h3>Administracion</h3>
+					         <h3>Management</h3>
 					     </div>		
 			    	</div>
 			    	<div class="col-xs-1 col-sm-1 col-md-1">
@@ -36,32 +39,38 @@
 					            </li>
 					            <li>
 									<img src="png/proveedores.png">
-					            </li>    
+					            </li>
 					            <li>
 									<img src="png/limpieza/muebles.png">
 					            </li>
 					            <li>
 									<img src="png/limpieza/categorias.png">
-					            </li>                
+					            </li>
+					            <li>
+									<img src="png/limpieza/categorias.png">
+					            </li>
 					        </ul>
 			    	</div>
 			    	<div class="col-xs-10 col-sm-10 col-md-10">
 					    <nav>
 					        <ul class="list-unstyled components menu-text">
 					            <li>
-									<a href="ListadoArticulosEdicionServlet">Listado de Artículos</a>
+									<a href="ListadoArticulosEdicionServlet">List of articles</a>
 					            </li>
 					            <li>
-									<a href="ListadoClientesServlet/todo">Listado de Clientes</a>
+									<a href="ListadoClientesServlet/todo">List of customers</a>
 					            </li>
 					            <li>
-									<a href="ListadoProveedoresServlet">Listado de Proveedores</a>
+									<a href="ListadoProveedoresServlet">List of providers</a>
 					            </li>
 					            <li>
-									<a href="RegistrarPagoServlet/IniciarRegistro">Registrar pago</a>
-					            </li>	            
+									<a href="RegistrarPagoServlet/IniciarRegistro">Register payment</a>
+					            </li>
 					            <li>
-									<a href="ListadoCategoriasServlet">Listado de Categorias</a>
+									<a href="ListadoCategoriasServlet">List of categories</a>
+					            </li>
+					            <li>
+									<a href="ListCompletedSalesServlet/all">List of completed sales</a>
 					            </li>
 					        </ul>
 					    </nav>
@@ -71,15 +80,17 @@
 			
 			<div class="col-xs-12 col-sm-12 col-md-8 bg-articulos">
 			
-			<!-- cuerpo -->
+			<!-- main section -->
 			
 			</div>
 			
 		</div>
+		
 		<%@include file="../footer.jsp"%>
+		
+		<script src="custom/custom-scripts.js"></script>
 		<script src="bootstrap/js/jquery-3.4.1.js"></script>
 		<script src="bootstrap/js/popper.js"></script>
 		<script src="bootstrap/js/bootstrap.js"></script>
-		<script src="bootstrap/js/miJavaScript.js"></script>
 	</body>
 </html>

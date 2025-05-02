@@ -3,15 +3,18 @@
 <html>
 	<head>
 		<meta charset="ISO-8859-1">
-		<%Cliente currentUser = (Cliente)request.getSession().getAttribute("cliente"); %>
-		<%if (currentUser == null || !currentUser.isAdmin()) {
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=yes">
+		<% Cliente currentUser = (Cliente)request.getSession().getAttribute("cliente"); %>
+		<% if (currentUser == null || !currentUser.isAdmin()) {
 			response.sendRedirect("../iniciarSesion.jsp?pagina=ModificarClienteServlet");
 			return;
-		}%>
+		} %>
 		<title>Modificar Cliente</title>
 		<link rel="icon" href="png/favicon.ico">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
-		<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css">	
+		<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css">
+		<link rel="stylesheet" href="custom/custom-styles.css">
+		
 		<% Cliente client = (Cliente) request.getAttribute("client"); %>
 	</head>
 	
@@ -59,9 +62,9 @@
 			
 		<%@include file="../footer.jsp" %>
 	
+		<script src="custom/custom-scripts.js"></script>
 		<script src="bootstrap/js/jquery-3.4.1.js"></script>
 		<script src="bootstrap/js/popper.js"></script>
 		<script src="bootstrap/js/bootstrap.js"></script>
-		<script src="bootstrap/js/miJavaScript.js"></script>
 	</body>
 </html>

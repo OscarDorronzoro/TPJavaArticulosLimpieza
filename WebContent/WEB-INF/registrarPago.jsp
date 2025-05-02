@@ -3,7 +3,8 @@
 <html>
 	<head>
 		<meta charset="ISO-8859-1">
-		<% Cliente currentUser = (Cliente)session.getAttribute("cliente"); %>
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=yes">
+		<% Cliente currentUser = (Cliente) session.getAttribute("cliente"); %>
 		<% if (currentUser == null || !currentUser.isAdmin()) {
 			response.sendRedirect("../iniciarSesion.jsp?pagina=RegistrarPagoServlet");
 			return;
@@ -12,6 +13,8 @@
 		<link rel="shortcut icon" href="../png/favicon.ico">
 		<link rel="stylesheet" href="../bootstrap/css/bootstrap.css">
 		<link rel="stylesheet" href="../bootstrap/css/bootstrap-theme.css">
+		<link rel="stylesheet" href="../custom/custom-styles.css">
+		
 		<%
 			@SuppressWarnings("unchecked")	
 			ArrayList<Venta> ventas = (ArrayList<Venta>) request.getAttribute("ventas");
@@ -84,9 +87,10 @@
 		<%} %>
 		
 		<%@include file="../footer.jsp"%>
+		
+		<script src="../custom/custom-scripts.js"></script>
 		<script src="../bootstrap/js/jquery-3.4.1.js"></script>
 		<script src="../bootstrap/js/popper.js"></script>
 		<script src="../bootstrap/js/bootstrap.js"></script>
-		<script src="../bootstrap/js/miJavaScript.js"></script>	
 	</body>
 </html>

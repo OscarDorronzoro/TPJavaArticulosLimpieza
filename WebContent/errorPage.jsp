@@ -4,11 +4,12 @@
 <html>
 	<head>
 		<meta charset="ISO-8859-1">
-		<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=yes">
 		<title>Doña Mary Limpieza</title>
 		<link rel="shortcut icon" href="png/favicon.ico">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css">
+		<link rel="stylesheet" href="custom/custom-styles.css">
 	</head>
 	
 	<body class="bg-light contenedor-centrado">
@@ -23,6 +24,8 @@
 				<%=request.getParameter("mensaje") %>
 			</div>
 		</div>
+		
+		<%@include file="footer.jsp" %>
 		
 	</body>
 </html>

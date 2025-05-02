@@ -8,8 +8,10 @@
 		<link rel="shortcut icon" href="png/favicon.ico">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css">
+		<link rel="stylesheet" href="custom/custom-styles.css">
 	</head>
 	<body class="bg-light">
+	
 		<%@include file="header.jsp" %>
 		
 		<div class="container">
@@ -26,7 +28,7 @@
 								<label>Contraseña</label>
 								<input class="form-control" name="password" type="password" required/>
 							</div>	
-							<a onclick="location.href='RecuperarContraseniaServlet/iniciarRecuperacion?username='+document.getElementById('username').value">Olvide mi contraseña</a>	
+							<a onclick="recoverPassword()">Olvide mi contraseña</a>	
 							<input class="btn btn-success btn-block"  title="Presione para iniciar sesion" value="OK" type="submit"/>
 						</form>
 					</section>
@@ -34,10 +36,13 @@
 			</div>
 		</div>
 		
+		<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+		
 		<%@include file="footer.jsp" %>
+		
+		<script src="custom/custom-scripts.js"></script>
 		<script src="bootstrap/js/jquery-3.4.1.js"></script>
 		<script src="bootstrap/js/popper.js"></script>
 		<script src="bootstrap/js/bootstrap.js"></script>
-		<script src="bootstrap/js/miJavaScript.js"></script>
 	</body>
 </html>

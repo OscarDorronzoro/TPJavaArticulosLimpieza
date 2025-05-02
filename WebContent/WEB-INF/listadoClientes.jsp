@@ -4,15 +4,18 @@
 <html>
 <head>
 		<meta charset="ISO-8859-1">
-		<%Cliente c = (Cliente)request.getSession().getAttribute("cliente"); %>
-		<%if(!(c!=null && c.isAdmin())){
-		response.sendRedirect("../iniciarSesion.jsp?pagina=ListadoClientesServlet/todo");
-		return;
-		}%>
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=yes">
+		<% Cliente currentUser = (Cliente) request.getSession().getAttribute("cliente"); %>
+		<% if (currentUser == null || !currentUser.isAdmin()) {
+			response.sendRedirect("../iniciarSesion.jsp?pagina=ListadoClientesServlet/todo");
+			return;
+		} %>
 		<title>Clientes</title>
 		<link rel="icon" href="../png/favicon.ico">
 		<link rel="stylesheet" href="../bootstrap/css/bootstrap.css">
-		<link rel="stylesheet" href="../bootstrap/css/bootstrap-theme.css">	
+		<link rel="stylesheet" href="../bootstrap/css/bootstrap-theme.css">
+		<link rel="stylesheet" href="../custom/custom-styles.css">
+		
 		<%
 			@SuppressWarnings("unchecked")	
 			ArrayList<Cliente> clientes=(ArrayList<Cliente>)request.getAttribute("clientes");
@@ -23,7 +26,6 @@
 	
 		<%@include file="../header.jsp" %>
 		
-
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-3 bg-sidebar">
 			    <div class="row">
@@ -99,9 +101,10 @@
 		</div>
 		
 		<%@include file="../footer.jsp"%>
+		
+		<script src="../custom/custom-scripts.js"></script>
 		<script src="../bootstrap/js/jquery-3.4.1.js"></script>
 		<script src="../bootstrap/js/popper.js"></script>
 		<script src="../bootstrap/js/bootstrap.js"></script>
-		<script src="../bootstrap/js/miJavaScript.js"></script>	
 	</body>
 </html>

@@ -3,8 +3,9 @@
 <html>
 	<head>
 		<meta charset="ISO-8859-1">
-		<% Cliente c = (Cliente)request.getSession().getAttribute("cliente"); %>
-		<% if(!(c!=null && c.isAdmin())){
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=yes">
+		<% Cliente currentUser = (Cliente) request.getSession().getAttribute("cliente"); %>
+		<% if(currentUser == null || !currentUser.isAdmin()) {
 			response.sendRedirect("iniciarSesion.jsp?pagina=CargaArticuloServlet");
 			return;
 		} %>
@@ -12,11 +13,12 @@
 		<link rel="icon" href="png/favicon.ico">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css">
+		<link rel="stylesheet" href="custom/custom-styles.css">
 		<%@page import="entities.Categoria" %>
 		<%@page import="java.util.ArrayList"%>
 		<%
 			@SuppressWarnings("unchecked")
-			ArrayList<Categoria> categorias = (ArrayList<Categoria>)request.getAttribute("categorias");  
+			ArrayList<Categoria> categorias = (ArrayList<Categoria>) request.getAttribute("categorias");  
 		%>
 	</head>
 	<body class=bg-light>
@@ -69,7 +71,8 @@
 			</div>
 		</div>
 		
-		<%@include file="../footer.jsp" %>	
+		<%@include file="../footer.jsp" %>
+		
 		<script src="bootstrap/js/jquery-3.4.1.js"></script>
 		<script src="bootstrap/js/bootstrap.js"></script>
 	</body>
