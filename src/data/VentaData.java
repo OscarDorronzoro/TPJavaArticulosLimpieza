@@ -13,7 +13,7 @@ import org.apache.logging.log4j.Level;
 import entities.Linea;
 import entities.Venta;
 
-import util.ClientException;
+import util.CustomerException;
 import util.DBException;
 import util.SaleException;
 import util.SaleLineException;
@@ -46,16 +46,18 @@ public class VentaData {
 			transaccion = FactoryConnection.getInstancia().getConn().createStatement();
 			transaccion.execute("start transaction");
 			
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("insert into venta "
-					+ "(f_emision, importe, username) values(?, ?, ?)", PreparedStatement.RETURN_GENERATED_KEYS);
-			
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
+				"insert into sales "
+					+ "(emission_date, sale_amount, username, cancellation_date, payment_date, withdrawal_date) "
+					+ "values (?, ?, ?, ?, ?, ?)"
+				,PreparedStatement.RETURN_GENERATED_KEYS
+			);
 			stmt.setTimestamp(1, this.toTimestamp(venta.getfEmision()));
 			stmt.setDouble(2, venta.getTotal());
 			stmt.setString(3, venta.getCliente().getUsername());
-			
-			//stmt.setTimestamp(4, this.toTimestamp(venta.getfCancelacion()));
-			//stmt.setTimestamp(5, this.toTimestamp(venta.getfPago()));
-			//stmt.setTimestamp(6, this.toTimestamp(venta.getfRetiro()));
+			stmt.setTimestamp(4, this.toTimestamp(venta.getfCancelacion()));
+			stmt.setTimestamp(5, this.toTimestamp(venta.getfPago()));
+			stmt.setTimestamp(6, this.toTimestamp(venta.getfRetiro()));
 			
 			stmt.executeUpdate();
 			ResultSet primaryKey = stmt.getGeneratedKeys();
@@ -102,28 +104,30 @@ public class VentaData {
 		 }		
 	}
 	
-	public Venta getOne(int nroVenta) throws SaleException {
+	public Venta getOne(int saleNumber) throws SaleException {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		Venta venta = null;
 		
 		try {
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from venta where nro_venta=?");
-			stmt.setInt(1, nroVenta);
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
+				"select * from sales where sale_number=?"
+			);
+			stmt.setInt(1, saleNumber);
 			
 			rs = stmt.executeQuery();
 			if (rs != null && rs.next())
 			{
 				venta = new Venta();
-				venta.setfCancelacion(this.toLocalDateTime(rs.getTimestamp("f_cancelacion")));
-				venta.setfEmision(this.toLocalDateTime(rs.getTimestamp("f_emision")));
-				venta.setfPago(this.toLocalDateTime(rs.getTimestamp("f_pago")));
-				venta.setfRetiro(this.toLocalDateTime(rs.getTimestamp("f_retiro")));
-				venta.setNroVenta(rs.getInt("nro_venta"));
-				venta.setImporte(rs.getDouble("importe"));
+				venta.setfCancelacion(this.toLocalDateTime(rs.getTimestamp("cancellation_date")));
+				venta.setfEmision(this.toLocalDateTime(rs.getTimestamp("emission_date")));
+				venta.setfPago(this.toLocalDateTime(rs.getTimestamp("payment_date")));
+				venta.setfRetiro(this.toLocalDateTime(rs.getTimestamp("withdrawal_date")));
+				venta.setNroVenta(rs.getInt("sale_number"));
+				venta.setImporte(rs.getDouble("sale_amount"));
 				
 				venta.setCliente(clienteData.getOne(rs.getString("username")));
-				venta.setLineas(lineaVentaData.getAllByVenta(venta.getNroVenta()));
+				venta.setLineas(lineaVentaData.getAllBySale(venta.getNroVenta()));
 				
 			}
 		}
@@ -133,7 +137,7 @@ public class VentaData {
 		catch (DBException e) {
 			throw new SaleException("Error when establishing connection to DB, to get one sale", e, Level.ERROR);
 		}
-		catch (ClientException e) {
+		catch (CustomerException e) {
 			throw new SaleException("Error when getting one customer, to get one sale", e, Level.ERROR);
 		}
 		catch (SaleLineException e) {
@@ -169,21 +173,21 @@ public class VentaData {
 		
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().createStatement();
-			rs = stmt.executeQuery("select * from venta");
+			rs = stmt.executeQuery("select * from sales");
 			
 			if (rs != null) {
 				while (rs.next()) {
 					Venta venta = new Venta();
 					
-					venta.setNroVenta(rs.getInt("nro_venta"));
-					venta.setfEmision(this.toLocalDateTime(rs.getTimestamp("f_emision")));
-					venta.setfPago(this.toLocalDateTime(rs.getTimestamp("f_pago")));
-					venta.setfCancelacion(this.toLocalDateTime(rs.getTimestamp("f_cancelacion")));
-					venta.setfRetiro(this.toLocalDateTime(rs.getTimestamp("f_retiro")));
-					venta.setImporte(rs.getDouble("importe"));
+					venta.setNroVenta(rs.getInt("sale_number"));
+					venta.setfEmision(this.toLocalDateTime(rs.getTimestamp("emission_date")));
+					venta.setfPago(this.toLocalDateTime(rs.getTimestamp("payment_date")));
+					venta.setfCancelacion(this.toLocalDateTime(rs.getTimestamp("cancellation_date")));
+					venta.setfRetiro(this.toLocalDateTime(rs.getTimestamp("withdrawal_date")));
+					venta.setImporte(rs.getDouble("sale_amount"));
 					
 					venta.setCliente(clienteData.getOne(rs.getString("username")));
-					venta.setLineas(lineaVentaData.getAllByVenta(venta.getNroVenta()));
+					venta.setLineas(lineaVentaData.getAllBySale(venta.getNroVenta()));
 					
 					ventas.add(venta);
 				}
@@ -195,7 +199,7 @@ public class VentaData {
 		catch (DBException e) {
 			throw new SaleException("Error when establishing connection to DB, to get all sales", e, Level.ERROR);
 		}
-		catch (ClientException e) {
+		catch (CustomerException e) {
 			throw new SaleException("Error when getting one customer, to get all sales", e, Level.ERROR);
 		}
 		catch (SaleLineException e) {
@@ -228,27 +232,35 @@ public class VentaData {
 		PreparedStatement stmt = null;
 		
 		try {
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from venta where username=? and f_pago is null");
-			stmt.setString(1, username);
-			rs= stmt.executeQuery();
+			String query = "select * from sales where username=? and payment_date is null";
+			if (username == null) {
+				query = "select * from sales where payment_date is null";
+			}
 			
-			if (rs != null)
-			{
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
+				query
+			);
+			
+			if (username != null) {
+				stmt.setString(1, username);
+			}
+			
+			rs = stmt.executeQuery();
+			if (rs != null) {
 				ventas = new ArrayList<Venta>();
 				
-				while(rs.next())
-				{
+				while (rs.next()) {
 					Venta venta= new Venta();
 					
-					venta.setfCancelacion(this.toLocalDateTime(rs.getTimestamp("f_cancelacion")));
-					venta.setfEmision(this.toLocalDateTime(rs.getTimestamp("f_emision")));
-					venta.setfPago(this.toLocalDateTime(rs.getTimestamp("f_pago")));
-					venta.setfRetiro(this.toLocalDateTime(rs.getTimestamp("f_retiro")));
-					venta.setNroVenta(rs.getInt("nro_venta"));
-					venta.setImporte(rs.getDouble("importe"));
+					venta.setfCancelacion(this.toLocalDateTime(rs.getTimestamp("cancellation_date")));
+					venta.setfEmision(this.toLocalDateTime(rs.getTimestamp("emission_date")));
+					venta.setfPago(this.toLocalDateTime(rs.getTimestamp("payment_date")));
+					venta.setfRetiro(this.toLocalDateTime(rs.getTimestamp("withdrawal_date")));
+					venta.setNroVenta(rs.getInt("sale_number"));
+					venta.setImporte(rs.getDouble("sale_amount"));
 					
 					venta.setCliente(clienteData.getOne(username));
-					venta.setLineas(lineaVentaData.getAllByVenta(venta.getNroVenta()));
+					venta.setLineas(lineaVentaData.getAllBySale(venta.getNroVenta()));
 					
 					ventas.add(venta);	
 				}
@@ -260,7 +272,7 @@ public class VentaData {
 		catch (DBException e) {
 			throw new SaleException("Error when establishing connection to DB, to get all pending sales by customer", e, Level.ERROR);
 		}
-		catch (ClientException e) {
+		catch (CustomerException e) {
 			throw new SaleException("Error when getting one customer, to get all pending sales by customer", e, Level.ERROR);
 		}
 		catch (SaleLineException e) {
@@ -293,27 +305,38 @@ public class VentaData {
 		PreparedStatement stmt = null;
 		
 		try {
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
-				"select * from venta where username=? and f_pago is not null and f_cancelacion is null"
-			);
-			stmt.setString(1, username);
-			rs = stmt.executeQuery();
+			String query = "select * from sales "
+					+ "where username=? and payment_date is not null and cancellation_date is null";
 			
+			if (username == null) {
+				query = "select * from sales "
+						+ "where payment_date is not null and cancellation_date is null";
+			}
+			
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
+				query
+			);
+			
+			if (username != null) {
+				stmt.setString(1, username);
+			}
+			
+			rs = stmt.executeQuery();
 			if (rs != null) {
 				ventas = new ArrayList<Venta>();
 				
 				while (rs.next()) {
 					Venta venta= new Venta();
 					
-					venta.setfCancelacion(this.toLocalDateTime(rs.getTimestamp("f_cancelacion")));
-					venta.setfEmision(this.toLocalDateTime(rs.getTimestamp("f_emision")));
-					venta.setfPago(this.toLocalDateTime(rs.getTimestamp("f_pago")));
-					venta.setfRetiro(this.toLocalDateTime(rs.getTimestamp("f_retiro")));
-					venta.setNroVenta(rs.getInt("nro_venta"));
-					venta.setImporte(rs.getDouble("importe"));
+					venta.setfCancelacion(this.toLocalDateTime(rs.getTimestamp("cancellation_date")));
+					venta.setfEmision(this.toLocalDateTime(rs.getTimestamp("emission_date")));
+					venta.setfPago(this.toLocalDateTime(rs.getTimestamp("payment_date")));
+					venta.setfRetiro(this.toLocalDateTime(rs.getTimestamp("withdrawal_date")));
+					venta.setNroVenta(rs.getInt("sale_number"));
+					venta.setImporte(rs.getDouble("sale_amount"));
 					
 					venta.setCliente(clienteData.getOne(username));
-					venta.setLineas(lineaVentaData.getAllByVenta(venta.getNroVenta()));
+					venta.setLineas(lineaVentaData.getAllBySale(venta.getNroVenta()));
 					
 					ventas.add(venta);	
 				}
@@ -325,7 +348,7 @@ public class VentaData {
 		catch (DBException e) {
 			throw new SaleException("Error when establishing connection to DB, to get all completed sales by customer", e, Level.ERROR);
 		}
-		catch (ClientException e) {
+		catch (CustomerException e) {
 			throw new SaleException("Error when getting one customer, to get all completed sales by customer", e, Level.ERROR);
 		}
 		catch (SaleLineException e) {
@@ -351,16 +374,20 @@ public class VentaData {
 		return ventas;
 	}
 	
-	public void update(Venta venta) throws SaleException {
+	public void update(Venta sale) throws SaleException {
 		
 		PreparedStatement stmt = null;
 		
 		try {
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update venta set f_retiro=?, f_pago=?, f_cancelacion=? where nro_venta=?");
-			stmt.setTimestamp(1, this.toTimestamp(venta.getfRetiro()));
-			stmt.setTimestamp(2, this.toTimestamp(venta.getfPago()));
-			stmt.setTimestamp(3, this.toTimestamp(venta.getfCancelacion()));
-			stmt.setInt(4, venta.getNroVenta());
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
+				"update sales "
+					+ "set withdrawal_date=?, payment_date=?, cancellation_date=? "
+				+ "where sale_number=?"
+			);
+			stmt.setTimestamp(1, this.toTimestamp(sale.getfRetiro()));
+			stmt.setTimestamp(2, this.toTimestamp(sale.getfPago()));
+			stmt.setTimestamp(3, this.toTimestamp(sale.getfCancelacion()));
+			stmt.setInt(4, sale.getNroVenta());
 			
 			stmt.executeUpdate();
 		}
@@ -387,20 +414,20 @@ public class VentaData {
 		}
 	}
 	
-	public void delete(Venta venta) throws SaleException {
+	public void delete(Venta sale) throws SaleException {
 		
 		PreparedStatement stmt = null;
 		
 		try {
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("delete from venta where nroVenta=?");
-			stmt.setInt(1,venta.getNroVenta());
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
+				"delete from sales where sale_number=?");
+			stmt.setInt(1, sale.getNroVenta());
 			
-			for (Linea linea : venta.getLineas()) {
-				lineaVentaData.delete(venta.getNroVenta(), linea);
+			for (Linea sellLine : sale.getLineas()) {
+				lineaVentaData.delete(sale.getNroVenta(), sellLine);
 			}
 			
 			stmt.execute();
-			
 		}
 		catch (SQLException e) {
 			throw new SaleException("Error when deleting sale", e, Level.ERROR);
@@ -432,12 +459,14 @@ public class VentaData {
 		PreparedStatement stmt = null;
 		
 		try {
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("delete v, lv from venta v "
-					+ "inner join linea_venta lv on v.nro_venta=lv.nro_venta where v.username=?");
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
+				"delete s, sl from sales s "
+					+ "inner join sale_lines sl on s.sale_number=sl.sale_number "
+				+ "where v.username=?"
+			);
 			stmt.setString(1, username);
 			
 			stmt.execute();
-			
 		}
 		catch (SQLException e) {
 			throw new SaleException("Error when deleting all sales by customer", e, Level.ERROR);

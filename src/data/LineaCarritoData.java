@@ -20,8 +20,11 @@ public class LineaCarritoData extends LineaData {
 		PreparedStatement stmt = null;
 			
 		try {
-			stmt= FactoryConnection.getInstancia().getConn().prepareStatement("insert into linea_carrito "
-					+ "(nombre_carrito, cod_articulo, cuit_proveedor, username, cantidad) values(?,?,?,?,?)");
+			stmt= FactoryConnection.getInstancia().getConn().prepareStatement(
+				"insert into cart_lines ("
+					+ "cart_name, article_code, provider_cuit, username, amount) "
+				+ "values(?,?,?,?,?)"
+			);
 			
 			stmt.setString(1, nombreCarrito);
 			stmt.setInt(2, linea.getArticulo().getCodArticulo());;
@@ -61,19 +64,21 @@ public class LineaCarritoData extends LineaData {
 		
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
-					"select * from linea_carrito where nombre_carrito=? and username=? and cod_articulo=?");
+				"select * from cart_lines "
+				+ "where cart_name=? and username=? and article_code=?"
+			);
 			
 			stmt.setString(1, nombreCarrito);
 			stmt.setString(2, username);
-			stmt.setInt(3, codArticulo);			
-			rs=stmt.executeQuery();
+			stmt.setInt(3, codArticulo);
+			rs = stmt.executeQuery();
 			
 			if (rs != null && rs.next()) {
 					linea = new Linea();
 					
-					linea.setArticulo(this.getArticuloData().getOne(rs.getInt("cod_articulo")));
-					linea.setCantidad(rs.getInt("cantidad"));
-					linea.setProveedor(this.getProveedorData().getOne(rs.getString("cuit_proveedor")));
+					linea.setArticulo(this.getArticuloData().getOne(rs.getInt("article_code")));
+					linea.setCantidad(rs.getInt("amount"));
+					linea.setProveedor(this.getProveedorData().getOne(rs.getString("provider_cuit")));
 			}
 		}
 		catch (SQLException e) {
@@ -109,25 +114,27 @@ public class LineaCarritoData extends LineaData {
 		return linea;
 	}
 	
-	public ArrayList<Linea> getAllByCarrito(String nombreCarrito,String username) throws CartLineException {
+	public ArrayList<Linea> getAllByCart(String cartName, String username) throws CartLineException {
 		ArrayList<Linea> lineas = new ArrayList<Linea>();
 		ResultSet rs = null;
 		PreparedStatement stmt = null;
 		
 		try {
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from linea_carrito where nombre_carrito=? and username=?");
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
+				"select * from cart_lines where cart_name=? and username=?"
+			);
 			
-			stmt.setString(1,nombreCarrito);
-			stmt.setString(2,username);
-			rs=stmt.executeQuery();
+			stmt.setString(1, cartName);
+			stmt.setString(2, username);
+			rs = stmt.executeQuery();
 			
 			if (rs != null) {
 				while (rs.next()) {
 					Linea linea = new Linea();
 					
-					linea.setArticulo(this.getArticuloData().getOne(rs.getInt("cod_articulo")));
-					linea.setCantidad(rs.getInt("cantidad"));
-					linea.setProveedor(this.getProveedorData().getOne(rs.getString("cuit_proveedor")));
+					linea.setArticulo(this.getArticuloData().getOne(rs.getInt("article_code")));
+					linea.setCantidad(rs.getInt("amount"));
+					linea.setProveedor(this.getProveedorData().getOne(rs.getString("provider_cuit")));
 					
 					lineas.add(linea);					
 				}
@@ -170,8 +177,10 @@ public class LineaCarritoData extends LineaData {
 		PreparedStatement stmt = null;
 
 		try {
-			stmt= FactoryConnection.getInstancia().getConn().prepareStatement("update linea_carrito "
-					+ "set cantidad=? where nombre_carrito=? and username=? and cod_articulo=?");
+			stmt= FactoryConnection.getInstancia().getConn().prepareStatement(
+				"update cart_lines set amount=? "
+				+ "where cart_name=? and username=? and article_code=?"
+			);
 
 			stmt.setInt(1, linea.getCantidad());;
 			stmt.setString(2, nombreCarrito);
@@ -208,8 +217,10 @@ public class LineaCarritoData extends LineaData {
 		PreparedStatement stmt = null;
 		
 		try {
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("delete from linea_carrito "
-					+ "where nombre_carrito=? and username=? and cod_articulo=?");
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
+				"delete from cart_lines "
+				+ "where cart_name=? and username=? and article_code=?"
+			);
 			stmt.setString(1, nombreCarrito);
 			stmt.setString(2, username);
 			stmt.setInt(3, codArticulo);
@@ -240,14 +251,15 @@ public class LineaCarritoData extends LineaData {
 		
 	}
 	
-	public void deleteAllByCarrito(String nombreCarrito, String username) throws CartLineException
+	public void deleteAllByCart(String cartName, String username) throws CartLineException
 	{
 		PreparedStatement stmt=null;
 		
 		try {
-			stmt= FactoryConnection.getInstancia().getConn().prepareStatement("delete from linea_carrito "
-					+ "where nombre_carrito=? and username=?");
-			stmt.setString(1, nombreCarrito);
+			stmt= FactoryConnection.getInstancia().getConn().prepareStatement(
+					"delete from cart_lines "
+					+ "where cart_name=? and username=?");
+			stmt.setString(1, cartName);
 			stmt.setString(2, username);
 			
 			stmt.execute();

@@ -21,8 +21,8 @@ public class CategoriaData {
 		
 		try {
 			stmt= FactoryConnection.getInstancia().getConn().prepareStatement(
-					"insert into categoria(nombre,descripcion) values(?,?)"
-					);
+				"insert into categories(nombre, descripcion) values(?,?)"
+			);
 			stmt.setString(1, c.getNombre());
 			stmt.setString(2, c.getDescripcion());
 			
@@ -59,15 +59,16 @@ public class CategoriaData {
 		
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
-					"select * from categoria where nombre=?");
+				"select * from categories where name=?"
+			);
 			stmt.setString(1, nombre);
 			rs=stmt.executeQuery();
 			
 			if (rs != null && rs.next()) {
 					c = new Categoria();
 					
-					c.setNombre(rs.getString("nombre"));
-					c.setDescripcion(rs.getString("descripcion"));
+					c.setNombre(rs.getString("name"));
+					c.setDescripcion(rs.getString("description"));
 			}
 		}
 		catch (SQLException e) {
@@ -104,13 +105,14 @@ public class CategoriaData {
 		
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().createStatement();
-			rs = stmt.executeQuery("select * from categoria");
+			rs = stmt.executeQuery("select * from categories");
+			
 			if (rs != null) {
 				while (rs.next()) {
 					Categoria c = new Categoria();
 					
-					c.setNombre(rs.getString("nombre"));
-					c.setDescripcion(rs.getString("descripcion"));
+					c.setNombre(rs.getString("name"));
+					c.setDescripcion(rs.getString("description"));
 					
 					categorias.add(c);					
 				}
@@ -148,8 +150,9 @@ public class CategoriaData {
 		PreparedStatement stmt = null;
 		
 		try {
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update categoria set "
-					+ "descripcion=? where nombre=?");
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
+				"update categories set description=? where name=?"
+			);
 			stmt.setString(1, categoria.getDescripcion());
 			stmt.setString(2, categoria.getNombre());
 			
@@ -183,7 +186,9 @@ public class CategoriaData {
 		PreparedStatement stmt = null;
 		
 		try {
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("delete from categoria where nombre=?");
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
+				"delete from categories where name=?"
+			);
 			stmt.setString(1, nombre);
 			
 			stmt.execute();

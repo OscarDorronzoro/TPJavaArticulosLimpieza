@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import org.apache.logging.log4j.Level;
@@ -14,14 +15,30 @@ import util.PriceException;
 
 public class PrecioData {
 
+	private LocalDateTime toLocalDateTime(Timestamp sqlDatetime) {
+		if (sqlDatetime == null) {
+			return null;
+		}
+		return sqlDatetime.toLocalDateTime();
+	}
+	
+	private Timestamp toTimestamp(LocalDateTime javaDatetime) {
+		if (javaDatetime == null) {
+			return null;
+		}
+		return Timestamp.valueOf(javaDatetime);
+	}
+	
 	public void add(Precio precio,int codArticulo) throws PriceException {
 		PreparedStatement stmt=null;
 		
 		try {
 			stmt= FactoryConnection.getInstancia().getConn().prepareStatement(
-					"insert into precio(cod_articulo,fecha_desde,precio) values(?,?,?)");
+				"insert into prices(article_code, date_from, price) "
+				+ "values(?,?,?)"
+			);
 			stmt.setInt(1, codArticulo);
-			stmt.setTimestamp(2, Timestamp.valueOf(precio.getFechaDesde()));
+			stmt.setTimestamp(2, this.toTimestamp(precio.getFechaDesde()));
 			stmt.setDouble(3, precio.getValor());
 			
 			stmt.executeUpdate();
@@ -49,27 +66,34 @@ public class PrecioData {
 		
 	}
 	
-	public Precio getPrecioActual(int codArticulo) throws PriceException{
+	public Precio getCurrentPrice(int articleCode) throws PriceException {
 		
-		ResultSet rs=null;
-		PreparedStatement stmt=null;
-		Precio precio=null;
+		ResultSet rs = null;
+		PreparedStatement stmt = null;
+		Precio precio = null;
 		
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
-					"select * from precio where precio.cod_articulo=? and fecha_desde=("
-					+ "select max(fecha_desde) from precio where precio.cod_articulo=?)");
-			stmt.setInt(1, codArticulo);
-			stmt.setInt(2, codArticulo);
-			rs=stmt.executeQuery();
+				"select * from prices pr where pr.article_code=? "
+					+ "and date_from=("
+						+ "select max(date_from) from prices pr2 "
+						+ "where pr2.article_code=? and date_from <= ?"
+					+ ")"
+			);
+			stmt.setInt(1, articleCode);
+			stmt.setInt(2, articleCode);
 			
-			if(rs!=null && rs.next()) {
-					precio=new Precio();
+			// Avoid getting futures prices
+			stmt.setTimestamp(3, this.toTimestamp(LocalDateTime.now()));
+			
+			rs = stmt.executeQuery();
+			
+			if (rs != null && rs.next()) {
+					precio = new Precio();
 					
-					precio.setFechaDesde(rs.getTimestamp("fecha_desde").toLocalDateTime());
-					precio.setValor(rs.getDouble("precio"));					
+					precio.setFechaDesde(this.toLocalDateTime(rs.getTimestamp("date_from")));
+					precio.setValor(rs.getDouble("price"));
 			}
-			
 		}
 		catch (SQLException e) {
 			throw new PriceException("Error when getting current price", e, Level.ERROR);
@@ -106,16 +130,17 @@ public class PrecioData {
 		
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
-					"select * from precio where precio.cod_articulo=?");
+				"select * from prices pr where pr.article_code=?"
+			);
 			stmt.setInt(1, codArticulo);
-			rs=stmt.executeQuery();
 			
-			if(rs!=null) {
-				while(rs.next()) {
-					Precio precio=new Precio();
+			rs = stmt.executeQuery();
+			if (rs != null) {
+				while (rs.next()) {
+					Precio precio = new Precio();
 					
-					precio.setFechaDesde(rs.getTimestamp("fecha_desde").toLocalDateTime());
-					precio.setValor(rs.getDouble("precio"));
+					precio.setFechaDesde(this.toLocalDateTime(rs.getTimestamp("date_from")));
+					precio.setValor(rs.getDouble("price"));
 					
 					precios.add(precio);					
 				}
@@ -148,16 +173,18 @@ public class PrecioData {
 		return precios;
 	}
 	
-	public void update(Precio precio, int codArticulo) throws PriceException {
+	public void update(Precio price, int articleCode) throws PriceException {
 		
-		PreparedStatement stmt=null;
+		PreparedStatement stmt = null;
 		
 		try {
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update from precio set fecha_desde=?,precio=?"
-					+ " where precio.cod_articulo=?");
-			stmt.setTimestamp(1, Timestamp.valueOf(precio.getFechaDesde()));
-			stmt.setDouble(2, precio.getValor());
-			stmt.setInt(6, codArticulo);
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
+				"update from prices set date_from=?, price=?"
+				+ " where article_code=?"
+			);
+			stmt.setTimestamp(1, this.toTimestamp(price.getFechaDesde()));
+			stmt.setDouble(2, price.getValor());
+			stmt.setInt(6, articleCode);
 			
 			stmt.executeUpdate();
 		}

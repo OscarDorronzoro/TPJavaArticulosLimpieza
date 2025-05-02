@@ -23,8 +23,9 @@ public class CarritoData {
 		PreparedStatement stmt = null;
 			
 		try {
-			stmt= FactoryConnection.getInstancia().getConn().prepareStatement("insert into carrito "
-					+ "(nombre,username,descripcion) values(?,?,?)");
+			stmt= FactoryConnection.getInstancia().getConn().prepareStatement(
+				"insert into carts (name, username, description) values(?,?,?)"
+			);
 			
 			stmt.setString(1, carrito.getNombre());
 			stmt.setString(2, username);
@@ -34,7 +35,6 @@ public class CarritoData {
 			for (Linea linea : carrito.getLineas()) {
 				lineaData.add(linea, carrito.getNombre(),username);
 			}
-			
 		}
 		catch (SQLException e) {
 			throw new CartException("Error when adding new cart", e, Level.ERROR);
@@ -70,7 +70,8 @@ public class CarritoData {
 		
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
-					"select * from carrito where nombre=? and username=?");
+				"select * from carts where name=? and username=?"
+			);
 			
 			stmt.setString(1, nombre);
 			stmt.setString(2, username);			
@@ -79,9 +80,9 @@ public class CarritoData {
 			if (rs != null && rs.next()) {
 				carrito = new Carrito();
 					
-				carrito.setNombre(rs.getString("nombre"));
-				carrito.setDescripcion(rs.getString("descripcion"));
-				carrito.setLineas(lineaData.getAllByCarrito(carrito.getNombre(), username));
+				carrito.setNombre(rs.getString("name"));
+				carrito.setDescripcion(rs.getString("description"));
+				carrito.setLineas(lineaData.getAllByCart(carrito.getNombre(), username));
 			}
 		}
 		catch (SQLException e) {
@@ -122,7 +123,8 @@ public class CarritoData {
 		
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
-					"select * from carrito where username=?");
+				"select * from carts where username=?"
+			);
 			
 			stmt.setString(1, username);			
 			rs = stmt.executeQuery();
@@ -131,9 +133,9 @@ public class CarritoData {
 				while (rs.next()) {
 					Carrito cart = new Carrito();
 						
-					cart.setNombre(rs.getString("nombre"));
-					cart.setDescripcion(rs.getString("descripcion"));
-					cart.setLineas(lineaData.getAllByCarrito(cart.getNombre(), username));
+					cart.setNombre(rs.getString("name"));
+					cart.setDescripcion(rs.getString("description"));
+					cart.setLineas(lineaData.getAllByCart(cart.getNombre(), username));
 					
 					carts.add(cart);
 				}
@@ -174,7 +176,9 @@ public class CarritoData {
 		PreparedStatement stmt = null;
 		
 		try {
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("delete from carrito where nombre=? and username=?");
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
+				"delete from carts where name=? and username=?"
+			);
 			stmt.setString(1,carrito.getNombre());
 			stmt.setString(2,username);
 			
@@ -211,11 +215,13 @@ public class CarritoData {
 		
 	}
 
-	public void deleteAllByCliente(Carrito carrito, String username) throws CartException {
+	public void deleteAllByCustomer(Carrito carrito, String username) throws CartException {
 		PreparedStatement stmt=null;
 		
 		try {
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("delete from carrito where username=?");
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
+				"delete from carts where username=?"
+			);
 			stmt.setString(1, username);
 			
 			if (carrito != null) {

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import org.apache.logging.log4j.Level;
 
-import entities.Articulo;
+import entities.Article;
 import util.ArticleException;
 import util.CategoryException;
 import util.DBException;
@@ -21,7 +21,7 @@ public class ArticuloData {
 	ProveedorData proveedorData= new ProveedorData();
 	CategoriaData categoriaData= new CategoriaData();
 	
-	public void add(Articulo art) throws ArticleException {
+	public void add(Article art) throws ArticleException {
 		PreparedStatement stmt = null;
 		Statement transaccion = null;
 		
@@ -29,9 +29,12 @@ public class ArticuloData {
 			transaccion = FactoryConnection.getInstancia().getConn().createStatement();
 			transaccion.execute("start transaction;");
 			
-			stmt= FactoryConnection.getInstancia().getConn().prepareStatement(
-					"insert into articulo(descripcion,cant_a_pedir,punto_pedido,"
-					+ "stock,url_imagen,nombre_categoria,is_deleted) values(?,?,?,?,?,?,0)",PreparedStatement.RETURN_GENERATED_KEYS);
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
+				"insert into articles("
+					+ "description, amount_to_order, order_limit, stock, image_url, category_name, is_deleted) "
+					+ "values(?,?,?,?,?,?,0)"
+				,PreparedStatement.RETURN_GENERATED_KEYS
+			);
 			
 			stmt.setString(1, art.getDescripcion());
 			stmt.setInt(2, art.getCantAPedir());
@@ -83,31 +86,32 @@ public class ArticuloData {
 		
 	}
 	
-	public Articulo getOne(int codArticulo) throws ArticleException {
+	public Article getOne(int codArticulo) throws ArticleException {
 		
-		Articulo art=null;
-		ResultSet rs=null;
-		PreparedStatement stmt=null;
+		Article art = null;
+		ResultSet rs = null;
+		PreparedStatement stmt = null;
 		
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
-					"select * from articulo art inner join precio p on art.cod_articulo=p.cod_articulo"
-					+ " where art.cod_articulo=? and is_deleted=0");
+					"select * from articles art inner join prices p on art.code=p.article_code"
+					+ " where art.code=? and is_deleted=0");
 			stmt.setInt(1, codArticulo);
-			rs=stmt.executeQuery();
-			if(rs!=null&&rs.next()) {
-					art=new Articulo();
+			
+			rs = stmt.executeQuery();
+			if (rs != null && rs.next()) {
+					art = new Article();
 					
-					art.setCodArticulo(rs.getInt("cod_articulo"));
-					art.setDescripcion(rs.getString("descripcion"));
-					art.setCantAPedir(rs.getInt("cant_a_pedir"));
-					art.setPuntoPedido(rs.getInt("punto_pedido"));
+					art.setCodArticulo(rs.getInt("code"));
+					art.setDescripcion(rs.getString("description"));
+					art.setCantAPedir(rs.getInt("amount_to_order"));
+					art.setPuntoPedido(rs.getInt("order_limit"));
 					art.setStock(rs.getInt("stock"));
-					art.setUrlImagen(rs.getString("url_imagen"));
+					art.setUrlImagen(rs.getString("image_url"));
 					
-					art.setPrecio(precioData.getPrecioActual(art.getCodArticulo()));
-					art.setProveedores(proveedorData.getAllByArticulo(art.getCodArticulo()));
-					art.setCategoria(categoriaData.getOne(rs.getString("nombre_categoria")));
+					art.setPrecio(precioData.getCurrentPrice(art.getCodArticulo()));
+					art.setProveedores(proveedorData.getAllByArticle(art.getCodArticulo()));
+					art.setCategoria(categoriaData.getOne(rs.getString("category_name")));
 			}
 		}
 		catch (SQLException e) {
@@ -146,29 +150,29 @@ public class ArticuloData {
 		return art;
 	}
 	
-	public ArrayList<Articulo> getAll() throws ArticleException {
+	public ArrayList<Article> getAll() throws ArticleException {
 		
-		ArrayList<Articulo> articulos = new ArrayList<Articulo>();
+		ArrayList<Article> articulos = new ArrayList<Article>();
 		ResultSet rs = null;
 		Statement stmt = null;
 		
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().createStatement();
-			rs = stmt.executeQuery("select * from articulo where is_deleted = 0");
+			rs = stmt.executeQuery("select * from articles where is_deleted = 0");
 			if (rs != null) {
 				while (rs.next()) {
-					Articulo art = new Articulo();
+					Article art = new Article();
 					
-					art.setCodArticulo(rs.getInt("cod_articulo"));
-					art.setDescripcion(rs.getString("descripcion"));
-					art.setCantAPedir(rs.getInt("cant_a_pedir"));
-					art.setPuntoPedido(rs.getInt("punto_pedido"));
+					art.setCodArticulo(rs.getInt("code"));
+					art.setDescripcion(rs.getString("description"));
+					art.setCantAPedir(rs.getInt("amount_to_order"));
+					art.setPuntoPedido(rs.getInt("order_limit"));
 					art.setStock(rs.getInt("stock"));
-					art.setUrlImagen(rs.getString("url_imagen"));
+					art.setUrlImagen(rs.getString("image_url"));
 					
-					art.setPrecio(precioData.getPrecioActual(art.getCodArticulo()));
-					art.setProveedores(proveedorData.getAllByArticulo(art.getCodArticulo()));
-					art.setCategoria(categoriaData.getOne(rs.getString("nombre_categoria")));
+					art.setPrecio(precioData.getCurrentPrice(art.getCodArticulo()));
+					art.setProveedores(proveedorData.getAllByArticle(art.getCodArticulo()));
+					art.setCategoria(categoriaData.getOne(rs.getString("category_name")));
 					
 					articulos.add(art);					
 				}
@@ -209,30 +213,32 @@ public class ArticuloData {
 		return articulos;
 	}
 	
-	public ArrayList<Articulo> getAllByDescripcion(String descripcion) throws ArticleException {
-		ArrayList<Articulo> articulos = new ArrayList<Articulo>();
+	public ArrayList<Article> getAllByDescription(String descripcion) throws ArticleException {
+		ArrayList<Article> articulos = new ArrayList<Article>();
 		ResultSet rs = null;
 		PreparedStatement stmt = null;
 		
 		try {
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from articulo where descripcion like ? and is_deleted=0");
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
+				"select * from articles where description like ? and is_deleted=0"
+			);
 			stmt.setString(1,"%"+descripcion+"%");
 			rs = stmt.executeQuery();
 			
 			if (rs != null) {
 				while (rs.next()) {
-					Articulo art = new Articulo();
+					Article art = new Article();
 					
-					art.setCodArticulo(rs.getInt("cod_articulo"));
-					art.setDescripcion(rs.getString("descripcion"));
-					art.setCantAPedir(rs.getInt("cant_a_pedir"));
-					art.setPuntoPedido(rs.getInt("punto_pedido"));
+					art.setCodArticulo(rs.getInt("code"));
+					art.setDescripcion(rs.getString("description"));
+					art.setCantAPedir(rs.getInt("amout_to_order"));
+					art.setPuntoPedido(rs.getInt("order_limit"));
 					art.setStock(rs.getInt("stock"));
-					art.setUrlImagen(rs.getString("url_imagen"));
+					art.setUrlImagen(rs.getString("image_url"));
 					
-					art.setPrecio(precioData.getPrecioActual(art.getCodArticulo()));
-					art.setProveedores(proveedorData.getAllByArticulo(art.getCodArticulo()));
-					art.setCategoria(categoriaData.getOne(rs.getString("nombre_categoria")));
+					art.setPrecio(precioData.getCurrentPrice(art.getCodArticulo()));
+					art.setProveedores(proveedorData.getAllByArticle(art.getCodArticulo()));
+					art.setCategoria(categoriaData.getOne(rs.getString("category_name")));
 					
 					articulos.add(art);					
 				}
@@ -274,13 +280,17 @@ public class ArticuloData {
 		return articulos;
 	}
 	
-	public void update(Articulo articulo) throws ArticleException {
+	public void update(Article articulo) throws ArticleException {
 		
 		PreparedStatement stmt=null;
 		
 		try {
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update articulo set descripcion=?,cant_a_pedir=?,punto_pedido=?,"
-					+ "stock=?,url_imagen=?, nombre_categoria=? where cod_articulo=?");
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
+				"update articles set "
+				+ "description=?, amout_to_order=?, order_limit=?,"
+				+ "stock=?,image_url=?, category_name=? "
+				+ "where code=?"
+			);
 			stmt.setString(1, articulo.getDescripcion());
 			stmt.setInt(2, articulo.getCantAPedir());
 			stmt.setInt(3, articulo.getPuntoPedido());
@@ -323,7 +333,8 @@ public class ArticuloData {
 		PreparedStatement stmt = null;
 		
 		try {
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update articulo set is_deleted=1 where cod_articulo=?");
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
+					"update articles set is_deleted=1 where code=?");
 			stmt.setInt(1, codArticulo);
 			
 			stmt.executeUpdate();

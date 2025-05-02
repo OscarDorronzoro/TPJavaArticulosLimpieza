@@ -22,15 +22,20 @@ public class LineaVentaData extends LineaData {
 		PreparedStatement stmt = null;
 		
 		try {
-			stmt= FactoryConnection.getInstancia().getConn().prepareStatement("insert into linea_venta "
-					+ "(nro_venta,cantidad,cod_articulo,cuit_proveedor) values(?,?,?,?)");
+			stmt= FactoryConnection.getInstancia().getConn().prepareStatement(
+				"insert into sale_lines "
+					+ "(sale_number, amount, article_code, provider_cuit) "
+				+ "values(?,?,?,?)"
+			);
 			
 			stmt.setInt(1, nroVenta);
 			stmt.setInt(2,linea.getCantidad());
 			stmt.setInt(3, linea.getArticulo().getCodArticulo());
 			
+			// From all providers for this articles, one is selected randomly
 			ArrayList<Proveedor> proveedores = linea.getArticulo().getProveedores();
-			stmt.setString(4, proveedores.get((int)(Math.random()*proveedores.size())).getCuit()); // proveedor elegido aleatoriamente
+			stmt.setString(4, proveedores.get((int)(Math.random()*proveedores.size())).getCuit());
+			
 			stmt.executeUpdate();
 			
 		}
@@ -57,23 +62,26 @@ public class LineaVentaData extends LineaData {
 		
 	}
 	
-	public ArrayList<Linea> getAllByVenta(int nroVenta) throws SaleLineException {
+	public ArrayList<Linea> getAllBySale(int nroVenta) throws SaleLineException {
 		
 		ArrayList<Linea> lineas = new ArrayList<Linea>();
 		ResultSet rs = null;
 		PreparedStatement stmt = null;
 		
 		try {
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from linea_venta where nro_venta=?");
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
+				"select * from sale_lines where sale_number=?"
+			);
 			stmt.setInt(1,nroVenta);
+			
 			rs = stmt.executeQuery();
 			if (rs != null) {
 				while (rs.next()) {
 					Linea linea = new Linea();
 					
-					linea.setArticulo(this.getArticuloData().getOne(rs.getInt("cod_articulo")));
-					linea.setCantidad(rs.getInt("cantidad"));
-					linea.setProveedor(this.getProveedorData().getOne(rs.getString("cuit_proveedor")));
+					linea.setArticulo(this.getArticuloData().getOne(rs.getInt("article_code")));
+					linea.setCantidad(rs.getInt("amount"));
+					linea.setProveedor(this.getProveedorData().getOne(rs.getString("provider_cuit")));
 					
 					lineas.add(linea);					
 				}
@@ -117,14 +125,15 @@ public class LineaVentaData extends LineaData {
 		PreparedStatement stmt = null;
 		
 		try {
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("delete from linea_venta where nro_venta=? and cod_articulo=?"
-					+ " and cuit_proveedor=?");
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
+				"delete from sale_lines "
+				+ "where sale_number=? and article_code=? and provider_cuit=?"
+			);
 			stmt.setInt(1,nroVenta);
 			stmt.setInt(2,linea.getArticulo().getCodArticulo());
 			stmt.setString(3,linea.getProveedor().getCuit());
 			
 			stmt.execute();
-			
 		}
 		catch (SQLException e) {
 			throw new SaleLineException("Error when deleting sale line", e, Level.ERROR);

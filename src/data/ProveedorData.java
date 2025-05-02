@@ -19,8 +19,10 @@ public class ProveedorData {
 		PreparedStatement stmt=null;
 		
 		try {
-			stmt= FactoryConnection.getInstancia().getConn().prepareStatement(
-					"insert into proveedor(cuit,direccion,telefono,mail,razon_social) values(?,?,?,?,?)");
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
+				"insert into providers (cuit, address, phone_number, email, business_name) "
+				+ "values(?,?,?,?,?)"
+			);
 			
 			stmt.setString(1, prov.getCuit());
 			stmt.setString(2, prov.getDireccion());
@@ -29,7 +31,6 @@ public class ProveedorData {
 			stmt.setString(5, prov.getRazonSocial());
 			
 			stmt.executeUpdate();
-				
 		}
 		catch (SQLException e) {
 			throw new ProviderException("Error when adding new provider", e, Level.ERROR);
@@ -55,23 +56,24 @@ public class ProveedorData {
 	
 	public Proveedor getOne(String cuit) throws ProviderException {
 		
-		Proveedor prov=null;
-		ResultSet rs=null;
-		PreparedStatement stmt=null;
+		Proveedor prov = null;
+		ResultSet rs = null;
+		PreparedStatement stmt = null;
 		
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
-					"select * from proveedor p where p.cuit=?"); 
+					"select * from providers p where p.cuit=?"); 
 			stmt.setString(1, cuit);
-			rs=stmt.executeQuery();
-			if(rs!=null&&rs.next()) {
-					prov=new Proveedor();
+			
+			rs = stmt.executeQuery();
+			if (rs != null && rs.next()) {
+					prov = new Proveedor();
 					
 					prov.setCuit(rs.getString("cuit"));
-					prov.setDireccion(rs.getString("direccion"));
-					prov.setMail(rs.getString("mail"));
-					prov.setRazonSocial(rs.getString("razon_social"));
-					prov.setTelefono(rs.getString("telefono"));
+					prov.setDireccion(rs.getString("address"));
+					prov.setMail(rs.getString("email"));
+					prov.setRazonSocial(rs.getString("business_name"));
+					prov.setTelefono(rs.getString("phone_number"));
 			}
 		}
 		catch (SQLException e) {
@@ -104,21 +106,22 @@ public class ProveedorData {
 	public ArrayList<Proveedor> getAll() throws ProviderException{
 		
 		ArrayList<Proveedor> proveedores = new ArrayList<Proveedor>();
-		ResultSet rs=null;
-		Statement stmt=null;
+		ResultSet rs = null;
+		Statement stmt = null;
 		
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().createStatement();
-			rs = stmt.executeQuery("select * from proveedor");
+			rs = stmt.executeQuery("select * from providers");
+			
 			if (rs != null) {
 				while (rs.next()) {
 					Proveedor prov=new Proveedor();
 					
 					prov.setCuit(rs.getString("cuit"));
-					prov.setDireccion(rs.getString("direccion"));
-					prov.setMail(rs.getString("mail"));
-					prov.setRazonSocial(rs.getString("razon_social"));
-					prov.setTelefono(rs.getString("telefono"));
+					prov.setDireccion(rs.getString("address"));
+					prov.setMail(rs.getString("email"));
+					prov.setRazonSocial(rs.getString("business_name"));
+					prov.setTelefono(rs.getString("phone_number"));
 										
 					proveedores.add(prov);					
 				}
@@ -151,26 +154,30 @@ public class ProveedorData {
 		return proveedores;
 	}
 	
-	public ArrayList<Proveedor> getAllByArticulo(int codigoArticulo) throws ProviderException{
+	public ArrayList<Proveedor> getAllByArticle(int articleCode) throws ProviderException{
 		
 		ArrayList<Proveedor> proveedores = new ArrayList<Proveedor>();
-		ResultSet rs=null;
-		PreparedStatement stmt=null;
+		ResultSet rs = null;
+		PreparedStatement stmt = null;
 		
 		try {
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from proveedor p inner join articulo_proveedor ap on p.cuit=ap.cuit "
-					+ "where ap.cod_articulo=?");
-			stmt.setInt(1, codigoArticulo);
-			rs=stmt.executeQuery();
-			if(rs!=null) {
-				while(rs.next()) {
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
+				"select * from providers p "
+					+ "inner join articles_providers ap on p.cuit=ap.cuit "
+				+ "where ap.article_code=?"
+			);
+			stmt.setInt(1, articleCode);
+			
+			rs = stmt.executeQuery();
+			if (rs != null) {
+				while (rs.next()) {
 					Proveedor prov=new Proveedor();
 					
 					prov.setCuit(rs.getString("cuit"));
-					prov.setDireccion(rs.getString("direccion"));
-					prov.setMail(rs.getString("mail"));
-					prov.setRazonSocial(rs.getString("razon_social"));
-					prov.setTelefono(rs.getString("telefono"));
+					prov.setDireccion(rs.getString("address"));
+					prov.setMail(rs.getString("email"));
+					prov.setRazonSocial(rs.getString("business_name"));
+					prov.setTelefono(rs.getString("phone_number"));
 										
 					proveedores.add(prov);					
 				}
@@ -204,22 +211,21 @@ public class ProveedorData {
 	}
 
 	public void update(Proveedor proveedor) throws ProviderException {
-		
-		PreparedStatement stmt=null;
+		PreparedStatement stmt = null;
 		
 		try {
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update proveedor p set direccion=?, "
-					+ "telefono=?, mail=?, razon_social=? where p.cuit=?");
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
+				"update providers p set "
+					+ "address=?, phone_number=?, email=?, business_name=? "
+				+ "where p.cuit=?"
+			);
 			stmt.setString(1, proveedor.getDireccion());
 			stmt.setString(2, proveedor.getTelefono());
 			stmt.setString(3, proveedor.getMail());
 			stmt.setString(4, proveedor.getRazonSocial());
 			stmt.setString(5, proveedor.getCuit());
 			
-									
-			stmt.executeUpdate();
-			
-			
+			stmt.executeUpdate();			
 		}
 		catch (SQLException e) {
 			throw new ProviderException("Error when updating provider", e, Level.ERROR);
@@ -244,11 +250,12 @@ public class ProveedorData {
 	}
 	
 	public void delete(String cuit) throws ProviderException {
-		
 		PreparedStatement stmt = null;
 		
 		try {
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("delete from proveedor p where p.cuit=?");
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
+				"delete from providers p where p.cuit=?"
+			);
 			stmt.setString(1, cuit);
 			stmt.executeUpdate();
 		}
