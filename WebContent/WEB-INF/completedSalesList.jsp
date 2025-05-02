@@ -17,7 +17,7 @@
 		<link rel="shortcut icon" href="../png/favicon.ico">
 		<link rel="stylesheet" href="../bootstrap/css/bootstrap.css">
 		<link rel="stylesheet" href="../bootstrap/css/bootstrap-theme.css">
-		<link rel="stylesheet" href="custom/custom-styles.css">
+		<link rel="stylesheet" href="../custom/custom-styles.css">
 		
 		<%
 				@SuppressWarnings("unchecked")

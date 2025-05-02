@@ -37,8 +37,7 @@ public class VentaData {
 		return Timestamp.valueOf(javaDatetime);
 	}
 	
-	public void add(Sale venta) throws SaleException
-	{
+	public void add(Sale venta) throws SaleException {
 		PreparedStatement stmt = null;
 		Statement transaccion = null;
 		

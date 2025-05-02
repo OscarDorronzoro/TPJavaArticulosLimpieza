@@ -8,7 +8,6 @@ import data.VentaData;
 import entities.Cart;
 import entities.Line;
 import entities.Sale;
-import util.CartException;
 import util.CartLineException;
 import util.SaleException;
 
@@ -17,7 +16,7 @@ public class ABMCVenta {
 	private VentaData ventaData = new VentaData();
 
 	@SuppressWarnings("unchecked")
-	public void registerSale(Sale sale) throws SaleException, CartException, CartLineException {
+	public void registerSale(Sale sale) throws SaleException, CartLineException {
 		ABMCLineaCarrito abmcLineaCarrito = new ABMCLineaCarrito(sale.getCliente());
 		Cart cart = sale.getCliente().getMiCarrito();
 		

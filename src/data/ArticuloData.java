@@ -231,7 +231,7 @@ public class ArticuloData {
 					
 					art.setCodArticulo(rs.getInt("code"));
 					art.setDescripcion(rs.getString("description"));
-					art.setCantAPedir(rs.getInt("amout_to_order"));
+					art.setCantAPedir(rs.getInt("amount_to_order"));
 					art.setPuntoPedido(rs.getInt("order_limit"));
 					art.setStock(rs.getInt("stock"));
 					art.setUrlImagen(rs.getString("image_url"));
@@ -287,7 +287,7 @@ public class ArticuloData {
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
 				"update articles set "
-				+ "description=?, amout_to_order=?, order_limit=?,"
+				+ "description=?, amount_to_order=?, order_limit=?,"
 				+ "stock=?,image_url=?, category_name=? "
 				+ "where code=?"
 			);
