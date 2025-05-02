@@ -13,14 +13,18 @@ import entities.Cliente;
 
 @WebServlet("/EliminarDeCarritoServlet")
 public class EliminarDeCarritoServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    public EliminarDeCarritoServlet() {
+	private static final long serialVersionUID = 3936817201907405115L;
+
+	public EliminarDeCarritoServlet() {
         super();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Cliente cliente = (Cliente)request.getSession().getAttribute("cliente");
+		Cliente currentUser = (Cliente) request.getSession().getAttribute("cliente");
+		if (currentUser == null || !currentUser.isAdmin()) {
+			response.sendRedirect("iniciarSesion.jsp");
+			return;
+		}
 		
 		String cartType = request.getParameter("cartType");
 		if (cartType == null) {
@@ -34,12 +38,12 @@ public class EliminarDeCarritoServlet extends HttpServlet {
 			return;
 		}
 		
-		ABMCLineaCarrito abmcLineaCarrito = new ABMCLineaCarrito(cliente, cliente.getMiCarrito(cartType));
+		ABMCLineaCarrito abmcLineaCarrito = new ABMCLineaCarrito(currentUser, currentUser.getMiCarrito(cartType));
 		try {
 			int articleCode = Integer.parseInt(articleCodeParam);
-			cliente.getMiCarrito(cartType).getLineas().remove(abmcLineaCarrito.getOne(articleCode));
+			currentUser.getMiCarrito(cartType).getLineas().remove(abmcLineaCarrito.getOne(articleCode));
 			abmcLineaCarrito.delete(articleCode);
-			response.sendRedirect("CarritoServlet");
+			response.sendRedirect("CarritoServlet/currentPurchase");
 		}
 		catch(NumberFormatException e) {
 			response.sendRedirect("errorPage.jsp?mensaje=Numero invalido");

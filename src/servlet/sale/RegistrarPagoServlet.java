@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.Level;
 
+import entities.Cliente;
 import entities.Venta;
 import logic.ABMCVenta;
 import util.DoniaMaryException;
@@ -25,9 +26,9 @@ import util.DoniaMaryException;
 	}
 )
 public class RegistrarPagoServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 823128837518469823L;
 
-    public RegistrarPagoServlet() {
+	public RegistrarPagoServlet() {
         super();
     }
 
@@ -37,7 +38,7 @@ public class RegistrarPagoServlet extends HttpServlet {
 		String servletPath = request.getServletPath();
 		
 		switch (servletPath) {
-		case "/RegistrarPagoServlet/IniciarRegistro": 
+		case "/RegistrarPagoServlet/IniciarRegistro":
 			request.getRequestDispatcher("/WEB-INF/registrarPago.jsp").forward(request, response);
 			break;
 		case "/RegistrarPagoServlet/Buscar":
@@ -48,7 +49,7 @@ public class RegistrarPagoServlet extends HttpServlet {
 					return;
 				}
 				
-				ArrayList<Venta> ventas = abmcVenta.getAllPendientesByCliente(username);
+				ArrayList<Venta> ventas = abmcVenta.getAllPendingByCustomer(username);
 				request.setAttribute("ventas", ventas);
 				request.setAttribute("username", username);
 				
@@ -65,6 +66,12 @@ public class RegistrarPagoServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Cliente currentUser = (Cliente) request.getSession().getAttribute("cliente");
+		if (currentUser == null || !currentUser.isAdmin()) {
+			response.sendRedirect("iniciarSesion.jsp");
+			return;
+		}
+		
 		ABMCVenta abmcVenta = new ABMCVenta();		
 		
 		String servletPath = request.getServletPath();

@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import entities.Articulo;
+import entities.Article;
 import entities.Carrito;
 import entities.Cliente;
 import entities.Linea;
@@ -20,9 +20,9 @@ import util.CartLineException;
 
 @WebServlet("/SwitchCartForLineServlet")
 public class SwitchCartForLineServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -8615764502707166460L;
 
-    public SwitchCartForLineServlet() {
+	public SwitchCartForLineServlet() {
         super();
     }
 
@@ -31,10 +31,7 @@ public class SwitchCartForLineServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//String path = request.getContextPath();
-		
 		Cliente customer = (Cliente) request.getSession().getAttribute("cliente");
-		
 		if (customer == null) {
 			response.sendRedirect("iniciarSesion.jsp");
 			return;
@@ -73,7 +70,7 @@ public class SwitchCartForLineServlet extends HttpServlet {
 			customer.setMiCarrito(newCart);
 		}
 		
-		Articulo article = new Articulo();
+		Article article = new Article();
 		try {
 			article.setCodArticulo(Integer.parseInt(articleCode));
 		}

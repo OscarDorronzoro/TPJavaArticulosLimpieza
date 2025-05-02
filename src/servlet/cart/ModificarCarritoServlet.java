@@ -18,9 +18,9 @@ import util.DoniaMaryException;
 
 @WebServlet("/ModificarCarritoServlet")
 public class ModificarCarritoServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    public ModificarCarritoServlet() {
+	private static final long serialVersionUID = 7190602277016267618L;
+
+	public ModificarCarritoServlet() {
         super();
     }
 
@@ -29,8 +29,13 @@ public class ModificarCarritoServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Cliente cliente = (Cliente) request.getSession().getAttribute("cliente");
-		ABMCLineaCarrito abmcLinea = new ABMCLineaCarrito(cliente);
+		Cliente currentUser = (Cliente) request.getSession().getAttribute("cliente");
+		if (currentUser == null) {
+			response.sendRedirect("iniciarSesion.jsp");
+			return;
+		}
+		
+		ABMCLineaCarrito abmcLinea = new ABMCLineaCarrito(currentUser);
 		
 		String articleCodeParam = request.getParameter("articleCode");
 		if (articleCodeParam == null) {
@@ -48,9 +53,9 @@ public class ModificarCarritoServlet extends HttpServlet {
 			int articleCode = Integer.parseInt(articleCodeParam);
 			Linea originalCartLine = abmcLinea.getOne(articleCode);
 			
-			int cartLineIndexOnCustomerCart = cliente.getMiCarrito().getLineas().indexOf(originalCartLine);
+			int cartLineIndexOnCustomerCart = currentUser.getMiCarrito().getLineas().indexOf(originalCartLine);
 			// Update cart line on memory
-			Linea currentCartLine = cliente.getMiCarrito().getLineas().get(cartLineIndexOnCustomerCart);
+			Linea currentCartLine = currentUser.getMiCarrito().getLineas().get(cartLineIndexOnCustomerCart);
 			currentCartLine.setCantidad(Integer.parseInt(amount));
 			
 			// Update cart line on DB

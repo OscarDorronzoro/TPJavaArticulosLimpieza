@@ -7,18 +7,25 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import entities.Cliente;
 import logic.ABMCProveedor;
 import util.DoniaMaryException;
 
 @WebServlet("/EliminarProveedorServlet")
-public class EliminarProveedorServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    public EliminarProveedorServlet() {
+public class EliminarProveedorServlet extends HttpServlet {       
+    private static final long serialVersionUID = -1898149411785664838L;
+
+	public EliminarProveedorServlet() {
         super();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Cliente currentUser = (Cliente) request.getSession().getAttribute("cliente");
+		if (currentUser == null || !currentUser.isAdmin()) {
+			response.sendRedirect("iniciarSesion.jsp");
+			return;
+		}
+		
 		ABMCProveedor abmcProv = new ABMCProveedor();
 		try {
 			String cuit = request.getParameter("cuit");

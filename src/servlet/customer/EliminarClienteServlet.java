@@ -9,22 +9,33 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.Level;
 
+import entities.Cliente;
 import logic.ABMCCliente;
 import util.DoniaMaryException;
 
 @WebServlet("/EliminarClienteServlet")
 public class EliminarClienteServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    public EliminarClienteServlet() {
+	private static final long serialVersionUID = -9130385368814347350L;
+
+	public EliminarClienteServlet() {
         super();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ABMCCliente abmcc = new ABMCCliente();
+		Cliente currentUser = (Cliente) request.getSession().getAttribute("cliente");
+		if (currentUser == null || !currentUser.isAdmin()) {
+			response.sendRedirect("iniciarSesion.jsp");
+			return;
+		}
 		
+		String username = request.getParameter("username");
+		if (username == null) {
+			response.sendError(400, "Parameter 'username' is required");
+		}
+		
+		ABMCCliente abmcc = new ABMCCliente();
 		try {
-			abmcc.delete(abmcc.getOne(request.getParameter("username")));
+			abmcc.delete(abmcc.getOne(username));
 			response.sendRedirect("ListadoClientesServlet/todo");
 		} catch (DoniaMaryException e) {
 			response.sendRedirect("erorrPage.jsp?mensaje=" + e.getMessage());

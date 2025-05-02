@@ -10,14 +10,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import entities.Categoria;
+import entities.Cliente;
 import logic.ABMCCategoria;
 import util.DoniaMaryException;
 
 @WebServlet("/ModificarCategoriaServlet/*")
 public class ModificarCategoriaServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    public ModificarCategoriaServlet() {
+    private static final long serialVersionUID = 7744035676213866338L;
+
+	public ModificarCategoriaServlet() {
         super();
     }
 
@@ -41,6 +42,12 @@ public class ModificarCategoriaServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Cliente currentUser = (Cliente) request.getSession().getAttribute("cliente");
+		if (currentUser == null || !currentUser.isAdmin()) {
+			response.sendRedirect("iniciarSesion.jsp");
+			return;
+		}
+		
 		ABMCCategoria abmcC = new ABMCCategoria();
 		
 		Categoria category = null;

@@ -11,43 +11,50 @@ import entities.Cliente;
 import logic.ABMCCliente;
 import util.DoniaMaryException;
 
-@WebServlet("/EditarPerfilServlet/*")
+@WebServlet("/EditarPerfilServlet")
 public class EditarPerfilServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    public EditarPerfilServlet() {
+	private static final long serialVersionUID = 980833155648429900L;
+
+	public EditarPerfilServlet() {
         super();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ABMCCliente abmcc = new ABMCCliente();
-		
-		switch(request.getPathInfo()) {
-		case "/iniciarModificacion": 
-			request.getRequestDispatcher("../editarPerfil.jsp").forward(request, response);			
-			break;
-		case "/modificar":
-			try {
-				Cliente cliente= abmcc.getOne(request.getParameter("username"));
-
-				cliente.setNombre(request.getParameter("nombre"));
-				cliente.setApellido(request.getParameter("apellido"));
-				cliente.setDNI(request.getParameter("DNI"));
-				
-				abmcc.update(cliente);
-				request.setAttribute("cliModificado",cliente);
-				request.getRequestDispatcher("../editarPerfil.jsp").forward(request, response);;
-			} catch (DoniaMaryException e) {
-				response.sendRedirect("../errorPage.jsp?mensaje=" + e.getMessage());
-			}
-			break;
-		default:
-			throw new ServletException("Error en switch");
-		}
+		request.getRequestDispatcher("../editarPerfil.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.sendError(405, "Method not allowed");
+		Cliente currentUser = (Cliente) request.getSession().getAttribute("cliente");
+		if (currentUser == null) {
+			response.sendRedirect("iniciarSesion.jsp");
+			return;
+		}
+		
+		String username = request.getParameter("username");
+		if (username == null) {
+			response.sendError(400, "Parameter 'username' is required");
+			return;
+		}
+		
+		if (!username.equals(currentUser.getUsername())) {
+			response.sendError(403, "Access denied");
+			return;
+		}
+		
+		ABMCCliente abmcc = new ABMCCliente();
+		try {
+			Cliente cliente = abmcc.getOne(username);
+
+			cliente.setNombre(request.getParameter("nombre"));
+			cliente.setApellido(request.getParameter("apellido"));
+			cliente.setDNI(request.getParameter("DNI"));
+			
+			abmcc.update(cliente);
+			request.setAttribute("cliModificado",cliente);
+			request.getRequestDispatcher("../editarPerfil.jsp").forward(request, response);;
+		} catch (DoniaMaryException e) {
+			response.sendRedirect("../errorPage.jsp?mensaje=" + e.getMessage());
+		}
 	}
 
 }

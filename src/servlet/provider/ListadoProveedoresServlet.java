@@ -12,9 +12,9 @@ import util.DoniaMaryException;
 
 @WebServlet("/ListadoProveedoresServlet")
 public class ListadoProveedoresServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -4086216275109193528L;
 
-    public ListadoProveedoresServlet() {
+	public ListadoProveedoresServlet() {
         super();
     }
 

@@ -12,59 +12,58 @@ import logic.ABMCCliente;
 import util.DoniaMaryException;
 import util.MailSender;
 
-/**
- * Servlet implementation class RecuperarContraseniaServlet
- */
-@WebServlet("/RecuperarContraseniaServlet/*")
+
+@WebServlet("/RecuperarContraseniaServlet")
 public class RecuperarContraseniaServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public RecuperarContraseniaServlet() {
+    private static final long serialVersionUID = 3633515640833565638L;
+
+	public RecuperarContraseniaServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		MailSender mailSender;
+		ABMCCliente abmcCliente = new ABMCCliente();
+		
+		String username = request.getParameter("username");
+		if (username == null) {
+			response.sendError(400, "Parameter 'username' is required");
+			return;
+		}
+		
 		try {
 			mailSender = MailSender.getInstance();
-			ABMCCliente abmcCliente= new ABMCCliente();
-			Cliente cliente = abmcCliente.getOne(request.getParameter("username"));
+			Cliente customer = abmcCliente.getOne(username);
 			
-			switch(request.getPathInfo()) {
-			case "/iniciarRecuperacion":
-				int codigo = (int)(Math.random()*1000000);
-				//ver donde guardar codigo
-				mailSender.send("agustinablanco2524@gmail.com","Recuperar contraseÃ±a de DoÃ±a Mary Limpieza",
-						"su codigo para recuperar su cuenta es: "+codigo);
-				response.sendRedirect("../recuperarContrasenia.jsp");
-				break;
-			case "/verificarCodigo":
-				//recuperar codigo
-				int cod =Integer.parseInt(request.getParameter("codigo"));
-				//comparar
-				response.sendRedirect("../iniciarSesion.jsp");
-			default:
-			}
-		} catch (DoniaMaryException e) {
-			// TODO Auto-generated catch block
-			response.sendRedirect("../errorPage.jsp?mensaje="+e.getMessage());
+			int codigo = (int) (Math.random()*1000000);
+			// save code somewhere accessible
+			mailSender.send(
+				customer.getEmail()
+				,"Recuperar contraseña de Doña Mary Limpieza"
+				,"su codigo para recuperar su cuenta es: " + codigo
+			);
+			response.sendRedirect("recuperarContrasenia.jsp");
+		}
+		catch (DoniaMaryException e) {
+			response.sendRedirect("errorPage.jsp?mensaje=" + e.getMessage());
 		}
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		String codeParam = request.getParameter("codigo");
+		if (codeParam == null) {
+			response.sendError(400, "Parameter 'code' is required");
+			return;
+		}
+		
+		try {
+			int code = Integer.parseInt(codeParam);
+			System.out.println(code);
+			response.sendRedirect("iniciarSesion.jsp");
+		}
+		catch (NumberFormatException e) {
+			response.sendRedirect("errorPage.jsp?mensaje=invalid%20code");
+		}
 	}
 
 }

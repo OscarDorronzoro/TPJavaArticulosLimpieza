@@ -15,8 +15,9 @@ import javax.servlet.http.Part;
 
 import org.apache.logging.log4j.Level;
 
-import entities.Articulo;
+import entities.Article;
 import entities.Categoria;
+import entities.Cliente;
 import entities.Precio;
 import logic.ABMCArticulo;
 import logic.ABMCCategoria;
@@ -29,9 +30,9 @@ import util.DoniaMaryException;
         maxRequestSize      = 1024 * 1024 * 15 // 15 MB
 )
 public class ModificarArticuloServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -5631803109079992020L;
 
-    public ModificarArticuloServlet() {
+	public ModificarArticuloServlet() {
         super();
     }
 
@@ -70,6 +71,12 @@ public class ModificarArticuloServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Cliente currentUser = (Cliente) request.getSession().getAttribute("cliente");
+		if (currentUser == null || !currentUser.isAdmin()) {
+			response.sendRedirect("iniciarSesion.jsp");
+			return;
+		}
+		
 		ABMCArticulo abmcA = new ABMCArticulo();
 		
 		String pathInfo = request.getPathInfo();
@@ -81,7 +88,7 @@ public class ModificarArticuloServlet extends HttpServlet {
 		switch (pathInfo) {
 			case "/Cargado":
 				int codArticulo = Integer.parseInt(request.getParameter("codArticulo"));
-				Articulo articulo = null;
+				Article articulo = null;
 				
 				String imageUrl;
 				try {

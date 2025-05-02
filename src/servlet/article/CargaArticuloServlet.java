@@ -13,7 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
-import entities.Articulo;
+import entities.Article;
+import entities.Cliente;
 import entities.Precio;
 import logic.ABMCArticulo;
 import logic.ABMCCategoria;
@@ -45,10 +46,16 @@ public class CargaArticuloServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Cliente currentUser = (Cliente) request.getSession().getAttribute("cliente");
+		if (currentUser == null || !currentUser.isAdmin()) {
+			response.sendRedirect("iniciarSesion.jsp");
+			return;
+		}
+		
 		ABMCArticulo abmcA = new ABMCArticulo();
 		ABMCCategoria abmcC = new ABMCCategoria();
 		
-		Articulo articulo = new Articulo();
+		Article articulo = new Article();
 		
 		String description = request.getParameter("descripcion");
 		if (description == null) {

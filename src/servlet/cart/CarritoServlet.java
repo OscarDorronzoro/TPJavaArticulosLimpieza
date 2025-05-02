@@ -26,17 +26,16 @@ import util.DoniaMaryException;
 	}
 )
 public class CarritoServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    public CarritoServlet() {
+	private static final long serialVersionUID = 8307507319355858964L;
+
+	public CarritoServlet() {
         super();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		Cliente customer = (Cliente) request.getSession().getAttribute("cliente");
-		
 		if (customer == null) {
-			response.sendRedirect("../iniciarSesion.jsp");
+			response.sendRedirect("/TP_Articulos_Limpieza/iniciarSesion.jsp");
 			return;
 		}
 		
@@ -46,7 +45,7 @@ public class CarritoServlet extends HttpServlet {
 		switch (servletPath) {
 		case "/CarritoServlet":
 			response.sendRedirect("CarritoServlet/currentPurchase");
-			break;
+			return;
 		case "/CarritoServlet/currentPurchase":
 			cartType = "currentPurchase";
 			break;
@@ -71,14 +70,13 @@ public class CarritoServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Cliente cliente = (Cliente) request.getSession().getAttribute("cliente");
-		
-		if (cliente == null) {
-			response.sendRedirect("iniciarSesion.jsp");
+		Cliente currentUser = (Cliente) request.getSession().getAttribute("cliente");
+		if (currentUser == null) {
+			response.sendRedirect("/TP_Articulos_Limpieza/iniciarSesion.jsp");
 			return;
 		}
 		
-		ABMCLineaCarrito abmcLinea = new ABMCLineaCarrito(cliente);
+		ABMCLineaCarrito abmcLinea = new ABMCLineaCarrito(currentUser);
 		ABMCArticulo articuloLogic = new ABMCArticulo();
 		Linea linea = new Linea();
 		
@@ -103,7 +101,7 @@ public class CarritoServlet extends HttpServlet {
 			
 			linea.setCantidad(amount);
 			linea.setArticulo(articuloLogic.getOne(Integer.parseInt(articleCode)));
-			ArrayList<Linea> lineas = cliente.getMiCarrito().getLineas();
+			ArrayList<Linea> lineas = currentUser.getMiCarrito().getLineas();
 			
 			if (lineas.contains(linea)) { // equals overwritten
 				int index = lineas.indexOf(linea);
@@ -116,7 +114,7 @@ public class CarritoServlet extends HttpServlet {
 			}
 			
 			if (request.getParameter("comprar") != null) {
-				response.sendRedirect("CarritoServlet");
+				response.sendRedirect("CarritoServlet/currentPurchase");
 				return;
 			}
 			response.sendRedirect("BusquedaServlet");

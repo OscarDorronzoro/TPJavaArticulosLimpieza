@@ -14,9 +14,9 @@ import util.DoniaMaryException;
 
 @WebServlet("/ModificarClienteServlet")
 public class ModificarClienteServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    public ModificarClienteServlet() {
+	private static final long serialVersionUID = -8755376592525064933L;
+
+	public ModificarClienteServlet() {
         super();
     }
 
@@ -39,15 +39,23 @@ public class ModificarClienteServlet extends HttpServlet {
 		}
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Cliente currentUser = (Cliente) request.getSession().getAttribute("cliente");
+		if (currentUser == null) {
+			response.sendRedirect("iniciarSesion.jsp");
+			return;
+		}
+		
 		ABMCCliente abmcc = new ABMCCliente();
 		
 		String username = request.getParameter("username");
 		if (username == null) {
 			response.sendError(400, "username parameter is required");
+			return;
+		}
+		
+		if (!username.equals(currentUser.getUsername()) && !currentUser.isAdmin()) {
+			response.sendError(403, "Access denied");
 			return;
 		}
 		

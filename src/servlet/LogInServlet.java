@@ -15,9 +15,9 @@ import util.DoniaMaryException;
 
 @WebServlet("/LogInServlet")
 public class LogInServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    public LogInServlet() {
+	private static final long serialVersionUID = -1155730169295319217L;
+
+	public LogInServlet() {
         super();
     }
 
@@ -26,15 +26,27 @@ public class LogInServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Cliente cliente = new Cliente();
-
-		cliente.setUsername(request.getParameter("username"));
-		cliente.setPassword(request.getParameter("password"));
+		String username = request.getParameter("username");
+		if (username == null) {
+			response.sendError(400, "Parameter 'username' is required");
+			return;
+		}
 		
-		ABMCCliente abmcc=new ABMCCliente();
+		String password = request.getParameter("password");
+		if (password == null) {
+			response.sendError(400, "Parameter 'password' is required");
+			return;
+		}
+		
+		Cliente customer = new Cliente();
+
+		customer.setUsername(username);
+		customer.setPassword(password);
+		
+		ABMCCliente abmcc = new ABMCCliente();
 		try {
-			abmcc.completarCliente(cliente);		
-			request.getSession().setAttribute("cliente", cliente);
+			abmcc.completeCustomer(customer);		
+			request.getSession().setAttribute("cliente", customer);
 			
 			String paginaARedirigir = request.getParameter("pagina");
 			if (paginaARedirigir == null) {

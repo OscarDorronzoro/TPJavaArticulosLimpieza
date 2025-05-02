@@ -8,18 +8,25 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import entities.Cliente;
 import logic.ABMCCliente;
 import util.DoniaMaryException;
 
 @WebServlet("/ListadoClientesServlet/*")
 public class ListadoClientesServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    public ListadoClientesServlet() {
+	private static final long serialVersionUID = 4036022406348969830L;
+
+	public ListadoClientesServlet() {
         super();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Cliente currentUser = (Cliente) request.getSession().getAttribute("cliente");
+		if (currentUser == null || !currentUser.isAdmin()) {
+			response.sendRedirect("iniciarSesion.jsp");
+			return;
+		}
+		
 		ABMCCliente abmcC = new ABMCCliente();
 		
 		String pathInfo = request.getPathInfo();
@@ -34,6 +41,7 @@ public class ListadoClientesServlet extends HttpServlet {
 					break;
 				case "/noadmin": request.setAttribute("clientes", abmcC.getAllByAdmin(false));
 					break;
+				case "/todo":
 				default: request.setAttribute("clientes", abmcC.getAll());
 					break;
 			}

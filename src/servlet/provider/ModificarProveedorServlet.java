@@ -8,15 +8,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import entities.Cliente;
 import entities.Proveedor;
 import logic.ABMCProveedor;
 import util.DoniaMaryException;
 
 @WebServlet("/ModificarProveedorServlet")
 public class ModificarProveedorServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    public ModificarProveedorServlet() {
+	private static final long serialVersionUID = 3172224969569056327L;
+
+	public ModificarProveedorServlet() {
         super();
     }
 
@@ -34,12 +35,19 @@ public class ModificarProveedorServlet extends HttpServlet {
 			provider = abmcP.getOne(cuit);
 			request.setAttribute("provider", provider);
 			request.getRequestDispatcher("/WEB-INF/modificarProveedor.jsp").forward(request, response);
-		} catch (DoniaMaryException e) {
+		}
+		catch (DoniaMaryException e) {
 			response.sendRedirect("errorPage.jsp?mensaje=" + e.getMessage());
 		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Cliente currentUser = (Cliente) request.getSession().getAttribute("cliente");
+		if (currentUser == null || !currentUser.isAdmin()) {
+			response.sendRedirect("iniciarSesion.jsp");
+			return;
+		}
+		
 		ABMCProveedor abmcP = new ABMCProveedor();
 		
 		String cuit = request.getParameter("cuit");
