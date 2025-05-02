@@ -3,12 +3,8 @@ package util;
 import org.apache.logging.log4j.Level;
 
 public class PriceException extends DoniaMaryException {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
+	private static final long serialVersionUID = -3974172753677982988L;
+	
 	public PriceException(String message) {
 		super(message);
 	}

@@ -3,12 +3,8 @@ package util;
 import org.apache.logging.log4j.Level;
 
 public class CartLineException extends DoniaMaryException {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
+	private static final long serialVersionUID = -8681629661917120287L;
+	
 	public CartLineException(String message) {
 		super(message);
 	}

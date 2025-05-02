@@ -3,12 +3,8 @@ package util;
 import org.apache.logging.log4j.Level;
 
 public class ArticleException extends DoniaMaryException {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
+	private static final long serialVersionUID = 3829723442402533520L;
+	
 	public ArticleException(String message) {
 		super(message);
 	}

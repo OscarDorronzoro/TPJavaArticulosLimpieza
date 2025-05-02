@@ -3,11 +3,7 @@ package util;
 import org.apache.logging.log4j.Level;
 
 public class MailSendException extends DoniaMaryException {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -8656950274392201478L;
 	
 	public MailSendException(String message) {
 		super(message);

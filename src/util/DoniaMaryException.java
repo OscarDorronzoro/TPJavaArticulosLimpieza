@@ -8,9 +8,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class DoniaMaryException extends Exception {
+	private static final long serialVersionUID = -3976907145340633495L;
 
-	private static final long serialVersionUID = 1L;
-	
 	public DoniaMaryException(String message) {
 		super(message);
 	}

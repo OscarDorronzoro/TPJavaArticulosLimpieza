@@ -3,11 +3,7 @@ package util;
 import org.apache.logging.log4j.Level;
 
 public class SaleLineException extends DoniaMaryException {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 7709605146424821319L;
 	
 	public SaleLineException(String message) {
 		super(message);
