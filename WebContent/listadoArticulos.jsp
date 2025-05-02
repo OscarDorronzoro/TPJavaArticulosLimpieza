@@ -78,7 +78,7 @@
 									<ul class="list-unstyled">							
 										<li class="atributo-link">Description: <%=art.getDescripcion()%></li>
 										<li>Stock: <%=art.getStock()%></li>
-										<li>price: $<%=art.getPrecio().getValor()%></li>
+										<li>Price: $<%=art.getPrecio().getValor()%></li>
 									</ul>
 								</div>
 								<div class="col-xs-6 col-md-4">
@@ -90,8 +90,8 @@
 												<input name="amount" class="form-control" size=2px>
 											</div>
 											<div class="form-group">
-												<input type="submit" value="Comprar" name="comprar" class="btn btn-success btn-block">
-												<input type="submit" value="Añadir al carrito" name="carrito" class="btn btn-success btn-block">
+												<input type="submit" value="Buy" name="comprar" class="btn btn-success btn-block">
+												<input type="submit" value="Add to cart" name="carrito" class="btn btn-success btn-block">
 											</div>
 										</form>
 										<br>
