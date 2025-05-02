@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import org.apache.logging.log4j.Level;
 
-import entities.Categoria;
+import entities.Category;
 
 import util.CategoryException;
 import util.DBException;
@@ -16,7 +16,7 @@ import util.DBException;
 
 public class CategoriaData {
 
-	public void add(Categoria c) throws CategoryException {
+	public void add(Category c) throws CategoryException {
 		PreparedStatement stmt = null;
 		
 		try {
@@ -51,9 +51,9 @@ public class CategoriaData {
 		
 	}
 	
-	public Categoria getOne(String nombre) throws CategoryException {
+	public Category getOne(String nombre) throws CategoryException {
 		
-		Categoria c = null;
+		Category c = null;
 		ResultSet rs = null;
 		PreparedStatement stmt = null;
 		
@@ -65,7 +65,7 @@ public class CategoriaData {
 			rs=stmt.executeQuery();
 			
 			if (rs != null && rs.next()) {
-					c = new Categoria();
+					c = new Category();
 					
 					c.setNombre(rs.getString("name"));
 					c.setDescripcion(rs.getString("description"));
@@ -98,8 +98,8 @@ public class CategoriaData {
 		return c;
 	}
 	
-	public ArrayList<Categoria> getAll() throws CategoryException{
-		ArrayList<Categoria> categorias = new ArrayList<Categoria>();
+	public ArrayList<Category> getAll() throws CategoryException{
+		ArrayList<Category> categorias = new ArrayList<Category>();
 		ResultSet rs = null;
 		Statement stmt = null;
 		
@@ -109,7 +109,7 @@ public class CategoriaData {
 			
 			if (rs != null) {
 				while (rs.next()) {
-					Categoria c = new Categoria();
+					Category c = new Category();
 					
 					c.setNombre(rs.getString("name"));
 					c.setDescripcion(rs.getString("description"));
@@ -145,7 +145,7 @@ public class CategoriaData {
 		return categorias;
 	}
 		
-	public void update(Categoria categoria) throws CategoryException {
+	public void update(Category categoria) throws CategoryException {
 		
 		PreparedStatement stmt = null;
 		

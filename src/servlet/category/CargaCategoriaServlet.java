@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import entities.Categoria;
-import entities.Cliente;
+import entities.Category;
+import entities.Customer;
 import logic.ABMCCategoria;
 import util.DoniaMaryException;
 
@@ -25,14 +25,14 @@ public class CargaCategoriaServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Cliente currentUser = (Cliente) request.getSession().getAttribute("cliente");
+		Customer currentUser = (Customer) request.getSession().getAttribute("cliente");
 		if (currentUser == null || !currentUser.isAdmin()) {
 			response.sendRedirect("iniciarSesion.jsp");
 			return;
 		}
 		
 		ABMCCategoria abmcC = new ABMCCategoria();
-		Categoria cat = new Categoria();
+		Category cat = new Category();
 		
 		String name = request.getParameter("nombre");
 		if (name == null) {

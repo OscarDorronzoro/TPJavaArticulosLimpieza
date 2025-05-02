@@ -9,13 +9,13 @@ import java.util.ArrayList;
 
 import org.apache.logging.log4j.Level;
 
-import entities.Proveedor;
+import entities.Provider;
 import util.DBException;
 import util.ProviderException;
 
 public class ProveedorData {
 
-	public void add(Proveedor prov) throws ProviderException {
+	public void add(Provider prov) throws ProviderException {
 		PreparedStatement stmt=null;
 		
 		try {
@@ -54,9 +54,9 @@ public class ProveedorData {
 		}
 	}
 	
-	public Proveedor getOne(String cuit) throws ProviderException {
+	public Provider getOne(String cuit) throws ProviderException {
 		
-		Proveedor prov = null;
+		Provider prov = null;
 		ResultSet rs = null;
 		PreparedStatement stmt = null;
 		
@@ -67,7 +67,7 @@ public class ProveedorData {
 			
 			rs = stmt.executeQuery();
 			if (rs != null && rs.next()) {
-					prov = new Proveedor();
+					prov = new Provider();
 					
 					prov.setCuit(rs.getString("cuit"));
 					prov.setDireccion(rs.getString("address"));
@@ -103,9 +103,9 @@ public class ProveedorData {
 		return prov;
 	}
 	
-	public ArrayList<Proveedor> getAll() throws ProviderException{
+	public ArrayList<Provider> getAll() throws ProviderException{
 		
-		ArrayList<Proveedor> proveedores = new ArrayList<Proveedor>();
+		ArrayList<Provider> proveedores = new ArrayList<Provider>();
 		ResultSet rs = null;
 		Statement stmt = null;
 		
@@ -115,7 +115,7 @@ public class ProveedorData {
 			
 			if (rs != null) {
 				while (rs.next()) {
-					Proveedor prov=new Proveedor();
+					Provider prov=new Provider();
 					
 					prov.setCuit(rs.getString("cuit"));
 					prov.setDireccion(rs.getString("address"));
@@ -154,9 +154,9 @@ public class ProveedorData {
 		return proveedores;
 	}
 	
-	public ArrayList<Proveedor> getAllByArticle(int articleCode) throws ProviderException{
+	public ArrayList<Provider> getAllByArticle(int articleCode) throws ProviderException{
 		
-		ArrayList<Proveedor> proveedores = new ArrayList<Proveedor>();
+		ArrayList<Provider> proveedores = new ArrayList<Provider>();
 		ResultSet rs = null;
 		PreparedStatement stmt = null;
 		
@@ -171,7 +171,7 @@ public class ProveedorData {
 			rs = stmt.executeQuery();
 			if (rs != null) {
 				while (rs.next()) {
-					Proveedor prov=new Proveedor();
+					Provider prov=new Provider();
 					
 					prov.setCuit(rs.getString("cuit"));
 					prov.setDireccion(rs.getString("address"));
@@ -210,7 +210,7 @@ public class ProveedorData {
 		return proveedores;
 	}
 
-	public void update(Proveedor proveedor) throws ProviderException {
+	public void update(Provider proveedor) throws ProviderException {
 		PreparedStatement stmt = null;
 		
 		try {

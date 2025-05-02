@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 import org.apache.logging.log4j.Level;
 
-import entities.Linea;
-import entities.Venta;
+import entities.Line;
+import entities.Sale;
 
 import util.CustomerException;
 import util.DBException;
@@ -37,7 +37,7 @@ public class VentaData {
 		return Timestamp.valueOf(javaDatetime);
 	}
 	
-	public void add(Venta venta) throws SaleException
+	public void add(Sale venta) throws SaleException
 	{
 		PreparedStatement stmt = null;
 		Statement transaccion = null;
@@ -66,7 +66,7 @@ public class VentaData {
 				venta.setNroVenta(primaryKey.getInt(1));
 			}
 			
-			for (Linea linea : venta.getLineas()) {
+			for (Line linea : venta.getLineas()) {
 				lineaVentaData.add(linea, venta.getNroVenta());
 			}	
 			
@@ -104,10 +104,10 @@ public class VentaData {
 		 }		
 	}
 	
-	public Venta getOne(int saleNumber) throws SaleException {
+	public Sale getOne(int saleNumber) throws SaleException {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		Venta venta = null;
+		Sale venta = null;
 		
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
@@ -118,7 +118,7 @@ public class VentaData {
 			rs = stmt.executeQuery();
 			if (rs != null && rs.next())
 			{
-				venta = new Venta();
+				venta = new Sale();
 				venta.setfCancelacion(this.toLocalDateTime(rs.getTimestamp("cancellation_date")));
 				venta.setfEmision(this.toLocalDateTime(rs.getTimestamp("emission_date")));
 				venta.setfPago(this.toLocalDateTime(rs.getTimestamp("payment_date")));
@@ -166,8 +166,8 @@ public class VentaData {
 		return venta;
 	}
 	
-	public ArrayList<Venta> getAll() throws SaleException {
-		ArrayList<Venta> ventas = new ArrayList<Venta>();
+	public ArrayList<Sale> getAll() throws SaleException {
+		ArrayList<Sale> ventas = new ArrayList<Sale>();
 		ResultSet rs = null;
 		Statement stmt = null;
 		
@@ -177,7 +177,7 @@ public class VentaData {
 			
 			if (rs != null) {
 				while (rs.next()) {
-					Venta venta = new Venta();
+					Sale venta = new Sale();
 					
 					venta.setNroVenta(rs.getInt("sale_number"));
 					venta.setfEmision(this.toLocalDateTime(rs.getTimestamp("emission_date")));
@@ -226,8 +226,8 @@ public class VentaData {
 		return ventas;
 	}
 		
-	public ArrayList<Venta> getAllPendingByCustomer(String username) throws SaleException	{
-		ArrayList<Venta> ventas = null;
+	public ArrayList<Sale> getAllPendingByCustomer(String username) throws SaleException	{
+		ArrayList<Sale> ventas = null;
 		ResultSet rs = null;
 		PreparedStatement stmt = null;
 		
@@ -247,10 +247,10 @@ public class VentaData {
 			
 			rs = stmt.executeQuery();
 			if (rs != null) {
-				ventas = new ArrayList<Venta>();
+				ventas = new ArrayList<Sale>();
 				
 				while (rs.next()) {
-					Venta venta= new Venta();
+					Sale venta= new Sale();
 					
 					venta.setfCancelacion(this.toLocalDateTime(rs.getTimestamp("cancellation_date")));
 					venta.setfEmision(this.toLocalDateTime(rs.getTimestamp("emission_date")));
@@ -299,8 +299,8 @@ public class VentaData {
 		return ventas;
 	}
 	
-	public ArrayList<Venta> getAllCompletedByCustomer(String username) throws SaleException	{
-		ArrayList<Venta> ventas = null;
+	public ArrayList<Sale> getAllCompletedByCustomer(String username) throws SaleException	{
+		ArrayList<Sale> ventas = null;
 		ResultSet rs = null;
 		PreparedStatement stmt = null;
 		
@@ -323,10 +323,10 @@ public class VentaData {
 			
 			rs = stmt.executeQuery();
 			if (rs != null) {
-				ventas = new ArrayList<Venta>();
+				ventas = new ArrayList<Sale>();
 				
 				while (rs.next()) {
-					Venta venta= new Venta();
+					Sale venta= new Sale();
 					
 					venta.setfCancelacion(this.toLocalDateTime(rs.getTimestamp("cancellation_date")));
 					venta.setfEmision(this.toLocalDateTime(rs.getTimestamp("emission_date")));
@@ -374,7 +374,7 @@ public class VentaData {
 		return ventas;
 	}
 	
-	public void update(Venta sale) throws SaleException {
+	public void update(Sale sale) throws SaleException {
 		
 		PreparedStatement stmt = null;
 		
@@ -414,7 +414,7 @@ public class VentaData {
 		}
 	}
 	
-	public void delete(Venta sale) throws SaleException {
+	public void delete(Sale sale) throws SaleException {
 		
 		PreparedStatement stmt = null;
 		
@@ -423,7 +423,7 @@ public class VentaData {
 				"delete from sales where sale_number=?");
 			stmt.setInt(1, sale.getNroVenta());
 			
-			for (Linea sellLine : sale.getLineas()) {
+			for (Line sellLine : sale.getLineas()) {
 				lineaVentaData.delete(sale.getNroVenta(), sellLine);
 			}
 			

@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.time.LocalDateTime;
 
 import data.VentaData;
-import entities.Carrito;
-import entities.Linea;
-import entities.Venta;
+import entities.Cart;
+import entities.Line;
+import entities.Sale;
 import util.CartException;
 import util.CartLineException;
 import util.SaleException;
@@ -17,15 +17,15 @@ public class ABMCVenta {
 	private VentaData ventaData = new VentaData();
 
 	@SuppressWarnings("unchecked")
-	public void registerSale(Venta sale) throws SaleException, CartException, CartLineException {
+	public void registerSale(Sale sale) throws SaleException, CartException, CartLineException {
 		ABMCLineaCarrito abmcLineaCarrito = new ABMCLineaCarrito(sale.getCliente());
-		Carrito cart = sale.getCliente().getMiCarrito();
+		Cart cart = sale.getCliente().getMiCarrito();
 		
 		// Cart to Sale
-		sale.setLineas((ArrayList<Linea>) (cart.getLineas().clone()));
+		sale.setLineas((ArrayList<Line>) (cart.getLineas().clone()));
 		
 		// Empty cart on memory
-		cart.setLineas(new ArrayList<Linea>());
+		cart.setLineas(new ArrayList<Line>());
 		
 		sale.setfEmision(LocalDateTime.now());
 		ventaData.add(sale);
@@ -34,31 +34,31 @@ public class ABMCVenta {
 		abmcLineaCarrito.deleteAllByCart();
 	}
 	
-	public ArrayList<Venta> getAll() throws SaleException {
+	public ArrayList<Sale> getAll() throws SaleException {
 		return ventaData.getAll();
 	}
 	
-	public Venta getOne(int nroVenta) throws SaleException {
+	public Sale getOne(int nroVenta) throws SaleException {
 		return ventaData.getOne(nroVenta);
 	}
 	
-	public ArrayList<Venta> getAllPendingByCustomer(String username) throws SaleException {
+	public ArrayList<Sale> getAllPendingByCustomer(String username) throws SaleException {
 		return ventaData.getAllPendingByCustomer(username);	
 	}
 
-	public ArrayList<Venta> getAllCompletedByCustomer(String username) throws SaleException {
+	public ArrayList<Sale> getAllCompletedByCustomer(String username) throws SaleException {
 		return ventaData.getAllCompletedByCustomer(username);	
 	}
 	
-	public void add(Venta venta) throws SaleException {
+	public void add(Sale venta) throws SaleException {
 		ventaData.add(venta);
 	}
 	
-	public void delete(Venta venta) throws SaleException {
+	public void delete(Sale venta) throws SaleException {
 		ventaData.delete(venta);
 	}
 	
-	public void update(Venta venta) throws SaleException {
+	public void update(Sale venta) throws SaleException {
 		ventaData.update(venta);
 	}
 }

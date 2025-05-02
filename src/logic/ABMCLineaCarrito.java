@@ -3,25 +3,25 @@ package logic;
 import java.util.ArrayList;
 
 import data.LineaCarritoData;
-import entities.Linea;
+import entities.Line;
 import util.CartLineException;
-import entities.Carrito;
-import entities.Cliente;
+import entities.Cart;
+import entities.Customer;
 
 public class ABMCLineaCarrito {
 	
 	private LineaCarritoData lineaCarritoData;
-	private Carrito cart;
-	private Cliente customer;
+	private Cart cart;
+	private Customer customer;
 	
-	public ABMCLineaCarrito(Cliente customer) {
+	public ABMCLineaCarrito(Customer customer) {
 		this.setLineaCarritoData(new LineaCarritoData());
 		this.setCart(customer.getMiCarrito());
 		this.setCustomer(customer);
 		
 	}
 	
-	public ABMCLineaCarrito(Cliente cliente, Carrito carrito) {
+	public ABMCLineaCarrito(Customer cliente, Cart carrito) {
 		this.setLineaCarritoData(new LineaCarritoData());
 		this.setCart(carrito);
 		this.setCustomer(cliente);
@@ -36,34 +36,34 @@ public class ABMCLineaCarrito {
 		return this.lineaCarritoData;
 	}
 	
-	public void setCart(Carrito cart) {
+	public void setCart(Cart cart) {
 		this.cart = cart;
 	}
-	public Carrito getCart() {
+	public Cart getCart() {
 		return this.cart;
 	}
 	
-	public void setCustomer(Cliente customer) {
+	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
-	public Cliente getCustomer() {
+	public Customer getCustomer() {
 		return this.customer;
 	}
 	
 	// Persistence
-	public void add(Linea linea) throws CartLineException {
+	public void add(Line linea) throws CartLineException {
 		this.getLineaCarritoData().add(linea, this.getCart().getNombre(), this.getCustomer().getUsername());
 	}
 	
-	public void update(Linea linea) throws CartLineException {
+	public void update(Line linea) throws CartLineException {
 		this.getLineaCarritoData().update(linea, this.getCart().getNombre(), this.getCustomer().getUsername());
 	}
 	
-	public Linea getOne(int codArticulo) throws CartLineException {
+	public Line getOne(int codArticulo) throws CartLineException {
 		return this.getLineaCarritoData().getOne(this.getCart().getNombre(), this.getCustomer().getUsername(), codArticulo);
 	}
 	
-	public ArrayList<Linea> getAllByCart() throws CartLineException {
+	public ArrayList<Line> getAllByCart() throws CartLineException {
 		return this.getLineaCarritoData().getAllByCart(this.getCart().getNombre(), this.getCustomer().getUsername());
 	}
 	

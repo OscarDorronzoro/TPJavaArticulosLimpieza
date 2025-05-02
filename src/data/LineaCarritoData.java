@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import org.apache.logging.log4j.Level;
 
-import entities.Linea;
+import entities.Line;
 
 import util.ArticleException;
 import util.CartLineException;
@@ -16,7 +16,7 @@ import util.ProviderException;
 
 public class LineaCarritoData extends LineaData {
 	
-	public void add(Linea linea, String nombreCarrito, String username) throws CartLineException {
+	public void add(Line linea, String nombreCarrito, String username) throws CartLineException {
 		PreparedStatement stmt = null;
 			
 		try {
@@ -57,8 +57,8 @@ public class LineaCarritoData extends LineaData {
 		
 	}
 	
-	public Linea getOne(String nombreCarrito, String username, int codArticulo) throws CartLineException {
-		Linea linea = null;
+	public Line getOne(String nombreCarrito, String username, int codArticulo) throws CartLineException {
+		Line linea = null;
 		ResultSet rs = null;
 		PreparedStatement stmt = null;
 		
@@ -74,7 +74,7 @@ public class LineaCarritoData extends LineaData {
 			rs = stmt.executeQuery();
 			
 			if (rs != null && rs.next()) {
-					linea = new Linea();
+					linea = new Line();
 					
 					linea.setArticulo(this.getArticuloData().getOne(rs.getInt("article_code")));
 					linea.setCantidad(rs.getInt("amount"));
@@ -114,8 +114,8 @@ public class LineaCarritoData extends LineaData {
 		return linea;
 	}
 	
-	public ArrayList<Linea> getAllByCart(String cartName, String username) throws CartLineException {
-		ArrayList<Linea> lineas = new ArrayList<Linea>();
+	public ArrayList<Line> getAllByCart(String cartName, String username) throws CartLineException {
+		ArrayList<Line> lineas = new ArrayList<Line>();
 		ResultSet rs = null;
 		PreparedStatement stmt = null;
 		
@@ -130,7 +130,7 @@ public class LineaCarritoData extends LineaData {
 			
 			if (rs != null) {
 				while (rs.next()) {
-					Linea linea = new Linea();
+					Line linea = new Line();
 					
 					linea.setArticulo(this.getArticuloData().getOne(rs.getInt("article_code")));
 					linea.setCantidad(rs.getInt("amount"));
@@ -173,7 +173,7 @@ public class LineaCarritoData extends LineaData {
 		return lineas;
 	}
 	
-	public void update(Linea linea, String nombreCarrito, String username) throws CartLineException {
+	public void update(Line linea, String nombreCarrito, String username) throws CartLineException {
 		PreparedStatement stmt = null;
 
 		try {

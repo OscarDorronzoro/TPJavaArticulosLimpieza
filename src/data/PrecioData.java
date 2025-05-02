@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import org.apache.logging.log4j.Level;
 
-import entities.Precio;
+import entities.Price;
 import util.DBException;
 import util.PriceException;
 
@@ -29,7 +29,7 @@ public class PrecioData {
 		return Timestamp.valueOf(javaDatetime);
 	}
 	
-	public void add(Precio precio,int codArticulo) throws PriceException {
+	public void add(Price precio,int codArticulo) throws PriceException {
 		PreparedStatement stmt=null;
 		
 		try {
@@ -66,11 +66,11 @@ public class PrecioData {
 		
 	}
 	
-	public Precio getCurrentPrice(int articleCode) throws PriceException {
+	public Price getCurrentPrice(int articleCode) throws PriceException {
 		
 		ResultSet rs = null;
 		PreparedStatement stmt = null;
-		Precio precio = null;
+		Price precio = null;
 		
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
@@ -89,7 +89,7 @@ public class PrecioData {
 			rs = stmt.executeQuery();
 			
 			if (rs != null && rs.next()) {
-					precio = new Precio();
+					precio = new Price();
 					
 					precio.setFechaDesde(this.toLocalDateTime(rs.getTimestamp("date_from")));
 					precio.setValor(rs.getDouble("price"));
@@ -122,9 +122,9 @@ public class PrecioData {
 		return precio;
 	}
 	
-	public ArrayList<Precio> getAll(int codArticulo) throws PriceException{
+	public ArrayList<Price> getAll(int codArticulo) throws PriceException{
 		
-		ArrayList<Precio> precios = new ArrayList<Precio>();
+		ArrayList<Price> precios = new ArrayList<Price>();
 		ResultSet rs=null;
 		PreparedStatement stmt=null;
 		
@@ -137,7 +137,7 @@ public class PrecioData {
 			rs = stmt.executeQuery();
 			if (rs != null) {
 				while (rs.next()) {
-					Precio precio = new Precio();
+					Price precio = new Price();
 					
 					precio.setFechaDesde(this.toLocalDateTime(rs.getTimestamp("date_from")));
 					precio.setValor(rs.getDouble("price"));
@@ -173,7 +173,7 @@ public class PrecioData {
 		return precios;
 	}
 	
-	public void update(Precio price, int articleCode) throws PriceException {
+	public void update(Price price, int articleCode) throws PriceException {
 		
 		PreparedStatement stmt = null;
 		

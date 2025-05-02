@@ -3,22 +3,22 @@ package logic;
 import java.util.ArrayList;
 
 import data.CategoriaData;
-import entities.Categoria;
+import entities.Category;
 import util.CategoryException;
 
 public class ABMCCategoria {
 
 	private CategoriaData categoriaData = new CategoriaData();
 	
-	public void add(Categoria category) throws CategoryException{
+	public void add(Category category) throws CategoryException{
 		this.categoriaData.add(category);
 	}
 	
-	public ArrayList<Categoria> getAll() throws CategoryException{
+	public ArrayList<Category> getAll() throws CategoryException{
 		return this.categoriaData.getAll();
 	}
 	 
-	public  Categoria getOne(String name) throws CategoryException {		
+	public  Category getOne(String name) throws CategoryException {		
 		return this.categoriaData.getOne(name);
 	}
 
@@ -26,7 +26,7 @@ public class ABMCCategoria {
 		this.categoriaData.delete(name);
 	}
 	
-	public void update(Categoria category) throws CategoryException{
+	public void update(Category category) throws CategoryException{
 		this.categoriaData.update(category);
 	}
 }

@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 
 
-import entities.Cliente;
-import entities.Linea;
+import entities.Customer;
+import entities.Line;
 import logic.ABMCLineaCarrito;
 import util.DoniaMaryException;
 
@@ -29,7 +29,7 @@ public class ModificarCarritoServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Cliente currentUser = (Cliente) request.getSession().getAttribute("cliente");
+		Customer currentUser = (Customer) request.getSession().getAttribute("cliente");
 		if (currentUser == null) {
 			response.sendRedirect("iniciarSesion.jsp");
 			return;
@@ -51,11 +51,11 @@ public class ModificarCarritoServlet extends HttpServlet {
 		
 		try {
 			int articleCode = Integer.parseInt(articleCodeParam);
-			Linea originalCartLine = abmcLinea.getOne(articleCode);
+			Line originalCartLine = abmcLinea.getOne(articleCode);
 			
 			int cartLineIndexOnCustomerCart = currentUser.getMiCarrito().getLineas().indexOf(originalCartLine);
 			// Update cart line on memory
-			Linea currentCartLine = currentUser.getMiCarrito().getLineas().get(cartLineIndexOnCustomerCart);
+			Line currentCartLine = currentUser.getMiCarrito().getLineas().get(cartLineIndexOnCustomerCart);
 			currentCartLine.setCantidad(Integer.parseInt(amount));
 			
 			// Update cart line on DB

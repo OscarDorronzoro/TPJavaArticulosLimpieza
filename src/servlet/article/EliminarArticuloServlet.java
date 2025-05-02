@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import entities.Cliente;
+import entities.Customer;
 import logic.ABMCArticulo;
 import util.DoniaMaryException;
 
@@ -22,7 +22,7 @@ public class EliminarArticuloServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Cliente currentUser = (Cliente) request.getSession().getAttribute("cliente");
+		Customer currentUser = (Customer) request.getSession().getAttribute("cliente");
 		if (currentUser == null || !currentUser.isAdmin()) {
 			response.sendRedirect("iniciarSesion.jsp");
 			return;

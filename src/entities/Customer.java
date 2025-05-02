@@ -2,7 +2,7 @@ package entities;
 
 import java.util.ArrayList;
 
-public class Cliente {
+public class Customer {
 
 	private String username;
 	private String password;
@@ -11,29 +11,10 @@ public class Cliente {
 	private boolean admin;
 	private String dni;
 	private String email;
-	private ArrayList<Carrito> myCarts;
+	private ArrayList<Cart> myCarts;
 	
-	public Cliente() {
-		this.myCarts = new ArrayList<Carrito>();
-		
-		Carrito cart = new Carrito("currentPurchase");
-		cart.setDescripcion("Aqui se encuentran los articulos que ha añadido en su ultima sesion");
-		this.setMiCarrito(cart);
-		
-		/*
-		cart = new Carrito("favorites");
-		cart.setDescripcion("Articulos guardados como favoritos");
-		this.setMiCarrito(cart);
-		
-		cart = new Carrito("wishList");
-		cart.setDescripcion("Articulos que se desean comprar en el futuro");
-		this.setMiCarrito(cart);
-		
-		cart = new Carrito("budget");
-		cart.setDescripcion("Conjunto de articulos guardados para evaluar costo");
-		this.setMiCarrito(cart);
-		*/
-		
+	public Customer() {
+		this.myCarts = new ArrayList<Cart>();
 		this.setAdmin(false);
 	}
 	
@@ -77,18 +58,22 @@ public class Cliente {
 		return "Nombre: " + this.getNombre() + "  Apellido: " + this.getApellido();
 	}
 	
-	public Carrito getMiCarrito() {
-		return this.myCarts.getFirst();
+	public Cart getMiCarrito() {
+		Cart cart = this.getMiCarrito("currentPurchase");
+		if (cart == null) {
+			cart = this.myCarts.getFirst();
+		}
+		return cart;
 	}
-	public Carrito getMiCarrito(String cartName) {
-		Carrito cart = new Carrito(cartName);
+	public Cart getMiCarrito(String cartName) {
+		Cart cart = new Cart(cartName);
 		int index = this.myCarts.indexOf(cart);
 		if (index == -1) {
 			return null;
 		}
 		return this.myCarts.get(index);
 	}
-	public void setMiCarrito(Carrito cart) {
+	public void setMiCarrito(Cart cart) {
 		int index = this.myCarts.indexOf(cart);
 		if (index == -1) {
 			this.myCarts.add(cart);
@@ -99,11 +84,11 @@ public class Cliente {
 		}
 	}
 	
-	public ArrayList<Carrito> getMyCarts() {
+	public ArrayList<Cart> getMyCarts() {
 		return this.myCarts;
 	}
 	
-	public void setMiCarrito(ArrayList<Carrito> carts) {
+	public void setMiCarrito(ArrayList<Cart> carts) {
 		this.myCarts = carts;
 	}
 

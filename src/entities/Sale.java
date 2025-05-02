@@ -3,7 +3,7 @@ package entities;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class Venta {
+public class Sale {
 
 	private int nroVenta;
 	private LocalDateTime fEmision;
@@ -11,14 +11,13 @@ public class Venta {
 	private LocalDateTime fRetiro;
 	private LocalDateTime fCancelacion;
 	private double importe;
-	private Cliente cliente;
-	private ArrayList<Linea> lineas;
+	private Customer cliente;
+	private ArrayList<Line> lineas;
 	
 	public double getTotal() {
-		
-		double total=0;
-		for(Linea l : lineas) {
-			total+=l.getSubTotal();
+		double total = 0;
+		for(Line l : lineas) {
+			total += l.getSubTotal();
 		}
 		return total;
 	}
@@ -60,16 +59,16 @@ public class Venta {
 	public void setfCancelacion(LocalDateTime fCancelacion) {
 		this.fCancelacion = fCancelacion;
 	}
-	public Cliente getCliente() {
+	public Customer getCliente() {
 		return cliente;
 	}
-	public void setCliente(Cliente cliente) {
+	public void setCliente(Customer cliente) {
 		this.cliente = cliente;
 	}
-	public ArrayList<Linea> getLineas() {
+	public ArrayList<Line> getLineas() {
 		return lineas;
 	}
-	public void setLineas(ArrayList<Linea> lineas) {
+	public void setLineas(ArrayList<Line> lineas) {
 		this.lineas = lineas;
 	}
 }

@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import entities.Cliente;
-import entities.Proveedor;
+import entities.Customer;
+import entities.Provider;
 import logic.ABMCProveedor;
 import util.DoniaMaryException;
 
@@ -24,7 +24,7 @@ public class ModificarProveedorServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ABMCProveedor abmcP = new ABMCProveedor();
 
-		Proveedor provider = null;
+		Provider provider = null;
 		String cuit = null;
 		try {
 			cuit = request.getParameter("cuit");
@@ -42,7 +42,7 @@ public class ModificarProveedorServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Cliente currentUser = (Cliente) request.getSession().getAttribute("cliente");
+		Customer currentUser = (Customer) request.getSession().getAttribute("cliente");
 		if (currentUser == null || !currentUser.isAdmin()) {
 			response.sendRedirect("iniciarSesion.jsp");
 			return;
@@ -56,7 +56,7 @@ public class ModificarProveedorServlet extends HttpServlet {
 			return;
 		}
 		
-		Proveedor provider = null;
+		Provider provider = null;
 		try {
 			provider = abmcP.getOne(cuit);
 		} catch (DoniaMaryException e) {

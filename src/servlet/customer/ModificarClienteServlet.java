@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import entities.Cliente;
+import entities.Customer;
 import logic.ABMCCliente;
 import util.DoniaMaryException;
 
@@ -23,7 +23,7 @@ public class ModificarClienteServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ABMCCliente abmcc = new ABMCCliente();
 
-		Cliente client;
+		Customer client;
 		try {
 			String username = request.getParameter("username");
 			if (username == null) {
@@ -40,7 +40,7 @@ public class ModificarClienteServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Cliente currentUser = (Cliente) request.getSession().getAttribute("cliente");
+		Customer currentUser = (Customer) request.getSession().getAttribute("cliente");
 		if (currentUser == null) {
 			response.sendRedirect("iniciarSesion.jsp");
 			return;
@@ -59,7 +59,7 @@ public class ModificarClienteServlet extends HttpServlet {
 			return;
 		}
 		
-		Cliente client = null;
+		Customer client = null;
 		try {
 			client = abmcc.getOne(username);
 		} catch (DoniaMaryException e) {

@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import entities.Carrito;
-import entities.Cliente;
-import entities.Linea;
+import entities.Cart;
+import entities.Customer;
+import entities.Line;
 import logic.ABMCArticulo;
 import logic.ABMCLineaCarrito;
 import util.DoniaMaryException;
@@ -33,7 +33,7 @@ public class CarritoServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
-		Cliente customer = (Cliente) request.getSession().getAttribute("cliente");
+		Customer customer = (Customer) request.getSession().getAttribute("cliente");
 		if (customer == null) {
 			response.sendRedirect("/TP_Articulos_Limpieza/iniciarSesion.jsp");
 			return;
@@ -60,9 +60,9 @@ public class CarritoServlet extends HttpServlet {
 			break;
 		}
 		
-		Carrito cart = customer.getMiCarrito(cartType);
+		Cart cart = customer.getMiCarrito(cartType);
 		if (cart == null) {
-			cart = new Carrito("dummy cart");
+			cart = new Cart("dummy cart");
 		}
 		
 		request.setAttribute("cart", cart);
@@ -70,7 +70,7 @@ public class CarritoServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Cliente currentUser = (Cliente) request.getSession().getAttribute("cliente");
+		Customer currentUser = (Customer) request.getSession().getAttribute("cliente");
 		if (currentUser == null) {
 			response.sendRedirect("/TP_Articulos_Limpieza/iniciarSesion.jsp");
 			return;
@@ -78,7 +78,7 @@ public class CarritoServlet extends HttpServlet {
 		
 		ABMCLineaCarrito abmcLinea = new ABMCLineaCarrito(currentUser);
 		ABMCArticulo articuloLogic = new ABMCArticulo();
-		Linea linea = new Linea();
+		Line linea = new Line();
 		
 		String amountParam = request.getParameter("amount");
 		if (amountParam == null) {
@@ -101,7 +101,7 @@ public class CarritoServlet extends HttpServlet {
 			
 			linea.setCantidad(amount);
 			linea.setArticulo(articuloLogic.getOne(Integer.parseInt(articleCode)));
-			ArrayList<Linea> lineas = currentUser.getMiCarrito().getLineas();
+			ArrayList<Line> lineas = currentUser.getMiCarrito().getLineas();
 			
 			if (lineas.contains(linea)) { // equals overwritten
 				int index = lineas.indexOf(linea);

@@ -1,7 +1,7 @@
 package logic;
 
-import entities.Carrito;
-import entities.Cliente;
+import entities.Cart;
+import entities.Customer;
 import util.CartException;
 import util.CartLineException;
 import util.CustomerAlreadyExistException;
@@ -33,23 +33,23 @@ public class ABMCCliente {
 		this.setClienteData(new ClienteData());
 	}
 	
-	public void add(Cliente customer) throws CustomerAlreadyExistException {
+	public void add(Customer customer) throws CustomerAlreadyExistException {
 		try {
 			customer.setPassword(PasswordManager.encrypt(customer.getPassword()));
 			
-			Carrito cart = new Carrito("currentPurchase");
+			Cart cart = new Cart("currentPurchase");
 			cart.setDescripcion("Here there are articles added on last session");
 			customer.setMiCarrito(cart);
 			
-			cart = new Carrito("favorites");
+			cart = new Cart("favorites");
 			cart.setDescripcion("Favorites articles");
 			customer.setMiCarrito(cart);
 			
-			cart = new Carrito("wishList");
+			cart = new Cart("wishList");
 			cart.setDescripcion("Articles that you want to buy");
 			customer.setMiCarrito(cart);
 			
-			cart = new Carrito("budget");
+			cart = new Cart("budget");
 			cart.setDescripcion("Saved articles to calc budget");
 			customer.setMiCarrito(cart);
 			
@@ -61,20 +61,20 @@ public class ABMCCliente {
 		
 	}
 	
-	public ArrayList<Cliente> getAll() throws DoniaMaryException{		
+	public ArrayList<Customer> getAll() throws DoniaMaryException{		
 		return this.getClienteData().getAll();
 	}
 	
-	public ArrayList<Cliente> getAllByAdmin(boolean isAdmin) throws DoniaMaryException{		
+	public ArrayList<Customer> getAllByAdmin(boolean isAdmin) throws DoniaMaryException{		
 		return this.getClienteData().getAllByAdmin(isAdmin);
 	}
 	
-	public  Cliente getOne(String username) throws DoniaMaryException {		
+	public  Customer getOne(String username) throws DoniaMaryException {		
 		return this.getClienteData().getOne(username);
 	}
 	
-	public void completeCustomer(Cliente customer) throws DoniaMaryException {
-		Cliente fullCustomer = this.getClienteData().getOneByUserYPassword(customer.getUsername(), customer.getPassword());
+	public void completeCustomer(Customer customer) throws DoniaMaryException {
+		Customer fullCustomer = this.getClienteData().getOneByUserYPassword(customer.getUsername(), customer.getPassword());
 		
 		if (fullCustomer == null) {
 			throw new CustomerNotFoundException("Cliente inexistente", null, Level.INFO);
@@ -88,11 +88,11 @@ public class ABMCCliente {
 		customer.setPassword(null);
 	}
 	
-	public void update(Cliente cliente) throws CustomerException {
+	public void update(Customer cliente) throws CustomerException {
 		clienteData.update(cliente);
 	}
 	
-	public void delete(Cliente cliente) throws CustomerException, CartException, CartLineException, SaleException, SaleLineException {
+	public void delete(Customer cliente) throws CustomerException, CartException, CartLineException, SaleException, SaleLineException {
 		clienteData.delete(cliente);
 	}
 	

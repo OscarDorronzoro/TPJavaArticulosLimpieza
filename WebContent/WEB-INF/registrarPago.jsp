@@ -4,71 +4,79 @@
 	<head>
 		<meta charset="ISO-8859-1">
 		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=yes">
-		<% Cliente currentUser = (Cliente) session.getAttribute("cliente"); %>
-		<% if (currentUser == null || !currentUser.isAdmin()) {
-			response.sendRedirect("../iniciarSesion.jsp?pagina=RegistrarPagoServlet");
-			return;
-		} %>
-		<title>Registrar pago</title>
+		<%
+		Customer currentUser = (Customer) session.getAttribute("cliente");
+		%>
+		<%
+		if (currentUser == null || !currentUser.isAdmin()) {
+				response.sendRedirect("../iniciarSesion.jsp?pagina=RegistrarPagoServlet");
+				return;
+			 }
+		%>
+		<title>Register Payment</title>
 		<link rel="shortcut icon" href="../png/favicon.ico">
 		<link rel="stylesheet" href="../bootstrap/css/bootstrap.css">
 		<link rel="stylesheet" href="../bootstrap/css/bootstrap-theme.css">
 		<link rel="stylesheet" href="../custom/custom-styles.css">
 		
 		<%
-			@SuppressWarnings("unchecked")	
-			ArrayList<Venta> ventas = (ArrayList<Venta>) request.getAttribute("ventas");
-			Venta venta = (Venta) request.getAttribute("venta");
-			String username = (String) request.getAttribute("username");
-		%>	
+				@SuppressWarnings("unchecked")	
+					ArrayList<Sale> sales = (ArrayList<Sale>) request.getAttribute("ventas");
+					Sale sale = (Sale) request.getAttribute("venta");
+					String username = (String) request.getAttribute("username");
+				%>	
 	</head>
 	<body>
 		<%@include file="../header.jsp" %>
 		
 		<form class="form-inline" method="get" action="../RegistrarPagoServlet/Buscar">
 			<div class="form-group">
-				<label class="control-label" for="username">Ingrese username del cliente:</label>
+				<label class="control-label" for="username">Customer's username:</label>
 				<input class="form-control" type="text" id="username" name="username" 
-					value="<%=username != null ? username : "" %>">
+					value="<%=username != null ? username : ""%>">
 			</div>
 			<div class="form-group">
-				<input type="submit" class="btn btn-success" value="Buscar pagos pendientes" title="Click para ver pagos pendientes">
+				<input type="submit" class="btn btn-success" value="Search pending sales" title="Click to see pending sales">
 			</div>
 		<br><br>
 		
 		</form>
 		
-		<% if (ventas != null && !ventas.isEmpty()){ %>
+		<%
+				if (sales != null && !sales.isEmpty()){
+				%>
 			<table class="table table-striped table-hover">
 				<%@page import="java.util.ArrayList"%>
-				<%@page import="entities.Venta"%>
+				<%@page import="entities.Sale"%>
 						
 				<thead>
 					<tr>
-						<td>Numero de Venta</td>
-						<td>Fecha de Emision</td>
-						<td>Fecha de Pago</td>
-						<td>Fecha de Retiro</td>
-						<td>Fecha de Cancelacion</td>
+						<td>Sale number</td>
+						<td>Emission date</td>
+						<td>Payment date</td>
+						<td>Withdrawal date</td>
+						<td>Cancellation date</td>
 						<td>Total</td>
 					</tr>
 				</thead>
 						
 				<tbody>
-				<%for( Venta vta : ventas){%>
+				<%
+				for( Sale s : sales) {
+				%>
 											
 					<tr>
-						<td><%=vta.getNroVenta()%></td>	
-						<td><%=vta.getfEmision()%></td>
-						<td><%=vta.getfPago() == null ? "-" : vta.getfPago()%></td>
-						<td><%=vta.getfRetiro() == null ? "-" : vta.getfRetiro()%></td>
-						<td><%=vta.getfCancelacion() == null ? "-" : vta.getfCancelacion()%></td>
-						<td><%=vta.getImporte()%></td>
+						<td><%=s.getNroVenta()%></td>	
+						<td><%=s.getfEmision()%></td>
+						<td><%=s.getfPago() == null ? "-" : s.getfPago()%></td>
+						<td><%=s.getfRetiro() == null ? "-" : s.getfRetiro()%></td>
+						<td><%=s.getfCancelacion() == null ? "-" : s.getfCancelacion()%></td>
+						<td><%=s.getImporte()%></td>
 						
 						<td>
-							<form action="../RegistrarPagoServlet/RegistrarPago?sellNumber=<%=vta.getNroVenta()%>" method="post">
-								<input type="submit" name="paid" value="Pagado" class="btn btn-success">
-								<input type="submit" name="notPaid" value="No pagado" class="btn btn-primary">
+							<form action="../RegistrarPagoServlet/RegistrarPago?saleNumber=<%=s.getNroVenta()%>" method="post">
+								<input type="submit" name="paid" value="Paid" class="btn btn-success">
+								<input type="submit" name="notPaid" value="Not paid" class="btn btn-primary">
 							</form>
 						</td>
 					</tr>							
@@ -77,13 +85,13 @@
 				</tbody>
 			</table>
 		<%} else { 
-				if (ventas != null && ventas.isEmpty()) { %>
-					<span>No tiene pagos pendientes</span>
+				if (sales != null && sales.isEmpty()) { %>
+					<span>Customer hasn't pending payments</span>
 			 <% }
 		  } %>
 		
-		<% if (venta != null) { %>
-			<span>Se ha <%= venta.getfPago() == null ? "cancelado" : "registrado" %> el pago de la venta <%=venta.getNroVenta() %></span>
+		<% if (sale != null) { %>
+			<span>Sale (sale number: <%=sale.getNroVenta() %>) payment has been <%=sale.getfPago() == null ? "cancelled" : "registered" %></span>
 		<%} %>
 		
 		<%@include file="../footer.jsp"%>

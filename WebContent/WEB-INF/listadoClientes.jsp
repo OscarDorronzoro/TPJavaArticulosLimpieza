@@ -5,12 +5,16 @@
 <head>
 		<meta charset="ISO-8859-1">
 		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=yes">
-		<% Cliente currentUser = (Cliente) request.getSession().getAttribute("cliente"); %>
-		<% if (currentUser == null || !currentUser.isAdmin()) {
-			response.sendRedirect("../iniciarSesion.jsp?pagina=ListadoClientesServlet/todo");
-			return;
-		} %>
-		<title>Clientes</title>
+		<%
+		 	Customer currentUser = (Customer) request.getSession().getAttribute("cliente");
+		%>
+		<%
+			 if (currentUser == null || !currentUser.isAdmin()) {
+				response.sendRedirect("../iniciarSesion.jsp?pagina=ListadoClientesServlet/todo");
+				return;
+			 }
+		%>
+		<title>Customers</title>
 		<link rel="icon" href="../png/favicon.ico">
 		<link rel="stylesheet" href="../bootstrap/css/bootstrap.css">
 		<link rel="stylesheet" href="../bootstrap/css/bootstrap-theme.css">
@@ -18,8 +22,7 @@
 		
 		<%
 			@SuppressWarnings("unchecked")	
-			ArrayList<Cliente> clientes=(ArrayList<Cliente>)request.getAttribute("clientes");
-
+			ArrayList<Customer> customers = (ArrayList<Customer>) request.getAttribute("clientes");
 		%>
 	</head>
 	<body class="bg-light">
@@ -31,7 +34,7 @@
 			    <div class="row">
 			    	<div class="col-xs-12 col-sm-12 col-md-12">
 			    		 <div class="sidebar-header">
-					         <h3>Tipos de clientes</h3>
+					         <h3>Type of user/customer</h3>
 					     </div>		
 			    	</div>
 			    	<div class="col-xs-1 col-sm-1 col-md-1">
@@ -51,13 +54,13 @@
 					    <nav>
 					        <ul class="list-unstyled components menu-text">
 					            <li>
-									<a href="todo">Todos los usuarios</a>
+									<a href="todo">All users</a>
 					            </li>
 					            <li>
-									<a href="admin">Administradores</a>
+									<a href="admin">Administrators</a>
 					            </li>
 					            <li>
-									<a href="noadmin">No Administradores</a>
+									<a href="noadmin">Non Administrators</a>
 					            </li>            
 					        </ul>
 					    </nav>
@@ -71,27 +74,29 @@
 					
 					<thead>
 						<tr>
-							<td>Nombre de Usuario</td>
-							<td>Nombre</td>
-							<td>Apellido</td>
+							<td>Username</td>
+							<td>Name</td>
+							<td>Last name</td>
 							<td>DNI</td>
-							<td>Es Administrador</td>
+							<td>Is administrator?</td>
 						</tr>
 					</thead>
 					
 					<tbody>
-					<%for( Cliente cli : clientes){%>
+					<%
+						for( Customer customer : customers) {
+					%>
 												
-						<tr <%if(cli.isAdmin()){%>class="warning"<%} %>>	
-							<td><%=cli.getUsername()%></td>
-							<td><%=cli.getNombre()%></td>
-							<td><%=cli.getApellido()%></td>
-							<td><%=cli.getDNI()%></td>
+						<tr <%if(customer.isAdmin()){%>class="warning"<%} %>>	
+							<td><%=customer.getUsername()%></td>
+							<td><%=customer.getNombre()%></td>
+							<td><%=customer.getApellido()%></td>
+							<td><%=customer.getDNI()%></td>
 							<td><input type="checkbox" name="isAdmin" value="Check Value" readonly="readonly" 
-								<%if(cli.isAdmin()){%>checked<%} %> onclick="javascript: return false;"/>
+								<%if(customer.isAdmin()){%>checked<%} %> onclick="javascript: return false;"/>
 							</td>
-							<td><a class="btn btn-primary" href="../ModificarClienteServlet?username=<%=cli.getUsername()%>">Modificar</a></td>
-							<td><a class="btn btn-danger" onclick="confirmarEIrA('../EliminarClienteServlet?username=<%=cli.getUsername()%>')">Eliminar</a></td>
+							<td><a class="btn btn-primary" href="../ModificarClienteServlet?username=<%=customer.getUsername()%>">Modify</a></td>
+							<td><a class="btn btn-danger" onclick="confirmarEIrA('../EliminarClienteServlet?username=<%=customer.getUsername()%>')">Delete</a></td>
 						</tr>							
 								
 					<%} %>

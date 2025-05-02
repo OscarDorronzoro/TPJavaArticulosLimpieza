@@ -1,10 +1,10 @@
 package entities;
 
-public class Linea{
+public class Line {
 
 	private int cantidad;
-	private Articulo articulo;
-	private Proveedor proveedor;
+	private Article articulo;
+	private Provider proveedor;
 	
 	public double getSubTotal() {
 		return articulo.getPrecio().getValor()*cantidad;
@@ -12,7 +12,7 @@ public class Linea{
 	
 	@Override
 	public boolean equals(Object obj) {
-		Linea line = (Linea) obj;
+		Line line = (Line) obj;
 		return this.getArticulo().getCodArticulo() == line.getArticulo().getCodArticulo();
 	}
 	
@@ -22,16 +22,16 @@ public class Linea{
 	public void setCantidad(int cantidad) {
 		this.cantidad = cantidad;
 	}
-	public Articulo getArticulo() {
+	public Article getArticulo() {
 		return articulo;
 	}
-	public void setArticulo(Articulo articulo) {
+	public void setArticulo(Article articulo) {
 		this.articulo = articulo;
 	}
-	public Proveedor getProveedor() {
+	public Provider getProveedor() {
 		return proveedor;
 	}
-	public void setProveedor(Proveedor proveedor) {
+	public void setProveedor(Provider proveedor) {
 		this.proveedor = proveedor;
 	}
 }

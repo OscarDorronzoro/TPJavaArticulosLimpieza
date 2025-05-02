@@ -7,8 +7,8 @@ import java.util.ArrayList;
 
 import org.apache.logging.log4j.Level;
 
-import entities.Linea;
-import entities.Proveedor;
+import entities.Line;
+import entities.Provider;
 
 import util.ArticleException;
 import util.DBException;
@@ -17,7 +17,7 @@ import util.SaleLineException;
 
 public class LineaVentaData extends LineaData {
 
-	public void add(Linea linea, int nroVenta) throws SaleLineException {
+	public void add(Line linea, int nroVenta) throws SaleLineException {
 		
 		PreparedStatement stmt = null;
 		
@@ -33,7 +33,7 @@ public class LineaVentaData extends LineaData {
 			stmt.setInt(3, linea.getArticulo().getCodArticulo());
 			
 			// From all providers for this articles, one is selected randomly
-			ArrayList<Proveedor> proveedores = linea.getArticulo().getProveedores();
+			ArrayList<Provider> proveedores = linea.getArticulo().getProveedores();
 			stmt.setString(4, proveedores.get((int)(Math.random()*proveedores.size())).getCuit());
 			
 			stmt.executeUpdate();
@@ -62,9 +62,9 @@ public class LineaVentaData extends LineaData {
 		
 	}
 	
-	public ArrayList<Linea> getAllBySale(int nroVenta) throws SaleLineException {
+	public ArrayList<Line> getAllBySale(int nroVenta) throws SaleLineException {
 		
-		ArrayList<Linea> lineas = new ArrayList<Linea>();
+		ArrayList<Line> lineas = new ArrayList<Line>();
 		ResultSet rs = null;
 		PreparedStatement stmt = null;
 		
@@ -77,7 +77,7 @@ public class LineaVentaData extends LineaData {
 			rs = stmt.executeQuery();
 			if (rs != null) {
 				while (rs.next()) {
-					Linea linea = new Linea();
+					Line linea = new Line();
 					
 					linea.setArticulo(this.getArticuloData().getOne(rs.getInt("article_code")));
 					linea.setCantidad(rs.getInt("amount"));
@@ -120,7 +120,7 @@ public class LineaVentaData extends LineaData {
 		return lineas;
 	}
 	
-	public void delete(int nroVenta,Linea linea) throws SaleLineException {
+	public void delete(int nroVenta,Line linea) throws SaleLineException {
 		
 		PreparedStatement stmt = null;
 		

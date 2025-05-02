@@ -4,12 +4,16 @@
 	<head>
 		<meta charset="ISO-8859-1">
 		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=yes">
-		<% Cliente currentUser = (Cliente) request.getSession().getAttribute("cliente"); %>
-		<% if (currentUser == null || !currentUser.isAdmin()) {
-			response.sendRedirect("iniciarSesion.jsp?pagina=CargaProveedorServlet");
-			return;
-		} %>
-		<title>Carga Proveedor</title>
+		<%
+		 	Customer currentUser = (Customer) request.getSession().getAttribute("cliente");
+		%>
+		<%
+			 if (currentUser == null || !currentUser.isAdmin()) {
+				response.sendRedirect("iniciarSesion.jsp?pagina=CargaProveedorServlet");
+				return;
+			 }
+		%>
+		<title>Create Provider</title>
 		<link rel="icon" href="png/favicon.ico">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css">
@@ -22,29 +26,29 @@
 			<div class="row">
 				<div class="col-md-6">
 					<section>
-						<h1>Ingrese un proveedor</h1>
+						<h1>Create new provider</h1>
 						<form action="CargaProveedorServlet" method="post">		
 							<div class="form-group">
 								<label for="cuit">CUIT</label>
 								<input class="form-control" name="cuit" required id="cuit"/>
 							</div>
 							<div class="form-group">
-								<label for="businessName">Razón social</label>
+								<label for="businessName">Business Name</label>
 								<input class="form-control" name="businessName" required id="businessName"/>
 							</div>
 							<div class="form-group">
-								<label for="address">Direción</label>
+								<label for="address">Address</label>
 								<input class="form-control" name="address" required id="address"/>
 							</div>
 							<div class="form-group">
-								<label for="phoneNumber">Teléfono</label>
+								<label for="phoneNumber">Phone Number</label>
 								<input class="form-control" name="phoneNumber" required id="phoneNumber"/>
 							</div>
 							<div class="form-group">
 								<label for="mail">E-Mail</label>
 								<input class="form-control" name="mail" required id="mail"/>
 							</div>
-							<input type="submit" class="btn btn-success btn-block"  title="Presione para registrar proveedor" value="Guardar Proveedor"/>
+							<input type="submit" class="btn btn-success btn-block"  title="Click to register provider" value="Save Provider"/>
 						</form>
 					</section>
 				</div>

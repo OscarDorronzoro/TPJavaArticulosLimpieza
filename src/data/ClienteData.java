@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import org.apache.logging.log4j.Level;
 
-import entities.Cliente;
+import entities.Customer;
 import util.PasswordManager;
 
 import util.CartException;
@@ -21,7 +21,7 @@ public class ClienteData {
 	static CarritoData carritoData  = new CarritoData();
 	static VentaData ventaData = new VentaData();
 	
-	public void add(Cliente c) throws CustomerException {
+	public void add(Customer c) throws CustomerException {
 		PreparedStatement stmt = null;
 		Statement transaccion = null;
 		try {
@@ -73,9 +73,9 @@ public class ClienteData {
 		}
 	}
 	
-	public Cliente getOne(String username) throws CustomerException {
+	public Customer getOne(String username) throws CustomerException {
 		
-		Cliente c = null;
+		Customer c = null;
 		ResultSet rs = null;
 		PreparedStatement stmt = null;
 		
@@ -88,7 +88,7 @@ public class ClienteData {
 			rs = stmt.executeQuery();
 			
 			if (rs != null && rs.next()) {
-				c = new Cliente();
+				c = new Customer();
 				
 				c.setNombre(rs.getString("name"));
 				c.setApellido(rs.getString("last_name"));
@@ -131,9 +131,9 @@ public class ClienteData {
 		return c;
 	}
 
-	public ArrayList<Cliente> getAll() throws CustomerException {
+	public ArrayList<Customer> getAll() throws CustomerException {
 		
-		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+		ArrayList<Customer> clientes = new ArrayList<Customer>();
 		ResultSet rs = null;
 		Statement stmt = null;
 		
@@ -143,7 +143,7 @@ public class ClienteData {
 			
 			if (rs != null) {
 				while (rs.next()) {
-					Cliente c = new Cliente();
+					Customer c = new Customer();
 					
 					c.setNombre(rs.getString("name"));
 					c.setApellido(rs.getString("last_name"));
@@ -188,8 +188,8 @@ public class ClienteData {
 		return clientes;
 	}
 	
-	public Cliente getOneByUserYPassword(String username,String plainTextPassword ) throws CustomerException {
-		Cliente c = null;
+	public Customer getOneByUserYPassword(String username,String plainTextPassword ) throws CustomerException {
+		Customer c = null;
 		ResultSet rs = null;
 		PreparedStatement stmt = null;
 		
@@ -210,7 +210,7 @@ public class ClienteData {
 					throw new PasswordDoesNotMatchException("User password does't match", null, Level.INFO);
 				}
 				
-				c = new Cliente();
+				c = new Customer();
 				
 				c.setNombre(rs.getString("name"));
 				c.setApellido(rs.getString("last_name"));
@@ -257,8 +257,8 @@ public class ClienteData {
 		return c;
 	}
 		
-	public ArrayList<Cliente> getAllByAdmin(boolean isAdmin) throws CustomerException {
-		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+	public ArrayList<Customer> getAllByAdmin(boolean isAdmin) throws CustomerException {
+		ArrayList<Customer> clientes = new ArrayList<Customer>();
 		ResultSet rs = null;
 		PreparedStatement stmt = null;
 		
@@ -271,7 +271,7 @@ public class ClienteData {
 			rs = stmt.executeQuery();
 			if (rs != null) {
 				while (rs.next()) {
-					Cliente c = new Cliente();
+					Customer c = new Customer();
 					
 					c.setNombre(rs.getString("name"));
 					c.setApellido(rs.getString("last_name"));
@@ -317,7 +317,7 @@ public class ClienteData {
 		return clientes;
 	}
 	
-	public void update(Cliente cliente) throws CustomerException
+	public void update(Customer cliente) throws CustomerException
 	{
 		PreparedStatement stmt = null;
 		
@@ -359,7 +359,7 @@ public class ClienteData {
 		}	
 	}
 	
-	public void delete(Cliente cliente) throws CustomerException {
+	public void delete(Customer cliente) throws CustomerException {
 		PreparedStatement stmt = null;
 		
 		try {

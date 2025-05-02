@@ -16,9 +16,9 @@ import javax.servlet.http.Part;
 import org.apache.logging.log4j.Level;
 
 import entities.Article;
-import entities.Categoria;
-import entities.Cliente;
-import entities.Precio;
+import entities.Category;
+import entities.Customer;
+import entities.Price;
 import logic.ABMCArticulo;
 import logic.ABMCCategoria;
 import util.DoniaMaryException;
@@ -71,7 +71,7 @@ public class ModificarArticuloServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Cliente currentUser = (Cliente) request.getSession().getAttribute("cliente");
+		Customer currentUser = (Customer) request.getSession().getAttribute("cliente");
 		if (currentUser == null || !currentUser.isAdmin()) {
 			response.sendRedirect("iniciarSesion.jsp");
 			return;
@@ -110,7 +110,7 @@ public class ModificarArticuloServlet extends HttpServlet {
 				
 				String category = request.getParameter("categoria");
 				if (category != null) {
-					articulo.setCategoria(new Categoria(category));
+					articulo.setCategoria(new Category(category));
 				}
 				
 				String limitToOrder = request.getParameter("puntoPedido");
@@ -130,7 +130,7 @@ public class ModificarArticuloServlet extends HttpServlet {
 				
 				String price = request.getParameter("precio");
 				if (price != null) {
-					articulo.setPrecio(new Precio(Double.parseDouble(price)));
+					articulo.setPrecio(new Price(Double.parseDouble(price)));
 				}
 				
 				try {

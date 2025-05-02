@@ -2,16 +2,16 @@ package entities;
 
 import java.time.LocalDateTime;
 
-public class Precio {
+public class Price {
 
 	private double valor;
 	private LocalDateTime fechaDesde;
 	
-	public Precio() {
+	public Price() {
 		this.setFechaDesde(LocalDateTime.now());
 	}
 	
-	public Precio(double valor) {
+	public Price(double valor) {
 		this();
 		this.setValor(valor);
 	}

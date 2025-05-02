@@ -2,18 +2,18 @@ package entities;
 
 import java.util.ArrayList;
 
-public class Carrito {
+public class Cart {
 	
 	private String nombre;
 	private String descripcion;
-	private Cliente cliente;
-	private ArrayList<Linea> lineas;
+	private Customer cliente;
+	private ArrayList<Line> lineas;
 	
-	public Carrito() {
-		this.setLineas(new ArrayList<Linea>());
+	public Cart() {
+		this.setLineas(new ArrayList<Line>());
 	}
 	
-	public Carrito(String cartName) {
+	public Cart(String cartName) {
 		this();
 		this.setNombre(cartName);
 	}
@@ -32,31 +32,31 @@ public class Carrito {
 		this.descripcion = descripcion;
 	}
 	
-	public Cliente getCliente() {
+	public Customer getCliente() {
 		return cliente;
 	}
-	public void setCliente(Cliente cliente) {
+	public void setCliente(Customer cliente) {
 		this.cliente = cliente;
 	}
 	
-	public ArrayList<Linea> getLineas() {
+	public ArrayList<Line> getLineas() {
 		return lineas;
 	}
-	public void setLineas(ArrayList<Linea> lineas) {
+	public void setLineas(ArrayList<Line> lineas) {
 		this.lineas = lineas;
 	}
 	
 	public double getTotal() {
-		double sum = 0;
-		for (int i = 0; i < this.getLineas().size(); i++) {
-			sum += this.getLineas().get(i).getSubTotal();
+		double total = 0;
+		for(Line l : this.getLineas()) {
+			total += l.getSubTotal();
 		}
-		return sum;
+		return total;
 	}
 	
 	@Override
 	public boolean equals(Object obj) {
-		Carrito cart = (Carrito) obj;
+		Cart cart = (Cart) obj;
 		return this.getNombre().equals(cart.getNombre());
 	}
 }

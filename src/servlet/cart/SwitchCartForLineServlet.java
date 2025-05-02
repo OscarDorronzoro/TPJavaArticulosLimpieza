@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import entities.Article;
-import entities.Carrito;
-import entities.Cliente;
-import entities.Linea;
+import entities.Cart;
+import entities.Customer;
+import entities.Line;
 import logic.ABMCCarrito;
 import logic.ABMCLineaCarrito;
 import util.CartException;
@@ -31,7 +31,7 @@ public class SwitchCartForLineServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Cliente customer = (Cliente) request.getSession().getAttribute("cliente");
+		Customer customer = (Customer) request.getSession().getAttribute("cliente");
 		if (customer == null) {
 			response.sendRedirect("iniciarSesion.jsp");
 			return;
@@ -55,17 +55,17 @@ public class SwitchCartForLineServlet extends HttpServlet {
 			return;
 		}
 	
-		Carrito currentCart = customer.getMiCarrito(currentCartType);
+		Cart currentCart = customer.getMiCarrito(currentCartType);
 		if (currentCart == null) {
 			response.sendError(400, "Current line's cart type not exists");
 			return;
 		}
 		
-		Carrito newCart = customer.getMiCarrito(newCartType);
+		Cart newCart = customer.getMiCarrito(newCartType);
 		boolean addNewCart = false;
 		if (newCart == null) {
 			addNewCart = true;
-			newCart = new Carrito(newCartType);
+			newCart = new Cart(newCartType);
 			newCart.setDescripcion(newCartType);
 			customer.setMiCarrito(newCart);
 		}
@@ -79,11 +79,11 @@ public class SwitchCartForLineServlet extends HttpServlet {
 			return;
 		}
 
-		Linea linetoSearch = new Linea();
+		Line linetoSearch = new Line();
 		linetoSearch.setArticulo(article);
 		
-		ArrayList<Linea> curretCartLines = currentCart.getLineas();
-		ArrayList<Linea> newCartLines = newCart.getLineas();
+		ArrayList<Line> curretCartLines = currentCart.getLineas();
+		ArrayList<Line> newCartLines = newCart.getLineas();
 		
 		int index = curretCartLines.indexOf(linetoSearch);
 		if (index == -1) {
@@ -99,7 +99,7 @@ public class SwitchCartForLineServlet extends HttpServlet {
 			
 			// Remove from current Cart
 			ABMCLineaCarrito crudCurrentCartLine = new ABMCLineaCarrito(customer, currentCart);
-			Linea line = curretCartLines.get(index);
+			Line line = curretCartLines.get(index);
 			curretCartLines.remove(index);
 			crudCurrentCartLine.delete(line.getArticulo().getCodArticulo());
 			

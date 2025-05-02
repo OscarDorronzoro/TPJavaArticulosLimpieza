@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import entities.Cliente;
-import entities.Venta;
+import entities.Customer;
+import entities.Sale;
 import logic.ABMCVenta;
 import util.DoniaMaryException;
 
@@ -21,14 +21,14 @@ public class ComprarServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Cliente currentUser = (Cliente) request.getSession().getAttribute("cliente");
+		Customer currentUser = (Customer) request.getSession().getAttribute("cliente");
 		if (currentUser == null) {
 			response.sendRedirect("/TP_Articulos_Limpieza/iniciarSesion.jsp");
 			return;
 		}
 		
 		ABMCVenta abmcv = new ABMCVenta();
-		Venta venta = new Venta();
+		Sale venta = new Sale();
 		
 		venta.setCliente(currentUser);
 		try {

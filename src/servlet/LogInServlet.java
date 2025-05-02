@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URLEncoder;
 
-import entities.Cliente;
+import entities.Customer;
 import logic.ABMCCliente;
 import util.DoniaMaryException;
 
@@ -38,7 +38,7 @@ public class LogInServlet extends HttpServlet {
 			return;
 		}
 		
-		Cliente customer = new Cliente();
+		Customer customer = new Customer();
 
 		customer.setUsername(username);
 		customer.setPassword(password);

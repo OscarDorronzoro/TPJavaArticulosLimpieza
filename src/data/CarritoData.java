@@ -5,8 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import entities.Linea;
-import entities.Carrito;
+import entities.Line;
+import entities.Cart;
 
 import util.CartException;
 import util.CartLineException;
@@ -18,7 +18,7 @@ public class CarritoData {
 	
 	private LineaCarritoData lineaData = new LineaCarritoData();
 	
-	public void add(Carrito carrito, String username) throws CartException {
+	public void add(Cart carrito, String username) throws CartException {
 		
 		PreparedStatement stmt = null;
 			
@@ -32,7 +32,7 @@ public class CarritoData {
 			stmt.setString(3, carrito.getDescripcion()); 
 			stmt.executeUpdate();
 			
-			for (Linea linea : carrito.getLineas()) {
+			for (Line linea : carrito.getLineas()) {
 				lineaData.add(linea, carrito.getNombre(),username);
 			}
 		}
@@ -62,9 +62,9 @@ public class CarritoData {
 		
 	}
 	
-	public Carrito getOne(String nombre, String username) throws CartException {
+	public Cart getOne(String nombre, String username) throws CartException {
 		
-		Carrito carrito = null;
+		Cart carrito = null;
 		ResultSet rs = null;
 		PreparedStatement stmt = null;
 		
@@ -78,7 +78,7 @@ public class CarritoData {
 			rs = stmt.executeQuery();
 			
 			if (rs != null && rs.next()) {
-				carrito = new Carrito();
+				carrito = new Cart();
 					
 				carrito.setNombre(rs.getString("name"));
 				carrito.setDescripcion(rs.getString("description"));
@@ -115,9 +115,9 @@ public class CarritoData {
 		return carrito;
 	}
 	
-	public ArrayList<Carrito> getAllByCustomer(String username) throws CartException {
+	public ArrayList<Cart> getAllByCustomer(String username) throws CartException {
 		
-		ArrayList<Carrito> carts = new ArrayList<Carrito>();
+		ArrayList<Cart> carts = new ArrayList<Cart>();
 		ResultSet rs = null;
 		PreparedStatement stmt = null;
 		
@@ -131,7 +131,7 @@ public class CarritoData {
 			
 			if (rs != null) {
 				while (rs.next()) {
-					Carrito cart = new Carrito();
+					Cart cart = new Cart();
 						
 					cart.setNombre(rs.getString("name"));
 					cart.setDescripcion(rs.getString("description"));
@@ -171,7 +171,7 @@ public class CarritoData {
 		return carts;
 	}
 	
-	public void delete(Carrito carrito, String username) throws CartException {
+	public void delete(Cart carrito, String username) throws CartException {
 		
 		PreparedStatement stmt = null;
 		
@@ -182,7 +182,7 @@ public class CarritoData {
 			stmt.setString(1,carrito.getNombre());
 			stmt.setString(2,username);
 			
-			for (Linea linea : carrito.getLineas()) {
+			for (Line linea : carrito.getLineas()) {
 				lineaData.delete(carrito.getNombre(), username, linea.getArticulo().getCodArticulo());
 			}
 			
@@ -215,7 +215,7 @@ public class CarritoData {
 		
 	}
 
-	public void deleteAllByCustomer(Carrito carrito, String username) throws CartException {
+	public void deleteAllByCustomer(Cart carrito, String username) throws CartException {
 		PreparedStatement stmt=null;
 		
 		try {
@@ -225,7 +225,7 @@ public class CarritoData {
 			stmt.setString(1, username);
 			
 			if (carrito != null) {
-				for (Linea linea : carrito.getLineas()) {
+				for (Line linea : carrito.getLineas()) {
 					lineaData.delete(carrito.getNombre(), username, linea.getArticulo().getCodArticulo());
 				}
 			}

@@ -1,6 +1,6 @@
 package servlet.customer;
 
-import entities.Cliente;
+import entities.Customer;
 import logic.ABMCCliente;
 import util.DoniaMaryException;
 //import util.MailSender;
@@ -63,7 +63,7 @@ public class FormularioClienteServlet extends HttpServlet {
 			return;
 		}
 		
-		Cliente cliente = new Cliente();
+		Customer cliente = new Customer();
 		cliente.setNombre(name);
 		cliente.setApellido(lastname);
 		cliente.setDNI(dni);

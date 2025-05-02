@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.Level;
 
-import entities.Cliente;
+import entities.Customer;
 import logic.ABMCVenta;
 import util.DoniaMaryException;
 
@@ -28,7 +28,7 @@ public class ListCompletedSalesServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Cliente currentUser = (Cliente) request.getSession().getAttribute("cliente");
+		Customer currentUser = (Customer) request.getSession().getAttribute("cliente");
 		if (currentUser == null || !currentUser.isAdmin()) {
 			response.sendRedirect("iniciarSesion.jsp");
 			return;

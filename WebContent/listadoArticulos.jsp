@@ -76,9 +76,9 @@
 							<div class="row">
 								<div class="col-xs-6 col-md-8">
 									<ul class="list-unstyled">							
-										<li class="atributo-link">Descripción: <%=art.getDescripcion()%></li>
+										<li class="atributo-link">Description: <%=art.getDescripcion()%></li>
 										<li>Stock: <%=art.getStock()%></li>
-										<li>Precio: $<%=art.getPrecio().getValor()%></li>
+										<li>price: $<%=art.getPrecio().getValor()%></li>
 									</ul>
 								</div>
 								<div class="col-xs-6 col-md-4">
@@ -86,7 +86,7 @@
 										<form action="CarritoServlet" method="post">
 											<div class="form-group">
 												<input type="hidden" name="articleCode" value=<%=art.getCodArticulo() %>>
-												<label class="label-control">Cantidad:</label>
+												<label class="label-control">Amount:</label>
 												<input name="amount" class="form-control" size=2px>
 											</div>
 											<div class="form-group">

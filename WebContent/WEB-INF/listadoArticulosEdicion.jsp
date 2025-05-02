@@ -1,21 +1,20 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="ISO-8859-1">
 		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=yes">
-		<% 
-		 	Cliente currentUser = (Cliente) request.getSession().getAttribute("cliente");
+		<%
+			Customer currentUser = (Customer) request.getSession().getAttribute("cliente");
 		%>
 		<%
-			 if (currentUser == null || !currentUser.isAdmin()) {
+			if (currentUser == null || !currentUser.isAdmin()) {
 				response.sendRedirect("iniciarSesion.jsp?pagina=ListadoArticulosEdicionServlet");
 				return;
 			 }
 		%>
 		<meta name="viewport" content="width=device-width, user-scalable=no">
-		<title>Edicion de Articulos</title>
+		<title>List of articles</title>
 		<link rel="shortcut icon" href="png/favicon.ico">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css">
@@ -24,7 +23,7 @@
 		<%@page import="entities.Article"%>
 		<%@page import="java.util.ArrayList"%>
 		<%
-			@SuppressWarnings("unchecked")	
+		@SuppressWarnings("unchecked")	
 			ArrayList<Article> articles = (ArrayList<Article>) request.getAttribute("articulos");
 		%>
 	</head>
@@ -37,7 +36,7 @@
 			    <div class="row">
 			    	<div class="col-xs-12 col-sm-12 col-md-12">
 			    		 <div class="sidebar-header">
-					         <h3>Categorias de Articulos</h3>
+					         <h3>Articles' categories</h3>
 					     </div>		
 			    	</div>
 			    	<div class="col-xs-1 col-sm-1 col-md-1">
@@ -60,16 +59,16 @@
 					    <nav>
 					        <ul class="list-unstyled components menu-text">
 					            <li>
-									<a href="#">Todo</a>
+									<a href="#">All</a>
 					            </li>
 					            <li>
-									<a href="#">Cocina</a>
+									<a href="#">Kitchen</a>
 					            </li>
 					            <li>
-									<a href="#">Baño</a>
+									<a href="#">Bathroom</a>
 					            </li>
 					            <li>
-									<a href="#">Muebles</a>
+									<a href="#">Furniture</a>
 					            </li>	            
 					        </ul>
 					    </nav>
@@ -81,19 +80,19 @@
 			
 			<div class="col-xs-12 col-sm-12 col-md-8">
 				<div>
-					<a class="btn btn-success" href="CargaArticuloServlet"><img src="png/plus-2x.png"> Nuevo articulo</a>
+					<a class="btn btn-success" href="CargaArticuloServlet"><img src="png/plus-2x.png"> New article</a>
 				</div>
 				
 				<table class="table table-striped table-hover">		
 					<thead>
 						<tr>
-							<td>Codigo</td>
-							<td>Descripcion</td>
+							<td>code</td>
+							<td>Description</td>
 							<td>Stock</td>
-							<td>Precio</td>
-							<td>Cant. a Pedir</td>
-							<td>Punto de Pedido</td>
-							<td>URL Imagen</td>
+							<td>price</td>
+							<td>Amount to oreder</td>
+							<td>Order limit</td>
+							<td>Image URL</td>
 						</tr>
 					</thead>
 					
@@ -111,8 +110,8 @@
 							<td><%=art.getPuntoPedido()%></td>
 							<td><%=art.getUrlImagen()%></td>
 							
-							<td><a class="btn btn-primary" href="ModificarArticuloServlet/IniciarModificacion?codArticulo=<%=art.getCodArticulo()%>">Modificar</a></td>
-							<td><a class="btn btn-danger" onclick="confirmarEIrA('EliminarArticuloServlet?codArticulo='+'<%=art.getCodArticulo()%>')">Eliminar</a></td>
+							<td><a class="btn btn-primary" href="ModificarArticuloServlet/IniciarModificacion?codArticulo=<%=art.getCodArticulo()%>">Modify</a></td>
+							<td><a class="btn btn-danger" onclick="confirmarEIrA('EliminarArticuloServlet?codArticulo='+'<%=art.getCodArticulo()%>')">Delete</a></td>
 						</tr>							
 								
 					<% } %>

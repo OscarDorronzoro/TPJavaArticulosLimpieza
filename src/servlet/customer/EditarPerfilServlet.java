@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import entities.Cliente;
+import entities.Customer;
 import logic.ABMCCliente;
 import util.DoniaMaryException;
 
@@ -24,7 +24,7 @@ public class EditarPerfilServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Cliente currentUser = (Cliente) request.getSession().getAttribute("cliente");
+		Customer currentUser = (Customer) request.getSession().getAttribute("cliente");
 		if (currentUser == null) {
 			response.sendRedirect("iniciarSesion.jsp");
 			return;
@@ -43,7 +43,7 @@ public class EditarPerfilServlet extends HttpServlet {
 		
 		ABMCCliente abmcc = new ABMCCliente();
 		try {
-			Cliente cliente = abmcc.getOne(username);
+			Customer cliente = abmcc.getOne(username);
 
 			cliente.setNombre(request.getParameter("nombre"));
 			cliente.setApellido(request.getParameter("apellido"));

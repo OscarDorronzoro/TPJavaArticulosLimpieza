@@ -1,14 +1,14 @@
 package entities;
 
-public class Categoria {
+public class Category {
 
 	private String nombre;
 	private String descripcion; 
 	
-	public Categoria() {
+	public Category() {
 	}
 	
-	public Categoria(String nombre) {
+	public Category(String nombre) {
 		this.setNombre(nombre);
 	}
 	

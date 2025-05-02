@@ -2,7 +2,7 @@ package entities;
 
 import java.util.ArrayList;
 
-public class Articulo {
+public class Article {
 	
 	private int codArticulo;
 	private String descripcion;
@@ -10,13 +10,13 @@ public class Articulo {
 	private int puntoPedido;
 	private int stock;
 	private String urlImagen;
-	private Precio precio;
-	private ArrayList<Proveedor> proveedores;
-	private Categoria categoria;
+	private Price precio;
+	private ArrayList<Provider> proveedores;
+	private Category categoria;
 	
-	public Articulo() {
-		this.setProveedores(new ArrayList<Proveedor>());
-		this.setCategoria(new Categoria());
+	public Article() {
+		this.setProveedores(new ArrayList<Provider>());
+		this.setCategoria(new Category());
 	}
 	
 	public int getCodArticulo() {
@@ -55,25 +55,25 @@ public class Articulo {
 	public void setUrlImagen(String urlImagen) {
 		this.urlImagen = urlImagen;
 	}
-	public Precio getPrecio() {
+	public Price getPrecio() {
 		return precio;
 	}
-	public void setPrecio(Precio precio) {
+	public void setPrecio(Price precio) {
 		this.precio=precio;
 	}
-	public ArrayList<Proveedor> getProveedores() {
+	public ArrayList<Provider> getProveedores() {
 		return proveedores;
 	}
 
-	public void setProveedores(ArrayList<Proveedor> proveedores) {
+	public void setProveedores(ArrayList<Provider> proveedores) {
 		this.proveedores = proveedores;
 	}
 
-	public Categoria getCategoria() {
+	public Category getCategoria() {
 		return categoria;
 	}
 
-	public void setCategoria(Categoria categoria) {
+	public void setCategoria(Category categoria) {
 		this.categoria = categoria;
 	}
 }

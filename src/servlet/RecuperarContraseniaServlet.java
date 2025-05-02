@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import entities.Cliente;
+import entities.Customer;
 import logic.ABMCCliente;
 import util.DoniaMaryException;
 import util.MailSender;
@@ -33,7 +33,7 @@ public class RecuperarContraseniaServlet extends HttpServlet {
 		
 		try {
 			mailSender = MailSender.getInstance();
-			Cliente customer = abmcCliente.getOne(username);
+			Customer customer = abmcCliente.getOne(username);
 			
 			int codigo = (int) (Math.random()*1000000);
 			// save code somewhere accessible

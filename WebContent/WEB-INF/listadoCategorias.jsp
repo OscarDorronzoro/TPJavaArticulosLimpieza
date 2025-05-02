@@ -4,12 +4,16 @@
 	<head>
 		<meta charset="ISO-8859-1">
 		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=yes">
-		<% Cliente currentUser = (Cliente) request.getSession().getAttribute("cliente"); %>
-		<% if (currentUser == null || !currentUser.isAdmin()) {
-			response.sendRedirect("iniciarSesion.jsp?pagina=ListadoCategoriasServlet");
-			return;
-		} %>
-		<title>Listado de Categorias</title>
+		<%
+			Customer currentUser = (Customer) request.getSession().getAttribute("cliente");
+		%>
+		<%
+			if (currentUser == null || !currentUser.isAdmin()) {
+				response.sendRedirect("iniciarSesion.jsp?pagina=ListadoCategoriasServlet");
+				return;
+			}
+		%>
+		<title>List of categories</title>
 		<link rel="shortcut icon" href="png/favicon.ico">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css">
@@ -18,7 +22,7 @@
 		<%@ page import="java.net.URLEncoder" %>
 		<% 
 			@SuppressWarnings("unchecked")	
-			ArrayList<Categoria> categorias = (ArrayList<Categoria>) request.getAttribute("categorias"); 
+			ArrayList<Category> categories = (ArrayList<Category>) request.getAttribute("categorias");
 		%>
 	</head>
 	<body>
@@ -29,7 +33,7 @@
 			    <div class="row">
 			    	<div class="col-xs-12 col-sm-12 col-md-12">
 			    		 <div class="sidebar-header">
-					         <h3>Categorías de Articulos</h3>
+					         <h3>Articles' categories</h3>
 					     </div>		
 			    	</div>
 			    	<div class="col-xs-1 col-sm-1 col-md-1">
@@ -52,16 +56,16 @@
 					    <nav>
 					        <ul class="list-unstyled components menu-text">
 					            <li>
-									<a href="#">Todo</a>
+									<a href="#">All</a>
 					            </li>
 					            <li>
-									<a href="#">Cocina</a>
+									<a href="#">Kitchen</a>
 					            </li>
 					            <li>
-									<a href="#">Baño</a>
+									<a href="#">Bathroom</a>
 					            </li>
 					            <li>
-									<a href="#">Muebles</a>
+									<a href="#">Furniture</a>
 					            </li>	            
 					        </ul>
 					    </nav>
@@ -70,23 +74,25 @@
 			</div>
 			
 			<div class="col-xs-12 col-sm-12 col-md-8">
-				<%@page import="entities.Categoria"%>
+				<%@page import="entities.Category"%>
 				<%@page import="java.util.ArrayList"%>
 				
 				<div>
-					<a href="CargaCategoriaServlet" class="btn btn-success"><img src="png/plus-2x.png"> Nueva categoria</a>
+					<a href="CargaCategoriaServlet" class="btn btn-success"><img src="png/plus-2x.png"> New category</a>
 				</div>
 				
 				<table class="table table-striped table-hover">					
 					<thead>
 						<tr>
-						    <td>Nombre</td>
-							<td>Descripcion</td>
+						    <td>Name</td>
+							<td>Description</td>
 						</tr>
 					</thead>
 					
 					<tbody>
-					<%for( Categoria cat : categorias){%>
+					<%
+						for( Category cat : categories) {
+					%>
 												
 						<tr>	
 							<td><%=cat.getNombre() %></td>

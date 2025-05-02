@@ -4,17 +4,19 @@
 	<head>
 		<meta charset="ISO-8859-1">
 		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=yes">
-		<% if (request.getSession().getAttribute("cliente") == null) {
-			response.sendRedirect("iniciarSesion.jsp?pagina=editarPerfil.jsp");
-			return;
-		} %>
-		<title>Editar perfil</title>
+		<%
+			 if (request.getSession().getAttribute("cliente") == null) {
+				response.sendRedirect("iniciarSesion.jsp?pagina=editarPerfil.jsp");
+				return;
+			 }
+		%>
+		<title>Edit Profile</title>
 		<link rel="shortcut icon" href="png/favicon.ico">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css">
 		<link rel="stylesheet" href="custom/custom-styles.css">
-		<% 
-			Cliente cliModificado = (Cliente) request.getAttribute("cliModificado");
+		<%
+			Customer modifiedCustomer = (Customer) request.getAttribute("cliModificado");
 		%>
 	</head>
 	<body>
@@ -24,18 +26,18 @@
 			<div class="row">
 				<div class="col-md-6">
 					<section>
-						<h1>Editar Perfil</h1>
+						<h1>Edit Profile</h1>
 						<form action="EditarPerfilServlet" method="post">		
 							<div class="form-group">
-								<label for="username" class="control-label">Usuario</label>
+								<label for="username" class="control-label">Username</label>
 								<input class="form-control" value="<%=currentCustomer.getUsername() %>" readonly name="username" id="username"/>
 							</div>	
 							<div class="form-group">
-								<label for="nombre" class="control-label">Nombre</label>
+								<label for="nombre" class="control-label">Name</label>
 								<input class="form-control" value="<%=currentCustomer.getNombre() %>" name="nombre" id="nombre"/>
 							</div>
 							<div class="form-group">
-								<label for="apellido" class="control-label">Apellido</label>
+								<label for="apellido" class="control-label">Last name</label>
 								<input class="form-control" value="<%=currentCustomer.getApellido() %>" name="apellido" id="apellido"/>
 							</div>
 							<div class="form-group">
@@ -43,13 +45,13 @@
 								<input class="form-control" value="<%=currentCustomer.getDNI() %>" name="DNI" id="DNI"/>
 							</div>	
 							<div class="form-group">
-								<input type="submit" class="btn btn-success btn-block"  title="Presione para editar perfil" value="OK"/>
+								<input type="submit" class="btn btn-success btn-block"  title="Click to edit profile" value="Update Profile"/>
 							</div>
 						</form>
 					</section>
-					<% if (cliModificado != null) { %>
+					<% if (modifiedCustomer != null) { %>
 						<div>
-							<span>Se ha editado su perfil</span>
+							<span>Your profile has been updated!</span>
 						</div>
 					<%} %>
 				</div>

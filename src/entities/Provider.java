@@ -1,6 +1,6 @@
 package entities;
 
-public class Proveedor {
+public class Provider {
 
 	private String cuit;
 	private String direccion;

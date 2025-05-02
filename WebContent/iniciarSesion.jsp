@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="ISO-8859-1">
 		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=yes">
-		<title>Iniciar Sesión</title>
+		<title>Sign In</title>
 		<link rel="shortcut icon" href="png/favicon.ico">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css">
@@ -18,18 +18,18 @@
 			<div class="row">
 				<div class="col-md-6">
 					<section>
-						<h1>Iniciar Sesión</h1>
+						<h1>Sign In</h1>
 						<form action="LogInServlet" method="post">		
 							<div class="form-group">
-								<label>Usuario</label>
+								<label>Username</label>
 								<input class="form-control" name="username" id="username" required/>
 							</div>
 							<div class="form-group">
-								<label>Contraseña</label>
+								<label>Password</label>
 								<input class="form-control" name="password" type="password" required/>
 							</div>	
-							<a onclick="recoverPassword()">Olvide mi contraseña</a>	
-							<input class="btn btn-success btn-block"  title="Presione para iniciar sesion" value="OK" type="submit"/>
+							<a onclick="recoverPassword()">I forgot my password</a>	
+							<input type="submit" class="btn btn-success btn-block"  title="Click to sign in" value="Sign In"/>
 						</form>
 					</section>
 				</div>

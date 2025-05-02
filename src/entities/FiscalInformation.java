@@ -1,6 +1,6 @@
 package entities;
 
-public class InformacionFiscal {
+public class FiscalInformation {
 
 	private static String telefono;
 	private static String direccion;
@@ -11,24 +11,24 @@ public class InformacionFiscal {
 		return telefono;
 	}
 	public static void setTelefono(String telefono) {
-		InformacionFiscal.telefono = telefono;
+		FiscalInformation.telefono = telefono;
 	}
 	public static String getDireccion() {
 		return direccion;
 	}
 	public static void setDireccion(String direccion) {
-		InformacionFiscal.direccion = direccion;
+		FiscalInformation.direccion = direccion;
 	}
 	public static String getCuit() {
 		return cuit;
 	}
 	public static void setCuit(String cuit) {
-		InformacionFiscal.cuit = cuit;
+		FiscalInformation.cuit = cuit;
 	}
 	public static String getRazonSocial() {
 		return razonSocial;
 	}
 	public static void setRazonSocial(String razonSocial) {
-		InformacionFiscal.razonSocial = razonSocial;
+		FiscalInformation.razonSocial = razonSocial;
 	}
 }

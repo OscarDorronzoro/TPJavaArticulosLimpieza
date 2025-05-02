@@ -4,12 +4,16 @@
 	<head>
 		<meta charset="ISO-8859-1">
 		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=yes">
-		<% Cliente currentUser = (Cliente) request.getSession().getAttribute("cliente"); %>
-		<% if (currentUser == null || !currentUser.isAdmin()) {
-			response.sendRedirect("iniciarSesion.jsp?pagina=CargaCategoriaServlet");
-			return;
-		} %>
-		<title>Carga Categoría</title>
+		<%
+		 	Customer currentUser = (Customer) request.getSession().getAttribute("cliente");
+		%>
+		<%
+		 	if (currentUser == null || !currentUser.isAdmin()) {
+				response.sendRedirect("iniciarSesion.jsp?pagina=CargaCategoriaServlet");
+				return;
+		 	}
+		%>
+		<title>Create Category</title>
 		<link rel="icon" href="png/favicon.ico">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css">
@@ -22,17 +26,17 @@
 			<div class="row">
 				<div class="col-md-6">
 					<section>
-						<h1>Ingrese una categoría</h1>
+						<h1>Create new category</h1>
 						<form action="CargaCategoriaServlet" method="post">		
 							<div class="form-group">
-								<label for="nombre">Nombre</label>
+								<label for="nombre">Name</label>
 								<input class="form-control" name="nombre" required id="nombre"/>
 							</div>
 							<div class="form-group">
-								<label for="desc">Descripción</label>
+								<label for="desc">Description</label>
 								<input class="form-control" name="descripcion" required id="desc"/>
 							</div>	
-							<input type="submit" class="btn btn-success btn-block"  title="Presione para registrar categoria" value="Guardar categoria"/>
+							<input type="submit" class="btn btn-success btn-block"  title="Click to register category" value="Save category"/>
 						</form>
 					</section>
 				</div>

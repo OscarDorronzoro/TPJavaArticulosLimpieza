@@ -29,8 +29,10 @@
 							<li><a href="/TP_Articulos_Limpieza/BusquedaServlet">Articles</a></li>														
 							
 							
-							<%@page import="entities.Cliente" %>
-							<%Cliente currentCustomer = (Cliente) request.getSession().getAttribute("cliente"); %>
+							<%@page import="entities.Customer" %>
+							<%
+								Customer currentCustomer = (Customer) request.getSession().getAttribute("cliente");
+							%>
 							<% if (currentCustomer == null) { %>
 								<li><a href="/TP_Articulos_Limpieza/formCliente.jsp">Sign up</a></li>
 								<li><a href="/TP_Articulos_Limpieza/iniciarSesion.jsp">Log in</a></li>

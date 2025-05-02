@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import logic.ABMCLineaCarrito;
 import util.DoniaMaryException;
-import entities.Cliente;
+import entities.Customer;
 
 @WebServlet("/EliminarDeCarritoServlet")
 public class EliminarDeCarritoServlet extends HttpServlet {
@@ -20,7 +20,7 @@ public class EliminarDeCarritoServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Cliente currentUser = (Cliente) request.getSession().getAttribute("cliente");
+		Customer currentUser = (Customer) request.getSession().getAttribute("cliente");
 		if (currentUser == null || !currentUser.isAdmin()) {
 			response.sendRedirect("iniciarSesion.jsp");
 			return;

@@ -4,21 +4,26 @@
 	<head>
 		<meta charset="ISO-8859-1">
 		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=yes">
-		<% Cliente currentUser = (Cliente) session.getAttribute("cliente"); %>
-		<% if (currentUser == null || !currentUser.isAdmin()) {
-			response.sendRedirect("../iniciarSesion.jsp?pagina=CompletedSellsServlet");
-			return;
-		} %>
+		<%
+		Customer currentUser = (Customer) session.getAttribute("cliente");
+		%>
+		<%
+		if (currentUser == null || !currentUser.isAdmin()) {
+				response.sendRedirect("../iniciarSesion.jsp?pagina=CompletedSellsServlet");
+				return;
+			 }
+		%>
 		<title>Completed Sells</title>
 		<link rel="shortcut icon" href="../png/favicon.ico">
 		<link rel="stylesheet" href="../bootstrap/css/bootstrap.css">
 		<link rel="stylesheet" href="../bootstrap/css/bootstrap-theme.css">
 		<link rel="stylesheet" href="custom/custom-styles.css">
+		
 		<%
-			@SuppressWarnings("unchecked")
-			ArrayList<Venta> sales = (ArrayList<Venta>) request.getAttribute("sales");
-			String username = (String) request.getAttribute("username");
-		%>	
+				@SuppressWarnings("unchecked")
+					ArrayList<Sale> sales = (ArrayList<Sale>) request.getAttribute("sales");
+					String username = (String) request.getAttribute("username");
+				%>	
 	</head>
 	<body>
 		<%@include file="../header.jsp" %>
@@ -28,7 +33,7 @@
 				<label class="control-label" for="username">Customer's username:</label>
 				<input class="form-control" type="text" id="username" name="username"
 					placeholder="Empty for all customers" 
-					value="<%=username != null ? username : "" %>">
+					value="<%=username != null ? username : ""%>">
 			</div>
 			<div class="form-group">
 				<input type="submit" class="btn btn-success" value="Search" title="Click to search completed sales">
@@ -37,12 +42,16 @@
 		</form>
 		
 		<%@page import="java.util.ArrayList"%>
-		<%@page import="entities.Venta"%>
+		<%@page import="entities.Sale"%>
 		
-		<%! double total; %>
-		<% total = 0; %>
+		<%!double total;%>
+		<%
+		total = 0;
+		%>
 		
-		<% if (sales != null && !sales.isEmpty()){ %>
+		<%
+				if (sales != null && !sales.isEmpty()){
+				%>
 			<table class="table table-striped table-hover">	
 				<thead>
 					<tr>
@@ -57,7 +66,9 @@
 						
 				<tbody>
 				
-				<%for( Venta s : sales){%>
+				<%
+								for( Sale s : sales){
+								%>
 											
 					<tr>
 						<td><%=s.getNroVenta()%></td>	

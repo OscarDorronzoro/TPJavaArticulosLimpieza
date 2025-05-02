@@ -4,11 +4,15 @@
 	<head>
 		<meta charset="ISO-8859-1">
 		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=yes">
-		<% Cliente currentUser = (Cliente) request.getSession().getAttribute("cliente"); %>
-		<% if (currentUser == null || !currentUser.isAdmin()) {
-			response.sendRedirect("iniciarSesion.jsp?pagina=SeccionAdminServlet");
-			return;
-		} %>
+		<%
+			 Customer currentUser = (Customer) request.getSession().getAttribute("cliente");
+		%>
+		<%
+			 if (currentUser == null || !currentUser.isAdmin()) {
+				response.sendRedirect("iniciarSesion.jsp?pagina=SeccionAdminServlet");
+				return;
+			 }
+		%>
 		<title>Site management</title>
 		<link rel="shortcut icon" href="png/favicon.ico">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
@@ -26,7 +30,7 @@
 			    <div class="row">
 			    	<div class="col-xs-12 col-sm-12 col-md-12">
 			    		 <div class="sidebar-header">
-					         <h3>Management</h3>
+					         <h3>Site Management</h3>
 					     </div>		
 			    	</div>
 			    	<div class="col-xs-1 col-sm-1 col-md-1">

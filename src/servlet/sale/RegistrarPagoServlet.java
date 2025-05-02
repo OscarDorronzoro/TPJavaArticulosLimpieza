@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.Level;
 
-import entities.Cliente;
-import entities.Venta;
+import entities.Customer;
+import entities.Sale;
 import logic.ABMCVenta;
 import util.DoniaMaryException;
 
@@ -49,7 +49,7 @@ public class RegistrarPagoServlet extends HttpServlet {
 					return;
 				}
 				
-				ArrayList<Venta> ventas = abmcVenta.getAllPendingByCustomer(username);
+				ArrayList<Sale> ventas = abmcVenta.getAllPendingByCustomer(username);
 				request.setAttribute("ventas", ventas);
 				request.setAttribute("username", username);
 				
@@ -66,7 +66,7 @@ public class RegistrarPagoServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Cliente currentUser = (Cliente) request.getSession().getAttribute("cliente");
+		Customer currentUser = (Customer) request.getSession().getAttribute("cliente");
 		if (currentUser == null || !currentUser.isAdmin()) {
 			response.sendRedirect("iniciarSesion.jsp");
 			return;
@@ -84,9 +84,9 @@ public class RegistrarPagoServlet extends HttpServlet {
 			response.sendError(405, "Method not allowed");
 			break;
 		case "/RegistrarPagoServlet/RegistrarPago":
-			String sellNumber = request.getParameter("sellNumber");
-			if (sellNumber == null) {
-				response.sendError(400, "Parameter 'sellNumber' is required");
+			String saleNumber = request.getParameter("saleNumber");
+			if (saleNumber == null) {
+				response.sendError(400, "Parameter 'saleNumber' is required");
 				return;
 			}
 			
@@ -97,7 +97,7 @@ public class RegistrarPagoServlet extends HttpServlet {
 			}
 			
 			try {
-				Venta venta = abmcVenta.getOne(Integer.parseInt(sellNumber));
+				Sale venta = abmcVenta.getOne(Integer.parseInt(saleNumber));
 				venta.setfPago(paymentDate);
 				venta.setfRetiro(paymentDate);
 				

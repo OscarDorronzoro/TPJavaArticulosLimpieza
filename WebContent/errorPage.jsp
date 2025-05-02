@@ -5,7 +5,7 @@
 	<head>
 		<meta charset="ISO-8859-1">
 		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=yes">
-		<title>Doña Mary Limpieza</title>
+		<title>Error has ocurred</title>
 		<link rel="shortcut icon" href="png/favicon.ico">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css">
@@ -18,7 +18,7 @@
 		
 		<div class="error-box">
 			<div class="error-title">
-				Lo sentimos, ha ocurrido un problema
+				We're sorry, a problem has occurred
 			</div>
 			<div class="error-message">
 				<%=request.getParameter("mensaje") %>
