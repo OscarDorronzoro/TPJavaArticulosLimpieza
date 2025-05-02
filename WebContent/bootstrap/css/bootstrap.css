@@ -4587,11 +4587,11 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   border-color: #001a82;  /*Cambio: Linea de abajo del header (no se ve)*/
 }
 .navbar-default .navbar-brand {
-  color: #777;
+  color: #e0e0e0;
 }
 .navbar-default .navbar-brand:hover,
 .navbar-default .navbar-brand:focus {
-  color: #5e5e5e;
+  color: #ffffff;
   background-color: transparent;
 }
 .navbar-default .navbar-text {
@@ -6877,13 +6877,7 @@ button.close {
 .text-light{
 	color:#F5F5F5;
 }
-.page-footer{
-	margin-left:-5px;
-	margin-right:0px;
-	position:fixed;
-	bottom:0px;
-	left:0px;
-}
+
 .seccion> li > a:hover,
 .seccion > li > a:active {
 	background: #66baff;
