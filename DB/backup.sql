@@ -1,12 +1,6 @@
-DROP DATABASE IF EXISTS `articuloslimpiezadb`;
-CREATE DATABASE `articuloslimpiezadb` /*!40100 DEFAULT CHARACTER SET latin1 */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `articuloslimpiezadb`;
-
--- MySQL dump 10.13  Distrib 8.0.18, for Linux (x86_64)
---
--- Host: localhost    Database: articuloslimpiezadb
--- ------------------------------------------------------
--- Server version	8.0.18
+DROP DATABASE IF EXISTS `cleaning_supplies`;
+CREATE DATABASE `cleaning_supplies` /*!40100 DEFAULT CHARACTER SET latin1 */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `cleaning_supplies`;
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -19,322 +13,369 @@ USE `articuloslimpiezadb`;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+
 --
--- Table structure for table `articulo`
+-- Table structure for table `articles` -----------------------------------------------------------
 --
 
-DROP TABLE IF EXISTS `articulo`;
+DROP TABLE IF EXISTS `articles`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `articulo` (
-  `cod_articulo` int(11) NOT NULL AUTO_INCREMENT,
-  `descripcion` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `cant_a_pedir` int(11) NOT NULL,
-  `punto_pedido` int(11) NOT NULL,
+CREATE TABLE `articles` (
+  `code` int(11) NOT NULL AUTO_INCREMENT,
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `amount_to_order` int(11) NOT NULL,
+  `order_limit` int(11) NOT NULL,
   `stock` int(11) NOT NULL,
-  `url_imagen` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `nombre_categoria` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `image_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `category_name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `is_deleted` tinyint(1) NOT NULL,
-  PRIMARY KEY (`cod_articulo`),
-  KEY `fk_articulo_categoria` (`nombre_categoria`),
-  CONSTRAINT `fk_articulo_categoria` FOREIGN KEY (`nombre_categoria`) REFERENCES `categoria` (`nombre`) ON DELETE RESTRICT ON UPDATE CASCADE
+  PRIMARY KEY (`code`),
+  KEY `idx_category_in_articles` (`category_name`),
+  CONSTRAINT `fk_articles_to_category` FOREIGN KEY (`category_name`) REFERENCES `categories` (`name`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `articulo`
+-- Dumping data for table `articles`
 --
 
-LOCK TABLES `articulo` WRITE;
-/*!40000 ALTER TABLE `articulo` DISABLE KEYS */;
-INSERT INTO `articulo` VALUES (1,'Escoba de paja',20,5,10,'img-articulos/escoba-paja.jpg','General',0),(2,'Detergente magistral concentrado de limon 750ml',50,20,34,'img-articulos/detergente-magistral-concentrado-limon.jpg','Cocina',0),(3,'Papel higienico Higienol 4 rollos x 50mts',40,30,70,'img-articulos/papel-higienico-higienol4x50mts.jpg','Baño',0),(4,'Jabon de mano Dove \"original\" 90gr',15,35,150,'img-articulos/jabon-dove-original-90gr.jpg','Baño',0),(5,'Esponja ideal para facilitar tu dia a dia',15,35,150,'img-articulos/esponja-acanalada-amarilla-verde.jpg','Cocina',0);
-/*!40000 ALTER TABLE `articulo` ENABLE KEYS */;
+LOCK TABLES `articles` WRITE;
+/*!40000 ALTER TABLE `articles` DISABLE KEYS */;
+INSERT INTO `articles` VALUES 
+	(1,'Straw broom',20,5,10,'img-articles/escoba-paja.jpg','General',0)
+	,(2,'Concentrated lemon magistral detergent 750ml',50,20,34,'img-articles/detergente-magistral-concentrado-limon.jpg','Kitchen',0)
+	,(3,'Higienol toilet paper 4 rolls x 50 meters',40,30,70,'img-articles/papel-higienico-higienol4x50mts.jpg','Bathroom',0)
+	,(4,'Dove hand soap 90gr',15,35,50,'img-articles/jabon-dove-original-90gr.jpg','Bathroom',0)
+	,(5,'Ideal sponge to facilitate your daily life',15,35,50,'img-articles/esponja-acanalada-amarilla-verde.jpg','Kitchen',0)
+  ,(6,'Wisky glass x6 pack', 50, 20, 31, 'img-articles/Vaso-de-whisky-x6.jpg', 'General', 0);
+/*!40000 ALTER TABLE `articles` ENABLE KEYS */;
 UNLOCK TABLES;
 
+
 --
--- Table structure for table `articulo_proveedor`
+-- Table structure for table `articles_providers` ----------------------------------------------------
 --
 
-DROP TABLE IF EXISTS `articulo_proveedor`;
+DROP TABLE IF EXISTS `articles_providers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `articulo_proveedor` (
-  `cod_articulo` int(11) NOT NULL,
+CREATE TABLE `articles_providers` (
+  `article_code` int(11) NOT NULL,
   `cuit` varchar(14) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`cod_articulo`,`cuit`),
-  KEY `fk_cuit_proveedor_idx` (`cuit`),
-  CONSTRAINT `fk_articulo_proveedor` FOREIGN KEY (`cod_articulo`) REFERENCES `articulo` (`cod_articulo`),
-  CONSTRAINT `fk_cuit_proveedor` FOREIGN KEY (`cuit`) REFERENCES `proveedor` (`cuit`) ON DELETE RESTRICT ON UPDATE CASCADE
+  PRIMARY KEY (`article_code`,`cuit`),
+  KEY `idx_provider_in_artpro` (`cuit`),
+  CONSTRAINT `fk_artpro_to_articles` FOREIGN KEY (`article_code`) REFERENCES `articles` (`code`),
+  CONSTRAINT `fk_artpro_to_providers` FOREIGN KEY (`cuit`) REFERENCES `providers` (`cuit`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `articulo_proveedor`
+-- Dumping data for table `articles_providers`
 --
 
-LOCK TABLES `articulo_proveedor` WRITE;
-/*!40000 ALTER TABLE `articulo_proveedor` DISABLE KEYS */;
-INSERT INTO `articulo_proveedor` VALUES (1,'11-11111111-1'),(2,'11-11111111-1'),(3,'11-11111111-1'),(4,'11-11111111-1'),(5,'11-11111111-1');
-/*!40000 ALTER TABLE `articulo_proveedor` ENABLE KEYS */;
+LOCK TABLES `articles_providers` WRITE;
+/*!40000 ALTER TABLE `articles_providers` DISABLE KEYS */;
+INSERT INTO `articles_providers` VALUES
+  (1,'11-11111111-1')
+  ,(2,'11-11111111-1')
+  ,(3,'11-11111111-1')
+  ,(4,'11-11111111-1')
+  ,(5,'11-11111111-1');
+/*!40000 ALTER TABLE `articles_providers` ENABLE KEYS */;
 UNLOCK TABLES;
 
+
 --
--- Table structure for table `carrito`
+-- Table structure for table `carts` ----------------------------------------------------------
 --
 
-DROP TABLE IF EXISTS `carrito`;
+DROP TABLE IF EXISTS `carts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `carrito` (
-  `nombre` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+CREATE TABLE `carts` (
+  `name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `username` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `descripcion` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`nombre`,`username`),
-  KEY `fk_carrito_cliente` (`username`),
-  CONSTRAINT `fk_carrito_cliente` FOREIGN KEY (`username`) REFERENCES `cliente` (`username`) ON DELETE RESTRICT ON UPDATE CASCADE
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`name`,`username`),
+  KEY `idx_customer_in_carts` (`username`),
+  CONSTRAINT `fk_carts_to_customers` FOREIGN KEY (`username`) REFERENCES `customers` (`username`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `carrito`
+-- Dumping data for table `carts`
 --
 
-LOCK TABLES `carrito` WRITE;
-/*!40000 ALTER TABLE `carrito` DISABLE KEYS */;
-INSERT INTO `carrito` VALUES ('currentPurchase','oscar123','Aqui se encuentran los articulos que ha añadido en su ultima sesion')
-	,('favorites', 'oscar123', 'Articulos favoritos');
+LOCK TABLES `carts` WRITE;
+/*!40000 ALTER TABLE `carts` DISABLE KEYS */;
+INSERT INTO `carts` VALUES
+  ('currentPurchase','oscar123','Here there are articles added on last session')
+	,('favorites', 'oscar123', 'Favorites articles')
+  ,('wishList', 'oscar123', 'Articles that you want to buy')
+  ,('budget', 'oscar123', 'Saved articles to calc budget');
 
-/*!40000 ALTER TABLE `carrito` ENABLE KEYS */;
+/*!40000 ALTER TABLE `carts` ENABLE KEYS */;
 UNLOCK TABLES;
 
+
 --
--- Table structure for table `categoria`
+-- Table structure for table `cart_lines` ----------------------------------------------------
 --
 
-DROP TABLE IF EXISTS `categoria`;
+DROP TABLE IF EXISTS `cart_lines`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `categoria` (
-  `nombre` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `descripcion` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`nombre`)
+CREATE TABLE `cart_lines` (
+  `cart_name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `article_code` int(11) NOT NULL,
+  `provider_cuit` varchar(14) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `username` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `amount` int(11) NOT NULL,
+  PRIMARY KEY (`cart_name`,`article_code`,`provider_cuit`,`username`),
+  KEY `idx_artpro_in_cartlines` (`article_code`,`provider_cuit`),
+  KEY `idx_cart_in_cartlines` (`cart_name`,`username`),
+  CONSTRAINT `fk_cartlines_to_artpro` FOREIGN KEY (`article_code`, `provider_cuit`) REFERENCES `articles_providers` (`article_code`, `cuit`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `fk_cartlines_to_carts` FOREIGN KEY (`cart_name`, `username`) REFERENCES `carts` (`name`, `username`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cart_lines`
+--
+
+LOCK TABLES `cart_lines` WRITE;
+/*!40000 ALTER TABLE `cart_lines` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cart_lines` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+--
+-- Table structure for table `categories` ----------------------------------------------------
+--
+
+DROP TABLE IF EXISTS `categories`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `categories` (
+  `name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `categoria`
+-- Dumping data for table `categories`
 --
 
-LOCK TABLES `categoria` WRITE;
-/*!40000 ALTER TABLE `categoria` DISABLE KEYS */;
-INSERT INTO `categoria` VALUES ('Baño','Articulos dedicados a la limpieza y aromatizacion de baños'),('Cocina','Articulos para limpiar facilmente la grasa de la cocina'),('General','Articulos para limpieza general'),('Muebles','Articulos para el cuidado de muebles');
-/*!40000 ALTER TABLE `categoria` ENABLE KEYS */;
+LOCK TABLES `categories` WRITE;
+/*!40000 ALTER TABLE `categories` DISABLE KEYS */;
+INSERT INTO `categories` VALUES
+  ('Bathroom','Articles dedicated to cleaning and scenting bathrooms')
+  ,('Kitchen','Items to easily clean kitchen grease')
+  ,('General','General cleaning supplies')
+  ,('Furniture','Furniture care items');
+/*!40000 ALTER TABLE `categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
+
 --
--- Table structure for table `cliente`
+-- Table structure for table `customers` -----------------------------------------------------
 --
 
-DROP TABLE IF EXISTS `cliente`;
+DROP TABLE IF EXISTS `customers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `cliente` (
+CREATE TABLE `customers` (
   `username` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `nombre` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `apellido` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `last_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `dni` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `admin` tinyint(1) NOT NULL,
+  `is_admin` tinyint(1) NOT NULL,
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`username`),
-  UNIQUE KEY `email_UNIQUE` (`email`)
+  UNIQUE KEY `unq_customers_email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `cliente`
+-- Dumping data for table `customers`
 --
 
-LOCK TABLES `cliente` WRITE;
-/*!40000 ALTER TABLE `cliente` DISABLE KEYS */;
-INSERT INTO `cliente` VALUES 
+LOCK TABLES `customers` WRITE;
+/*!40000 ALTER TABLE `customers` DISABLE KEYS */;
+INSERT INTO `customers` VALUES 
   ('user1','User1','User1','11111111','1000:e6cca869536387846ca210ebe471f09b:7cca449a410be93d22094a991daae8b09f49c16e15a81a9aa279f7324098bae26a6681abcacc4c9008369ca7c3d7c18bcae25d54882cb09bc678f0b1894089a5',0,'user1@doniamary.com'),
-  ('user2','User2','User2','22222222','1000:e6cca869536387846ca210ebe471f09b:7cca449a410be93d22094a991daae8b09f49c16e15a81a9aa279f7324098bae26a6681abcacc4c9008369ca7c3d7c18bcae25d54882cb09bc678f0b1894089a5',0,'user2@    doniamary.com'),
+  ('user2','User2','User2','22222222','1000:e6cca869536387846ca210ebe471f09b:7cca449a410be93d22094a991daae8b09f49c16e15a81a9aa279f7324098bae26a6681abcacc4c9008369ca7c3d7c18bcae25d54882cb09bc678f0b1894089a5',0,'user2@doniamary.com'),
   ('admin','Admin', 'Istrator','66666666','1000:e6cca869536387846ca210ebe471f09b:7cca449a410be93d22094a991daae8b09f49c16e15a81a9aa279f7324098bae26a6681abcacc4c9008369ca7c3d7c18bcae25d54882cb09bc678f0b1894089a5',1,'admin@doniamary.com'),
   ('oscar123','Oscar','Dorronzoro','12345678','1000:e6cca869536387846ca210ebe471f09b:7cca449a410be93d22094a991daae8b09f49c16e15a81a9aa279f7324098bae26a6681abcacc4c9008369ca7c3d7c18bcae25d54882cb09bc678f0b1894089a5',1,'oscar@doniamary.com');
-/*!40000 ALTER TABLE `cliente` ENABLE KEYS */;
+/*!40000 ALTER TABLE `customers` ENABLE KEYS */;
 UNLOCK TABLES;
 
+
 --
--- Table structure for table `informacion_fiscal`
+-- Table structure for table `sales` -----------------------------------------------
 --
 
-DROP TABLE IF EXISTS `informacion_fiscal`;
+DROP TABLE IF EXISTS `sales`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `informacion_fiscal` (
-  `razon_social` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `direccion` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `telefono` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `cuit` varchar(14) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`razon_social`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `informacion_fiscal`
---
-
-LOCK TABLES `informacion_fiscal` WRITE;
-/*!40000 ALTER TABLE `informacion_fiscal` DISABLE KEYS */;
-INSERT INTO `informacion_fiscal` VALUES ('Doña Mary Limpieza','Molina 2168','+54-0341-15-232323','22-12121212-1');
-/*!40000 ALTER TABLE `informacion_fiscal` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `linea_carrito`
---
-
-DROP TABLE IF EXISTS `linea_carrito`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `linea_carrito` (
-  `nombre_carrito` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `cod_articulo` int(11) NOT NULL,
-  `cuit_proveedor` varchar(14) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+CREATE TABLE `sales` (
+  `sale_number` int(11) NOT NULL AUTO_INCREMENT,
+  `emission_date` datetime NOT NULL,
+  `cancellation_date` datetime DEFAULT NULL,
+  `payment_date` datetime DEFAULT NULL,
+  `sale_amount` double DEFAULT NULL,
+  `withdrawal_date` datetime DEFAULT NULL,
   `username` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `cantidad` int(11) NOT NULL,
-  PRIMARY KEY (`nombre_carrito`,`cod_articulo`,`cuit_proveedor`,`username`),
-  KEY `fk_LineaCarrito_articuloProveedor` (`cod_articulo`,`cuit_proveedor`),
-  KEY `nombre_carrito` (`nombre_carrito`,`username`),
-  CONSTRAINT `fk_LineaCarrito_articuloProveedor` FOREIGN KEY (`cod_articulo`, `cuit_proveedor`) REFERENCES `articulo_proveedor` (`cod_articulo`, `cuit`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `linea_carrito_ibfk_1` FOREIGN KEY (`nombre_carrito`, `username`) REFERENCES `carrito` (`nombre`, `username`) ON DELETE RESTRICT ON UPDATE CASCADE
+  PRIMARY KEY (`sale_number`),
+  KEY `idx_customer_in_sales` (`username`),
+  CONSTRAINT `fk_sales_to_customers` FOREIGN KEY (`username`) REFERENCES `customers` (`username`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sales`
+--
+
+LOCK TABLES `sales` WRITE;
+/*!40000 ALTER TABLE `sales` DISABLE KEYS */;
+INSERT INTO `sales` VALUES
+  (5,'2024-12-10 00:00:00',NULL,NULL,6000,NULL,'oscar123')
+  ,(6,'2024-12-11 19:23:12',NULL,'2024-12-12 19:25:00',12000,'2024-12-12 19:25:00','oscar123');
+/*!40000 ALTER TABLE `sales` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+--
+-- Table structure for table `sale_lines` -------------------------------------------------
+--
+
+DROP TABLE IF EXISTS `sale_lines`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `sale_lines` (
+  `sale_number` int(11) NOT NULL,
+  `article_code` int(11) NOT NULL,
+  `provider_cuit` varchar(14) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `amount` int(11) NOT NULL,
+  PRIMARY KEY (`sale_number`,`article_code`,`provider_cuit`),
+  KEY `fk_lineasales_articleprovider` (`article_code`,`provider_cuit`),
+  CONSTRAINT `fk_Lineasales_articleprovider` FOREIGN KEY (`article_code`, `provider_cuit`) REFERENCES `articles_providers` (`article_code`, `cuit`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `fk_lineasales_sales` FOREIGN KEY (`sale_number`) REFERENCES `sales` (`sale_number`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `linea_carrito`
+-- Dumping data for table `sale_lines`
 --
 
-LOCK TABLES `linea_carrito` WRITE;
-/*!40000 ALTER TABLE `linea_carrito` DISABLE KEYS */;
-/*!40000 ALTER TABLE `linea_carrito` ENABLE KEYS */;
+LOCK TABLES `sale_lines` WRITE;
+/*!40000 ALTER TABLE `sale_lines` DISABLE KEYS */;
+INSERT INTO `sale_lines` VALUES
+  (5, 1, '11-11111111-1', 2)
+  ,(6, 1, '11-11111111-1', 4);
+/*!40000 ALTER TABLE `sale_lines` ENABLE KEYS */;
 UNLOCK TABLES;
 
+
 --
--- Table structure for table `linea_venta`
+-- Table structure for table `prices` -----------------------------------------------------
 --
 
-DROP TABLE IF EXISTS `linea_venta`;
+DROP TABLE IF EXISTS `prices`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `linea_venta` (
-  `nro_venta` int(11) NOT NULL,
-  `cod_articulo` int(11) NOT NULL,
-  `cuit_proveedor` varchar(14) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `cantidad` int(11) NOT NULL,
-  PRIMARY KEY (`nro_venta`,`cod_articulo`,`cuit_proveedor`),
-  KEY `fk_lineaVenta_articuloProveedor` (`cod_articulo`,`cuit_proveedor`),
-  CONSTRAINT `fk_LineaVenta_articuloProveedor` FOREIGN KEY (`cod_articulo`, `cuit_proveedor`) REFERENCES `articulo_proveedor` (`cod_articulo`, `cuit`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `fk_lineaVenta_Venta` FOREIGN KEY (`nro_venta`) REFERENCES `venta` (`nro_venta`) ON UPDATE CASCADE
+CREATE TABLE `prices` (
+  `article_code` int(11) NOT NULL,
+  `date_from` datetime NOT NULL,
+  `price` double NOT NULL,
+  PRIMARY KEY (`article_code`,`date_from`),
+  CONSTRAINT `fk_prices_to_articles` FOREIGN KEY (`article_code`) REFERENCES `articles` (`code`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `linea_venta`
+-- Dumping data for table `prices`
 --
 
-LOCK TABLES `linea_venta` WRITE;
-/*!40000 ALTER TABLE `linea_venta` DISABLE KEYS */;
-INSERT INTO `linea_venta` VALUES (5,1,'11-11111111-1',5),(6,1,'11-11111111-1',6);
-/*!40000 ALTER TABLE `linea_venta` ENABLE KEYS */;
+LOCK TABLES `prices` WRITE;
+/*!40000 ALTER TABLE `prices` DISABLE KEYS */;
+INSERT INTO `prices` VALUES
+  (1,'2019-07-15 12:00:00',300)
+  ,(2,'2019-07-15 12:00:00',100)
+  ,(3,'2019-08-14 12:00:00',120)
+  ,(4,'2019-08-14 12:00:00',55)
+  ,(5,'2019-08-14 12:00:00',80)
+  ,(1,'2024-10-01 12:00:00',3000)
+  ,(2,'2024-10-01 12:00:00',1000)
+  ,(3,'2024-10-01 12:00:00',1200)
+  ,(4,'2024-10-01 12:00:00',900)
+  ,(5,'2024-10-01 12:00:00',500)
+  ,(6,'2025-04-29 00:00:00',2800);
+/*!40000 ALTER TABLE `prices` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `precio`
+-- Table structure for table `providers`
 --
 
-DROP TABLE IF EXISTS `precio`;
+DROP TABLE IF EXISTS `providers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `precio` (
-  `cod_articulo` int(11) NOT NULL,
-  `fecha_desde` datetime NOT NULL,
-  `precio` double NOT NULL,
-  PRIMARY KEY (`cod_articulo`,`fecha_desde`),
-  CONSTRAINT `fk_precio_articulo` FOREIGN KEY (`cod_articulo`) REFERENCES `articulo` (`cod_articulo`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `precio`
---
-
-LOCK TABLES `precio` WRITE;
-/*!40000 ALTER TABLE `precio` DISABLE KEYS */;
-INSERT INTO `precio` VALUES (1,'2019-07-15 12:00:00',300),(2,'2019-07-15 12:00:00',100),(3,'2019-08-14 12:00:00',120),(4,'2019-08-14 12:00:00',55),(5,'2019-08-14 12:00:00',80);
-/*!40000 ALTER TABLE `precio` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `proveedor`
---
-
-DROP TABLE IF EXISTS `proveedor`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `proveedor` (
+CREATE TABLE `providers` (
   `cuit` varchar(14) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `direccion` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `razon_social` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `telefono` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `mail` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `business_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone_number` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`cuit`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `proveedor`
+-- Dumping data for table `providers`
 --
 
-LOCK TABLES `proveedor` WRITE;
-/*!40000 ALTER TABLE `proveedor` DISABLE KEYS */;
-INSERT INTO `proveedor` VALUES ('11-11111111-1','rioja 1111','Super Limpieza','341-111111','super_limpieza@gmail.com'),('22-22222222-2','Mitre 2000','Pura quimica','341-222222',NULL);
-/*!40000 ALTER TABLE `proveedor` ENABLE KEYS */;
+LOCK TABLES `providers` WRITE;
+/*!40000 ALTER TABLE `providers` DISABLE KEYS */;
+INSERT INTO `providers` VALUES
+  ('11-11111111-1','rioja 1111','Super Cleaning','341-111111','super_limpieza@gmail.com')
+  ,('22-22222222-2','Mitre 2000','Pure chemistry','341-222222',NULL);
+/*!40000 ALTER TABLE `providers` ENABLE KEYS */;
 UNLOCK TABLES;
 
+
 --
--- Table structure for table `venta`
+-- Table structure for table `fiscal_information` --------------------------------------------------
 --
 
-DROP TABLE IF EXISTS `venta`;
+DROP TABLE IF EXISTS `fiscal_information`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `venta` (
-  `nro_venta` int(11) NOT NULL AUTO_INCREMENT,
-  `f_emision` datetime NOT NULL,
-  `f_cancelacion` datetime DEFAULT NULL,
-  `f_pago` datetime DEFAULT NULL,
-  `importe` double DEFAULT NULL,
-  `f_retiro` datetime DEFAULT NULL,
-  `username` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`nro_venta`),
-  KEY `ads_idx` (`username`),
-  CONSTRAINT `fk_username_cliente` FOREIGN KEY (`username`) REFERENCES `cliente` (`username`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE `fiscal_information` (
+  `business_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone_number` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `cuit` varchar(14) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`business_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `venta`
+-- Dumping data for table `fiscal_information`
 --
 
-LOCK TABLES `venta` WRITE;
-/*!40000 ALTER TABLE `venta` DISABLE KEYS */;
-INSERT INTO `venta` VALUES (5,'2019-12-10 00:00:00',NULL,NULL,1500,NULL,'oscar123'),(6,'2019-12-11 19:23:12',NULL,'2019-12-11 19:24:04',1800,'2019-12-11 19:24:04','oscar123');
-/*!40000 ALTER TABLE `venta` ENABLE KEYS */;
+LOCK TABLES `fiscal_information` WRITE;
+/*!40000 ALTER TABLE `fiscal_information` DISABLE KEYS */;
+INSERT INTO `fiscal_information` VALUES
+  ('Mrs. Mary Cleaning','Siempre Viva Avenue 123','+54-0341-15-232323','22-12121212-1');
+/*!40000 ALTER TABLE `fiscal_information` ENABLE KEYS */;
 UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
+
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
@@ -343,4 +384,3 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-02-24 19:35:15
