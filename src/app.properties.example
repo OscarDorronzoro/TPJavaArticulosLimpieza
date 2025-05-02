@@ -9,4 +9,4 @@ db.host localhost
 db.port 3306
 db.user csadmin
 db.password DB_PASS
-db.db_name articuloslimpiezadb
+db.db_name cleaning_supplies
