@@ -20,9 +20,9 @@ public class ABMCProveedor {
 		return provData.getAll();
 	}
 	
-	public ArrayList<Proveedor> getAllByArticulo( int codigoArticulo) throws ProviderException
+	public ArrayList<Proveedor> getAllByArticle( int codigoArticulo) throws ProviderException
 	{
-		return provData.getAllByArticulo(codigoArticulo);
+		return provData.getAllByArticle(codigoArticulo);
 	}
 	
 	public Proveedor getOne(String cuit) throws ProviderException

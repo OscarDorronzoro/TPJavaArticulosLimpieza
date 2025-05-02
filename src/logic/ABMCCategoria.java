@@ -8,25 +8,25 @@ import util.CategoryException;
 
 public class ABMCCategoria {
 
-	private CategoriaData categoriaData= new CategoriaData();
+	private CategoriaData categoriaData = new CategoriaData();
 	
-	public void add(Categoria categoria) throws CategoryException{
-		this.categoriaData.add(categoria);
+	public void add(Categoria category) throws CategoryException{
+		this.categoriaData.add(category);
 	}
 	
 	public ArrayList<Categoria> getAll() throws CategoryException{
 		return this.categoriaData.getAll();
 	}
 	 
-	public  Categoria getOne(String nombre) throws CategoryException {		
-		return this.categoriaData.getOne(nombre);
+	public  Categoria getOne(String name) throws CategoryException {		
+		return this.categoriaData.getOne(name);
 	}
 
-	public void delete(String nombre) throws CategoryException {
-		this.categoriaData.delete(nombre);
+	public void delete(String name) throws CategoryException {
+		this.categoriaData.delete(name);
 	}
 	
-	public void update(Categoria categoria) throws CategoryException{
-		this.categoriaData.update(categoria);
+	public void update(Categoria category) throws CategoryException{
+		this.categoriaData.update(category);
 	}
 }

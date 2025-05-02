@@ -1,11 +1,12 @@
 package logic;
 
+import entities.Carrito;
 import entities.Cliente;
 import util.CartException;
 import util.CartLineException;
-import util.ClientAlreadyExistException;
-import util.ClientException;
-import util.ClientNotFoundException;
+import util.CustomerAlreadyExistException;
+import util.CustomerException;
+import util.CustomerNotFoundException;
 import util.DoniaMaryException;
 
 import java.util.ArrayList;
@@ -32,13 +33,30 @@ public class ABMCCliente {
 		this.setClienteData(new ClienteData());
 	}
 	
-	public void add(Cliente c) throws ClientAlreadyExistException {
+	public void add(Cliente customer) throws CustomerAlreadyExistException {
 		try {
-			c.setPassword(PasswordManager.encrypt(c.getPassword()));
-			this.getClienteData().add(c);
+			customer.setPassword(PasswordManager.encrypt(customer.getPassword()));
+			
+			Carrito cart = new Carrito("currentPurchase");
+			cart.setDescripcion("Here there are articles added on last session");
+			customer.setMiCarrito(cart);
+			
+			cart = new Carrito("favorites");
+			cart.setDescripcion("Favorites articles");
+			customer.setMiCarrito(cart);
+			
+			cart = new Carrito("wishList");
+			cart.setDescripcion("Articles that you want to buy");
+			customer.setMiCarrito(cart);
+			
+			cart = new Carrito("budget");
+			cart.setDescripcion("Saved articles to calc budget");
+			customer.setMiCarrito(cart);
+			
+			this.getClienteData().add(customer);
 		}
 		catch(Exception e) {
-			throw new ClientAlreadyExistException("Ese usuario ya existe, elija otro",e);
+			throw new CustomerAlreadyExistException("Customer's username already exists, choose another", e);
 		}
 		
 	}
@@ -55,26 +73,26 @@ public class ABMCCliente {
 		return this.getClienteData().getOne(username);
 	}
 	
-	public void completarCliente(Cliente c) throws DoniaMaryException {
-		Cliente cli = this.getClienteData().getOneByUserYPassword(c.getUsername(), c.getPassword());
+	public void completeCustomer(Cliente customer) throws DoniaMaryException {
+		Cliente fullCustomer = this.getClienteData().getOneByUserYPassword(customer.getUsername(), customer.getPassword());
 		
-		if (cli == null) {
-			throw new ClientNotFoundException("Cliente inexistente", null, Level.INFO);
+		if (fullCustomer == null) {
+			throw new CustomerNotFoundException("Cliente inexistente", null, Level.INFO);
 		}
 	
-		c.setAdmin(cli.isAdmin());
-		c.setApellido(cli.getApellido());
-		c.setDNI(cli.getDNI());
-		c.setMiCarrito(cli.getMyCarts());
-		c.setNombre(cli.getNombre());
-		c.setPassword(null);
+		customer.setAdmin(fullCustomer.isAdmin());
+		customer.setApellido(fullCustomer.getApellido());
+		customer.setDNI(fullCustomer.getDNI());
+		customer.setMiCarrito(fullCustomer.getMyCarts());
+		customer.setNombre(fullCustomer.getNombre());
+		customer.setPassword(null);
 	}
 	
-	public void update(Cliente cliente) throws ClientException {
+	public void update(Cliente cliente) throws CustomerException {
 		clienteData.update(cliente);
 	}
 	
-	public void delete(Cliente cliente) throws ClientException, CartException, CartLineException, SaleException, SaleLineException {
+	public void delete(Cliente cliente) throws CustomerException, CartException, CartLineException, SaleException, SaleLineException {
 		clienteData.delete(cliente);
 	}
 	

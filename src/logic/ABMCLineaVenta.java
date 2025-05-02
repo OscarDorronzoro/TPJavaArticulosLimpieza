@@ -14,19 +14,19 @@ import util.SaleLineException;
 public class ABMCLineaVenta {
 	
 	private LineaVentaData lineaVentaData;
-	private Venta miVenta;
+	private Venta sale;
 	
-	public ABMCLineaVenta(Venta venta) {
+	public ABMCLineaVenta(Venta sale) {
 		this.setLineaVentaData(new LineaVentaData());
-		miVenta=venta;
+		this.sale = sale;
 	}
 	
 	public void add(Linea linea) throws SaleLineException {
-		this.getLineaVentaData().add(linea,miVenta.getNroVenta());
+		this.getLineaVentaData().add(linea, this.sale.getNroVenta());
 	}
 	
-	public ArrayList<Linea> getAllByVenta() throws ProviderException, ArticleException, SaleLineException, PriceException, CategoryException{
-		return this.getLineaVentaData().getAllByVenta(miVenta.getNroVenta());
+	public ArrayList<Linea> getAllBySale() throws ProviderException, ArticleException, SaleLineException, PriceException, CategoryException{
+		return this.getLineaVentaData().getAllBySale(this.sale.getNroVenta());
 	}
 
 	public LineaVentaData getLineaVentaData() {

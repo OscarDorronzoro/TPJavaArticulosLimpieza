@@ -17,19 +17,21 @@ public class ABMCVenta {
 	private VentaData ventaData = new VentaData();
 
 	@SuppressWarnings("unchecked")
-	public void registrarVenta(Venta venta) throws SaleException, CartException, CartLineException {
-		ABMCLineaCarrito abmcLineaCarrito = new ABMCLineaCarrito(venta.getCliente());
-		Carrito carrito = venta.getCliente().getMiCarrito();
+	public void registerSale(Venta sale) throws SaleException, CartException, CartLineException {
+		ABMCLineaCarrito abmcLineaCarrito = new ABMCLineaCarrito(sale.getCliente());
+		Carrito cart = sale.getCliente().getMiCarrito();
 		
 		// Cart to Sale
-		venta.setLineas((ArrayList<Linea>) (carrito.getLineas().clone()));
+		sale.setLineas((ArrayList<Linea>) (cart.getLineas().clone()));
 		
-		// Empty cart
-		carrito.setLineas(new ArrayList<Linea>());
-		abmcLineaCarrito.deleteAllByCarrito();
+		// Empty cart on memory
+		cart.setLineas(new ArrayList<Linea>());
 		
-		venta.setfEmision(LocalDateTime.now());
-		ventaData.add(venta);
+		sale.setfEmision(LocalDateTime.now());
+		ventaData.add(sale);
+		
+		// Empty cart on DB after sale is added
+		abmcLineaCarrito.deleteAllByCart();
 	}
 	
 	public ArrayList<Venta> getAll() throws SaleException {
@@ -40,7 +42,7 @@ public class ABMCVenta {
 		return ventaData.getOne(nroVenta);
 	}
 	
-	public ArrayList<Venta> getAllPendientesByCliente(String username) throws SaleException {
+	public ArrayList<Venta> getAllPendingByCustomer(String username) throws SaleException {
 		return ventaData.getAllPendingByCustomer(username);	
 	}
 

@@ -4,31 +4,27 @@ import java.util.ArrayList;
 
 import data.LineaCarritoData;
 import entities.Linea;
-import util.ArticleException;
 import util.CartLineException;
-import util.CategoryException;
-import util.PriceException;
-import util.ProviderException;
 import entities.Carrito;
 import entities.Cliente;
 
 public class ABMCLineaCarrito {
 	
 	private LineaCarritoData lineaCarritoData;
-	private Carrito miCarrito;
-	private Cliente cliente;
+	private Carrito cart;
+	private Cliente customer;
 	
-	public ABMCLineaCarrito(Cliente cliente) {
+	public ABMCLineaCarrito(Cliente customer) {
 		this.setLineaCarritoData(new LineaCarritoData());
-		this.setMiCarrito(cliente.getMiCarrito());
-		this.setCliente(cliente);
+		this.setCart(customer.getMiCarrito());
+		this.setCustomer(customer);
 		
 	}
 	
 	public ABMCLineaCarrito(Cliente cliente, Carrito carrito) {
 		this.setLineaCarritoData(new LineaCarritoData());
-		this.setMiCarrito(carrito);
-		this.setCliente(cliente);
+		this.setCart(carrito);
+		this.setCustomer(cliente);
 		
 	}
 	
@@ -40,43 +36,42 @@ public class ABMCLineaCarrito {
 		return this.lineaCarritoData;
 	}
 	
-	public void setMiCarrito(Carrito miCarrito) {
-		this.miCarrito = miCarrito;
+	public void setCart(Carrito cart) {
+		this.cart = cart;
 	}
-	public Carrito getMiCarrito() {
-		return this.miCarrito;
+	public Carrito getCart() {
+		return this.cart;
 	}
 	
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
+	public void setCustomer(Cliente customer) {
+		this.customer = customer;
 	}
-	public Cliente getCliente() {
-		return this.cliente;
+	public Cliente getCustomer() {
+		return this.customer;
 	}
 	
 	// Persistence
 	public void add(Linea linea) throws CartLineException {
-		this.getLineaCarritoData().add(linea, this.getMiCarrito().getNombre(), this.getCliente().getUsername());
+		this.getLineaCarritoData().add(linea, this.getCart().getNombre(), this.getCustomer().getUsername());
 	}
 	
 	public void update(Linea linea) throws CartLineException {
-		this.getLineaCarritoData().update(linea, this.getMiCarrito().getNombre(), this.getCliente().getUsername());
+		this.getLineaCarritoData().update(linea, this.getCart().getNombre(), this.getCustomer().getUsername());
 	}
 	
-	public Linea getOne(int codArticulo) throws ProviderException, CartLineException, ArticleException, PriceException, CategoryException {
-		return this.getLineaCarritoData().getOne(this.getMiCarrito().getNombre(), this.getCliente().getUsername(), codArticulo);
+	public Linea getOne(int codArticulo) throws CartLineException {
+		return this.getLineaCarritoData().getOne(this.getCart().getNombre(), this.getCustomer().getUsername(), codArticulo);
 	}
 	
-	public ArrayList<Linea> getAllByCarrito() throws ProviderException, CartLineException, ArticleException, PriceException, CategoryException{
-		return this.getLineaCarritoData().getAllByCarrito(this.getMiCarrito().getNombre(), this.getCliente().getUsername());
+	public ArrayList<Linea> getAllByCart() throws CartLineException {
+		return this.getLineaCarritoData().getAllByCart(this.getCart().getNombre(), this.getCustomer().getUsername());
 	}
 	
 	public void delete(int codArticulo) throws CartLineException {
-		this.getLineaCarritoData().delete(this.getMiCarrito().getNombre(), this.getCliente().getUsername(), codArticulo);
+		this.getLineaCarritoData().delete(this.getCart().getNombre(), this.getCustomer().getUsername(), codArticulo);
 	}
 	
-	public void deleteAllByCarrito() throws CartLineException
-	{
-		this.getLineaCarritoData().deleteAllByCarrito(this.getMiCarrito().getNombre(), this.getCliente().getUsername());
+	public void deleteAllByCart() throws CartLineException {
+		this.getLineaCarritoData().deleteAllByCart(this.getCart().getNombre(), this.getCustomer().getUsername());
 	}
 }

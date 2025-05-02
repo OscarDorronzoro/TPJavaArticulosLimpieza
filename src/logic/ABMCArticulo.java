@@ -2,11 +2,8 @@ package logic;
 
 import java.util.ArrayList;
 import data.ArticuloData;
-import entities.Articulo;
+import entities.Article;
 import util.ArticleException;
-import util.CategoryException;
-import util.PriceException;
-import util.ProviderException;
 
 public class ABMCArticulo {
 
@@ -23,28 +20,28 @@ public class ABMCArticulo {
 		this.setArticuloData(new ArticuloData());
 	}
 	
-	public void add(Articulo art) throws ArticleException, PriceException {
-		this.getArticuloData().add(art);
+	public void add(Article article) throws ArticleException {
+		this.getArticuloData().add(article);
 	}
 	
-	public ArrayList<Articulo> getAll() throws ProviderException, ArticleException, PriceException, CategoryException{
+	public ArrayList<Article> getAll() throws ArticleException {
 		return this.getArticuloData().getAll();
 	}
 	
-	public  Articulo getOne(int codArticulo) throws ProviderException, ArticleException, PriceException, CategoryException {		
-		return this.getArticuloData().getOne(codArticulo);
+	public  Article getOne(int articleCode) throws ArticleException {		
+		return this.getArticuloData().getOne(articleCode);
 	}
 
-	public ArrayList<Articulo> getAllByDescripcion(String descripcion) throws ProviderException, ArticleException, PriceException, CategoryException{
-		return this.getArticuloData().getAllByDescripcion(descripcion);
+	public ArrayList<Article> getAllByDescription(String description) throws ArticleException {
+		return this.getArticuloData().getAllByDescription(description);
 	} 
 	
-	public void delete(int codArticulo) throws ArticleException {
-		this.getArticuloData().delete(codArticulo);
+	public void delete(int articleCode) throws ArticleException {
+		this.getArticuloData().delete(articleCode);
 	}
 	
-	public void update(Articulo articulo) throws ArticleException, PriceException {
-		this.getArticuloData().update(articulo);
+	public void update(Article article) throws ArticleException {
+		this.getArticuloData().update(article);
 	}
 }
 
