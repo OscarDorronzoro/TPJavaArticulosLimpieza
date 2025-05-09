@@ -21,7 +21,7 @@ public class EliminarDeCarritoServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Customer currentUser = (Customer) request.getSession().getAttribute("cliente");
-		if (currentUser == null || !currentUser.isAdmin()) {
+		if (currentUser == null) {
 			response.sendRedirect("iniciarSesion.jsp");
 			return;
 		}

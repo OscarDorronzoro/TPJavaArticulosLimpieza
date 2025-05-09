@@ -60,17 +60,17 @@ public class ModificarCarritoServlet extends HttpServlet {
 			
 			// Update cart line on DB
 			abmcLinea.update(currentCartLine);
-			response.sendRedirect("misCarritos.jsp");
+			response.sendRedirect("CarritoServlet/currentPurchase");
 			//request.getRequestDispatcher("misCarritos.jsp").forward(request, response);
 		}
 		catch (DoniaMaryException e) {
-			response.sendRedirect("../errorPage.jsp?mensaje=" + e.getMessage());
+			response.sendRedirect("errorPage.jsp?mensaje=" + e.getMessage());
 		}
 		catch (NumberFormatException e) {
-			response.sendRedirect("../errorPage.jsp?mensaje=Numero invalido");
+			response.sendRedirect("errorPage.jsp?mensaje=Numero invalido");
 		}
 		catch(Exception e) {
-			response.sendRedirect("../errorPage.jsp?mensaje=Oops ha ocurrido un error");
+			response.sendRedirect("errorPage.jsp?mensaje=Oops ha ocurrido un error");
 		}
 	}
 

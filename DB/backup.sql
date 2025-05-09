@@ -113,7 +113,22 @@ INSERT INTO `carts` VALUES
   ('currentPurchase','oscar123','Here there are articles added on last session')
 	,('favorites', 'oscar123', 'Favorites articles')
   ,('wishList', 'oscar123', 'Articles that you want to buy')
-  ,('budget', 'oscar123', 'Saved articles to calc budget');
+  ,('budget', 'oscar123', 'Saved articles to calc budget')
+  
+  ,('currentPurchase','admin','Here there are articles added on last session')
+	,('favorites', 'admin', 'Favorites articles')
+  ,('wishList', 'admin', 'Articles that you want to buy')
+  ,('budget', 'admin', 'Saved articles to calc budget')
+  
+  ,('currentPurchase','user1','Here there are articles added on last session')
+	,('favorites', 'user1', 'Favorites articles')
+  ,('wishList', 'user1', 'Articles that you want to buy')
+  ,('budget', 'user1', 'Saved articles to calc budget')
+  
+  ,('currentPurchase','user2','Here there are articles added on last session')
+	,('favorites', 'user2', 'Favorites articles')
+  ,('wishList', 'user2', 'Articles that you want to buy')
+  ,('budget', 'user2', 'Saved articles to calc budget');
 
 /*!40000 ALTER TABLE `carts` ENABLE KEYS */;
 UNLOCK TABLES;
